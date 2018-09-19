@@ -78,7 +78,7 @@ https://www.nowapi.com/api/life.workday
 
 为了不让我们的接口浪费掉了，所以我们查询了api以后 要将数据存入到数据库中，每次查询工作日的时候，首先查询数据库中是否有相关的数据，没有的话再进行api调用，调用后把数据存入到我们的数据库中
 
-![工时填报](img\工时填报.jpg)
+![工时填报](img/工时填报.jpg)
 
 
 
@@ -88,7 +88,7 @@ https://www.nowapi.com/api/life.workday
 
 部门负责人 进行部门内的人进行工时审批。当有审批任务的时候可以进行消息推送
 
-![审批工时](img\审批工时.jpg)
+![审批工时](img/审批工时.jpg)
 
 
 
@@ -110,11 +110,11 @@ https://www.nowapi.com/api/life.workday
 
 除了邮件进行审批，也可以在系统中进行审批 所以这里需要一个数据表格
 
-![请假申请](img\请假申请.jpg)
+![请假申请](img/请假申请.jpg)
 
 
 
-![审批请假](img\审批请假.jpg)
+![审批请假](img/审批请假.jpg)
 
 
 
@@ -142,7 +142,7 @@ https://www.nowapi.com/api/life.workday
 
 
 
-![涨薪申请](img\涨薪申请.jpg)
+![涨薪申请](img/涨薪申请.jpg)
 
 
 
@@ -156,7 +156,7 @@ https://www.nowapi.com/api/life.workday
 
 抽奖的形式进行争夺办公资源争抢，大家应该都玩过1元夺宝吧，就是使用这种形式进行抽奖。所以我们要给每个能申请的人给他们一定的抽奖值，然后让他们付出一定的抽奖值进行抽奖，抽中的人才会扣减值，没有抽中的抽奖值自动返还到原账户
 
-![抢办公资源](img\抢办公资源.jpg)
+![抢办公资源](img/抢办公资源.jpg)
 
 
 
@@ -178,7 +178,7 @@ https://www.nowapi.com/api/life.workday
 
 
 
-![抽办公资源](img\抽办公资源.jpg)
+![抽办公资源](img/抽办公资源.jpg)
 
 
 
@@ -198,9 +198,9 @@ https://www.nowapi.com/api/life.workday
 
 验证码可以是邮件，图片，登录密码要进行加密验证，Spring Security 里面有专门的密码加密器，spring设计的时候是防止暴力破解的，所以它的加密时间特别长，大概需要1s的时间才能加密1个密码，当然它也提供了接口，让我们自己去进行加密的操作
 
-![登录](img\登录.jpg)
+![登录](img/登录.jpg)
 
-![注销](img\注销.jpg)
+![注销](img/注销.jpg)
 
 
 
