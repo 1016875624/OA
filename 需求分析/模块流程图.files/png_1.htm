@@ -1,0 +1,229 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link rel="stylesheet" type="text/css" href="visio.css"/>
+<title>
+模块流程图
+</title>
+<script type="text/javascript" language="javascript">
+function UpdateTooltip(){};
+function OnShapeClick(){};
+</script>
+
+<script src="png_1.js" type="text/javascript" language="javascript"></script>
+<script type="text/javascript" language="javascript">
+	if( (parent.isSVG) || 
+		(parent.isVML && parent.vmlSupported) || 
+		(parent.isXAML && parent.isUpLevel)) 
+	{
+		location.replace(parent.g_FileList[parent.g_CurPageIndex].PriImage);
+	}
+</script>
+
+
+<script type="text/javascript" language="javascript">
+var pageID = 0;
+var isUpLevel = parent.isUpLevel;
+var OnShapeClick = null;
+if (!parent.isMac)
+{
+	OnShapeClick = parent.OnShapeClick;
+}
+
+var OnShapeKey = parent.OnShapeKey;
+var UpdateTooltip = parent.UpdateTooltip;
+var clickMenu = parent.clickMenu;
+var toggleMenuDiv = parent.toggleMenuDiv;
+var toggleMenuLink = parent.toggleMenuLink;
+var GoToPage = parent.GoToPage;
+
+
+if (parent.isUpLevel)
+{
+
+	if (parent.g_FirstPageToLoad != null && parent.g_FirstPageToLoad.length > 0)
+	{
+		if (parent.g_FileList[parent.g_CurPageIndex].PageID != pageID)
+		{
+			var fileEntry = parent.g_FileList[parent.g_CurPageIndex];
+			var fileToLoad = fileToLoad = fileEntry.PriImage;
+			if (fileEntry.SecImage.length > 0)
+			{
+				fileToLoad = fileEntry.SecImage;
+			}
+
+			location.replace(fileToLoad);
+		}
+
+		parent.g_FirstPageToLoad = null;
+	}
+
+
+	var viewMgr = new parent.CViewMgr();
+	parent.viewMgr = viewMgr;
+
+	viewMgr.SupportsDetails = true;
+	viewMgr.SupportsSearch = true;
+
+	viewMgr.put_Location = ViewMgrSetRasterLocation;
+	viewMgr.visBBoxLeft = 0.762033;
+	viewMgr.visBBoxRight = 17.369711;
+	viewMgr.visBBoxBottom = 129.893831;
+	viewMgr.visBBoxTop = 196.270353;
+	viewMgr.highlightDiv = null;
+}
+
+function load ()
+{
+	if(isUpLevel)
+	{
+		arrowdiv.innerHTML = '<img id="arrowgif" alt="显示所选形状的位置" src="arrow.png"/>';
+
+		var pageIndex = parent.PageIndexFromID (pageID);
+		parent.CurPageUpdate (pageIndex);
+	}
+}
+
+function unload()
+{
+	if(isUpLevel)
+	{
+		viewMgr = null;
+		parent.viewMgr = null;
+	}
+}
+
+window.onload = load;
+window.onunload = unload;
+document.onclick = clickMenu;
+
+</script>
+<style type="text/css"> 
+body {
+	background:url(foo) fixed;
+	padding: 10px;
+}
+div.banner {
+	position: fixed;
+	_position: absolute;
+	top: 0;
+	left: 0;
+	_top: expression(eval(document.body.scrollTop));
+	_left: expression(eval(document.body.scrollLeft));
+	width: 100%;
+	_width: expression(eval(document.body.clientWidth));
+	margin: 0;
+	padding: 3px;
+	padding-left: 6px;
+	background:lime;
+	background-color: #FFFFC6;
+	font: 11px tahoma,arial,serif;
+	border-bottom: 2px ridge #FFFFC6;
+}
+</style>
+</head>
+
+<body class="pageView" bgcolor="#FFFFFF" style="margin: 0px">
+
+<script type="text/javascript" language="javascript">
+// Displays the banner prompt to install Silverlight
+if (parent.slSupported && !parent.slInstalled)
+{
+	var slBanner = document.createElement("div");
+	slBanner.className = "banner";
+	slBanner.innerHTML = '若要启用全部功能(例如扫视和缩放)，<a href="https://www.microsoft.com/silverlight/resources/install.aspx" target="parent">单击此处</a> 需要安装 Silverlight 插件。';
+
+	document.body.appendChild(slBanner);
+	document.body.style.paddingTop = "2.5em";
+}
+</script>
+
+
+<div id="arrowdiv" style="position:absolute;top:0;left:0;visibility:hidden;z-index:5">
+</div>
+
+<div id="menu1" onclick="clickMenu()" class="hlMenu">
+</div>
+<DIV id="RasterDiv" style="margin:10px">
+
+<center>
+  <IMG id="ConvertedImage" SRC="png_1.png" ALT="页-1" name=RasterImage BORDER="0" USEMAP="#visImageMap">
+</center>
+
+<MAP NAME="visImageMap">
+  <AREA shape="POLYGON" tabindex="1" ALT="是否有权限" origTitle="是否有权限" TITLE="是否有权限"  target="_top" COORDS="18,662,32,668,46,662,32,655,18,662" onmouseover="UpdateTooltip(this,0,351,event)" onfocus="UpdateTooltip(this,0,351,event)" onclick="return OnShapeClick(0,351,event);" onkeyup="OnShapeKey(0,351,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="等待系统的抽奖结束" origTitle="等待系统的抽奖结束" TITLE="等待系统的抽奖结束"  target="_top" COORDS="21,705,43,705,43,692,21,692,21,705" onmouseover="UpdateTooltip(this,0,350,event)" onfocus="UpdateTooltip(this,0,350,event)" onclick="return OnShapeClick(0,350,event);" onkeyup="OnShapeKey(0,350,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="使用一定的额度进行办公资源的抽奖，额度越大，概率越高" origTitle="使用一定的额度进行办公资源的抽奖，额度越大，概率越高" TITLE="使用一定的额度进行办公资源的抽奖，额度越大，概率越高"  target="_top" COORDS="21,685,43,685,43,671,21,671,21,685" onmouseover="UpdateTooltip(this,0,348,event)" onfocus="UpdateTooltip(this,0,348,event)" onclick="return OnShapeClick(0,348,event);" onkeyup="OnShapeKey(0,348,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="结束后公布结果，并保存到数据库中" origTitle="结束后公布结果，并保存到数据库中" TITLE="结束后公布结果，并保存到数据库中"  target="_top" COORDS="21,742,43,742,43,729,21,729,21,742" onmouseover="UpdateTooltip(this,0,342,event)" onfocus="UpdateTooltip(this,0,342,event)" onclick="return OnShapeClick(0,342,event);" onkeyup="OnShapeKey(0,342,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="用户是否登录" origTitle="用户是否登录" TITLE="用户是否登录"  target="_top" COORDS="18,645,32,652,46,645,32,638,18,645" onmouseover="UpdateTooltip(this,0,340,event)" onfocus="UpdateTooltip(this,0,340,event)" onclick="return OnShapeClick(0,340,event);" onkeyup="OnShapeKey(0,340,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="结束" origTitle="结束" TITLE="结束"  target="_top" COORDS="26,767,39,767,40,766,41,766,41,766,42,765,43,764,43,763,43,762,43,761,43,760,42,759,41,759,41,758,40,758,39,758,26,758,25,758,24,758,23,759,22,759,22,760,21,761,21,762,21,763,22,764,22,765,23,766,24,766,25,766,26,767" onmouseover="UpdateTooltip(this,0,337,event)" onfocus="UpdateTooltip(this,0,337,event)" onclick="return OnShapeClick(0,337,event);" onkeyup="OnShapeKey(0,337,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="开始" origTitle="开始" TITLE="开始"  target="_top" COORDS="26,632,39,632,40,632,41,631,41,631,42,630,43,629,43,628,43,627,43,626,43,626,42,625,41,624,41,624,40,623,39,623,26,623,25,623,24,624,23,624,22,625,22,626,21,626,21,627,21,628,22,629,22,630,23,631,24,631,25,632,26,632" onmouseover="UpdateTooltip(this,0,336,event)" onfocus="UpdateTooltip(this,0,336,event)" onclick="return OnShapeClick(0,336,event);" onkeyup="OnShapeKey(0,336,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="是否有权限" origTitle="是否有权限" TITLE="是否有权限"  target="_top" COORDS="160,468,173,475,187,468,173,462,160,468" onmouseover="UpdateTooltip(this,0,333,event)" onfocus="UpdateTooltip(this,0,333,event)" onclick="return OnShapeClick(0,333,event);" onkeyup="OnShapeKey(0,333,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="进行抢资源" origTitle="进行抢资源" TITLE="进行抢资源"  target="_top" COORDS="162,512,184,512,184,499,162,499,162,512" onmouseover="UpdateTooltip(this,0,330,event)" onfocus="UpdateTooltip(this,0,330,event)" onclick="return OnShapeClick(0,330,event);" onkeyup="OnShapeKey(0,330,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="等待系统发布办公资源" origTitle="等待系统发布办公资源" TITLE="等待系统发布办公资源"  target="_top" COORDS="162,491,184,491,184,478,162,478,162,491" onmouseover="UpdateTooltip(this,0,328,event)" onfocus="UpdateTooltip(this,0,328,event)" onclick="return OnShapeClick(0,328,event);" onkeyup="OnShapeKey(0,328,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="持久化到数据库中" origTitle="持久化到数据库中" TITLE="持久化到数据库中"  target="_top" COORDS="162,548,184,548,184,535,162,535,162,548" onmouseover="UpdateTooltip(this,0,318,event)" onfocus="UpdateTooltip(this,0,318,event)" onclick="return OnShapeClick(0,318,event);" onkeyup="OnShapeKey(0,318,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="用户是否登录" origTitle="用户是否登录" TITLE="用户是否登录"  target="_top" COORDS="160,452,173,458,187,452,173,445,160,452" onmouseover="UpdateTooltip(this,0,315,event)" onfocus="UpdateTooltip(this,0,315,event)" onclick="return OnShapeClick(0,315,event);" onkeyup="OnShapeKey(0,315,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="结束" origTitle="结束" TITLE="结束"  target="_top" COORDS="167,573,180,573,181,573,182,573,183,572,183,571,184,571,184,570,184,569,184,568,184,567,183,566,183,565,182,565,181,564,180,564,167,564,166,564,165,565,164,565,163,566,163,567,162,568,162,569,162,570,163,571,163,571,164,572,165,573,166,573,167,573" onmouseover="UpdateTooltip(this,0,312,event)" onfocus="UpdateTooltip(this,0,312,event)" onclick="return OnShapeClick(0,312,event);" onkeyup="OnShapeKey(0,312,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="开始" origTitle="开始" TITLE="开始"  target="_top" COORDS="167,438,180,438,181,438,182,438,183,437,183,437,184,436,184,435,184,434,184,433,184,432,183,431,183,431,182,430,181,430,180,430,167,430,166,430,165,430,164,431,163,431,163,432,162,433,162,434,162,435,163,436,163,437,164,437,165,438,166,438,167,438" onmouseover="UpdateTooltip(this,0,311,event)" onfocus="UpdateTooltip(this,0,311,event)" onclick="return OnShapeClick(0,311,event);" onkeyup="OnShapeKey(0,311,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="把员工加入冷却期" origTitle="把员工加入冷却期" TITLE="把员工加入冷却期"  target="_top" COORDS="107,530,129,530,129,517,107,517,107,530" onmouseover="UpdateTooltip(this,0,308,event)" onfocus="UpdateTooltip(this,0,308,event)" onclick="return OnShapeClick(0,308,event);" onkeyup="OnShapeKey(0,308,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="审批是否通过" origTitle="审批是否通过" TITLE="审批是否通过"  target="_top" COORDS="73,493,87,500,100,493,87,487,73,493" onmouseover="UpdateTooltip(this,0,306,event)" onfocus="UpdateTooltip(this,0,306,event)" onclick="return OnShapeClick(0,306,event);" onkeyup="OnShapeKey(0,306,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="用户是否有权限" origTitle="用户是否有权限" TITLE="用户是否有权限"  target="_top" COORDS="73,472,87,479,100,472,87,466,73,472" onmouseover="UpdateTooltip(this,0,302,event)" onfocus="UpdateTooltip(this,0,302,event)" onclick="return OnShapeClick(0,302,event);" onkeyup="OnShapeKey(0,302,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="更新工资" origTitle="更新工资" TITLE="更新工资"  target="_top" COORDS="76,530,98,530,98,517,76,517,76,530" onmouseover="UpdateTooltip(this,0,298,event)" onfocus="UpdateTooltip(this,0,298,event)" onclick="return OnShapeClick(0,298,event);" onkeyup="OnShapeKey(0,298,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="用户是否登录" origTitle="用户是否登录" TITLE="用户是否登录"  target="_top" COORDS="73,453,87,459,100,453,87,446,73,453" onmouseover="UpdateTooltip(this,0,292,event)" onfocus="UpdateTooltip(this,0,292,event)" onclick="return OnShapeClick(0,292,event);" onkeyup="OnShapeKey(0,292,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="结束" origTitle="结束" TITLE="结束"  target="_top" COORDS="80,555,93,555,94,555,95,555,96,554,97,554,97,553,98,552,98,551,98,550,97,549,97,548,96,548,95,547,94,547,93,547,80,547,79,547,78,547,77,548,77,548,76,549,76,550,76,551,76,552,76,553,77,554,77,554,78,555,79,555,80,555" onmouseover="UpdateTooltip(this,0,288,event)" onfocus="UpdateTooltip(this,0,288,event)" onclick="return OnShapeClick(0,288,event);" onkeyup="OnShapeKey(0,288,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="开始" origTitle="开始" TITLE="开始"  target="_top" COORDS="80,439,93,439,94,439,95,439,96,438,97,438,97,437,98,436,98,435,98,434,97,433,97,432,96,432,95,431,94,431,93,431,80,431,79,431,78,431,77,432,77,432,76,433,76,434,76,435,76,436,76,437,77,438,77,438,78,439,79,439,80,439" onmouseover="UpdateTooltip(this,0,287,event)" onfocus="UpdateTooltip(this,0,287,event)" onclick="return OnShapeClick(0,287,event);" onkeyup="OnShapeKey(0,287,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="用户是否在冷却时间" origTitle="用户是否在冷却时间" TITLE="用户是否在冷却时间"  target="_top" COORDS="18,472,32,479,46,472,32,466,18,472" onmouseover="UpdateTooltip(this,0,282,event)" onfocus="UpdateTooltip(this,0,282,event)" onclick="return OnShapeClick(0,282,event);" onkeyup="OnShapeKey(0,282,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="评分是否合格" origTitle="评分是否合格" TITLE="评分是否合格"  target="_top" COORDS="18,539,32,546,46,539,32,533,18,539" onmouseover="UpdateTooltip(this,0,277,event)" onfocus="UpdateTooltip(this,0,277,event)" onclick="return OnShapeClick(0,277,event);" onkeyup="OnShapeKey(0,277,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="提交到上级去" origTitle="提交到上级去" TITLE="提交到上级去"  target="_top" COORDS="21,573,43,573,43,560,21,560,21,573" onmouseover="UpdateTooltip(this,0,275,event)" onfocus="UpdateTooltip(this,0,275,event)" onclick="return OnShapeClick(0,275,event);" onkeyup="OnShapeKey(0,275,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="系统自动出题给员工答题" origTitle="系统自动出题给员工答题" TITLE="系统自动出题给员工答题"  target="_top" COORDS="21,500,43,500,43,487,21,487,21,500" onmouseover="UpdateTooltip(this,0,270,event)" onfocus="UpdateTooltip(this,0,270,event)" onclick="return OnShapeClick(0,270,event);" onkeyup="OnShapeKey(0,270,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="用户是否登录" origTitle="用户是否登录" TITLE="用户是否登录"  target="_top" COORDS="18,453,32,459,46,453,32,446,18,453" onmouseover="UpdateTooltip(this,0,267,event)" onfocus="UpdateTooltip(this,0,267,event)" onclick="return OnShapeClick(0,267,event);" onkeyup="OnShapeKey(0,267,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="员工进行答题" origTitle="员工进行答题" TITLE="员工进行答题"  target="_top" COORDS="21,523,43,523,43,510,21,510,21,523" onmouseover="UpdateTooltip(this,0,264,event)" onfocus="UpdateTooltip(this,0,264,event)" onclick="return OnShapeClick(0,264,event);" onkeyup="OnShapeKey(0,264,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="结束" origTitle="结束" TITLE="结束"  target="_top" COORDS="26,592,39,592,40,592,41,591,41,591,42,590,43,589,43,588,43,587,43,586,43,586,42,585,41,584,41,584,40,583,39,583,26,583,25,583,24,584,23,584,22,585,22,586,21,586,21,587,21,588,22,589,22,590,23,591,24,591,25,592,26,592" onmouseover="UpdateTooltip(this,0,263,event)" onfocus="UpdateTooltip(this,0,263,event)" onclick="return OnShapeClick(0,263,event);" onkeyup="OnShapeKey(0,263,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="开始" origTitle="开始" TITLE="开始"  target="_top" COORDS="26,439,39,439,40,439,41,439,41,438,42,438,43,437,43,436,43,435,43,434,43,433,42,432,41,432,41,431,40,431,39,431,26,431,25,431,24,431,23,432,22,432,22,433,21,434,21,435,21,436,22,437,22,438,23,438,24,439,25,439,26,439" onmouseover="UpdateTooltip(this,0,262,event)" onfocus="UpdateTooltip(this,0,262,event)" onclick="return OnShapeClick(0,262,event);" onkeyup="OnShapeKey(0,262,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="是否已经超过24小时" origTitle="是否已经超过24小时" TITLE="是否已经超过24小时"  target="_top" COORDS="164,271,178,278,191,271,178,265,164,271" onmouseover="UpdateTooltip(this,0,257,event)" onfocus="UpdateTooltip(this,0,257,event)" onclick="return OnShapeClick(0,257,event);" onkeyup="OnShapeKey(0,257,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="发送邮件提醒审批人" origTitle="发送邮件提醒审批人" TITLE="发送邮件提醒审批人"  target="_top" COORDS="48,367,70,367,70,354,48,354,48,367" onmouseover="UpdateTooltip(this,0,254,event)" onfocus="UpdateTooltip(this,0,254,event)" onclick="return OnShapeClick(0,254,event);" onkeyup="OnShapeKey(0,254,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="提交到数据库中" origTitle="提交到数据库中" TITLE="提交到数据库中"  target="_top" COORDS="109,349,131,349,131,336,109,336,109,349" onmouseover="UpdateTooltip(this,0,249,event)" onfocus="UpdateTooltip(this,0,249,event)" onclick="return OnShapeClick(0,249,event);" onkeyup="OnShapeKey(0,249,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="用户是否有权限" origTitle="用户是否有权限" TITLE="用户是否有权限"  target="_top" COORDS="106,281,120,288,133,281,120,275,106,281" onmouseover="UpdateTooltip(this,0,243,event)" onfocus="UpdateTooltip(this,0,243,event)" onclick="return OnShapeClick(0,243,event);" onkeyup="OnShapeKey(0,243,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="结束" origTitle="结束" TITLE="结束"  target="_top" COORDS="113,367,127,367,128,367,128,366,129,366,130,365,131,364,131,363,131,362,131,361,131,360,130,360,129,359,128,358,128,358,127,358,113,358,112,358,112,358,111,359,110,360,110,360,109,361,109,362,109,363,110,364,110,365,111,366,112,366,112,367,113,367" onmouseover="UpdateTooltip(this,0,237,event)" onfocus="UpdateTooltip(this,0,237,event)" onclick="return OnShapeClick(0,237,event);" onkeyup="OnShapeKey(0,237,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="用户审批请假，提交的时候要验证密码" origTitle="用户审批请假，提交的时候要验证密码" TITLE="用户审批请假，提交的时候要验证密码"  target="_top" COORDS="109,310,130,310,130,297,109,297,109,310" onmouseover="UpdateTooltip(this,0,236,event)" onfocus="UpdateTooltip(this,0,236,event)" onclick="return OnShapeClick(0,236,event);" onkeyup="OnShapeKey(0,236,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="验证用户名和密码" origTitle="验证用户名和密码" TITLE="验证用户名和密码"  target="_top" COORDS="126,317,120,313,114,317,112,317,112,318,109,320,120,327,131,320,128,318,128,317,126,317" onmouseover="UpdateTooltip(this,0,235,event)" onfocus="UpdateTooltip(this,0,235,event)" onclick="return OnShapeClick(0,235,event);" onkeyup="OnShapeKey(0,235,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="用户是否登录" origTitle="用户是否登录" TITLE="用户是否登录"  target="_top" COORDS="106,260,120,267,133,260,120,253,106,260" onmouseover="UpdateTooltip(this,0,234,event)" onfocus="UpdateTooltip(this,0,234,event)" onclick="return OnShapeClick(0,234,event);" onkeyup="OnShapeKey(0,234,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="开始" origTitle="开始" TITLE="开始"  target="_top" COORDS="113,246,126,246,127,246,128,246,129,245,130,245,130,244,130,243,130,242,130,241,130,240,130,239,129,239,128,238,127,238,126,238,113,238,112,238,111,238,110,239,110,239,109,240,109,241,109,242,109,243,109,244,110,245,110,245,111,246,112,246,113,246" onmouseover="UpdateTooltip(this,0,233,event)" onfocus="UpdateTooltip(this,0,233,event)" onclick="return OnShapeClick(0,233,event);" onkeyup="OnShapeKey(0,233,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="更新到数据库中" origTitle="更新到数据库中" TITLE="更新到数据库中"  target="_top" COORDS="48,343,70,343,70,330,48,330,48,343" onmouseover="UpdateTooltip(this,0,226,event)" onfocus="UpdateTooltip(this,0,226,event)" onclick="return OnShapeClick(0,226,event);" onkeyup="OnShapeKey(0,226,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="联网查询节假日，并标明在前端的表格中" origTitle="联网查询节假日，并标明在前端的表格中" TITLE="联网查询节假日，并标明在前端的表格中"  target="_top" COORDS="48,294,70,294,70,281,48,281,48,294" onmouseover="UpdateTooltip(this,0,221,event)" onfocus="UpdateTooltip(this,0,221,event)" onclick="return OnShapeClick(0,221,event);" onkeyup="OnShapeKey(0,221,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="用户是否登录" origTitle="用户是否登录" TITLE="用户是否登录"  target="_top" COORDS="46,262,59,269,73,262,59,256,46,262" onmouseover="UpdateTooltip(this,0,215,event)" onfocus="UpdateTooltip(this,0,215,event)" onclick="return OnShapeClick(0,215,event);" onkeyup="OnShapeKey(0,215,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="员工填报请假信息" origTitle="员工填报请假信息" TITLE="员工填报请假信息"  target="_top" COORDS="48,316,70,316,70,303,48,303,48,316" onmouseover="UpdateTooltip(this,0,211,event)" onfocus="UpdateTooltip(this,0,211,event)" onclick="return OnShapeClick(0,211,event);" onkeyup="OnShapeKey(0,211,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="结束" origTitle="结束" TITLE="结束"  target="_top" COORDS="53,387,66,387,67,387,68,386,69,386,69,385,70,384,70,383,70,382,70,381,70,380,69,380,69,379,68,378,67,378,66,378,53,378,52,378,51,378,50,379,49,380,49,380,48,381,48,382,48,383,49,384,49,385,50,386,51,386,52,387,53,387" onmouseover="UpdateTooltip(this,0,210,event)" onfocus="UpdateTooltip(this,0,210,event)" onclick="return OnShapeClick(0,210,event);" onkeyup="OnShapeKey(0,210,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="开始" origTitle="开始" TITLE="开始"  target="_top" COORDS="53,249,66,249,67,249,68,249,69,248,69,247,70,246,70,246,70,245,70,244,70,243,69,242,69,241,68,241,67,240,66,240,53,240,52,240,51,241,50,241,49,242,49,243,48,244,48,245,48,246,49,246,49,247,50,248,51,249,52,249,53,249" onmouseover="UpdateTooltip(this,0,209,event)" onfocus="UpdateTooltip(this,0,209,event)" onclick="return OnShapeClick(0,209,event);" onkeyup="OnShapeKey(0,209,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="提交到数据库中" origTitle="提交到数据库中" TITLE="提交到数据库中"  target="_top" COORDS="11,248,33,248,33,235,11,235,11,248" onmouseover="UpdateTooltip(this,0,207,event)" onfocus="UpdateTooltip(this,0,207,event)" onclick="return OnShapeClick(0,207,event);" onkeyup="OnShapeKey(0,207,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="用户是否有权限" origTitle="用户是否有权限" TITLE="用户是否有权限"  target="_top" COORDS="8,180,22,187,35,180,22,174,8,180" onmouseover="UpdateTooltip(this,0,197,event)" onfocus="UpdateTooltip(this,0,197,event)" onclick="return OnShapeClick(0,197,event);" onkeyup="OnShapeKey(0,197,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="结束" origTitle="结束" TITLE="结束"  target="_top" COORDS="16,266,29,266,30,266,31,266,31,265,32,264,33,264,33,263,33,262,33,261,33,260,32,259,31,258,31,258,30,257,29,257,16,257,15,257,14,258,13,258,12,259,12,260,11,261,11,262,11,263,12,264,12,264,13,265,14,266,15,266,16,266" onmouseover="UpdateTooltip(this,0,188,event)" onfocus="UpdateTooltip(this,0,188,event)" onclick="return OnShapeClick(0,188,event);" onkeyup="OnShapeKey(0,188,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="用户审批工时，提交的时候要验证密码" origTitle="用户审批工时，提交的时候要验证密码" TITLE="用户审批工时，提交的时候要验证密码"  target="_top" COORDS="11,209,33,209,33,196,11,196,11,209" onmouseover="UpdateTooltip(this,0,187,event)" onfocus="UpdateTooltip(this,0,187,event)" onclick="return OnShapeClick(0,187,event);" onkeyup="OnShapeKey(0,187,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="验证用户名和密码" origTitle="验证用户名和密码" TITLE="验证用户名和密码"  target="_top" COORDS="28,216,22,213,17,216,14,216,14,218,11,219,22,226,33,219,30,218,30,216,28,216" onmouseover="UpdateTooltip(this,0,186,event)" onfocus="UpdateTooltip(this,0,186,event)" onclick="return OnShapeClick(0,186,event);" onkeyup="OnShapeKey(0,186,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="用户是否登录" origTitle="用户是否登录" TITLE="用户是否登录"  target="_top" COORDS="8,159,22,166,35,159,22,153,8,159" onmouseover="UpdateTooltip(this,0,185,event)" onfocus="UpdateTooltip(this,0,185,event)" onclick="return OnShapeClick(0,185,event);" onkeyup="OnShapeKey(0,185,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="开始" origTitle="开始" TITLE="开始"  target="_top" COORDS="15,146,28,146,29,146,30,145,31,145,32,144,32,143,33,142,33,141,33,140,32,139,32,139,31,138,30,137,29,137,28,137,15,137,14,137,13,137,12,138,12,139,11,139,11,140,11,141,11,142,11,143,12,144,12,145,13,145,14,146,15,146" onmouseover="UpdateTooltip(this,0,183,event)" onfocus="UpdateTooltip(this,0,183,event)" onclick="return OnShapeClick(0,183,event);" onkeyup="OnShapeKey(0,183,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="验证提交的工时是够合理" origTitle="验证提交的工时是够合理" TITLE="验证提交的工时是够合理"  target="_top" COORDS="113,154,106,151,99,154,96,154,96,155,92,157,106,164,119,157,116,155,116,154,113,154" onmouseover="UpdateTooltip(this,0,176,event)" onfocus="UpdateTooltip(this,0,176,event)" onclick="return OnShapeClick(0,176,event);" onkeyup="OnShapeKey(0,176,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="更新到数据库中" origTitle="更新到数据库中" TITLE="更新到数据库中"  target="_top" COORDS="95,185,117,185,117,172,95,172,95,185" onmouseover="UpdateTooltip(this,0,174,event)" onfocus="UpdateTooltip(this,0,174,event)" onclick="return OnShapeClick(0,174,event);" onkeyup="OnShapeKey(0,174,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="联网查询节假日，并标明在前端的表格中" origTitle="联网查询节假日，并标明在前端的表格中" TITLE="联网查询节假日，并标明在前端的表格中"  target="_top" COORDS="95,116,117,116,117,103,95,103,95,116" onmouseover="UpdateTooltip(this,0,128,event)" onfocus="UpdateTooltip(this,0,128,event)" onclick="return OnShapeClick(0,128,event);" onkeyup="OnShapeKey(0,128,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="用户是否请假" origTitle="用户是否请假" TITLE="用户是否请假"  target="_top" COORDS="92,85,106,92,120,85,106,79,92,85" onmouseover="UpdateTooltip(this,0,120,event)" onfocus="UpdateTooltip(this,0,120,event)" onclick="return OnShapeClick(0,120,event);" onkeyup="OnShapeKey(0,120,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="用户是否登录" origTitle="用户是否登录" TITLE="用户是否登录"  target="_top" COORDS="92,62,106,68,120,62,106,55,92,62" onmouseover="UpdateTooltip(this,0,115,event)" onfocus="UpdateTooltip(this,0,115,event)" onclick="return OnShapeClick(0,115,event);" onkeyup="OnShapeKey(0,115,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="查询到请假的日期后再表格中显示出来，并且禁止用户填报" origTitle="查询到请假的日期后再表格中显示出来，并且禁止用户填报" TITLE="查询到请假的日期后再表格中显示出来，并且禁止用户填报"  target="_top" COORDS="132,92,153,92,153,79,132,79,132,92" onmouseover="UpdateTooltip(this,0,110,event)" onfocus="UpdateTooltip(this,0,110,event)" onclick="return OnShapeClick(0,110,event);" onkeyup="OnShapeKey(0,110,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="员工填报工时" origTitle="员工填报工时" TITLE="员工填报工时"  target="_top" COORDS="95,138,117,138,117,124,95,124,95,138" onmouseover="UpdateTooltip(this,0,109,event)" onfocus="UpdateTooltip(this,0,109,event)" onclick="return OnShapeClick(0,109,event);" onkeyup="OnShapeKey(0,109,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="结束" origTitle="结束" TITLE="结束"  target="_top" COORDS="99,209,112,209,113,209,114,209,115,209,116,208,116,207,116,206,117,205,116,204,116,203,116,202,115,202,114,201,113,201,112,201,99,201,98,201,97,201,96,202,96,202,95,203,95,204,95,205,95,206,95,207,96,208,96,209,97,209,98,209,99,209" onmouseover="UpdateTooltip(this,0,108,event)" onfocus="UpdateTooltip(this,0,108,event)" onclick="return OnShapeClick(0,108,event);" onkeyup="OnShapeKey(0,108,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="开始" origTitle="开始" TITLE="开始"  target="_top" COORDS="99,49,113,49,113,49,114,48,115,48,116,47,116,46,117,45,117,44,117,43,116,42,116,42,115,41,114,40,113,40,113,40,99,40,98,40,97,40,97,41,96,42,95,42,95,43,95,44,95,45,95,46,96,47,97,48,97,48,98,49,99,49" onmouseover="UpdateTooltip(this,0,107,event)" onfocus="UpdateTooltip(this,0,107,event)" onclick="return OnShapeClick(0,107,event);" onkeyup="OnShapeKey(0,107,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="清除session中的用户信息" origTitle="清除session中的用户信息" TITLE="清除session中的用户信息"  target="_top" COORDS="42,81,64,81,64,68,42,68,42,81" onmouseover="UpdateTooltip(this,0,86,event)" onfocus="UpdateTooltip(this,0,86,event)" onclick="return OnShapeClick(0,86,event);" onkeyup="OnShapeKey(0,86,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="点击退出" origTitle="点击退出" TITLE="点击退出"  target="_top" COORDS="42,52,64,52,64,39,42,39,42,52" onmouseover="UpdateTooltip(this,0,85,event)" onfocus="UpdateTooltip(this,0,85,event)" onclick="return OnShapeClick(0,85,event);" onkeyup="OnShapeKey(0,85,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="结束" origTitle="结束" TITLE="结束"  target="_top" COORDS="47,117,60,117,61,117,62,117,63,116,63,115,64,115,64,114,64,113,64,112,64,111,63,110,63,109,62,109,61,108,60,108,47,108,46,108,45,109,44,109,44,110,43,111,43,112,43,113,43,114,43,115,44,115,44,116,45,117,46,117,47,117" onmouseover="UpdateTooltip(this,0,84,event)" onfocus="UpdateTooltip(this,0,84,event)" onclick="return OnShapeClick(0,84,event);" onkeyup="OnShapeKey(0,84,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="开始" origTitle="开始" TITLE="开始"  target="_top" COORDS="46,16,60,16,61,15,61,15,62,15,63,14,64,13,64,12,64,11,64,10,64,9,63,8,62,8,61,7,61,7,60,7,46,7,46,7,45,7,44,8,43,8,43,9,42,10,42,11,42,12,43,13,43,14,44,15,45,15,46,15,46,16" onmouseover="UpdateTooltip(this,0,83,event)" onfocus="UpdateTooltip(this,0,83,event)" onclick="return OnShapeClick(0,83,event);" onkeyup="OnShapeKey(0,83,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="结束" origTitle="结束" TITLE="结束"  target="_top" COORDS="11,117,24,117,25,117,26,116,26,116,27,115,28,114,28,113,28,112,28,111,28,111,27,110,26,109,26,108,25,108,24,108,11,108,10,108,9,108,8,109,7,110,7,111,6,111,6,112,6,113,7,114,7,115,8,116,9,116,10,117,11,117" onmouseover="UpdateTooltip(this,0,75,event)" onfocus="UpdateTooltip(this,0,75,event)" onclick="return OnShapeClick(0,75,event);" onkeyup="OnShapeKey(0,75,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="用户提交登录" origTitle="用户提交登录" TITLE="用户提交登录"  target="_top" COORDS="6,76,28,76,28,63,6,63,6,76" onmouseover="UpdateTooltip(this,0,74,event)" onfocus="UpdateTooltip(this,0,74,event)" onclick="return OnShapeClick(0,74,event);" onkeyup="OnShapeKey(0,74,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="验证用户名和密码" origTitle="验证用户名和密码" TITLE="验证用户名和密码"  target="_top" COORDS="23,86,17,82,12,86,9,86,9,87,6,89,17,96,28,89,25,87,25,86,23,86" onmouseover="UpdateTooltip(this,0,73,event)" onfocus="UpdateTooltip(this,0,73,event)" onclick="return OnShapeClick(0,73,event);" onkeyup="OnShapeKey(0,73,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="Ajax判断验证码是否正确" origTitle="Ajax判断验证码是否正确" TITLE="Ajax判断验证码是否正确"  target="_top" COORDS="24,45,17,41,9,45,6,45,6,47,3,48,17,54,30,48,28,47,28,45,24,45" onmouseover="UpdateTooltip(this,0,72,event)" onfocus="UpdateTooltip(this,0,72,event)" onclick="return OnShapeClick(0,72,event);" onkeyup="OnShapeKey(0,72,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="用户输入账户密码和验证码" origTitle="用户输入账户密码和验证码" TITLE="用户输入账户密码和验证码"  target="_top" COORDS="6,35,28,35,28,22,6,22,6,35" onmouseover="UpdateTooltip(this,0,71,event)" onfocus="UpdateTooltip(this,0,71,event)" onclick="return OnShapeClick(0,71,event);" onkeyup="OnShapeKey(0,71,event);">
+  <AREA shape="POLYGON" tabindex="1" ALT="开始" origTitle="开始" TITLE="开始"  target="_top" COORDS="10,15,23,15,24,15,25,15,26,14,27,14,27,13,27,12,28,11,27,10,27,9,27,8,26,8,25,7,24,7,23,7,10,7,9,7,8,7,7,8,7,8,6,9,6,10,6,11,6,12,6,13,7,14,7,14,8,15,9,15,10,15" onmouseover="UpdateTooltip(this,0,70,event)" onfocus="UpdateTooltip(this,0,70,event)" onclick="return OnShapeClick(0,70,event);" onkeyup="OnShapeKey(0,70,event);">
+</MAP>
+
+
+</DIV>
+</body>
+</html>
