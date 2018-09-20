@@ -220,26 +220,33 @@ https://www.nowapi.com/api/life.workday
 
 ### 部门表
 
-| 字段名(field) | 类型    | 描述     |
-| ------------- | ------- | -------- |
-| id            | Integer | id       |
-| name          | String  | 部门名称 |
+| 字段名(field) | 类型           | 描述       |
+| ------------- | -------------- | ---------- |
+| id            | Integer        | id         |
+| name          | String         | 部门名称   |
+| employees     | List<Employee> | 部门的员工 |
+
+这样子设计，可以直接的查找本部门的员工
 
 
 
 #### 员工表
 
-| 字段名(field) | 类型    | 描述                         |
-| ------------- | ------- | ---------------------------- |
-| id            | Long    | 员工id                       |
-| employeeNo    | String  | 员工号                       |
-| password      | String  | 密码(存储的密码以加密的形式) |
-| departmentId  | Integer | 部门id                       |
-| name          | String  | 姓名                         |
-| email         | String  | 邮箱                         |
-| entryTime     | Date    | 入职时间                     |
+| 字段名(field) | 类型       | 描述                         |
+| ------------- | ---------- | ---------------------------- |
+| id            | String     | 员工id                       |
+| password      | String     | 密码(存储的密码以加密的形式) |
+| department    | Department | 部门                         |
+| name          | String     | 姓名                         |
+| email         | String     | 邮箱                         |
+| entryTime     | Date       | 入职时间                     |
+| position      | String     | 职位                         |
+| status        | Integer    | 状态                         |
+|               |            |                              |
 
-### 部门任职表
+这里我们可以直接找到自己的部门和职位，方便查询
+
+### 部门任职表   已经删除，职位已经在员工的属性上面
 
 | 字段名(field) | 类型    | 描述         |
 | ------------- | ------- | ------------ |
@@ -255,9 +262,39 @@ https://www.nowapi.com/api/life.workday
 
 后续设计
 
+### 工时表
 
+| 字段名(field) | 类型     | 描述     |
+| ------------- | -------- | -------- |
+| employee      | Employee | 用户     |
+| date          | Date     | 日期     |
+| hour          | int      | 工作时间 |
 
+在这里可以通过工时表去查找员工的工时传入员工的id即可查询工时
 
+例如@Query("FROM WorkTime wt WHERE wt.employee.id =:id")
 
+### 离职表
 
+| 字段名(field) | 类型     | 描述       |
+| ------------- | -------- | ---------- |
+| employee      | Employee | 离职的员工 |
+| applyDate     | Date     | 申请时间   |
+| reason        | String   | 离职原因   |
+| quitDate      | Date     | 离职时间   |
+
+可以通过员工id查询员工的离职信息
+
+这里要注意一点，员工申请离职的时候，要把员工表的状态修改以下
+
+因为离职还需要一段时间进行交接任务，所以有个离职缓存期，所以实际的离职时间不一定是离职申请的时间
+
+### 薪资发放表
+
+| 字段名(field) | 类型     | 描述                           |
+| ------------- | -------- | ------------------------------ |
+| employee      | Employee | 员工                           |
+| date          | Date     | 发放日期                       |
+| status        | Integer  | 状态 0代表未发放 1代表以及发放 |
+| money         | Double   | 发放的钱                       |
 
