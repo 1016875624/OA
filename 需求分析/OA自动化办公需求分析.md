@@ -140,6 +140,41 @@ https://www.nowapi.com/api/life.workday
 
 随机出题，可以出单选题，多选题，填空题，甚至是编程题，最后一个如果能做尽量做
 
+#### 答题判断正确实现
+
+question 这里的设计格式为_为 填空的空
+
+realanswer 这里的答案的格式为|这个为多个答案,&为多选题中的答案,少选不得分,$为第二个空的答案
+
+例如a&b&C|b&c&d$aaads
+
+private String answers; 以#分割 不同的选项
+
+
+
+public boolean isRight(String... ans)；
+
+首先规定 每一个数组元素是一个空的值
+
+那么首先判断一个空的个数是够相同
+
+也就是
+
+```java
+String [] realans=realanswer.split("$");
+if (ans.length!=realans.length) {
+    return false;
+}
+```
+
+然后再判断每个选项是否相同
+
+那么首先解析到每个空里面的每个答案
+
+1. 把所有的可选答案解析出来，然后一个个判断可选答案
+2. 依次对比可选答案，如果正确则进行下一个空的答案对比
+3. 不正确则返回错误
+
 
 
 ![涨薪申请](img/涨薪申请.jpg)
@@ -331,38 +366,5 @@ https://www.nowapi.com/api/life.workday
 
 
 
-## 答题正确判断
 
-question 这里的设计格式为__为 填空的空
-
-realanswer 这里的答案的格式为||这个为多个答案,&为多选题中的答案,少选不得分,$为第二个空的答案
-
-例如a&b&C||b&c&d$aaads
-
-private String answers; 以#分割 不同的选项
-
-
-
-public boolean isRight(String... ans)；
-
-首先规定 每一个数组元素是一个空的值
-
-那么首先判断一个空的个数是够相同
-
-也就是
-
-```java
-String [] realans=realanswer.split("$");
-if (ans.length!=realans.length) {
-    return false;
-}
-```
-
-然后再判断每个选项是否相同
-
-那么首先解析到每个空里面的每个答案
-
-1. 把所有的可选答案解析出来，然后一个个判断可选答案
-2. 依次对比可选答案，如果正确则进行下一个空的答案对比
-3. 不正确则返回错误
 

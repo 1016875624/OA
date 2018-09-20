@@ -3,12 +3,13 @@ package com.oa.leave.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,7 +22,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "OA_LEAVE")
+@Table(name = "oa_leave")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -53,6 +54,7 @@ public class Leave  implements Serializable {
     //private ProcessStatus processStatus;//流程状态
     //工作流程数据字段
 //    private String userId;//启动流程的用户ID
+    @OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     private Employee employee;
     //流程实例Id：用于关联流程引擎相关数据没有启动流程之前为""
     private String processInstanceId;

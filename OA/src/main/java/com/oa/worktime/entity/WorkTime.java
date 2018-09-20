@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -28,16 +30,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WorkTime {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	
 	/**
 	* @Fields employee : 某个员工的工时
 	*/
-	@Id
 	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	private Employee employee;
 	/**
 	* @Fields date : 日期
 	*/
-	@Id
 	@JsonFormat(pattern="yyyy/MM/dd",timezone="GMT+8")
 	@DateTimeFormat(pattern="yyyy/MM/dd")
 	@Temporal(TemporalType.DATE)
