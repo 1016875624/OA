@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,12 +21,14 @@ import com.oa.department.entity.Department;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name="act_id_user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude= {"leader"})
 public class Employee {
 	/**
 	* @Fields id : id
@@ -67,4 +70,15 @@ public class Employee {
 	* @Fields position : 职位
 	*/
 	private String position;
+	
+	/**
+	* @Fields status : 状态 0代表正常 1代表离职 -1代表封禁
+	*/ 
+	private Integer status;
+	
+	/**
+	* @Fields leader : 上级
+	*/
+	@OneToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	private Employee leader;
 }
