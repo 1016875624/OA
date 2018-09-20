@@ -237,6 +237,7 @@ https://www.nowapi.com/api/life.workday
 | departmentId  | Integer | 部门id                       |
 | name          | String  | 姓名                         |
 | email         | String  | 邮箱                         |
+| entryTime     | Date    | 入职时间                     |
 
 ### 部门任职表
 
@@ -245,6 +246,14 @@ https://www.nowapi.com/api/life.workday
 | departmentId  | Integer | 部门id(外键) |
 | employeeId    | Long    | 员工id       |
 | position      | String  | 职位         |
+
+### role角色表不要
+
+在用户里面查看职位即可
+
+### 权限表
+
+后续设计
 
 
 
