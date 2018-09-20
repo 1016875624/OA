@@ -230,7 +230,7 @@ https://www.nowapi.com/api/life.workday
 
 
 
-#### 员工表
+### 员工表
 
 | 字段名(field) | 类型       | 描述                         |
 | ------------- | ---------- | ---------------------------- |
@@ -242,7 +242,7 @@ https://www.nowapi.com/api/life.workday
 | entryTime     | Date       | 入职时间                     |
 | position      | String     | 职位                         |
 | status        | Integer    | 状态                         |
-|               |            |                              |
+| leader        | Employee   | 上级                         |
 
 这里我们可以直接找到自己的部门和职位，方便查询
 
@@ -297,4 +297,72 @@ https://www.nowapi.com/api/life.workday
 | date          | Date     | 发放日期                       |
 | status        | Integer  | 状态 0代表未发放 1代表以及发放 |
 | money         | Double   | 发放的钱                       |
+
+
+
+### 薪资表
+
+| 字段名(field) | 类型     | 描述            |
+| ------------- | -------- | --------------- |
+| employee      | Employee | 员工            |
+| sal           | Double   | 基本工资        |
+| bonus         | Double   | 奖金            |
+| workMonth     | Integer  | 工龄 月份为单位 |
+| worktimeMoney | Double   | 工龄工资        |
+| subsidy       | Double   | 补贴            |
+
+
+
+根据上面的属性进行计算工资，当然还要参照每个人的实际工时进行计算
+
+计算公式=基本工资/当月的工作时间 x实际的工时+工作的天数x补贴 +奖金+工龄工资*工龄
+
+工龄=现在时间-入职时间
+
+奖金以出勤率作为计算
+
+出勤率达到80%的拿奖金90%
+
+90% 全拿奖金
+
+70% 一半奖金
+
+60%没有奖金
+
+
+
+## 答题正确判断
+
+question 这里的设计格式为__为 填空的空
+
+realanswer 这里的答案的格式为||这个为多个答案,&为多选题中的答案,少选不得分,$为第二个空的答案
+
+例如a&b&C||b&c&d$aaads
+
+private String answers; 以#分割 不同的选项
+
+
+
+public boolean isRight(String... ans)；
+
+首先规定 每一个数组元素是一个空的值
+
+那么首先判断一个空的个数是够相同
+
+也就是
+
+```java
+String [] realans=realanswer.split("$");
+if (ans.length!=realans.length) {
+    return false;
+}
+```
+
+然后再判断每个选项是否相同
+
+那么首先解析到每个空里面的每个答案
+
+1. 把所有的可选答案解析出来，然后一个个判断可选答案
+2. 依次对比可选答案，如果正确则进行下一个空的答案对比
+3. 不正确则返回错误
 

@@ -29,15 +29,11 @@ public class Salary {
 	@Id
 	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	private Employee employee;
-	@Id
+	/*@Id
 	@JsonFormat(pattern="yyyy/MM/dd",timezone="GMT+8")
 	@DateTimeFormat(pattern="yyyy/MM/dd")
 	@Temporal(TemporalType.DATE)
-	private Date date;
-	/**
-	* @Fields status : 状态 0表示为发放 1表示已经发放
-	*/
-	private Integer status;
+	private Date date;*/
 	
 	/**
 	* @Fields money : 工资
@@ -48,5 +44,20 @@ public class Salary {
 	* @Fields bonus : 奖金
 	*/
 	private Double bonus;
+	
+	/**
+	* @Fields subsidy : 补贴
+	*/
+	private Double subsidy;
+	
+	/**
+	* @Fields worktimeMoney : 工龄工资
+	*/
+	private Double worktimeMoney;
+	
+	/**
+	* @Fields workMonth : 工龄 月份做单位
+	*/
+	private Integer workMonth;
 	
 }

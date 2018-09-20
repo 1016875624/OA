@@ -43,4 +43,18 @@ public class SalaryPay {
 	* @Fields money : 实际到手
 	*/
 	private Double money;
+	
+	/**
+	* @Fields realWorktime : 实际工作时间
+	*/
+	private int realWorktime;
+	
+	/**
+	* @Fields worktime : 要求工作时间
+	*/
+	private int worktime;
+	/**
+	* @Fields attendRate : 出勤率
+	*/
+	private Double attendRate;
 }
