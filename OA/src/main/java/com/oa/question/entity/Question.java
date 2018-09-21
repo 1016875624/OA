@@ -40,7 +40,7 @@ public class Question {
 	private String answers;
 	
 	/**
-	* @Fields type : 题目类型
+	* @Fields type : 题目类型 0单选题 1多选题 2 填空题
 	*/
 	private Integer type;
 	

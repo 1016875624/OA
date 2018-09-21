@@ -253,7 +253,7 @@ if (ans.length!=realans.length) {
 
 ##  数据表格
 
-### 部门表
+### 部门表Department
 
 | 字段名(field) | 类型           | 描述       |
 | ------------- | -------------- | ---------- |
@@ -265,7 +265,7 @@ if (ans.length!=realans.length) {
 
 
 
-### 员工表
+### 员工表Employee
 
 | 字段名(field) | 类型       | 描述                         |
 | ------------- | ---------- | ---------------------------- |
@@ -297,10 +297,11 @@ if (ans.length!=realans.length) {
 
 后续设计
 
-### 工时表
+### 工时表Worktime
 
 | 字段名(field) | 类型     | 描述     |
 | ------------- | -------- | -------- |
+| id            | Integer  | id       |
 | employee      | Employee | 用户     |
 | date          | Date     | 日期     |
 | hour          | int      | 工作时间 |
@@ -309,10 +310,11 @@ if (ans.length!=realans.length) {
 
 例如@Query("FROM WorkTime wt WHERE wt.employee.id =:id")
 
-### 离职表
+### 离职表Quit
 
 | 字段名(field) | 类型     | 描述       |
 | ------------- | -------- | ---------- |
+| id            | Integer  | id         |
 | employee      | Employee | 离职的员工 |
 | applyDate     | Date     | 申请时间   |
 | reason        | String   | 离职原因   |
@@ -324,10 +326,11 @@ if (ans.length!=realans.length) {
 
 因为离职还需要一段时间进行交接任务，所以有个离职缓存期，所以实际的离职时间不一定是离职申请的时间
 
-### 薪资发放表
+### 薪资发放表Salarypay
 
 | 字段名(field) | 类型     | 描述                           |
 | ------------- | -------- | ------------------------------ |
+| id            | Integer  | id                             |
 | employee      | Employee | 员工                           |
 | date          | Date     | 发放日期                       |
 | status        | Integer  | 状态 0代表未发放 1代表以及发放 |
@@ -335,10 +338,11 @@ if (ans.length!=realans.length) {
 
 
 
-### 薪资表
+### 薪资表Salary
 
 | 字段名(field) | 类型     | 描述            |
 | ------------- | -------- | --------------- |
+| id            | Integer  | id              |
 | employee      | Employee | 员工            |
 | sal           | Double   | 基本工资        |
 | bonus         | Double   | 奖金            |
@@ -364,7 +368,14 @@ if (ans.length!=realans.length) {
 
 60%没有奖金
 
+### 题库表Question
 
+| 字段名(field) | 类型    | 描述                             |
+| ------------- | ------- | -------------------------------- |
+| question      | String  | 题目 题目中可能有_作为空         |
+| realanswer    | String  | 标准答案                         |
+| answers       | String  | 用于选择题的答案                 |
+| type          | Integer | 题目类型0单选题 1多选题 2 填空题 |
 
 
 
