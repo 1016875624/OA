@@ -1,57 +1,162 @@
 package com.oa.department.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.oa.department.entity.Department;
+import com.oa.department.repository.DepartmentRepository;
 
 
-public interface DepartmentService {
-	public Department save(Department entity);
 
+@Service
+@Transactional
+public class DepartmentService implements IDepartmentService {
 
-    public List<Department> saveAll(List<Department> entities);
-
-	public Department findById(Integer id);
-
-
-	public boolean existsById(Integer id);
-
-    public List<Department> findAll();
-
-    public List<Department> findAllById(List<Integer> ids);
-
-
-	public long count();
-
-	public void deleteById(Integer id);
-
-
-	public void delete(Department entity);
-
-
-	public void deleteAll(List<Department> entities);
+	@Autowired
+	private DepartmentRepository departmentRepository;
 	
-	void deleteAll(Integer[]ids);
-	
-	public void deleteAll();
-	public Page<Department> findAll(Pageable pageable);
-	
-	public List<Department> findAll(Sort sort);
-	
-	
-	Department findOne(@Nullable Specification<Department> spec);
+	@Override
+	public Department save(Department entity) {
+		// TODO Auto-generated method stub
+		return departmentRepository.save(entity);
+	}
 
-	List<Department> findAll(@Nullable Specification<Department> spec);
-	Page<Department> findAll(@Nullable Specification<Department> spec, Pageable pageable);
-	List<Department> findAllById(Integer ids[]);
-	List<Department> findAll(@Nullable Specification<Department> spec, Sort sort);
-	long count(@Nullable Specification<Department> spec);
-	
-	void deleteAllById(Integer[]ids);
+	@Override
+	public List<Department> saveAll(List<Department> entities) {
+		// TODO Auto-generated method stub
+		return departmentRepository.saveAll(entities);
+	}
+
+	@Override
+	public Department findById(Integer id) {
+		// TODO Auto-generated method stub
+		return departmentRepository.findById(id).get();
+	}
+
+	@Override
+	public boolean existsById(Integer id) {
+		// TODO Auto-generated method stub
+		return departmentRepository.existsById(id);
+	}
+
+	@Override
+	public List<Department> findAll() {
+		// TODO Auto-generated method stub
+		return departmentRepository.findAll();
+	}
+
+	@Override
+	public List<Department> findAllById(List<Integer> ids) {
+		// TODO Auto-generated method stub
+		return departmentRepository.findAllById(ids);
+	}
+
+	@Override
+	public long count() {
+		// TODO Auto-generated method stub
+		return departmentRepository.count();
+	}
+
+	@Override
+	public void deleteById(Integer id) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void delete(Department entity) {
+		// TODO Auto-generated method stub
+		departmentRepository.delete(entity);
+	}
+
+	@Override
+	public void deleteAll(List<Department> entities) {
+		// TODO Auto-generated method stub
+		departmentRepository.deleteAll(entities);
+	}
+
+	@Override
+	public void deleteAll(Integer[] ids) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteAll() {
+		departmentRepository.deleteAll();
+
+	}
+
+	@Override
+	public Page<Department> findAll(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return departmentRepository.findAll(pageable);
+	}
+
+	@Override
+	public List<Department> findAll(Sort sort) {
+		// TODO Auto-generated method stub
+		return departmentRepository.findAll(sort);
+	}
+
+	@Override
+	public Optional<Department> findOne(Specification<Department> spec) {
+		// TODO Auto-generated method stub
+		return departmentRepository.findOne(spec);
+	}
+
+	@Override
+	public List<Department> findAll(Specification<Department> spec) {
+		// TODO Auto-generated method stub
+		return departmentRepository.findAll(spec);
+	}
+
+	@Override
+	public Page<Department> findAll(Specification<Department> spec, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return departmentRepository.findAll(spec, pageable);
+	}
+
+	@Override
+	public List<Department> findAllById(Integer[] ids) {
+		List<Integer> idLists = new ArrayList<Integer>(Arrays.asList(ids));
+		// TODO Auto-generated method stub
+		return departmentRepository.findAllById(idLists);
+	}
+
+	@Override
+	public List<Department> findAll(Specification<Department> spec, Sort sort) {
+		// TODO Auto-generated method stub
+		return departmentRepository.findAll(spec, sort);
+	}
+
+	@Override
+	public long count(Specification<Department> spec) {
+		// TODO Auto-generated method stub
+		return departmentRepository.count(spec);
+	}
+
+	@Override
+	public void deleteAllById(Integer[] ids) {
+		// TODO Auto-generated method stub
+		List<Integer> idLists = new ArrayList<Integer>(Arrays.asList(ids));
+		
+		List<Department> Departments = (List<Department>) departmentRepository.findAllById(idLists);
+		if(Departments!=null) {
+			departmentRepository.deleteAll(Departments);
+		}
+		
+	}
+
+
 }
