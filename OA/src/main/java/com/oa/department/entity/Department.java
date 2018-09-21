@@ -25,12 +25,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Department {
+	/**
+	* @Fields id :id
+	*/
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID_")
 	private Integer id;
+	/**
+	* @Fields name : 部门名称
+	*/
 	@Column(name="NAME_")
 	private String name;
-	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY,mappedBy="department")
+	
+	/**
+	* @Fields employees : 部门员工
+	*/
+	@OneToMany(cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST},fetch=FetchType.LAZY,mappedBy="department")
 	private List<Employee> employees=new ArrayList<>();
 }

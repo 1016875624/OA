@@ -17,7 +17,7 @@ public class OaApplicationTests {
 	DepartmentRepository departmentRepository;
 	@Test
 	public void contextLoads() {
-		departmentRepository.save(new Department(null,"部门1",null));
+		departmentRepository.save(new Department(null,"部门2",null));
 	}
 
 }

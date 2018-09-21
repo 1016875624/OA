@@ -44,6 +44,10 @@ public class Question {
 	*/
 	private Integer type;
 	
+	/**
+	* @Fields status : 状态0代表正常 1代表删除
+	*/
+	private Integer status;
 	
 	/**
 	* <p>方法名称: isRight</p>
