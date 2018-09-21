@@ -34,7 +34,7 @@ public class Question {
 	private String realanswer;
 	//以#分割 不同的选项
 	/**
-	* @Fields answers : 用于选择题的答案
+	* @Fields answers : 用于选择题的选项
 	* 	以#分割 不同的选项
 	*/
 	private String answers;
@@ -49,6 +49,10 @@ public class Question {
 	*/
 	private Integer status;
 	
+	/**
+	 * @Fields status : 题目是否删除状态
+	 */
+	private Integer status;
 	/**
 	* <p>方法名称: isRight</p>
 	* <p>描述：判断答案是否正确</p>
