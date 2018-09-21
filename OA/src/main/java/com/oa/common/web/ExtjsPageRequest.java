@@ -12,11 +12,11 @@ import org.springframework.data.domain.Sort.Direction;
 public class ExtjsPageRequest 
 {
 	//分页条件
-	private int 	page 	= 0;
-	private int 	limit	= 20;
+	private int 	page 	= 1;
+	private int 	limit	= 10;
 	//排序条件
 	private String  sort	= "id";
-	private String  dir 	= "DESC";
+	private String  dir 	= "ASE";
 	
 	public void setPage(int page) {this.page = page;}
 	public void setLimit(int limit) {this.limit = limit;}
