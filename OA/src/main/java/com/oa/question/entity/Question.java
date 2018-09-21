@@ -2,28 +2,33 @@ package com.oa.question.entity;
 
 import java.util.Arrays;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 @Entity
-@Table(name="question")
+@Table(name="t_question")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Question {
 	//这里的设计格式为_为 填空的空
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
+	//血的教训,question是特殊值,不能使用,否则将会报String不能转换为Integer 
 	/**
-	* @Fields question :题目 题目中可能有_作为空
+	* @Fields textQuestion :题目 题目中可能有_作为空
 	*	 这里的设计格式为_为 填空的空
 	*/
-
-	private String question;
+	private String textQuestion;
 	//这里的答案的格式为|这个为多个答案&为多选题中的答案,少选不得分,$为第二个空的答案
 	//a&b&C|b&c&d$aaads
 	/**
@@ -47,11 +52,6 @@ public class Question {
 	/**
 	* @Fields status : 状态0代表正常 1代表删除
 	*/
-	private Integer status;
-	
-	/**
-	 * @Fields status : 题目是否删除状态
-	 */
 	private Integer status;
 	/**
 	* <p>方法名称: isRight</p>

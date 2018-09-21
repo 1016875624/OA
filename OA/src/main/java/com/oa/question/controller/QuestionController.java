@@ -4,6 +4,7 @@ package com.oa.question.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,9 +22,8 @@ import com.oa.common.web.ExtjsPageRequest;
 import com.oa.question.entity.Question;
 import com.oa.question.entity.QuestionQueryDTO;
 import com.oa.question.service.IQuestionService;
-
 @RestController
-@RequestMapping(value="/question")
+@RequestMapping("/question")
 public class QuestionController {
 	@Autowired IQuestionService questionService;
 	
@@ -60,15 +60,13 @@ public class QuestionController {
 	    }
     }
 	
-	@DeleteMapping(value="{id}")
-	public ExtAjaxResponse deleteQuestion(@PathVariable("id")Integer id) {
+	@DeleteMapping(value="/{id}")
+	public ExtAjaxResponse deleteQuestion(@PathVariable Integer id) {
 		try {
 			if(id!=null) {
 				Question question=questionService.findById(id);
 				question.setStatus(0);
 				questionService.save(question);
-				
-			
 			}
 			return new ExtAjaxResponse(true,"删除成功");
 		} catch (Exception e) {
