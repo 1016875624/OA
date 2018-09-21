@@ -46,7 +46,7 @@ public class QuestionController {
 	}
 	
 	@PutMapping(value="{id}")
-    public @ResponseBody ExtAjaxResponse update(@PathVariable("id") Integer id,@RequestBody Question question) {
+    public ExtAjaxResponse update(@PathVariable("id") Integer id,Question question) {
     	try {
     		Question entity = questionService.findById(id);
 			if(entity!=null) {
