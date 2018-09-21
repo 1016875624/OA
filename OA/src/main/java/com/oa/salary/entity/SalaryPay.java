@@ -9,6 +9,8 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -27,9 +29,12 @@ import com.oa.employee.entity.Employee;
 @NoArgsConstructor
 public class SalaryPay {
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	
+	
 	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	private Employee employee;
-	@Id
 	@JsonFormat(pattern="yyyy/MM/dd",timezone="GMT+8")
 	@DateTimeFormat(pattern="yyyy/MM/dd")
 	@Temporal(TemporalType.DATE)
