@@ -66,7 +66,7 @@ public class Employee {
 	private String picture;
 	
 	/**
-	* @Fields position : 职位
+	* @Fields position : 职位  位置
 	*/
 	private String position;
 	
