@@ -16,7 +16,7 @@ public class ExtjsPageRequest
 	private int 	limit	= 10;
 	//排序条件
 	private String  sort	= "id";
-	private String  dir 	= "ASE";
+	private String  dir 	= "DESC";
 	
 	public void setPage(int page) {this.page = page;}
 	public void setLimit(int limit) {this.limit = limit;}
