@@ -38,13 +38,13 @@ public class DepartmentService implements IDepartmentService {
 	}
 
 	@Override
-	public Department findById(Integer id) {
+	public Department findById(String id) {
 		// TODO Auto-generated method stub
 		return departmentRepository.findById(id).get();
 	}
 
 	@Override
-	public boolean existsById(Integer id) {
+	public boolean existsById(String id) {
 		// TODO Auto-generated method stub
 		return departmentRepository.existsById(id);
 	}
@@ -56,7 +56,7 @@ public class DepartmentService implements IDepartmentService {
 	}
 
 	@Override
-	public List<Department> findAllById(List<Integer> ids) {
+	public List<Department> findAllById(List<String> ids) {
 		// TODO Auto-generated method stub
 		return departmentRepository.findAllById(ids);
 	}
@@ -68,7 +68,7 @@ public class DepartmentService implements IDepartmentService {
 	}
 
 	@Override
-	public void deleteById(Integer id) {
+	public void deleteById(String id) {
 		// TODO Auto-generated method stub
 
 	}
@@ -86,7 +86,7 @@ public class DepartmentService implements IDepartmentService {
 	}
 
 	@Override
-	public void deleteAll(Integer[] ids) {
+	public void deleteAll(String[] ids) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -128,8 +128,8 @@ public class DepartmentService implements IDepartmentService {
 	}
 
 	@Override
-	public List<Department> findAllById(Integer[] ids) {
-		List<Integer> idLists = new ArrayList<Integer>(Arrays.asList(ids));
+	public List<Department> findAllById(String[] ids) {
+		List<String> idLists = new ArrayList<String>(Arrays.asList(ids));
 		// TODO Auto-generated method stub
 		return departmentRepository.findAllById(idLists);
 	}
@@ -147,9 +147,9 @@ public class DepartmentService implements IDepartmentService {
 	}
 
 	@Override
-	public void deleteAllById(Integer[] ids) {
+	public void deleteAllById(String[] ids) {
 		// TODO Auto-generated method stub
-		List<Integer> idLists = new ArrayList<Integer>(Arrays.asList(ids));
+		List<String> idLists = new ArrayList<String>(Arrays.asList(ids));
 		
 		List<Department> Departments = (List<Department>) departmentRepository.findAllById(idLists);
 		if(Departments!=null) {
