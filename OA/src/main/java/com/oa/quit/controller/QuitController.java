@@ -28,10 +28,11 @@ public class QuitController {
 	private IQuitService quitService;
 	@Autowired
 	private IEmployeeService employeeService;
+	
 	@GetMapping
 	public Page<Quit> getPage(QuitQueryDTO quitQueryDTO,ExtjsPageRequest extjsPageRequest){
-		if (quitQueryDTO.getEmployeeid1()!=null) {
-			quitQueryDTO.setEmployee1(employeeService.findById(quitQueryDTO.getEmployeeid1()).orElse(null));
+		if (quitQueryDTO.getEmployeeid()!=null) {
+			quitQueryDTO.setEmployee1(employeeService.findById(quitQueryDTO.getEmployeeid()).orElse(null));
 		}
 		return quitService.findAll(QuitQueryDTO.getWhereClause(quitQueryDTO), extjsPageRequest.getPageable());
 	}
@@ -39,15 +40,17 @@ public class QuitController {
 	@PostMapping
 	public ExtAjaxResponse save(QuitDTO quitDTO) 
 	{
-		Employee em= null;
+		Quit quit=new Quit();
+		System.out.println("right here");
+		Employee emp=null;
 		try {
-			if (quitDTO.getQuitEmployeeid()!=null&&!"".equals(quitDTO.getQuitEmployeeid().trim())) {
-				em= employeeService.findById(quitDTO.getQuitEmployeeid()).orElse(null);
+			if (quitDTO.getEmployeeid()!=null&&!"".equals(quitDTO.getEmployeeid().trim())) {
+				emp=new Employee();
+				emp.setId(quitDTO.getEmployeeid());
 			}
-			Quit quit=new Quit();
 			BeanUtils.copyProperties(quitDTO, quit);
-			quit.setStatus(0);
-			quit.setEmployee(em);
+			//quit.setStatus(0);
+			quit.setEmployee(emp);
 			quitService.save(quit);
 			return new ExtAjaxResponse(true,"添加成功");
 		} catch (Exception e) {

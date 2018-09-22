@@ -80,4 +80,73 @@ public class Employee {
 	*/
 	@OneToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	private Employee leader;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Employee other = (Employee) obj;
+		if (other.id!=null&&!"".equals(other.id.trim())) {
+			if (id!=null&&!"".equals(id.trim())) {
+				if (id.equals(other.getId().trim())) {
+					return true;
+				}
+			}
+		}
+		if (department == null) {
+			if (other.department != null)
+				return false;
+		} else if (!department.equals(other.department))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (entryTime == null) {
+			if (other.entryTime != null)
+				return false;
+		} else if (!entryTime.equals(other.entryTime))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (leader == null) {
+			if (other.leader != null)
+				return false;
+		} else if (!leader.equals(other.leader))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (picture == null) {
+			if (other.picture != null)
+				return false;
+		} else if (!picture.equals(other.picture))
+			return false;
+		if (position == null) {
+			if (other.position != null)
+				return false;
+		} else if (!position.equals(other.position))
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
+			return false;
+		return true;
+	}
 }

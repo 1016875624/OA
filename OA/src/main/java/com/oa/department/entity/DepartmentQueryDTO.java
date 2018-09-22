@@ -38,8 +38,14 @@ public class DepartmentQueryDTO {
 					predicate.add(criteriaBuilder.equal(root.get("id").as(String.class),
 							departmentQueryDTO.getId()));
 				}
-				predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),0));
+				if(null!=departmentQueryDTO.getStatus()) {
+					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),departmentQueryDTO.getStatus()));
 
+				}else {
+					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),0));
+
+				}
+				
 				Predicate[] pre = new Predicate[predicate.size()];
 				return query.where(predicate.toArray(pre)).getRestriction();
 			}
