@@ -1,5 +1,7 @@
 package com.oa.employee.controller;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -112,6 +114,29 @@ public class EmployeeController {
 	        return new ExtAjaxResponse(false,"更新失败!");
 	    }
     }
+	/**
+	 * 测试数据
+	 */
+	@RequestMapping("/data")
+	public String testData() {
+		try {
+			for (int i = 1; i < 10; i++) {
+				Employee employee = new Employee();
+				employee.setId(i+"");
+				employee.setName("a"+i);
+				employee.setPassword("111");
+				employee.setEmail(i+"@qq.com");
+				//employee.setDepartment("测试部");
+				employee.setPosition("测试员"+i);
+				employee.setStatus(i%2);
+				employee.setEntryTime(new Date());
+				employeeService.save(employee);
+			}
+			return "success:true";
+		} catch (Exception e) {
+			return "success:false";
+		}
+	}
 /*	
 	public Object updateUser(@RequestBody UserInfo userEntity)
 	{

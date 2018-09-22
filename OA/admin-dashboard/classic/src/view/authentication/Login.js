@@ -108,8 +108,8 @@ Ext.define('Admin.view.authentication.Login', {
                     scale: 'large',
                     ui: 'facebook',
                     iconAlign: 'right',
-                    iconCls: 'x-fa fa-facebook',
-                    text: 'Login with Facebook',
+                    iconCls: 'x-fa fa-code',
+                    text: 'Get The Verification Code',
                     listeners: {
                         click: 'onFaceBookLogin'
                     }
