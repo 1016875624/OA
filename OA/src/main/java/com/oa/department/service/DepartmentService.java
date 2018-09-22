@@ -17,7 +17,7 @@ import com.oa.department.entity.Department;
 import com.oa.department.repository.DepartmentRepository;
 
 
-
+ 
 @Service
 @Transactional
 public class DepartmentService implements IDepartmentService {

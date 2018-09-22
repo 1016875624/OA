@@ -17,7 +17,7 @@ import com.oa.employee.service.EmployeeService;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class OaApplicationTests {
-	@Autowired
+	/*@Autowired
 	EmployeeService employeeService;
 	@Test
 	public void test() {
@@ -33,6 +33,6 @@ public class OaApplicationTests {
 			employee.setEntryTime(new Date());
 			employeeService.save(employee);
 		}
-	}
+	}*/
 
 }
