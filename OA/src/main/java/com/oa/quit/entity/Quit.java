@@ -3,11 +3,13 @@ package com.oa.quit.entity;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -35,7 +37,8 @@ public class Quit {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
-	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@OneToOne(fetch=FetchType.EAGER)
+	//@JoinColumn(unique=true)
 	private Employee employee;
 	/**
 	* @Fields date : 离职申请时间

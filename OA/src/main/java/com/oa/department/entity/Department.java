@@ -20,7 +20,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="act_id_group")
+@Table(name="ACT_ID_GROUP")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

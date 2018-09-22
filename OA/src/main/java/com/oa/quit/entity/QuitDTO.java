@@ -15,7 +15,7 @@ public class QuitDTO {
 	
 	private Integer id;
 	
-	private String quitEmployee;
+	private String employeeid;
 	/**
 	* @Fields date : 离职申请时间
 	*/

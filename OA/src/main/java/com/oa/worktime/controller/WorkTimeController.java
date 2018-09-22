@@ -43,13 +43,19 @@ public class WorkTimeController {
 		
 		Employee em= null;
 		try {
-			if (workTimeDTO.getWorkEmployeeid()!=null&&!"".equals(workTimeDTO.getWorkEmployeeid().trim())) {
+			/*if (workTimeDTO.getWorkEmployeeid()!=null&&!"".equals(workTimeDTO.getWorkEmployeeid().trim())) {
 				em= employeeService.findById(workTimeDTO.getWorkEmployeeid()).orElse(null);
+			}*/
+			if (workTimeDTO.getWorkEmployeeid()!=null&&!"".equals(workTimeDTO.getWorkEmployeeid().trim())) {
+				em=new Employee();
+				em.setId(workTimeDTO.getWorkEmployeeid());
 			}
 			WorkTime workTime=new WorkTime();
 			BeanUtils.copyProperties(workTimeDTO, workTime);
 			workTime.setStatus(0);
+			workTime.setEmployee(em);
 			workTimeService.save(workTime);
+			
 			return new ExtAjaxResponse(true,"添加成功");
 		} catch (Exception e) {
 			return new ExtAjaxResponse(false,"添加失败");

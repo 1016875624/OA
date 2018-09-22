@@ -32,9 +32,11 @@ public class WorkTimeQueryDTO {
 	private Integer status;
 	@SuppressWarnings({ "serial"})
 	public static Specification<WorkTime> getWhereClause(final WorkTimeQueryDTO workTimeQueryDTO) {
-		Employee employee=new Employee();
-		employee.setId(workTimeQueryDTO.getEmployeeid());
-		workTimeQueryDTO.setEmployee(employee);
+		if (workTimeQueryDTO.getEmployeeid()!=null&&!"".equals(workTimeQueryDTO.getEmployeeid().trim())) {
+			Employee employee=new Employee();
+			employee.setId(workTimeQueryDTO.getEmployeeid());
+			workTimeQueryDTO.setEmployee(employee);
+		}
 		return new Specification<WorkTime>() {
 			@Override
 			public Predicate toPredicate(Root<WorkTime> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {

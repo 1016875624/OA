@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.oa.common.beans.BeanUtils;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.ExtjsPageRequest;
+import com.oa.employee.entity.Employee;
 import com.oa.quit.entity.Quit;
 import com.oa.quit.entity.QuitDTO;
 import com.oa.quit.entity.QuitQueryDTO;
@@ -33,12 +34,18 @@ public class QuitController {
 	@PostMapping
 	public ExtAjaxResponse save(QuitDTO quitDTO) 
 	{
+		Quit quit=new Quit();
 		System.out.println("right here");
+		Employee emp=null;
 		try {
-			
-	//		BeanUtils.copyProperties(quitDTO, quit);
-	//		quit.setStatus(0);
-	//		quitService.save(quit);
+			if (quitDTO.getEmployeeid()!=null&&!"".equals(quitDTO.getEmployeeid().trim())) {
+				emp=new Employee();
+				emp.setId(quitDTO.getEmployeeid());
+			}
+			BeanUtils.copyProperties(quitDTO, quit);
+			//quit.setStatus(0);
+			quit.setEmployee(emp);
+			quitService.save(quit);
 			return new ExtAjaxResponse(true,"添加成功");
 		} catch (Exception e) {
 			return new ExtAjaxResponse(false,"添加失败");
