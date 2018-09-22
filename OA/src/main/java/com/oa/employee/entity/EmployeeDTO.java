@@ -32,7 +32,7 @@ public class EmployeeDTO {
 	/**
 	* @Fields department : 员工部门
 	*/
-	private Department department;
+	private Integer departmentid;
 	/**
 	* @Fields email : 员工邮箱
 	*/
@@ -59,5 +59,5 @@ public class EmployeeDTO {
 	/**
 	* @Fields leader : 上级
 	*/
-	private String leader;
+	private String leaderid;
 }

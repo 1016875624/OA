@@ -13,7 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.oa.common.beans.BeanUtils;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.ExtjsPageRequest;
+import com.oa.employee.entity.Employee;
+import com.oa.employee.service.EmployeeService;
+import com.oa.employee.service.IEmployeeService;
 import com.oa.worktime.entity.WorkTime;
+import com.oa.worktime.entity.WorkTimeDTO;
 import com.oa.worktime.entity.WorkTimeQueryDTO;
 import com.oa.worktime.service.IWorkTimeService;
 
@@ -23,51 +27,62 @@ public class WorkTimeController {
 	@Autowired
 	private IWorkTimeService workTimeService;
 	
+	@Autowired
+	private IEmployeeService employeeService;
 	
 	@GetMapping
-	public Page<WorkTime> getPage(WorkTimeQueryDTO questionQueryDTO,ExtjsPageRequest extjsPageRequest){
-		return workTimeService.findAll(WorkTimeQueryDTO.getWhereClause(questionQueryDTO), extjsPageRequest.getPageable());
+	public Page<WorkTime> getPage(WorkTimeQueryDTO worktimeQueryDto,ExtjsPageRequest extjsPageRequest){
+		if (worktimeQueryDto.getEmployeeid()!=null) {
+			worktimeQueryDto.setEmployee(employeeService.findById(worktimeQueryDto.getEmployeeid()).orElse(null));
+		}
+		return workTimeService.findAll(WorkTimeQueryDTO.getWhereClause(worktimeQueryDto), extjsPageRequest.getPageable());
 	}
-//	
-//	@PostMapping
-//	public ExtAjaxResponse save(WorkTime question) 
-//	{
-//		System.out.println("right here");
-//		try {
-//			question.setStatus(0);
-//			workTimeService.save(question);
-//			return new ExtAjaxResponse(true,"添加成功");
-//		} catch (Exception e) {
-//			return new ExtAjaxResponse(false,"添加失败");
-//		}
-//	}
-//	
-//	@PutMapping(value="{id}")
-//    public ExtAjaxResponse update(@PathVariable("id") Integer id,Question question) {
-//    	try {
-//    		Question entity = questionService.findById(id);
-//			if(entity!=null) {
-//				BeanUtils.copyProperties(question, entity);//使用自定义的BeanUtils
-//				questionService.save(entity);
-//			}
-//    		return new ExtAjaxResponse(true,"更新成功!");
-//	    } catch (Exception e) {
-//	    	e.printStackTrace();
-//	        return new ExtAjaxResponse(false,"更新失败!");
-//	    }
-//    }
-//	
-//	@DeleteMapping(value="/{id}")
-//	public ExtAjaxResponse deleteQuestion(@PathVariable Integer id) {
-//		try {
-//			if(id!=null) {
-//				Question question=questionService.findById(id);
-//				question.setStatus(0);
-//				questionService.save(question);
-//			}
-//			return new ExtAjaxResponse(true,"删除成功");
-//		} catch (Exception e) {
-//			return new ExtAjaxResponse(false,"删除失败");
-//		}
-//	}
+	
+	@PostMapping
+	public ExtAjaxResponse save(WorkTimeDTO workTimeDTO) 
+	{
+		
+		Employee em= null;
+		try {
+			if (workTimeDTO.getWorkEmployeeid()!=null&&!"".equals(workTimeDTO.getWorkEmployeeid().trim())) {
+				em= employeeService.findById(workTimeDTO.getWorkEmployeeid()).orElse(null);
+			}
+			WorkTime workTime=new WorkTime();
+			BeanUtils.copyProperties(workTimeDTO, workTime);
+			workTime.setStatus(0);
+			workTimeService.save(workTime);
+			return new ExtAjaxResponse(true,"添加成功");
+		} catch (Exception e) {
+			return new ExtAjaxResponse(false,"添加失败");
+		}
+	}
+	
+	@PutMapping(value="{id}")
+    public ExtAjaxResponse update(@PathVariable("id") Integer id,WorkTime workTime) {
+    	try {
+    		WorkTime entity = workTimeService.findById(id);
+			if(entity!=null) {
+				BeanUtils.copyProperties(workTime, entity);//使用自定义的BeanUtils
+				workTimeService.save(entity);
+			}
+    		return new ExtAjaxResponse(true,"更新成功!");
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	        return new ExtAjaxResponse(false,"更新失败!");
+	    }
+    }
+	
+	@DeleteMapping(value="/{id}")
+	public ExtAjaxResponse deleteQuestion(@PathVariable Integer id) {
+		try {
+			if(id!=null) {
+				WorkTime workTime=workTimeService.findById(id);
+				workTime.setStatus(0);
+				workTimeService.save(workTime);
+			}
+			return new ExtAjaxResponse(true,"删除成功");
+		} catch (Exception e) {
+			return new ExtAjaxResponse(false,"删除失败");
+		}
+	}
 }

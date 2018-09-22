@@ -12,7 +12,7 @@ import javax.persistence.criteria.Root;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
-
+import com.oa.employee.entity.Employee;
 
 import lombok.Data;
 
@@ -21,6 +21,9 @@ public class QuitQueryDTO {
 	private Integer id;
 	private Date applyDate;
 	//private String reason;
+	private String employeeid1;
+	private Employee employee1;
+	
 	private Date quitDate;
 	private Integer status;
 	@SuppressWarnings({"serial"})
@@ -30,6 +33,10 @@ public class QuitQueryDTO {
 			public Predicate toPredicate(Root<Quit> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 			
 				List<Predicate> predicate = new ArrayList<>();
+				if (null!=quitQueryDTO.getEmployeeid1()) {
+					predicate.add(criteriaBuilder.equal(root.get("employee1").as(Employee.class),
+							quitQueryDTO.getEmployee1()));
+				}
 				if (null!=quitQueryDTO.getId()) {
 					predicate.add(criteriaBuilder.equal(root.get("question").as(Integer.class),quitQueryDTO.getId()));
 				}

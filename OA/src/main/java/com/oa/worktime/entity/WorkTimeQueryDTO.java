@@ -29,7 +29,7 @@ public class WorkTimeQueryDTO {
 	private Date date;
 	
 	private Integer hour;
-	
+	private Integer status;
 	@SuppressWarnings({ "serial"})
 	public static Specification<WorkTime> getWhereClause(final WorkTimeQueryDTO workTimeQueryDTO) {
 		return new Specification<WorkTime>() {
@@ -43,8 +43,8 @@ public class WorkTimeQueryDTO {
 //							workTimeQueryDTO.getId()));
 //				}
 				if (null!=workTimeQueryDTO.getEmployeeid()) {
-					predicate.add(criteriaBuilder.equal(root.get("employee.id").as(String.class),
-							workTimeQueryDTO.getEmployeeid()));
+					predicate.add(criteriaBuilder.equal(root.get("employee").as(Employee.class),
+							workTimeQueryDTO.getEmployee()));
 				}
 				if (null!=workTimeQueryDTO.getDate()) {
 					predicate.add(criteriaBuilder.greaterThanOrEqualTo(root.get("date").as(Date.class),
@@ -55,6 +55,8 @@ public class WorkTimeQueryDTO {
 					predicate.add(criteriaBuilder.equal(root.get("hour").as(Integer.class),
 							workTimeQueryDTO.getHour()));
 				}
+				predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),0));
+				
 				Predicate[] pre = new Predicate[predicate.size()];
 				return query.where(predicate.toArray(pre)).getRestriction();
 			}
