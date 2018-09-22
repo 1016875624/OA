@@ -31,7 +31,7 @@ public class Department {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID_")
-	private Integer id;
+	private String id;
 	/**
 	* @Fields name : 部门名称
 	*/
