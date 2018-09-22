@@ -57,6 +57,9 @@ public class Quit {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date quitDate;
 	
-	
+	/**
+	 * @Fields status : 离职状态
+	 */
+	private Integer status;
 	
 }
