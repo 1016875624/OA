@@ -20,19 +20,19 @@ public interface IDepartmentService {
 
     public List<Department> saveAll(List<Department> entities);
 
-	public Department findById(Integer id);
+	public Department findById(String id);
 
 
-	public boolean existsById(Integer id);
+	public boolean existsById(String id);
 
     public List<Department> findAll();
 
-    public List<Department> findAllById(List<Integer> ids);
+    public List<Department> findAllById(List<String> ids);
 
 
 	public long count();
 
-	public void deleteById(Integer id);
+	public void deleteById(String id);
 
 
 	public void delete(Department entity);
@@ -40,7 +40,7 @@ public interface IDepartmentService {
 
 	public void deleteAll(List<Department> entities);
 	
-	void deleteAll(Integer[]ids);
+	void deleteAll(String[]ids);
 	
 	public void deleteAll();
 	public Page<Department> findAll(Pageable pageable);
@@ -52,9 +52,9 @@ public interface IDepartmentService {
 
 	List<Department> findAll(@Nullable Specification<Department> spec);
 	Page<Department> findAll(@Nullable Specification<Department> spec, Pageable pageable);
-	List<Department> findAllById(Integer ids[]);
+	List<Department> findAllById(String ids[]);
 	List<Department> findAll(@Nullable Specification<Department> spec, Sort sort);
 	long count(@Nullable Specification<Department> spec);
 	
-	void deleteAllById(Integer[]ids);
+	void deleteAllById(String[]ids);
 }

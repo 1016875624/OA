@@ -35,7 +35,7 @@ public class Quit {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
-	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@OneToOne(fetch=FetchType.EAGER)
 	private Employee employee;
 	/**
 	* @Fields date : 离职申请时间

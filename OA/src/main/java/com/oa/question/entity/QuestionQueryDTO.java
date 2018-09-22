@@ -12,7 +12,7 @@ import javax.persistence.criteria.Root;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
-
+import com.oa.employee.entity.Employee;
 
 import lombok.Data;
 
@@ -21,6 +21,8 @@ public class QuestionQueryDTO {
 	private String question;
 	private String realanswer;
 	private String answers;
+	
+	private Employee employee;
 	private Integer type;
 	private Boolean status;
 	@SuppressWarnings({ "serial"})

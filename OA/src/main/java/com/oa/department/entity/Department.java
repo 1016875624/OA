@@ -20,7 +20,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="act_id_group")
+@Table(name="ACT_ID_GROUP")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,9 +29,8 @@ public class Department {
 	* @Fields id :id
 	*/
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID_")
-	private Integer id;
+	private String id;
 	/**
 	* @Fields name : 部门名称
 	*/
@@ -43,4 +42,6 @@ public class Department {
 	*/
 	@OneToMany(cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST},fetch=FetchType.LAZY,mappedBy="department")
 	private List<Employee> employees=new ArrayList<>();
+	
+	private Integer status;
 }

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.oa.common.beans.BeanUtils;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.ExtjsPageRequest;
+import com.oa.employee.entity.Employee;
+import com.oa.employee.service.IEmployeeService;
 import com.oa.quit.entity.Quit;
 import com.oa.quit.entity.QuitDTO;
 import com.oa.quit.entity.QuitQueryDTO;
@@ -24,21 +26,29 @@ import com.oa.quit.service.IQuitService;
 public class QuitController {
 	@Autowired 
 	private IQuitService quitService;
-
+	@Autowired
+	private IEmployeeService employeeService;
 	@GetMapping
 	public Page<Quit> getPage(QuitQueryDTO quitQueryDTO,ExtjsPageRequest extjsPageRequest){
+		if (quitQueryDTO.getEmployeeid1()!=null) {
+			quitQueryDTO.setEmployee1(employeeService.findById(quitQueryDTO.getEmployeeid1()).orElse(null));
+		}
 		return quitService.findAll(QuitQueryDTO.getWhereClause(quitQueryDTO), extjsPageRequest.getPageable());
 	}
 	
 	@PostMapping
 	public ExtAjaxResponse save(QuitDTO quitDTO) 
 	{
-		System.out.println("right here");
+		Employee em= null;
 		try {
-			
-	//		BeanUtils.copyProperties(quitDTO, quit);
-	//		quit.setStatus(0);
-	//		quitService.save(quit);
+			if (quitDTO.getQuitEmployeeid()!=null&&!"".equals(quitDTO.getQuitEmployeeid().trim())) {
+				em= employeeService.findById(quitDTO.getQuitEmployeeid()).orElse(null);
+			}
+			Quit quit=new Quit();
+			BeanUtils.copyProperties(quitDTO, quit);
+			quit.setStatus(0);
+			quit.setEmployee(em);
+			quitService.save(quit);
 			return new ExtAjaxResponse(true,"添加成功");
 		} catch (Exception e) {
 			return new ExtAjaxResponse(false,"添加失败");
