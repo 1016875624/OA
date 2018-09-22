@@ -37,7 +37,7 @@ public class WorkTime {
 	/**
 	* @Fields employee : 某个员工的工时
 	*/
-	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER)
 	private Employee employee;
 	/**
 	* @Fields date : 日期
@@ -50,4 +50,6 @@ public class WorkTime {
 	* @Fields hour : 当天的上班时间
 	*/
 	private Integer hour;
+	
+	private Integer status;
 }

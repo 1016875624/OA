@@ -21,7 +21,7 @@ public class OaApplicationTests {
 	EmployeeService employeeService;
 	@Test
 	public void test() {
-		/*for (int i = 1; i < 10; i++) {
+		for (int i = 1; i < 10; i++) {
 			Employee employee = new Employee();
 			employee.setId(i+"");
 			employee.setName("a"+i);
@@ -32,7 +32,7 @@ public class OaApplicationTests {
 			employee.setStatus(i%2);
 			employee.setEntryTime(new Date());
 			employeeService.save(employee);
-		}*/
+		}
 	}
 
 }

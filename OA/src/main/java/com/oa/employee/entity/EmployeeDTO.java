@@ -1,6 +1,8 @@
 package com.oa.employee.entity;
 
+
 import java.util.Date;
+
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -45,7 +47,7 @@ public class EmployeeDTO {
 	private String picture;
 	
 	/**
-	* @Fields position : 职位
+	* @Fields position : 职位  位置
 	*/
 	private String position;
 	
