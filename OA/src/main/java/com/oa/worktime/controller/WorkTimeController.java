@@ -14,7 +14,6 @@ import com.oa.common.beans.BeanUtils;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.ExtjsPageRequest;
 import com.oa.employee.entity.Employee;
-import com.oa.employee.service.EmployeeService;
 import com.oa.employee.service.IEmployeeService;
 import com.oa.worktime.entity.WorkTime;
 import com.oa.worktime.entity.WorkTimeDTO;
@@ -32,9 +31,9 @@ public class WorkTimeController {
 	
 	@GetMapping
 	public Page<WorkTime> getPage(WorkTimeQueryDTO worktimeQueryDto,ExtjsPageRequest extjsPageRequest){
-		if (worktimeQueryDto.getEmployeeid()!=null) {
+		/*if (worktimeQueryDto.getEmployeeid()!=null) {
 			worktimeQueryDto.setEmployee(employeeService.findById(worktimeQueryDto.getEmployeeid()).orElse(null));
-		}
+		}*/
 		return workTimeService.findAll(WorkTimeQueryDTO.getWhereClause(worktimeQueryDto), extjsPageRequest.getPageable());
 	}
 	
