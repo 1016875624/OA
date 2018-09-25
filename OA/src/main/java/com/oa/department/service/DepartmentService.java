@@ -15,9 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.oa.department.entity.Department;
 import com.oa.department.repository.DepartmentRepository;
-import com.oa.employee.entity.Employee;
-import com.oa.employee.service.EmployeeService;
-import com.oa.employee.service.IEmployeeService;
 
 
  
@@ -27,33 +24,16 @@ public class DepartmentService implements IDepartmentService {
 
 	@Autowired
 	private DepartmentRepository departmentRepository;
-	@Autowired
-	private IEmployeeService employeeService;
-	
 	
 	@Override
 	public Department save(Department entity) {
-		Department department=null;
-		if (entity.getId()==null) {
-			department= departmentRepository.save(entity);
-		}
-		
-		if (!entity.getEmployees().isEmpty()) {
-			for (Employee e : entity.getEmployees()) {
-				Employee emp=employeeService.findById(e.getId()).orElse(null);
-				if (emp==null) {
-					continue;
-				}
-				emp.setDepartment(department);
-				employeeService.save(emp);
-			}
-			
-		}
-		return department;
+		// TODO Auto-generated method stub
+		return departmentRepository.save(entity);
 	}
 
 	@Override
 	public List<Department> saveAll(List<Department> entities) {
+		// TODO Auto-generated method stub
 		return departmentRepository.saveAll(entities);
 	}
 
@@ -89,107 +69,93 @@ public class DepartmentService implements IDepartmentService {
 
 	@Override
 	public void deleteById(String id) {
-		Department department=departmentRepository.findById(id).get();
-		List<Employee>employees=department.getEmployees();
-		department.setEmployees(new ArrayList<>());
-		department.setStatus(-1);
-		for (Employee employee : employees) {
-			employee.setDepartment(null);
-			employeeService.save(employee);
-		}
-		departmentRepository.save(department);
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void delete(Department entity) {
-		deleteById(entity.getId());
+		// TODO Auto-generated method stub
+		departmentRepository.delete(entity);
 	}
 
 	@Override
 	public void deleteAll(List<Department> entities) {
-		for (Department department : entities) {
-				delete(department);
-		}
+		// TODO Auto-generated method stub
+		departmentRepository.deleteAll(entities);
 	}
 
 	@Override
 	public void deleteAll(String[] ids) {
-		for (String string : ids) {
-			deleteById(string);
-		}
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void deleteAll() {
-		List<Department>departments=departmentRepository.findAll();
-		for (Department department : departments) {
-			delete(department);
-		}
+		departmentRepository.deleteAll();
+
 	}
 
 	@Override
 	public Page<Department> findAll(Pageable pageable) {
+		// TODO Auto-generated method stub
 		return departmentRepository.findAll(pageable);
 	}
 
 	@Override
 	public List<Department> findAll(Sort sort) {
+		// TODO Auto-generated method stub
 		return departmentRepository.findAll(sort);
 	}
 
 	@Override
 	public Optional<Department> findOne(Specification<Department> spec) {
+		// TODO Auto-generated method stub
 		return departmentRepository.findOne(spec);
 	}
 
 	@Override
 	public List<Department> findAll(Specification<Department> spec) {
+		// TODO Auto-generated method stub
 		return departmentRepository.findAll(spec);
 	}
 
 	@Override
 	public Page<Department> findAll(Specification<Department> spec, Pageable pageable) {
+		// TODO Auto-generated method stub
 		return departmentRepository.findAll(spec, pageable);
 	}
 
 	@Override
 	public List<Department> findAllById(String[] ids) {
 		List<String> idLists = new ArrayList<String>(Arrays.asList(ids));
+		// TODO Auto-generated method stub
 		return departmentRepository.findAllById(idLists);
 	}
 
 	@Override
 	public List<Department> findAll(Specification<Department> spec, Sort sort) {
+		// TODO Auto-generated method stub
 		return departmentRepository.findAll(spec, sort);
 	}
 
 	@Override
 	public long count(Specification<Department> spec) {
+		// TODO Auto-generated method stub
 		return departmentRepository.count(spec);
 	}
 
 	@Override
 	public void deleteAllById(String[] ids) {
-		for (String string : ids) {
-			deleteById(string);
-		}
-	}
-
-	@Override
-	public Department update(Department department) {
+		// TODO Auto-generated method stub
+		List<String> idLists = new ArrayList<String>(Arrays.asList(ids));
 		
-		if (!department.getEmployees().isEmpty()) {
-			for (Employee e : department.getEmployees()) {
-				Employee emp=employeeService.findById(e.getId()).orElse(null);
-				if (emp==null) {
-					continue;
-				}
-				emp.setDepartment(department);
-				employeeService.save(emp);
-			}
-			
+		List<Department> Departments = (List<Department>) departmentRepository.findAllById(idLists);
+		if(Departments!=null) {
+			departmentRepository.deleteAll(Departments);
 		}
-		return department;
+		
 	}
 
 

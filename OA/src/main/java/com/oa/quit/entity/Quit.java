@@ -61,7 +61,7 @@ public class Quit {
 	private Date quitDate;
 	
 	/**
-	 * @Fields status : 离职状态 0代表离职申请中 2代表已经离职 -1代表删除 -2代表离职后被删除
+	 * @Fields status : 离职状态
 	 */
 	private Integer status;
 	

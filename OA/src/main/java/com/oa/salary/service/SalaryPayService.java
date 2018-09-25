@@ -1,194 +1,140 @@
 package com.oa.salary.service;
 
-import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.util.StringUtils;
 
-import com.oa.employee.entity.Employee;
-import com.oa.employee.service.IEmployeeService;
 import com.oa.salary.entity.SalaryPay;
-import com.oa.salary.entity.SalaryPayDTO;
-import com.oa.salary.repository.SalaryPayRepository;
 
 public class SalaryPayService implements ISalaryPayService {
-	@Autowired
-	private SalaryPayRepository salaryPayRepository;
-	@Autowired
-	private IEmployeeService employeeService;
 
 	@Override
 	public SalaryPay save(SalaryPay entity) {
-		return salaryPayRepository.save(entity);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public List<SalaryPay> saveAll(List<SalaryPay> entities) {
-		return salaryPayRepository.saveAll(entities);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public SalaryPay findById(Integer id) {
-		return salaryPayRepository.findById(id).orElse(null);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public boolean existsById(Integer id) {
-		return salaryPayRepository.existsById(id);
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public List<SalaryPay> findAll() {
-		return salaryPayRepository.findAll();
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public List<SalaryPay> findAllById(List<Integer> ids) {
-		return salaryPayRepository.findAllById(ids);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public long count() {
-		return salaryPayRepository.count();
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public void deleteById(Integer id) {
-		SalaryPay salaryPay= salaryPayRepository.findById(id).get();
-		if (salaryPay.getStatus()==2) {
-			salaryPay.setStatus(-2);
-		}
-		else {
-			salaryPay.setStatus(-1);
-		}
-		salaryPayRepository.save(salaryPay);
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void delete(SalaryPay entity) {
-		SalaryPay salaryPay=salaryPayRepository.findById(entity.getId()).get();
-		if (salaryPay.getStatus()==2) {
-			salaryPay.setStatus(-2);
-		}
-		else {
-			salaryPay.setStatus(-1);
-		}
-		salaryPayRepository.save(salaryPay);
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void deleteAll(List<SalaryPay> entities) {
-		for (SalaryPay salaryPay : entities) {
-			delete(salaryPay);
-		}
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void deleteAll(Integer[] ids) {
-		for (Integer integer : ids) {
-			deleteById(integer);
-		}
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void deleteAll() {
-		List<SalaryPay> salaryPays=salaryPayRepository.findAll();
-		for (SalaryPay salaryPay : salaryPays) {
-			delete(salaryPay);
-		}
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public Page<SalaryPay> findAll(Pageable pageable) {
-		return salaryPayRepository.findAll(pageable);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public List<SalaryPay> findAll(Sort sort) {
-		return salaryPayRepository.findAll(sort);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public SalaryPay findOne(Specification<SalaryPay> spec) {
-		return salaryPayRepository.findOne(spec).orElse(null);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public List<SalaryPay> findAll(Specification<SalaryPay> spec) {
-		return salaryPayRepository.findAll(spec);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public Page<SalaryPay> findAll(Specification<SalaryPay> spec, Pageable pageable) {
-		return salaryPayRepository.findAll(spec, pageable);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public List<SalaryPay> findAllById(Integer[] ids) {
-		return salaryPayRepository.findAllById(Arrays.asList(ids));
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public List<SalaryPay> findAll(Specification<SalaryPay> spec, Sort sort) {
-		return salaryPayRepository.findAll(spec, sort);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public long count(Specification<SalaryPay> spec) {
-		return salaryPayRepository.count(spec);
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public void deleteAllById(Integer[] ids) {
-		deleteAll(ids);
+		// TODO Auto-generated method stub
+
 	}
 
-	@Override
-	public void save(SalaryPayDTO salaryPayDTO) {
-		SalaryPay salaryPay=new SalaryPay();
-		BeanUtils.copyProperties(salaryPayDTO, salaryPay);
-		if (!StringUtils.isEmpty(salaryPayDTO.getEmployeeid())) {
-			Employee emp=employeeService.findById(salaryPayDTO.getEmployeeid()).get();
-			salaryPay.setEmployee(emp);
-		}
-		salaryPayRepository.save(salaryPay);
-	}
-
-	public SalaryPayDTO entityToDto(SalaryPay salaryPay) {
-		SalaryPayDTO salaryPayDTO=new SalaryPayDTO();
-		BeanUtils.copyProperties(salaryPay, salaryPayDTO);
-		if (salaryPay.getEmployee()!=null) {
-			salaryPayDTO.setEmployeeid(salaryPay.getEmployee().getId());
-			salaryPayDTO.setEmployeeName(salaryPay.getEmployee().getName());
-		}
-		return salaryPayDTO;
-	}
-	
-	public SalaryPay dtoToEntity(SalaryPayDTO salaryPayDTO) {
-		SalaryPay salaryPay=new SalaryPay();
-		BeanUtils.copyProperties(salaryPayDTO, salaryPay);
-		if (!StringUtils.isEmpty(salaryPayDTO.getEmployeeid())) {
-			Employee emp=employeeService.findById(salaryPayDTO.getEmployeeid()).get();
-			salaryPay.setEmployee(emp);
-		}
-		return salaryPay;
-		
-	}
-
-	@Override
-	public void update(SalaryPayDTO salaryPayDTO) {
-		SalaryPay salaryPay=new SalaryPay();
-		BeanUtils.copyProperties(salaryPayDTO, salaryPay);
-		if (!StringUtils.isEmpty(salaryPayDTO.getEmployeeid())) {
-			Employee emp=employeeService.findById(salaryPayDTO.getEmployeeid()).get();
-			salaryPay.setEmployee(emp);
-		}
-		salaryPayRepository.save(salaryPay);
-	}
 }

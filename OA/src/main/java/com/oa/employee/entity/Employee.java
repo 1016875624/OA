@@ -27,7 +27,7 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude= {"leader","department"})
+@ToString(exclude= {"leader"})
 public class Employee {
 	/**
 	* @Fields id : id

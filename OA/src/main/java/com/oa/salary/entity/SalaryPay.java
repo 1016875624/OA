@@ -40,7 +40,7 @@ public class SalaryPay {
 	@Temporal(TemporalType.DATE)
 	private Date date;
 	/**
-	* @Fields status : 状态 0表示未发放 2表示已经发放 -1代表删除 -2代表发放后删除了
+	* @Fields status : 状态 0表示为发放 1表示已经发放
 	*/
 	private Integer status;
 	
@@ -62,5 +62,4 @@ public class SalaryPay {
 	* @Fields attendRate : 出勤率
 	*/
 	private Double attendRate;
-	
 }

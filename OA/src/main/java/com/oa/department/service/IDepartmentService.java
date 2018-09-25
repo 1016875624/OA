@@ -18,8 +18,6 @@ public interface IDepartmentService {
 	public Department save(Department entity);
 
 
-	Department update(Department department);
-	
     public List<Department> saveAll(List<Department> entities);
 
 	public Department findById(String id);

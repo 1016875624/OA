@@ -31,9 +31,9 @@ public class QuitController {
 	
 	@GetMapping
 	public Page<Quit> getPage(QuitQueryDTO quitQueryDTO,ExtjsPageRequest extjsPageRequest){
-		/*if (quitQueryDTO.getEmployeeid()!=null) {
+		if (quitQueryDTO.getEmployeeid()!=null) {
 			quitQueryDTO.setEmployee1(employeeService.findById(quitQueryDTO.getEmployeeid()).orElse(null));
-		}*/
+		}
 		return quitService.findAll(QuitQueryDTO.getWhereClause(quitQueryDTO), extjsPageRequest.getPageable());
 	}
 	
