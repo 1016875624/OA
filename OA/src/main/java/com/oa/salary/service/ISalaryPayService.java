@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.Nullable;
 
 import com.oa.salary.entity.SalaryPay;
+import com.oa.salary.entity.SalaryPayDTO;
 
 
 
@@ -55,5 +56,9 @@ public interface ISalaryPayService {
 	long count(@Nullable Specification<SalaryPay> spec);
 	
 	void deleteAllById(Integer[]ids);
+	
+	void save(SalaryPayDTO salaryPayDTO);
+	
+	void update(SalaryPayDTO salaryPayDTO);
 }
 

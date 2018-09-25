@@ -34,8 +34,6 @@ import com.oa.employee.service.IEmployeeService;
 public class DepartmentController {
 	@Autowired
 	private IDepartmentService departmentService;
-	@Autowired
-	private IEmployeeService employeeService;
 	
 	@GetMapping
 	public Page<Department> getPage(DepartmentQueryDTO departmentQueryDTO,ExtjsPageRequest extjsPageRequest){
@@ -48,8 +46,7 @@ public class DepartmentController {
 	{
 		try {
 			
-			Department department=new Department();
-			BeanUtils.copyProperties(departmentDTO, department);
+			Department department=DepartmentDTO.DtoToEntity(departmentDTO);
 			department.setStatus(0);
 			
 			departmentService.save(department);
@@ -75,20 +72,10 @@ public class DepartmentController {
     }
 	
 	@DeleteMapping(value="/{id}")
-	public ExtAjaxResponse deleteQuestion(@PathVariable String id) {
+	public ExtAjaxResponse delete(@PathVariable String id) {
 		try {
 			if(id!=null) {
-				
-				Department department=departmentService.findById(id);
-				List<Employee> emps=department.getEmployees();
-				department.setEmployees(null);
-				for (Employee employee : emps) {
-					employee.setDepartment(null);
-					employeeService.save(employee);
-					
-				}
-				department.setStatus(0);
-				departmentService.save(department);
+				departmentService.deleteById(id);
 			}
 			return new ExtAjaxResponse(true,"删除成功");
 		} catch (Exception e) {
