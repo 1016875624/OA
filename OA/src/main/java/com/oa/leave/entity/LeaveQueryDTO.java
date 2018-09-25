@@ -15,7 +15,7 @@ import com.oa.employee.entity.Employee;
 
 public class LeaveQueryDTO 
 {
-	private Employee employee;
+	private String employeeId;
 	
 	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")  
 	private Date startTime;
@@ -26,12 +26,12 @@ public class LeaveQueryDTO
 
 	private Integer status;
 	
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
 	}
 
-	public Employee getEmployee() {
-		return employee;
+	public String getEmployeeId() {
+		return employeeId;
 	}
 
 	public Date getStartTime() {
@@ -66,9 +66,9 @@ public class LeaveQueryDTO
 			
 				List<Predicate> predicate = new ArrayList<>();
 		
-				if (null!=leaveQueryDTO.getEmployee()) {
-					predicate.add(criteriaBuilder.equal(root.get("getEmployee").as(Employee.class),
-							leaveQueryDTO.getEmployee()));
+				if (null!=leaveQueryDTO.getEmployeeId()) {
+					predicate.add(criteriaBuilder.equal(root.get("employee").get("id").as(String.class),
+							leaveQueryDTO.getEmployeeId()));
 				}
 				if (null!=leaveQueryDTO.getStartTime()) {
 					predicate.add(criteriaBuilder.greaterThanOrEqualTo(root.get("startTime").as(Date.class),

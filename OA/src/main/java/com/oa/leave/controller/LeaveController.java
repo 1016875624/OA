@@ -102,9 +102,8 @@ public class LeaveController {
 	{
 		Page<Leave> page;
 		String applicantId = SessionUtil.getUserName(session);
-		Optional<Employee> employee = employeeService.findById(applicantId);
 		if(applicantId!=null) {
-			leaveQueryDTO.setEmployee(employee.orElse(null));
+			leaveQueryDTO.setEmployeeId(applicantId);
 			page = leaveService.findAll(LeaveQueryDTO.getWhereClause(leaveQueryDTO), pageable.getPageable());
 		}else {
 			page = new PageImpl<Leave>(new ArrayList<Leave>(),pageable.getPageable(),0);
