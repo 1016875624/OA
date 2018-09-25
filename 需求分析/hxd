@@ -1,0 +1,6 @@
+today i meet a environmental problems about extjs, .gitignore 会忽视target
+解决方案：
+项目名/target
+事务和EAGER,LAZY的关系，DTO要写在@Service里面
+
+github使用，写完东西及时把Unstaged Changes 拉到Staged Changes commit到本地git,不然后面会把别人的代码覆盖掉
