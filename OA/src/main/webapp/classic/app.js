@@ -85178,11 +85178,11 @@ Ext.define('Admin.view.authentication.AuthenticationController', {extend:Ext.app
   this.redirectTo('dashboard', true);
 }, onLoginButton:function(btn) {
   var me = this;
-  Ext.Ajax.request({url:'login', method:'post', params:{userID:btn.up('form').getForm().findField('userid').getValue(), password:btn.up('form').getForm().findField('password').getValue(), code:btn.up('form').getForm().findField('code').getValue()}, success:function(response, options) {
+  Ext.Ajax.request({url:'login', method:'post', params:{userId:btn.up('form').getForm().findField('userid').getValue(), password:btn.up('form').getForm().findField('password').getValue(), code:btn.up('form').getForm().findField('code').getValue()}, success:function(response, options) {
     var json = Ext.util.JSON.decode(response.responseText);
     if (json.success) {
       me.redirectTo('dashboard', true);
-      Ext.getCmp('loginUserID').setText(json.map.userID);
+      Ext.getCmp('loginUserName').setText(json.map.userId);
     } else {
       Ext.Msg.alert('登录失败', json.msg);
     }
@@ -85226,9 +85226,9 @@ fieldLabel:"It's been a while. please enter your password to resume", emptyText:
 'or, sign in using other credentials\x3c/a\x3e' + '\x3c/div\x3e'}]}]}]});
 Ext.define('Admin.view.authentication.Login', {extend:Admin.view.authentication.LockingWindow, xtype:'login', title:"Let's Log In", defaultFocus:'authdialog', items:[{xtype:'authdialog', defaultButton:'loginButton', autoComplete:true, bodyPadding:'20 20', cls:'auth-dialog-login', header:false, width:415, layout:{type:'vbox', align:'stretch'}, defaults:{margin:'5 0'}, items:[{xtype:'label', text:'Sign into your account'}, {xtype:'textfield', cls:'auth-textbox', name:'userid', bind:'{userid}', height:55, 
 hideLabel:true, allowBlank:false, emptyText:'user id', triggers:{glyphed:{cls:'trigger-glyph-noop auth-email-trigger'}}}, {xtype:'textfield', cls:'auth-textbox', height:55, hideLabel:true, emptyText:'Password', inputType:'password', name:'password', bind:'{password}', allowBlank:false, triggers:{glyphed:{cls:'trigger-glyph-noop auth-password-trigger'}}}, {xtype:'textfield', cls:'auth-textbox', height:55, hideLabel:true, emptyText:'Verification Code', inputType:'code', name:'code', bind:'{code}', 
-allowBlank:false, triggers:{glyphed:{cls:'trigger-glyph-noop auth-password-trigger'}}}, {height:55, width:250, html:'\x3cimg src\x3d"/verify/code.action"/\x3e'}, {xtype:'button', height:55, width:250, text:'看不清，换一张', onclick:'onChangeCode'}, {xtype:'container', layout:'hbox', items:[{xtype:'checkboxfield', flex:1, cls:'form-panel-font-color rememberMeCheckbox', height:30, bind:'{persist}', boxLabel:'Remember me'}, {xtype:'box', html:'\x3ca href\x3d"#passwordreset" class\x3d"link-forgot-password"\x3e Forgot Password ?\x3c/a\x3e'}]}, 
-{xtype:'button', reference:'loginButton', scale:'large', ui:'soft-green', iconAlign:'right', iconCls:'x-fa fa-angle-right', text:'Login', formBind:true, listeners:{click:'onLoginButton'}}, {xtype:'box', html:'\x3cdiv class\x3d"outer-div"\x3e\x3cdiv class\x3d"seperator"\x3eOR\x3c/div\x3e\x3c/div\x3e', margin:'10 0'}, {xtype:'button', scale:'large', ui:'facebook', iconAlign:'right', iconCls:'x-fa fa-facebook', text:'Login with Facebook', listeners:{click:'onFaceBookLogin'}}, {xtype:'box', html:'\x3cdiv class\x3d"outer-div"\x3e\x3cdiv class\x3d"seperator"\x3eOR\x3c/div\x3e\x3c/div\x3e', 
-margin:'10 0'}, {xtype:'button', scale:'large', ui:'gray', iconAlign:'right', iconCls:'x-fa fa-user-plus', text:'Create Account', listeners:{click:'onNewAccount'}}]}], initComponent:function() {
+allowBlank:false, triggers:{glyphed:{cls:'trigger-glyph-noop auth-password-trigger'}}}, {items:[{height:55, html:'\x3cimg src\x3d"/verify/code.action"/\x3e'}, {xtype:'button', height:55, width:150, text:'看不清，换一张', onclick:'onChangeCode'}]}, {xtype:'button', reference:'loginButton', scale:'large', ui:'soft-green', iconAlign:'right', iconCls:'x-fa fa-angle-right', text:'Login', formBind:true, listeners:{click:'onLoginButton'}}, {xtype:'container', layout:'hbox', items:[{xtype:'checkboxfield', flex:1, 
+cls:'form-panel-font-color rememberMeCheckbox', height:30, bind:'{persist}', boxLabel:'Remember me'}, {xtype:'box', html:'\x3ca href\x3d"#passwordreset" class\x3d"link-forgot-password"\x3e Forgot Password ?\x3c/a\x3e'}]}, {xtype:'box', html:'\x3cdiv class\x3d"outer-div"\x3e\x3cdiv class\x3d"seperator"\x3eOR\x3c/div\x3e\x3c/div\x3e', margin:'10 0'}, {xtype:'button', scale:'large', ui:'facebook', iconAlign:'right', iconCls:'x-fa fa-facebook', text:'Login with Facebook', listeners:{click:'onFaceBookLogin'}}, 
+{xtype:'box', html:'\x3cdiv class\x3d"outer-div"\x3e\x3cdiv class\x3d"seperator"\x3eOR\x3c/div\x3e\x3c/div\x3e', margin:'10 0'}, {xtype:'button', scale:'large', ui:'gray', iconAlign:'right', iconCls:'x-fa fa-user-plus', text:'Create Account', listeners:{click:'onNewAccount'}}]}], initComponent:function() {
   this.addCls('user-login-register-container');
   this.callParent(arguments);
 }});

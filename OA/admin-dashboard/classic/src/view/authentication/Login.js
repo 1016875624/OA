@@ -66,48 +66,50 @@ Ext.define('Admin.view.authentication.Login', {
                             cls: 'trigger-glyph-noop auth-password-trigger'
                         }
                     }
-                },{items:[
-							{
-							xtype:'panel', 
-							height: 55,
-							width: 250,
-							html:'<img src="/verify/code.action"/>' ,
-							},
-							'-',{
-							xtype:'button',
-							height: 55,
-							width: 250, 
-							text: '看不清，换一张',
-							onclick: 'onChangeCode'
-							}
-					]},
-					{xtype: 'textfield',
+                },
+				{
+					xtype: 'textfield',
                     cls: 'auth-textbox',
                     height: 55,
                     hideLabel: true,
-                    emptyText: '请在此输入验证码',
+                    emptyText: 'Verification Code',
                     inputType: 'code',
                     name: 'code',
                     bind: '{code}',
-                    allowBlank : false
-                    },
-					// triggers: {
-                        // glyphed: {
-                            // cls: 'trigger-glyph-noop auth-password-trigger'
-                        // }
-                  {
-					xtype:'panel', 
+                    allowBlank : false,
+                    triggers: {
+                        glyphed: {
+                            cls: 'trigger-glyph-noop auth-password-trigger'
+                        }
+                    }
+                },
+				
+				{
+					items:[{
+						height: 55,
+						//width: 250,
+						html:'<img src="/verify/code.action"/>'
+					},{
+						xtype:'button',
+						height: 55,
+						width: 150, 
+						text: '看不清，换一张',
+						onclick: 'onChangeCode'
+					}]
+				},
+				
+				// { 
 					// height: 55,
 					// width: 250,
-					// html:'<img src="/verify/code.action"/>' ,
-				 // },{
+					// html:'<img src="/verify/code.action"/>'
+				// },{
 					// xtype:'button',
 					// height: 55,
 					// width: 250, 
 					// text: '看不清，换一张',
-					// onclick: 'onChangeCode'
-				 // }
-				 ,{
+                    // onclick: 'onChangeCode'
+				// },
+				{
                     xtype: 'button',
                     reference: 'loginButton',
                     scale: 'large',

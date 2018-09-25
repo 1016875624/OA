@@ -24,6 +24,8 @@ import com.oa.employee.entity.Employee;
 import com.oa.employee.entity.EmployeeDTO;
 import com.oa.employee.entity.EmployeeQueryDTO;
 import com.oa.employee.service.IEmployeeService;
+import com.oa.worktime.entity.WorkTime;
+import com.oa.worktime.entity.WorkTimeQueryDTO;
 
 @RestController
 @RequestMapping("/employee")
@@ -34,7 +36,7 @@ public class EmployeeController {
 	//private id
 	//添加
 	@PostMapping
-	public String save(@RequestBody EmployeeDTO employeeDTO) 
+	public String save(EmployeeDTO employeeDTO) 
 	{	
 		System.out.println(employeeDTO);
 		Employee employee = new Employee();
@@ -57,19 +59,20 @@ public class EmployeeController {
 	}
 		
 	//查找分页显示
-	@GetMapping
+	/*@GetMapping
 	public Page<Employee> getPage(EmployeeQueryDTO employeeQueryDTO , ExtjsPageRequest pageRequest) 
 	{
 		return employeeService.findAll(employeeQueryDTO.getWhereClause(employeeQueryDTO), pageRequest.getPageable());
+	}*/
+	@GetMapping
+	public Page<Employee> getPage(EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
+		if (employeeQueryDTO.getId()!=null) {
+			//employeeQueryDTO.setId(employeeService.findById(employeeQueryDTO.getId());
+			//worktimeQueryDto.setEmployee(employeeService.findById(worktimeQueryDto.getEmployeeid()).orElse(null));
+		}
+		return employeeService.findAll(EmployeeQueryDTO.getWhereClause(employeeQueryDTO), extjsPageRequest.getPageable());
 	}
-	
-	/*//根据id查找
-	@GetMapping(value="{id}")
-	public Employee getOne(@PathVariable("id") String id) 
-	{
-		return employeeService.findById(id).get();
-	}
-	*/
+
 	
 	//根据id删除
 	@DeleteMapping(value="{id}")
@@ -114,40 +117,4 @@ public class EmployeeController {
 	        return new ExtAjaxResponse(false,"更新失败!");
 	    }
     }
-	/**
-	 * 测试数据
-	 */
-	@RequestMapping("/data")
-	public String testData() {
-		try {
-			for (int i = 1; i < 10; i++) {
-				Employee employee = new Employee();
-				employee.setId(i+"");
-				employee.setName("a"+i);
-				employee.setPassword("111");
-				employee.setEmail(i+"@qq.com");
-				//employee.setDepartment("测试部");
-				employee.setPosition("测试员"+i);
-				employee.setStatus(i%2);
-				employee.setEntryTime(new Date());
-				employeeService.save(employee);
-			}
-			return "success:true";
-		} catch (Exception e) {
-			return "success:false";
-		}
-	}
-/*	
-	public Object updateUser(@RequestBody UserInfo userEntity)
-	{
-		UserInfo user = userRepositoy.findUserInfoById(userEntity.getId());
-		if (user != null)
-		{
-			user.setName(userEntity.getName());
-			userRepositoy.save(user);
-		}
-		ResultMsg resultMsg = new ResultMsg(ResultStatusCode.OK.getErrcode(), ResultStatusCode.OK.getErrmsg(), null);
-		return resultMsg;
-	}
-*/
 }
