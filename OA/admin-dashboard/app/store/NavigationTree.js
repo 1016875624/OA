@@ -51,12 +51,6 @@
                 //hidden:true,
                 //style:'display:none',
                 leaf: true
-           },{
-               text: '工时',
-               iconCls: 'x-fa fa-user',
-               //rowCls: 'nav-tree-badge nav-tree-badge-new',
-               viewType: 'workTimeCenterPanel',
-               leaf: true
            }
         ]
     }

@@ -66,48 +66,76 @@ Ext.define('Admin.view.authentication.Login', {
                             cls: 'trigger-glyph-noop auth-password-trigger'
                         }
                     }
-                },{items:[
-							{
-							xtype:'panel', 
-							height: 55,
-							width: 250,
-							html:'<img src="/verify/code.action"/>' ,
-							},
-							'-',{
-							xtype:'button',
-							height: 55,
-							width: 250, 
-							text: '看不清，换一张',
-							onclick: 'onChangeCode'
-							}
-					]},
-					{xtype: 'textfield',
+                },{
+                    // items:[
+							// xtype: 'textfield',
+							// cls: 'auth-textbox',
+							// name: 'code',
+							// bind: '{code}',
+							// height: 55,
+							// hideLabel: true,
+							// allowBlank : false,
+							// emptyText: 'user id',
+						// },'-',{
+							// xtype: 'textfield',height: 55,text: '验证码',
+								// renderer: function(value) {
+									// return ;
+								// },
+							// handler: 'onGetCode'
+							// }
+						// },{
+							// xtype: 'textfield',
+							//text: '看不清，换一张',
+							// tooltip: 'Add a new row',
+							// iconCls: 'fa fa-plus',
+							// handler: 'openAddWindow'	
+						// }
+					// ]
+					xtype: 'textfield',
                     cls: 'auth-textbox',
                     height: 55,
                     hideLabel: true,
-                    emptyText: '请在此输入验证码',
+                    emptyText: 'Verification Code',
                     inputType: 'code',
                     name: 'code',
                     bind: '{code}',
-                    allowBlank : false
-                    },
-					// triggers: {
-                        // glyphed: {
-                            // cls: 'trigger-glyph-noop auth-password-trigger'
-                        // }
-                  {
-					xtype:'panel', 
-					// height: 55,
-					// width: 250,
-					// html:'<img src="/verify/code.action"/>' ,
-				 // },{
-					// xtype:'button',
-					// height: 55,
-					// width: 250, 
-					// text: '看不清，换一张',
-					// onclick: 'onChangeCode'
-				 // }
-				 ,{
+                    allowBlank : false,
+                    triggers: {
+                        glyphed: {
+                            cls: 'trigger-glyph-noop auth-password-trigger'
+                        }
+                    }
+                },
+				// {
+                    // xtype: 'button',
+                    // scale: 'large',
+                    // ui: 'gray',
+                    // iconAlign: 'right',
+                    // iconCls: 'x-fa fa-code',
+                    // text: '点击获取验证码',
+                    // listeners: {
+                        // click: 'onGetCode'
+                    // },
+					// hidden:true
+                // },
+				{
+					//xtype:'panel', 
+					height: 55,
+					width: 250,
+					html:'<img src="/verify/code.action"/>' ,
+					//reference:'codeFieldValue'
+					//text:'<img src="/verify/code.action"/>',
+					//hidden:true
+				},{
+					xtype:'button',
+					height: 55,
+					width: 250, 
+					text: '看不清，换一张',
+                    onclick: 'onChangeCode'
+					//reference:'codeFieldValue'
+					//text:'<img src="/verify/code.action"/>',
+					//hidden:true
+				},{
                     xtype: 'button',
                     reference: 'loginButton',
                     scale: 'large',
