@@ -25,7 +25,7 @@ import com.oa.department.service.IDepartmentService;
 
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/department")
 public class DepartmentController {
 	@Autowired
 	private IDepartmentService departmentService;
