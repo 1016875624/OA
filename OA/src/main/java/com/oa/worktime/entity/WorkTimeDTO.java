@@ -18,6 +18,8 @@ public class WorkTimeDTO {
 	* @Fields employee : 某个员工的工时
 	*/
 	private String employeeid;
+	
+	private String employeeName;
 	/**
 	* @Fields date : 日期
 	*/
@@ -31,5 +33,7 @@ public class WorkTimeDTO {
 	private Integer hour;
 	
 	private Integer status;
+	
+	private String departmentName;
 	
 }

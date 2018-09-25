@@ -31,9 +31,12 @@ public class VerifyCodeController {
     private int fontHeight;
     private int codeY;
     //验证码图片上会出现的字母和数字
-    char[] codeSequence = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
-            'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
-            'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+    char[] codeSequence = {
+    		'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J','K', 'L', 'M', 'N', 
+    		'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
+            'X', 'Y', 'Z', '0',
+            '1', '2', '3', '4', '5', '6', '7', '8', '9'
+            };
     /**
      * 初始化验证图片属性
      */
