@@ -20,6 +20,7 @@ import com.oa.common.beans.BeanUtils;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.ExtjsPageRequest;
 import com.oa.question.entity.Question;
+import com.oa.question.entity.QuestionDTO;
 import com.oa.question.entity.QuestionQueryDTO;
 import com.oa.question.service.IQuestionService;
 @RestController
@@ -33,10 +34,12 @@ public class QuestionController {
 	}
 	
 	@PostMapping
-	public ExtAjaxResponse save(Question question) 
+	public ExtAjaxResponse save(QuestionDTO questionDTO) 
 	{
 		System.out.println("right here");
 		try {
+			Question question=new Question();
+			BeanUtils.copyProperties(questionDTO, question);
 			question.setStatus(0);
 			questionService.save(question);
 			return new ExtAjaxResponse(true,"添加成功");

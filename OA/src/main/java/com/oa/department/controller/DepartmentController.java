@@ -1,5 +1,8 @@
 package com.oa.department.controller;
 
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +24,8 @@ import com.oa.department.entity.Department;
 import com.oa.department.entity.DepartmentDTO;
 import com.oa.department.entity.DepartmentQueryDTO;
 import com.oa.department.service.IDepartmentService;
+import com.oa.employee.entity.Employee;
+import com.oa.employee.service.IEmployeeService;
 
 
 
@@ -29,6 +34,8 @@ import com.oa.department.service.IDepartmentService;
 public class DepartmentController {
 	@Autowired
 	private IDepartmentService departmentService;
+	@Autowired
+	private IEmployeeService employeeService;
 	
 	@GetMapping
 	public Page<Department> getPage(DepartmentQueryDTO departmentQueryDTO,ExtjsPageRequest extjsPageRequest){
@@ -36,34 +43,28 @@ public class DepartmentController {
 		return departmentService.findAll(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
 	}
 	
-//	@PostMapping
-//	public ExtAjaxResponse save(DepartmentDTO departmentDTO) 
-//	{
-//		
-//		Employee em= null;
-//		try {
-//			if (workTimeDTO.getWorkEmployeeid()!=null&&!"".equals(workTimeDTO.getWorkEmployeeid().trim())) {
-//				em= new Employee();
-//				em.setId(workTimeDTO.getWorkEmployeeid());
-//				
-//			}
-//			WorkTime workTime=new WorkTime();
-//			BeanUtils.copyProperties(workTimeDTO, workTime);
-//			workTime.setStatus(0);
-//			workTime.setEmployee(em);
-//			workTimeService.save(workTime);
-//			return new ExtAjaxResponse(true,"添加成功");
-//		} catch (Exception e) {
-//			return new ExtAjaxResponse(false,"添加失败");
-//		}
-//	}
+	@PostMapping
+	public ExtAjaxResponse save(DepartmentDTO departmentDTO) 
+	{
+		try {
+			
+			Department department=new Department();
+			BeanUtils.copyProperties(departmentDTO, department);
+			department.setStatus(0);
+			
+			departmentService.save(department);
+			return new ExtAjaxResponse(true,"添加成功");
+		} catch (Exception e) {
+			return new ExtAjaxResponse(false,"添加失败");
+		}
+	}
 	
 	@PutMapping(value="{id}")
-    public ExtAjaxResponse update(@PathVariable("id") String id,Department department) {
+    public ExtAjaxResponse update(@PathVariable("id") String id,DepartmentDTO departmentDTO) {
     	try {
     		Department entity = departmentService.findById(id);
 			if(entity!=null) {
-				BeanUtils.copyProperties(department, entity);//使用自定义的BeanUtils
+				BeanUtils.copyProperties(departmentDTO, entity);//使用自定义的BeanUtils
 				departmentService.save(entity);
 			}
     		return new ExtAjaxResponse(true,"更新成功!");
@@ -77,7 +78,15 @@ public class DepartmentController {
 	public ExtAjaxResponse deleteQuestion(@PathVariable String id) {
 		try {
 			if(id!=null) {
+				
 				Department department=departmentService.findById(id);
+				department.setEmployees(null);
+				List<Employee> emps=department.getEmployees();
+				for (Employee employee : emps) {
+					employee.setDepartment(null);
+					employeeService.save(employee);
+					
+				}
 				department.setStatus(0);
 				departmentService.save(department);
 			}
