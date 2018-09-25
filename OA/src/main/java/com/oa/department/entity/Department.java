@@ -43,5 +43,8 @@ public class Department {
 	@OneToMany(cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST},fetch=FetchType.LAZY,mappedBy="department")
 	private List<Employee> employees=new ArrayList<>();
 	
+	/**
+	* @Fields status : 0 代表正常  -1代表删除
+	*/
 	private Integer status;
 }

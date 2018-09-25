@@ -1,46 +1,38 @@
 package com.oa.salary.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.oa.employee.entity.Employee;
 
-@Entity
-@Table(name="salary_pay")
+import lombok.Data;
+
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class SalaryPay {
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+public class SalaryPayDTO {
 	private Integer id;
 	
-	
-	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
-	private Employee employee;
+	private String employeeid;
+	private String employeeName;
 	@JsonFormat(pattern="yyyy/MM/dd",timezone="GMT+8")
 	@DateTimeFormat(pattern="yyyy/MM/dd")
-	@Temporal(TemporalType.DATE)
 	private Date date;
 	/**
-	* @Fields status : 状态 0表示未发放 2表示已经发放 -1代表删除 -2代表发放后删除了
+	* @Fields status : 状态 0表示为发放 1表示已经发放
 	*/
 	private Integer status;
 	
@@ -62,5 +54,21 @@ public class SalaryPay {
 	* @Fields attendRate : 出勤率
 	*/
 	private Double attendRate;
+	
+	
+	public static SalaryPay DtoToEntity(SalaryPayDTO salaryPayDTO) {
+		SalaryPay salaryPay=new SalaryPay();
+		BeanUtils.copyProperties(salaryPayDTO, salaryPay);
+		return salaryPay;
+	}
+	
+	public static SalaryPayDTO entityToDto(SalaryPay salaryPay) {
+		SalaryPayDTO salaryPayDTO=new SalaryPayDTO();
+		BeanUtils.copyProperties(salaryPay, salaryPayDTO);
+		salaryPayDTO.setEmployeeName(salaryPay.getEmployee().getName());
+		salaryPayDTO.setEmployeeid(salaryPay.getEmployee().getId());
+		return salaryPayDTO;
+	}
+	
 	
 }

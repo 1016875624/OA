@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -22,31 +20,41 @@ import lombok.Data;
 
 @Data
 public class QuitQueryDTO {
+	
 	private Integer id;
 	
 	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
 	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date applyDate;
-	private String reason;
-	private String employeeid;
-	private Employee employee1;
+	private Date preApplyDate;
 	
 	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
 	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date quitDate;
+	private Date sufApplyDate;
+	
+	
+	
+	private String reason;
+	
+	private String employeeid;
+	
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
+	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
+	private Date preQuitDate;
+	
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
+	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
+	private Date sufQuitDate;
+	
+	
 	private Integer status;
 	@SuppressWarnings({"serial"})
 	public static Specification<Quit> getWhereClause(final QuitQueryDTO quitQueryDTO) {
 		return new Specification<Quit>() {
 			@Override
 			public Predicate toPredicate(Root<Quit> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-			
 				List<Predicate> predicate = new ArrayList<>();
-				if (null!=quitQueryDTO.getEmployeeid()) {
-					predicate.add(criteriaBuilder.equal(root.get("employee1").as(Employee.class),
-							quitQueryDTO.getEmployee1()));
+				if (StringUtils.isBlank(quitQueryDTO.getEmployeeid())) {
+					predicate.add(criteriaBuilder.equal(root.get("employee").get("id").as(String.class), quitQueryDTO.getEmployeeid()));
 				}
 				if (null!=quitQueryDTO.getId()) {
 					predicate.add(criteriaBuilder.equal(root.get("question").as(Integer.class),quitQueryDTO.getId()));
@@ -54,13 +62,25 @@ public class QuitQueryDTO {
 				if (null!=quitQueryDTO.getStatus()) {
 					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),quitQueryDTO.getStatus()));
 				}
-				if (null!=quitQueryDTO.getApplyDate()) {
-					predicate.add(criteriaBuilder.greaterThanOrEqualTo(root.get("applyDate").as(Date.class),
-							quitQueryDTO.getApplyDate()));
+				else {
+					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),0));
 				}
-				if (null!=quitQueryDTO.getQuitDate()) {
+				if (null!=quitQueryDTO.getPreQuitDate()) {
+					if (quitQueryDTO.getSufApplyDate()!=null) {
+						predicate.add(criteriaBuilder.between(root.get("quitDate").as(Date.class), quitQueryDTO.getPreQuitDate(), quitQueryDTO.getSufQuitDate()));
+					}
+					else {
+						
+					}
+				}
+				
+				/*if (null!=quitQueryDTO.getQuitDate()) {
 					predicate.add(criteriaBuilder.lessThanOrEqualTo(root.get("quitDate").as(Date.class),
 							quitQueryDTO.getQuitDate()));
+				}*/
+				
+				if (StringUtils.isBlank(quitQueryDTO.getReason())) {
+					predicate.add(criteriaBuilder.like(root.get("reason"), "%"+quitQueryDTO.getReason()+"%"));
 				}
 				
 				
