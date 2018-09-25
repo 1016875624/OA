@@ -21,7 +21,7 @@ public class QuitQueryDTO {
 	private Integer id;
 	private Date applyDate;
 	//private String reason;
-	private String employeeid1;
+	private String employeeid;
 	private Employee employee1;
 	
 	private Date quitDate;
@@ -33,7 +33,7 @@ public class QuitQueryDTO {
 			public Predicate toPredicate(Root<Quit> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 			
 				List<Predicate> predicate = new ArrayList<>();
-				if (null!=quitQueryDTO.getEmployeeid1()) {
+				if (null!=quitQueryDTO.getEmployeeid()) {
 					predicate.add(criteriaBuilder.equal(root.get("employee1").as(Employee.class),
 							quitQueryDTO.getEmployee1()));
 				}

@@ -12,7 +12,7 @@ import javax.persistence.criteria.Root;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
-
+import com.oa.employee.entity.Employee;
 
 import lombok.Data;
 
@@ -30,13 +30,18 @@ public class QuestionQueryDTO {
 			public Predicate toPredicate(Root<Question> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 			
 				List<Predicate> predicate = new ArrayList<>();
-				if (StringUtils.isNotBlank(questionQueryDTO.getQuestion())) {
+				if(StringUtils.isNotBlank(questionQueryDTO.getQuestion())) {
 					predicate.add(criteriaBuilder.like(root.get("question").as(String.class),
 							"%" + questionQueryDTO.getQuestion() + "%"));
 				}
-				
-				predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class), 0));
-				
+				if(null!=questionQueryDTO.getType()) {
+					predicate.add(criteriaBuilder.equal(root.get("type").as(Integer.class),questionQueryDTO.getType()));
+				}
+				if(null!=questionQueryDTO.getStatus()) {
+					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class), questionQueryDTO.getStatus()));
+				}else {
+					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class), 0));
+				}
 				
 				Predicate[] pre = new Predicate[predicate.size()];
 				return query.where(predicate.toArray(pre)).getRestriction();

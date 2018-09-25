@@ -32,7 +32,7 @@ public class EmployeeDTO {
 	/**
 	* @Fields department : 员工部门
 	*/
-	private Integer departmentid;
+	private String departmentid;
 	/**
 	* @Fields email : 员工邮箱
 	*/

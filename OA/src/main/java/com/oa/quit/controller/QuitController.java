@@ -14,6 +14,7 @@ import com.oa.common.beans.BeanUtils;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.ExtjsPageRequest;
 import com.oa.employee.entity.Employee;
+import com.oa.employee.service.IEmployeeService;
 import com.oa.quit.entity.Quit;
 import com.oa.quit.entity.QuitDTO;
 import com.oa.quit.entity.QuitQueryDTO;
@@ -25,9 +26,14 @@ import com.oa.quit.service.IQuitService;
 public class QuitController {
 	@Autowired 
 	private IQuitService quitService;
-
+	@Autowired
+	private IEmployeeService employeeService;
+	
 	@GetMapping
 	public Page<Quit> getPage(QuitQueryDTO quitQueryDTO,ExtjsPageRequest extjsPageRequest){
+		if (quitQueryDTO.getEmployeeid()!=null) {
+			quitQueryDTO.setEmployee1(employeeService.findById(quitQueryDTO.getEmployeeid()).orElse(null));
+		}
 		return quitService.findAll(QuitQueryDTO.getWhereClause(quitQueryDTO), extjsPageRequest.getPageable());
 	}
 	

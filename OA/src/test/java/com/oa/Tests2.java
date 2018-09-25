@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.oa.employee.entity.Employee;
+import com.oa.employee.service.IEmployeeService;
 import com.oa.question.entity.Question;
 import com.oa.worktime.entity.WorkTime;
 import com.oa.worktime.entity.WorkTimeQueryDTO;
@@ -17,6 +18,8 @@ import com.oa.worktime.service.IWorkTimeService;
 public class Tests2 {
 	@Autowired
 	private IWorkTimeService workTimeService;
+	@Autowired
+	private IEmployeeService employeeService;
 	@Test
 	public void testAnswer() {
 		Question question=new Question();
@@ -45,6 +48,7 @@ public class Tests2 {
 		Employee emp=new Employee();
 		emp.setId("1");
 		worktime.setEmployee(emp);
+		employeeService.save(emp);
 		workTimeService.save(worktime);
 	}
 }
