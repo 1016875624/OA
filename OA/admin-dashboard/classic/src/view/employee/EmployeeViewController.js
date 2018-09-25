@@ -147,6 +147,10 @@
 
 	/*Check*/	
 	onCheckButton:function(grid, rowIndex, colIndex){
-		Ext.Msg.alert("Title","Click Check Button");
+		var rec = grid.getStore().getAt(rowIndex);
+		var win = Ext.widget('EmployeeCheckWindow');;
+		win.show();
+		win.down("form").getForm().loadRecord(rec);
+		console.log(Ext.ClassManager.getName(win.down("form")));
 	}
 });

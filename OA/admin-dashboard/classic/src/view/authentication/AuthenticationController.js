@@ -4,7 +4,7 @@
 
     //TODO: implement central Facebook OATH handling here
 
-    onFaceBookLogin : function() {
+	onFaceBookLogin : function() {
         this.redirectTo('dashboard', true);
     },
 
@@ -14,14 +14,15 @@
             url: 'login',
             method: 'post',
             params: {
-                userName: btn.up("form").getForm().findField("userid").getValue(),
-                password: btn.up("form").getForm().findField("password").getValue()
+                userID: btn.up("form").getForm().findField("userid").getValue(),
+                password: btn.up("form").getForm().findField("password").getValue(),
+				code: btn.up("form").getForm().findField("code").getValue()
             },
             success: function(response, options) {
             	var json = Ext.util.JSON.decode(response.responseText);
 	            if(json.success){
 	            	me.redirectTo('dashboard', true);
-	            	Ext.getCmp('loginUserName').setText(json.map.userName);
+	            	Ext.getCmp('loginUserID').setText(json.map.userID);
 	            	//Ext.getCmp('loginUserImage').getEl().dom.src = json.map.loginUserImage;
 	            
 		        }else{
@@ -30,6 +31,7 @@
             }
         });
 	},
+	
     onLoginAsButton: function() {
         this.redirectTo('login', true);
     },
@@ -44,5 +46,18 @@
 
     onResetClick:  function() {
         this.redirectTo('dashboard', true);
+    },
+	
+	onChangeCode:  function() {
+        //this.redirectTo('dashboard', true);
+		Ext.Msg.alert("Title","Click onChangeCode Button");
+    },
+	
+	onGetCode : function() {
+		//this.lookupReference('codeFieldValue').show();
+        Ext.Ajax.request({
+            url: '/verify/code.action',
+            method: 'post'
+        });
     }
 });

@@ -32,8 +32,12 @@ public class LoginController {
      * 登录系统
      **/
     @RequestMapping(value = "/login")
-    public @ResponseBody ExtAjaxResponse logon(@RequestParam("userId") String userId, @RequestParam("password") String password, HttpSession session) {
-    	logger.debug("logon request: {userId={}, password={}}", userId, password);
+    public @ResponseBody ExtAjaxResponse logon(@RequestParam("userId") String userId, @RequestParam("password") String password, @RequestParam("code") String code, HttpSession session) {
+    	logger.debug("logon request: {userId={}, password={}, code={}}", userId, password, code);
+    	String realCode=(String)session.getAttribute("validateCode");
+    	if (!realCode.equalsIgnoreCase(code)) {
+    		return new ExtAjaxResponse(false,"验证码错误！");
+		}
         boolean checkPassword = identityService.checkPassword(userId, password);
         if (checkPassword) {
             // 查看用户是否存在
