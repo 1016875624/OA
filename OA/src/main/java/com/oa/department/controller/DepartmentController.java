@@ -80,8 +80,8 @@ public class DepartmentController {
 			if(id!=null) {
 				
 				Department department=departmentService.findById(id);
-				department.setEmployees(null);
 				List<Employee> emps=department.getEmployees();
+				department.setEmployees(null);
 				for (Employee employee : emps) {
 					employee.setDepartment(null);
 					employeeService.save(employee);
