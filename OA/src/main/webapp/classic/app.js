@@ -85178,11 +85178,11 @@ Ext.define('Admin.view.authentication.AuthenticationController', {extend:Ext.app
   this.redirectTo('dashboard', true);
 }, onLoginButton:function(btn) {
   var me = this;
-  Ext.Ajax.request({url:'login', method:'post', params:{userName:btn.up('form').getForm().findField('userid').getValue(), password:btn.up('form').getForm().findField('password').getValue()}, success:function(response, options) {
+  Ext.Ajax.request({url:'login', method:'post', params:{userID:btn.up('form').getForm().findField('userid').getValue(), password:btn.up('form').getForm().findField('password').getValue(), code:btn.up('form').getForm().findField('code').getValue()}, success:function(response, options) {
     var json = Ext.util.JSON.decode(response.responseText);
     if (json.success) {
       me.redirectTo('dashboard', true);
-      Ext.getCmp('loginUserName').setText(json.map.userName);
+      Ext.getCmp('loginUserID').setText(json.map.userID);
     } else {
       Ext.Msg.alert('登录失败', json.msg);
     }
@@ -85195,6 +85195,10 @@ Ext.define('Admin.view.authentication.AuthenticationController', {extend:Ext.app
   this.redirectTo('dashboard', true);
 }, onResetClick:function() {
   this.redirectTo('dashboard', true);
+}, onChangeCode:function() {
+  Ext.Msg.alert('Title', 'Click onChangeCode Button');
+}, onGetCode:function() {
+  Ext.Ajax.request({url:'/verify/code.action', method:'post'});
 }});
 Ext.define('Admin.view.authentication.AuthenticationModel', {extend:Ext.app.ViewModel, alias:'viewmodel.authentication', data:{userid:'', fullName:'', password:'', email:'', persist:false, agrees:false}});
 Ext.define('Admin.view.authentication.Dialog', {extend:Ext.form.Panel, xtype:'authdialog', controller:'authentication', viewModel:{type:'authentication'}, defaultFocus:'textfield:focusable:not([hidden]):not([disabled]):not([value])', autoComplete:false, initComponent:function() {
@@ -85221,9 +85225,10 @@ height:80, margin:20, width:80, alt:'lockscreen-image', cls:'lockscreen-profile-
 fieldLabel:"It's been a while. please enter your password to resume", emptyText:'Password', inputType:'password', allowBlank:false, triggers:{glyphed:{cls:'trigger-glyph-noop password-trigger'}}}, {xtype:'button', reference:'loginButton', scale:'large', ui:'soft-blue', iconAlign:'right', iconCls:'x-fa fa-angle-right', text:'Login', formBind:true, listeners:{click:'onLoginButton'}}, {xtype:'component', html:'\x3cdiv style\x3d"text-align:right"\x3e' + '\x3ca href\x3d"#login" class\x3d"link-forgot-password"\x3e' + 
 'or, sign in using other credentials\x3c/a\x3e' + '\x3c/div\x3e'}]}]}]});
 Ext.define('Admin.view.authentication.Login', {extend:Admin.view.authentication.LockingWindow, xtype:'login', title:"Let's Log In", defaultFocus:'authdialog', items:[{xtype:'authdialog', defaultButton:'loginButton', autoComplete:true, bodyPadding:'20 20', cls:'auth-dialog-login', header:false, width:415, layout:{type:'vbox', align:'stretch'}, defaults:{margin:'5 0'}, items:[{xtype:'label', text:'Sign into your account'}, {xtype:'textfield', cls:'auth-textbox', name:'userid', bind:'{userid}', height:55, 
-hideLabel:true, allowBlank:false, emptyText:'user id', triggers:{glyphed:{cls:'trigger-glyph-noop auth-email-trigger'}}}, {xtype:'textfield', cls:'auth-textbox', height:55, hideLabel:true, emptyText:'Password', inputType:'password', name:'password', bind:'{password}', allowBlank:false, triggers:{glyphed:{cls:'trigger-glyph-noop auth-password-trigger'}}}, {xtype:'container', layout:'hbox', items:[{xtype:'checkboxfield', flex:1, cls:'form-panel-font-color rememberMeCheckbox', height:30, bind:'{persist}', 
-boxLabel:'Remember me'}, {xtype:'box', html:'\x3ca href\x3d"#passwordreset" class\x3d"link-forgot-password"\x3e Forgot Password ?\x3c/a\x3e'}]}, {xtype:'button', reference:'loginButton', scale:'large', ui:'soft-green', iconAlign:'right', iconCls:'x-fa fa-angle-right', text:'Login', formBind:true, listeners:{click:'onLoginButton'}}, {xtype:'box', html:'\x3cdiv class\x3d"outer-div"\x3e\x3cdiv class\x3d"seperator"\x3eOR\x3c/div\x3e\x3c/div\x3e', margin:'10 0'}, {xtype:'button', scale:'large', ui:'facebook', 
-iconAlign:'right', iconCls:'x-fa fa-code', text:'Get The Verification Code', listeners:{click:'onFaceBookLogin'}}, {xtype:'box', html:'\x3cdiv class\x3d"outer-div"\x3e\x3cdiv class\x3d"seperator"\x3eOR\x3c/div\x3e\x3c/div\x3e', margin:'10 0'}, {xtype:'button', scale:'large', ui:'gray', iconAlign:'right', iconCls:'x-fa fa-user-plus', text:'Create Account', listeners:{click:'onNewAccount'}}]}], initComponent:function() {
+hideLabel:true, allowBlank:false, emptyText:'user id', triggers:{glyphed:{cls:'trigger-glyph-noop auth-email-trigger'}}}, {xtype:'textfield', cls:'auth-textbox', height:55, hideLabel:true, emptyText:'Password', inputType:'password', name:'password', bind:'{password}', allowBlank:false, triggers:{glyphed:{cls:'trigger-glyph-noop auth-password-trigger'}}}, {xtype:'textfield', cls:'auth-textbox', height:55, hideLabel:true, emptyText:'Verification Code', inputType:'code', name:'code', bind:'{code}', 
+allowBlank:false, triggers:{glyphed:{cls:'trigger-glyph-noop auth-password-trigger'}}}, {height:55, width:250, html:'\x3cimg src\x3d"/verify/code.action"/\x3e'}, {xtype:'button', height:55, width:250, text:'看不清，换一张', onclick:'onChangeCode'}, {xtype:'container', layout:'hbox', items:[{xtype:'checkboxfield', flex:1, cls:'form-panel-font-color rememberMeCheckbox', height:30, bind:'{persist}', boxLabel:'Remember me'}, {xtype:'box', html:'\x3ca href\x3d"#passwordreset" class\x3d"link-forgot-password"\x3e Forgot Password ?\x3c/a\x3e'}]}, 
+{xtype:'button', reference:'loginButton', scale:'large', ui:'soft-green', iconAlign:'right', iconCls:'x-fa fa-angle-right', text:'Login', formBind:true, listeners:{click:'onLoginButton'}}, {xtype:'box', html:'\x3cdiv class\x3d"outer-div"\x3e\x3cdiv class\x3d"seperator"\x3eOR\x3c/div\x3e\x3c/div\x3e', margin:'10 0'}, {xtype:'button', scale:'large', ui:'facebook', iconAlign:'right', iconCls:'x-fa fa-facebook', text:'Login with Facebook', listeners:{click:'onFaceBookLogin'}}, {xtype:'box', html:'\x3cdiv class\x3d"outer-div"\x3e\x3cdiv class\x3d"seperator"\x3eOR\x3c/div\x3e\x3c/div\x3e', 
+margin:'10 0'}, {xtype:'button', scale:'large', ui:'gray', iconAlign:'right', iconCls:'x-fa fa-user-plus', text:'Create Account', listeners:{click:'onNewAccount'}}]}], initComponent:function() {
   this.addCls('user-login-register-container');
   this.callParent(arguments);
 }});
@@ -85245,8 +85250,11 @@ name:'status', store:Ext.create('Ext.data.Store', {fields:['value', 'name'], dat
   btn.up('window').close();
 }}, '-\x3e']});
 Ext.define('Admin.view.employee.EmployeeCenterPanel', {extend:Ext.container.Container, xtype:'employeeCenterPanel', controller:'employeeViewController', viewModel:{type:'employeeViewModel'}, layout:'fit', items:[{xtype:'employeeGridPanel'}]});
-Ext.define('Admin.view.employee.EmployeeEditWindow', {extend:Ext.window.Window, alias:'widget.employeeEditWindow', height:600, minHeight:100, minWidth:300, width:500, scrollable:true, title:'Edit employee Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your name', items:[{xtype:'textfield', fieldLabel:'id', name:'id'}, {xtype:'textfield', fieldLabel:'name', name:'name'}, {xtype:'textfield', 
-fieldLabel:'partment', name:'partment'}, {xtype:'textfield', fieldLabel:'name', name:'name'}, {xtype:'textfield', fieldLabel:'name', name:'name'}, {xtype:'textfield', fieldLabel:'name', name:'name'}, {xtype:'textfield', fieldLabel:'name', name:'name'}, {xtype:'datefield', fieldLabel:'Entry Time', name:'entryTime', format:'Y/m/d H:i:s'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitEditForm'}, {xtype:'button', text:'Close', handler:function(btn) {
+Ext.define('Admin.view.employee.EmployeeCheckWindow', {extend:Ext.window.Window, alias:'widget.employeeCheckWindow', autoShow:true, modal:true, layout:'fit', width:500, height:500, title:'查看用户信息', items:[{xtype:'form', layout:{type:'vbox', align:'stretch'}, bodyPadding:20, scrollable:true, defaults:{labelWidth:100, labelSeparator:''}, defaultType:'textfield', items:[{name:'员工编号', fieldLabel:'id'}, {name:'员工姓名', fieldLabel:'name'}, {name:'所属部门', fieldLabel:'department'}, {name:'职位', fieldLabel:'position'}, 
+{name:'email', fieldLabel:'email'}, {name:'在职状态', fieldLabel:'status'}, {name:'上级领导', fieldLabel:'leader'}, {name:'joinDate', fieldLabel:'entryTime'}]}]});
+Ext.define('Admin.view.employee.EmployeeEditWindow', {extend:Ext.window.Window, alias:'widget.employeeEditWindow', height:600, minHeight:100, minWidth:300, width:500, scrollable:true, title:'Edit employee Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your name', items:[{xtype:'textfield', fieldLabel:'员工id', name:'id'}, {xtype:'textfield', fieldLabel:'员工姓名', name:'name'}, {xtype:'combobox', 
+fieldLabel:'员工部门', name:'department', store:Ext.create('Ext.data.Store', {fields:['value', 'name'], data:[{'value':'1', 'name':'行政部'}, {'value':'2', 'name':'人事部'}, {'value':'3', 'name':'财务部'}, {'value':'4', 'name':'技术部'}, {'value':'5', 'name':'人事部'}, {'value':'6', 'name':'测试部'}, {'value':'7', 'name':'后勤部'}]}), displayField:'name', valueField:'value'}, {xtype:'textfield', fieldLabel:'员工邮箱', name:'email'}, {xtype:'textfield', fieldLabel:'职位', name:'position'}, {xtype:'combobox', fieldLabel:'在职状态', 
+name:'status', store:Ext.create('Ext.data.Store', {fields:['value', 'name'], data:[{'value':'0', 'name':'正常'}, {'value':'1', 'name':'离职'}, {'value':'-1', 'name':'封禁'}]}), displayField:'name', valueField:'value'}, {xtype:'textfield', fieldLabel:'上级领导', name:'leader'}, {xtype:'datefield', fieldLabel:'入职时间', name:'entryTime', format:'Y/m/d H:i:s'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitEditForm'}, {xtype:'button', text:'Close', handler:function(btn) {
   btn.up('window').close();
 }}, '-\x3e']});
 Ext.define('Admin.view.employee.EmployeeGridPanel', {extend:Ext.panel.Panel, xtype:'employeeGridPanel', layout:'fit', items:[{xtype:'gridpanel', cls:'user-grid', title:'employeeGrid Results', bind:'{employeeLists}', scrollable:false, selModel:{type:'checkboxmodel'}, columns:[{xtype:'gridcolumn', cls:'content-column', dataIndex:'id', text:'员工编号', flex:1}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'name', text:'员工姓名', flex:1}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'department', 
@@ -85356,7 +85364,11 @@ Ext.define('Admin.view.employee.EmployeeViewController', {extend:Ext.app.ViewCon
     Ext.Msg.alert('错误', '没有任何行被选中，无法进行删除操作！');
   }
 }, onCheckButton:function(grid, rowIndex, colIndex) {
-  Ext.Msg.alert('Title', 'Click Check Button');
+  var rec = grid.getStore().getAt(rowIndex);
+  var win = Ext.widget('EmployeeCheckWindow');
+  win.show();
+  win.down('form').getForm().loadRecord(rec);
+  console.log(Ext.ClassManager.getName(win.down('form')));
 }});
 Ext.define('Admin.view.employee.EmployeeViewModel', {extend:Ext.app.ViewModel, alias:'viewmodel.employeeViewModel', stores:{employeeLists:{type:'employeeGridStroe'}}});
 Ext.define('Admin.view.leave.LeaveAddWindow', {extend:Ext.window.Window, alias:'widget.leaveAddWindow', height:350, minHeight:350, minWidth:300, width:500, scrollable:true, title:'Add Leave Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your name', items:[{xtype:'textfield', fieldLabel:'id', name:'id', hidden:true, readOnly:true}, {xtype:'textfield', fieldLabel:'processStatus', name:'processStatus', 

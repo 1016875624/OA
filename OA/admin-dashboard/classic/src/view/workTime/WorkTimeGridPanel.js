@@ -1,6 +1,6 @@
-﻿Ext.define('Admin.view.employee.EmployeeGridPanel', {
+﻿Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
     extend: 'Ext.panel.Panel',
-    xtype: 'employeeGridPanel',
+    xtype: 'workTimeGridPanel',
     requires: [
     	//'Admin.view.AdvancedVType',
         'Ext.grid.Panel',
@@ -8,22 +8,24 @@
         'Ext.form.field.ComboBox',
         'Ext.selection.CheckboxModel',
         'Ext.form.field.Date',
-        'Ext.grid.column.Date'
+        'Ext.grid.column.Date',
+        'Ext.fx.target.Element'
     ],
     
     layout: 'fit',
     items: [{
             xtype: 'gridpanel',
             cls: 'user-grid',
-            title: 'employeeGrid Results',
+            title: 'workTimeGrid Results',
             //routeId: 'user',
-            bind: '{employeeLists}',
+            bind: '{workTimeLists}',
             scrollable: false,
             selModel: {type: 'checkboxmodel'},
             columns: [
                 {xtype: 'gridcolumn',width: 40,dataIndex: 'id',text: '#',hidden:true},
-                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'workEmployeeid',text: '员工编号',flex: 1},
-				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'status',text: '在职状态',flex: 1},
+                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'employeeid',text: '员工编号',flex: 1},
+				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'employeeName',text: '员工姓名',flex: 1},
+				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'departmentName',text: '部门',flex: 1},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'hour',text: '当天的上班时间',flex: 1},
 				{xtype: 'datecolumn',cls: 'content-column',width: 200,dataIndex: 'date',text: '日期',formatter: 'date("Y/m/d")'},
                 
@@ -43,8 +45,7 @@
 				    fields: ["name", "value"],
 				    data: [
 				      	{ name: '员工编号', value: 'id' },
-						{ name: '员工姓名', value: 'name' },
-						{ name: '入职时间', value: 'entryTime' }
+						{ name: '员工姓名', value: 'employeeName'}
 				    ]
 				}),
 	            displayField: 'name',
@@ -66,7 +67,7 @@
 				xtype: 'datefield',
 				hideLabel: true,
 				hidden:true,
-				format: 'Y/m/d H:i:s',
+				format: 'Y/m/d',
 				reference:'searchDataFieldValue',
 				fieldLabel: 'From',
 				name: 'from_date'
@@ -90,7 +91,7 @@
 		        text: 'Removes',
 		        tooltip: 'Remove the selected item',
 		        iconCls:'fa fa-trash',
-		        itemId: 'employeeGridPanelRemove',
+		        itemId: 'workTimeGridPanelRemove',
 		        disabled: true,
 		        handler: 'deleteMoreRows'	
 		    }],			
@@ -99,11 +100,11 @@
                 dock: 'bottom',
                 //itemId: 'userPaginationToolbar',
                 displayInfo: true,
-                bind: '{employeeLists}'
+                bind: '{workTimeLists}'
             }],
             listeners: {
 				selectionchange: function(selModel, selections){
-					this.down('#employeeGridPanelRemove').setDisabled(selections.length === 0);
+					this.down('#workTimeGridPanelRemove').setDisabled(selections.length === 0);
 				}
 			}		
         }]

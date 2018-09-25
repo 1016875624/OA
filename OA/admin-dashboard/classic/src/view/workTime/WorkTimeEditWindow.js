@@ -1,12 +1,12 @@
-Ext.define('Admin.view.employee.EmployeeEditWindow', {
+Ext.define('Admin.view.workTime.WorkTimeEditWindow', {
     extend: 'Ext.window.Window',
-    alias: 'widget.employeeEditWindow',
+    alias: 'widget.workTimeEditWindow',
     height: 600,
     minHeight: 100,
     minWidth: 300,
     width: 500,
     scrollable: true,
-    title: 'Edit employee Window',
+    title: 'Edit workTime Window',
     closable: true,
     constrain: true,
     defaultFocus: 'textfield',

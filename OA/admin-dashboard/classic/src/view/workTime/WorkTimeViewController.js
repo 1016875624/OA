@@ -1,24 +1,24 @@
-﻿Ext.define('Admin.view.employee.EmployeeViewController', {
+﻿Ext.define('Admin.view.workTime.WorkTimeViewController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.employeeViewController',
+    alias: 'controller.workTimeViewController',
     /********************************************** Controller View *****************************************************/
     /*Add*/
 	openAddWindow:function(toolbar, rowIndex, colIndex){
-		toolbar.up('panel').up('container').add(Ext.widget('employeeAddWindow')).show();
+		toolbar.up('panel').up('container').add(Ext.widget('workTimeAddWindow')).show();
 	},
     /*Edit*/
 	openEditWindow:function(grid, rowIndex, colIndex){
          var record = grid.getStore().getAt(rowIndex);
 		//获取选中数据的字段值：console.log(record.get('id')); 或者 console.log(record.data.id);
 		if (record ) {
-			var win = grid.up('container').add(Ext.widget('employeeEditWindow'));
+			var win = grid.up('container').add(Ext.widget('workTimeEditWindow'));
 			win.show();
 			win.down('form').getForm().loadRecord(record);
 		}
 	},
 	/*Search More*/	
 	openSearchWindow:function(toolbar, rowIndex, colIndex){
-		toolbar.up('panel').up('container').add(Ext.widget('employeeSearchWindow')).show();
+		toolbar.up('panel').up('container').add(Ext.widget('workTimeSearchWindow')).show();
 	},
 	/*combobox选中后控制对应输入（文本框和日期框）框显示隐藏*/
 	searchComboboxSelectChuang:function(combo,record,index){
@@ -39,17 +39,17 @@
 	submitAddForm:function(btn){
 		var win    = btn.up('window');
 		var form = win.down('form');
-		var record = Ext.create('Admin.model.employee.EmployeeModel');
+		var record = Ext.create('Admin.model.workTime.WorkTimeModel');
 		var values  =form.getValues();//获取form数据
 		record.set(values);
 		record.save();
-		Ext.data.StoreManager.lookup('employeeGridStroe').load();
+		Ext.data.StoreManager.lookup('workTimeGridStroe').load();
 		win.close();
 	},
 	/*Edit Submit*/	
 	submitEditForm:function(btn){
 		var win    = btn.up('window');
-		var store = Ext.data.StoreManager.lookup('employeeGridStroe');
+		var store = Ext.data.StoreManager.lookup('workTimeGridStroe');
 		var values  = win.down('form').getValues();//获取form数据
 		var record = store.getById(values.id);//获取id获取store中的数据
 		record.set(values);//rest put 
@@ -65,7 +65,7 @@
 		//var searchDataFieldValue2 = this.lookupReference('searchDataFieldValue2').getValue();
 		
 		var store =	btn.up('gridpanel').getStore();
-		//var store = Ext.getCmp('userGridPanel').getStore();// Ext.getCmp(）需要在employeePanel设置id属性
+		//var store = Ext.getCmp('userGridPanel').getStore();// Ext.getCmp(）需要在workTimePanel设置id属性
 		Ext.apply(store.proxy.extraParams, {id:"",name:"",entryTime:""});
 		
 		if(searchField==='id'){
@@ -82,7 +82,7 @@
 		store.load({params:{start:0, limit:20, page:1}});
 	},
 	submitSearchForm:function(btn){
-		var store =	Ext.data.StoreManager.lookup('employeeGridStroe');
+		var store =	Ext.data.StoreManager.lookup('workTimeGridStroe');
 		var win = btn.up('window');
 		var form = win.down('form');
 		var values  = form.getValues();
@@ -102,7 +102,7 @@
             	if(btn=='yes'){
             		var store = grid.getStore();
 					var record = store.getAt(rowIndex);
-					store.remove(record);//DELETE //http://localhost:8081/employee/112
+					store.remove(record);//DELETE //http://localhost:8081/workTime/112
 					//store.sync();
 				}
         	}
@@ -121,7 +121,7 @@
                         selectIds.push(row.data.id);
                     });
                   	Ext.Ajax.request({ 
-						url : '/employee/deletes', 
+						url : '/workTime/deletes', 
 						method : 'post', 
 						params : { 
 							//ids[] :selectIds

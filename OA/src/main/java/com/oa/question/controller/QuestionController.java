@@ -49,11 +49,11 @@ public class QuestionController {
 	}
 	
 	@PutMapping(value="{id}")
-    public ExtAjaxResponse update(@PathVariable("id") Integer id,Question question) {
+    public ExtAjaxResponse update(@PathVariable("id") Integer id,QuestionDTO questionDTO) {
     	try {
     		Question entity = questionService.findById(id);
 			if(entity!=null) {
-				BeanUtils.copyProperties(question, entity);//使用自定义的BeanUtils
+				BeanUtils.copyProperties(questionDTO, entity);//使用自定义的BeanUtils
 				questionService.save(entity);
 			}
     		return new ExtAjaxResponse(true,"更新成功!");
@@ -68,7 +68,7 @@ public class QuestionController {
 		try {
 			if(id!=null) {
 				Question question=questionService.findById(id);
-				question.setStatus(0);
+				question.setStatus(1);
 				questionService.save(question);
 			}
 			return new ExtAjaxResponse(true,"删除成功");
