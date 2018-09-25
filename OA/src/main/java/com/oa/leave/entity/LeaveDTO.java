@@ -19,6 +19,8 @@ public class LeaveDTO {
     private String leaveType;
     private String reason;
     
+    //状态字段
+    private Integer status;
     //private ProcessStatus processStatus;//流程状态
     
     /*销假*/
@@ -26,20 +28,23 @@ public class LeaveDTO {
     private Date realityStartTime;
     @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     private Date realityEndTime;
-    /**------------流程数据--------------**/
-    /*任务*/
-    private String taskId;
-    private String taskName;
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
-    private Date   taskCreateTime;
-    private String assignee;
-    private String taskDefinitionKey;
-    /*流程实例*/
-    private String processInstanceId;
-    /*流程图定义*/
-    private String processDefinitionId;
-    private boolean suspended;
-    private int version;
+    
+    
+    
+//    /**------------流程数据--------------**/
+//    /*任务*/
+//    private String taskId;
+//    private String taskName;
+//    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
+//    private Date   taskCreateTime;
+//    private String assignee;
+//    private String taskDefinitionKey;
+//    /*流程实例*/
+//    private String processInstanceId;
+//    /*流程图定义*/
+//    private String processDefinitionId;
+//    private boolean suspended;
+//    private int version;
 
 
 }
