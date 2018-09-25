@@ -51,12 +51,15 @@ public class Leave  implements Serializable {
     private String leaveType;
     private String reason;
     
+    //状态字段
+    private Integer status;
     //private ProcessStatus processStatus;//流程状态
     //工作流程数据字段
 //    private String userId;//启动流程的用户ID
     @OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     private Employee employee;
     //流程实例Id：用于关联流程引擎相关数据没有启动流程之前为""
-    private String processInstanceId;
+//    private String processInstanceId;
     
+  
 }
