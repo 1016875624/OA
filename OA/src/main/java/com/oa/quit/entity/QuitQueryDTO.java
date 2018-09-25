@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -11,7 +13,9 @@ import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.oa.employee.entity.Employee;
 
 import lombok.Data;
@@ -19,11 +23,18 @@ import lombok.Data;
 @Data
 public class QuitQueryDTO {
 	private Integer id;
+	
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
+	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date applyDate;
-	//private String reason;
+	private String reason;
 	private String employeeid;
 	private Employee employee1;
 	
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
+	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date quitDate;
 	private Integer status;
 	@SuppressWarnings({"serial"})

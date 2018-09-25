@@ -7,13 +7,18 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.oa.common.beans.BeanUtils;
+import com.oa.employee.service.EmployeeService;
+import com.oa.employee.service.IEmployeeService;
 import com.oa.worktime.entity.WorkTime;
+import com.oa.worktime.entity.WorkTimeDTO;
 import com.oa.worktime.repository.WorkTimeRepository;
 
 
@@ -23,6 +28,8 @@ public class WorkTimeService implements IWorkTimeService {
 
 	@Autowired
 	private WorkTimeRepository workTimeRepository;
+	@Autowired
+	private IEmployeeService employeeService;
 	
 	@Override
 	public WorkTime save(WorkTime entity) {
@@ -157,4 +164,36 @@ public class WorkTimeService implements IWorkTimeService {
 		
 	}
 
+	
+	public WorkTimeDTO entityToDto(WorkTime workTime) {
+		WorkTimeDTO workTimeDTO=new WorkTimeDTO();
+		BeanUtils.copyProperties(workTime, workTimeDTO);
+		if (workTime.getEmployee()!=null&&workTime.getEmployee().getDepartment()!=null) {
+			workTimeDTO.setDepartmentName(workTime.getEmployee().getDepartment().getName());
+		}
+		if (workTime.getEmployee()!=null) {
+			workTimeDTO.setEmployeeName(workTime.getEmployee().getName());
+		}
+		return workTimeDTO;
+		
+	}
+	public WorkTimeDTO dtoToentity(WorkTimeDTO workTimeDTO) {
+		WorkTime workTime=new WorkTime();
+		BeanUtils.copyProperties(workTimeDTO, workTime);
+		workTime.setEmployee(employeeService.findById(workTimeDTO.getEmployeeid()).get());
+		return workTimeDTO;
+	}
+
+	@Override
+	public Page<WorkTimeDTO> findAllInDto(Specification<WorkTime> spec, Pageable pageable) {
+		Page<WorkTime> page=findAll(spec, pageable);
+		List<WorkTime> workTimes= page.getContent();
+		List<WorkTimeDTO> workTimeDTOs=new ArrayList<>();
+		for (WorkTime workTime : workTimes) {
+			workTimeDTOs.add(entityToDto(workTime));
+		}
+		return new PageImpl<>(workTimeDTOs, pageable, workTimeDTOs.size());
+	}
+	
+	
 }
