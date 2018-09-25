@@ -14,20 +14,22 @@ import lombok.Data;
 public class WorkTimeDTO {
 	
 	private Integer id;
-	
-	private String workEmployeeid;
 	/**
-	* @Fields date : 离职申请时间
+	* @Fields employee : 某个员工的工时
+	*/
+	private String employeeid;
+	/**
+	* @Fields date : 日期
 	*/
 	@JsonFormat(pattern="yyyy/MM/dd",timezone="GMT+8")
 	@DateTimeFormat(pattern="yyyy/MM/dd")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 	/**
-	* @Fields reason : 离职原因
+	* @Fields hour : 当天的上班时间
 	*/
 	private Integer hour;
 	
-	
+	private Integer status;
 	
 }

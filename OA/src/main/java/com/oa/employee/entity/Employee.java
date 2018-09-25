@@ -33,7 +33,7 @@ public class Employee {
 	* @Fields id : id
 	*/
 	@Id
-	@Column(name="ID_",length=255)
+	@Column(name="ID_",length=64)
 	private String id;
 	/**
 	* @Fields password : 密码

@@ -43,9 +43,9 @@ public class WorkTimeController {
 		
 		Employee em= null;
 		try {
-			if (workTimeDTO.getWorkEmployeeid()!=null&&!"".equals(workTimeDTO.getWorkEmployeeid().trim())) {
+			if (workTimeDTO.getEmployeeid()!=null&&!"".equals(workTimeDTO.getEmployeeid().trim())) {
 				em= new Employee();
-				em.setId(workTimeDTO.getWorkEmployeeid());
+				em.setId(workTimeDTO.getEmployeeid());
 				
 			}
 			WorkTime workTime=new WorkTime();
