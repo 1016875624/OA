@@ -1,4 +1,4 @@
-﻿Ext.define('Admin.view.employee.WorkTimeSearchWindow', {
+﻿Ext.define('Admin.view.workTime.WorkTimeSearchWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.workTimeSearchWindow',
     height: 300,
@@ -16,7 +16,7 @@
         xtype: 'form',
         layout: 'form',
         padding: '10px',
-        ariaLabel: 'Enter your name',
+        ariaLabel: 'Enter your workTime',
         items: [{
             // xtype: 'textfield',
             // fieldLabel: 'id',

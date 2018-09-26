@@ -1,7 +1,7 @@
 Ext.define('Admin.view.workTime.WorkTimeAddWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.workTimeAddWindow',
-    height: 500,
+    height: 450,
     minHeight: 100,
     minWidth: 300,
     width: 500,
@@ -17,8 +17,18 @@ Ext.define('Admin.view.workTime.WorkTimeAddWindow', {
         xtype: 'form',
         layout: 'form',
         padding: '10px',
-        ariaLabel: 'Enter your name',
+        ariaLabel: 'Enter your WorkTime',
         items: [{
+            xtype: 'textfield',
+            fieldLabel: 'id',
+            name:'id',
+            hidden: true,
+            readOnly: true
+        },{
+            xtype: 'textfield',
+            fieldLabel: '员工编号',
+            name:'employeeid'
+        },{
             xtype: 'textfield',
             fieldLabel: '当天上班时间',
             name:'hour'
