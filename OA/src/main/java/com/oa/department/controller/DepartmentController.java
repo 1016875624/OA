@@ -1,6 +1,7 @@
 package com.oa.department.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,5 +79,14 @@ public class DepartmentController {
 		} catch (Exception e) {
 			return new ExtAjaxResponse(false,"删除失败");
 		}
+	}
+	@RequestMapping("/simpleget")
+	public List<String> getDepartmentNames() {
+		List<String>names=new ArrayList<>();
+		List<Department>departments=departmentService.findAll();
+		for (Department department : departments) {
+			names.add(department.getName());
+		}
+		return names;
 	}
 }
