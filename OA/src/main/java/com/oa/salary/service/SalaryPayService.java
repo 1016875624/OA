@@ -1,5 +1,6 @@
 package com.oa.salary.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -165,7 +167,7 @@ public class SalaryPayService implements ISalaryPayService {
 		salaryPayRepository.save(salaryPay);
 	}
 
-	public SalaryPayDTO entityToDto(SalaryPay salaryPay) {
+	/*public SalaryPayDTO entityToDto(SalaryPay salaryPay) {
 		SalaryPayDTO salaryPayDTO=new SalaryPayDTO();
 		BeanUtils.copyProperties(salaryPay, salaryPayDTO);
 		if (salaryPay.getEmployee()!=null) {
@@ -184,7 +186,7 @@ public class SalaryPayService implements ISalaryPayService {
 		}
 		return salaryPay;
 		
-	}
+	}*/
 
 	@Override
 	public void update(SalaryPayDTO salaryPayDTO) {
@@ -201,9 +203,10 @@ public class SalaryPayService implements ISalaryPayService {
 	public Page<SalaryPayDTO> findAllInDTO(Specification<SalaryPay> spec, Pageable pageable) {
 		Page<SalaryPay>salaryPage=findAll(spec, pageable);
 		List<SalaryPay>salaryPays=salaryPage.getContent();
+		List<SalaryPayDTO>salaryPayDTOs=new ArrayList<>();
 		for (SalaryPay salaryPay : salaryPays) {
-			
+			salaryPayDTOs.add(SalaryPayDTO.entityToDto(salaryPay));
 		}
-		return null;
+		return new PageImpl<>(salaryPayDTOs, pageable, salaryPage.getTotalElements());
 	}
 }

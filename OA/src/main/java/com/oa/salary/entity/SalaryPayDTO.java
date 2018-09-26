@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -59,6 +60,11 @@ public class SalaryPayDTO {
 	public static SalaryPay DtoToEntity(SalaryPayDTO salaryPayDTO) {
 		SalaryPay salaryPay=new SalaryPay();
 		BeanUtils.copyProperties(salaryPayDTO, salaryPay);
+		if (StringUtils.isNotBlank(salaryPayDTO.getEmployeeid())) {
+			Employee employee=new Employee();
+			employee.setId(salaryPayDTO.getEmployeeid());
+			salaryPay.setEmployee(employee);
+		}
 		return salaryPay;
 	}
 	

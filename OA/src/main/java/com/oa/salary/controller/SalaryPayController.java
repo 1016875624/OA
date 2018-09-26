@@ -30,16 +30,19 @@ public class SalaryPayController {
 	private ISalaryPayService salaryPayService;
 	
 	@GetMapping
-	public Page<SalaryPay> getPage(SalaryPayQueryDTO salaryPayQueryDTO,ExtjsPageRequest extjsPageRequest){
+	public Page<SalaryPayDTO> getPage(SalaryPayQueryDTO salaryPayQueryDTO,ExtjsPageRequest extjsPageRequest){
 		
 		//return salaryPayService.findAll(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
-		return salaryPayService.findAll(extjsPageRequest.getPageable());
+		return salaryPayService.findAllInDTO(salaryPayQueryDTO.getWhereClause(salaryPayQueryDTO), extjsPageRequest.getPageable());
 	}
 	
 	@PostMapping
 	public ExtAjaxResponse save(SalaryPayDTO salaryPayDTO) 
 	{
 		try {
+			if (salaryPayDTO.getStatus()==null) {
+				salaryPayDTO.setStatus(0);
+			}
 			salaryPayService.save(salaryPayDTO);
 			return new ExtAjaxResponse(true,"添加成功");
 		} catch (Exception e) {

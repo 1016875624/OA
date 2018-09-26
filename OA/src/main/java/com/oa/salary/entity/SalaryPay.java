@@ -33,7 +33,7 @@ public class SalaryPay {
 	private Integer id;
 	
 	
-	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER)
 	private Employee employee;
 	@JsonFormat(pattern="yyyy/MM/dd",timezone="GMT+8")
 	@DateTimeFormat(pattern="yyyy/MM/dd")
