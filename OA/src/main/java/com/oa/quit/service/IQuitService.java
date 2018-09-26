@@ -10,14 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.Nullable;
 
 import com.oa.quit.entity.Quit;
-
-
-
-
-
-
-
-
+import com.oa.quit.entity.QuitDTO;
 
 public interface IQuitService {
 	public Quit save(Quit entity);
@@ -62,5 +55,8 @@ public interface IQuitService {
 	long count(@Nullable Specification<Quit> spec);
 	
 	void deleteAllById(Integer[]ids);
+	
+	
+	Page<QuitDTO> findAllInDTO(@Nullable Specification<Quit> spec, Pageable pageable);
 }
 

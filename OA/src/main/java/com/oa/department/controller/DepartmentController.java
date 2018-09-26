@@ -36,9 +36,8 @@ public class DepartmentController {
 	private IDepartmentService departmentService;
 	
 	@GetMapping
-	public Page<Department> getPage(DepartmentQueryDTO departmentQueryDTO,ExtjsPageRequest extjsPageRequest){
-		
-		return departmentService.findAll(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
+	public Page<DepartmentDTO> getPage(DepartmentQueryDTO departmentQueryDTO,ExtjsPageRequest extjsPageRequest){
+		return departmentService.findAllInDTO(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
 	}
 	
 	@PostMapping
@@ -59,11 +58,9 @@ public class DepartmentController {
 	@PutMapping(value="{id}")
     public ExtAjaxResponse update(@PathVariable("id") String id,DepartmentDTO departmentDTO) {
     	try {
-    		Department entity = departmentService.findById(id);
-			if(entity!=null) {
-				BeanUtils.copyProperties(departmentDTO, entity);//使用自定义的BeanUtils
-				departmentService.save(entity);
-			}
+    		Department entity = null;
+			entity=DepartmentDTO.DtoToEntity(departmentDTO);
+			departmentService.update(entity);
     		return new ExtAjaxResponse(true,"更新成功!");
 	    } catch (Exception e) {
 	    	e.printStackTrace();

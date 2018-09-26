@@ -34,7 +34,7 @@ public class DepartmentQueryDTO {
 					predicate.add(criteriaBuilder.like(root.get("name").as(String.class),
 							"%" + departmentQueryDTO.getName() + "%"));
 				}
-				if (null!=departmentQueryDTO.getId()) {
+				if (StringUtils.isNotBlank(departmentQueryDTO.getId())) {
 					predicate.add(criteriaBuilder.equal(root.get("id").as(String.class),
 							departmentQueryDTO.getId()));
 				}
@@ -43,7 +43,6 @@ public class DepartmentQueryDTO {
 
 				}else {
 					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),0));
-
 				}
 				
 				Predicate[] pre = new Predicate[predicate.size()];

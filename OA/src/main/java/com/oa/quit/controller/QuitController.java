@@ -1,5 +1,6 @@
 package com.oa.quit.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +15,6 @@ import com.oa.common.beans.BeanUtils;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.ExtjsPageRequest;
 import com.oa.employee.entity.Employee;
-import com.oa.employee.service.IEmployeeService;
 import com.oa.quit.entity.Quit;
 import com.oa.quit.entity.QuitDTO;
 import com.oa.quit.entity.QuitQueryDTO;
@@ -26,22 +26,19 @@ import com.oa.quit.service.IQuitService;
 public class QuitController {
 	@Autowired 
 	private IQuitService quitService;
-	@Autowired
-	private IEmployeeService employeeService;
 	
 	@GetMapping
-	public Page<Quit> getPage(QuitQueryDTO quitQueryDTO,ExtjsPageRequest extjsPageRequest){
+	public Page<QuitDTO> getPage(QuitQueryDTO quitQueryDTO,ExtjsPageRequest extjsPageRequest){
 		/*if (quitQueryDTO.getEmployeeid()!=null) {
 			quitQueryDTO.setEmployee1(employeeService.findById(quitQueryDTO.getEmployeeid()).orElse(null));
 		}*/
-		return quitService.findAll(QuitQueryDTO.getWhereClause(quitQueryDTO), extjsPageRequest.getPageable());
+		return quitService.findAllInDTO(QuitQueryDTO.getWhereClause(quitQueryDTO), extjsPageRequest.getPageable());
 	}
 	
 	@PostMapping
 	public ExtAjaxResponse save(QuitDTO quitDTO) 
 	{
 		Quit quit=new Quit();
-		System.out.println("right here");
 		Employee emp=null;
 		try {
 			if (quitDTO.getEmployeeid()!=null&&!"".equals(quitDTO.getEmployeeid().trim())) {
@@ -59,13 +56,17 @@ public class QuitController {
 	}
 	
 	@PutMapping(value="{id}")
-    public ExtAjaxResponse update(@PathVariable("id") Integer id,Quit quit) {
+    public ExtAjaxResponse update(@PathVariable("id") Integer id,QuitDTO quitDTO) {
     	try {
-    		Quit entity = quitService.findById(id);
-			if(entity!=null) {
-				BeanUtils.copyProperties(quit, entity);//使用自定义的BeanUtils
-				quitService.save(entity);
+    		Quit entity =new Quit();
+			BeanUtils.copyProperties(quitDTO, entity);//使用自定义的BeanUtils
+			entity.setId(id);
+			if (StringUtils.isNotBlank(quitDTO.getEmployeeid())) {
+				Employee employee=new Employee();
+				employee.setId(quitDTO.getEmployeeid());
+				entity.setEmployee(employee);
 			}
+			quitService.save(entity);
     		return new ExtAjaxResponse(true,"更新成功!");
 	    } catch (Exception e) {
 	    	e.printStackTrace();
@@ -74,11 +75,15 @@ public class QuitController {
     }
 	
 	@DeleteMapping(value="/{id}")
-	public ExtAjaxResponse deleteQuestion(@PathVariable Integer id) {
+	public ExtAjaxResponse delete(@PathVariable Integer id) {
 		try {
 			if(id!=null) {
 				Quit quit=quitService.findById(id);
-				quit.setStatus(0);
+				if (quit.getStatus()==2) {
+					quit.setStatus(-2);
+				}else {
+					quit.setStatus(-1);
+				}
 				quitService.save(quit);
 			}
 			return new ExtAjaxResponse(true,"删除成功");

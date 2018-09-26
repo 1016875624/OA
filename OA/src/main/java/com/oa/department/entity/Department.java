@@ -40,7 +40,7 @@ public class Department {
 	/**
 	* @Fields employees : 部门员工
 	*/
-	@OneToMany(cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST},fetch=FetchType.LAZY,mappedBy="department")
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="department")
 	private List<Employee> employees=new ArrayList<>();
 	
 	/**

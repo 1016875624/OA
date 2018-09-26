@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.oa.quit.entity.Quit;
+import com.oa.quit.entity.QuitDTO;
 import com.oa.quit.repository.QuitRepository;
 
 
@@ -139,6 +141,17 @@ public class QuitService implements IQuitService {
 	@Override
 	public void deleteAllById(Integer[] ids) {
 		deleteAll(ids);
+	}
+
+	@Override
+	public Page<QuitDTO> findAllInDTO(Specification<Quit> spec, Pageable pageable) {
+		Page<Quit>qPage=findAll(spec, pageable);
+		List<Quit>quits=qPage.getContent();
+		List<QuitDTO>quitDTOs=new ArrayList<>();
+		for (Quit quit : quits) {
+			quitDTOs.add(QuitDTO.entityToDTO(quit));
+		}
+		return new PageImpl<>(quitDTOs, pageable, qPage.getTotalElements());
 	}
 
 }

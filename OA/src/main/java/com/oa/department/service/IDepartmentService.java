@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.oa.department.entity.Department;
+import com.oa.department.entity.DepartmentDTO;
 
 
 public interface IDepartmentService {
@@ -58,5 +59,8 @@ public interface IDepartmentService {
 	List<Department> findAll(@Nullable Specification<Department> spec, Sort sort);
 	long count(@Nullable Specification<Department> spec);
 	
+	Page<DepartmentDTO> findAllInDTO(@Nullable Specification<Department> spec, Pageable pageable);
+	
 	void deleteAllById(String[]ids);
+	
 }
