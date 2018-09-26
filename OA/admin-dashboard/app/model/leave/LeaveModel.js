@@ -5,16 +5,17 @@
 	],
 	fields: [
 		{type:'int',name:'id'}
-		,{type:'string',name:'userId'}
+		,{type:'string',name:'employeeId'}
 		,{type:'date',name:'startTime',dateFormat:'Y/m/d H:i:s'}
 		,{type:'date',name:'endTime',dateFormat:'Y/m/d H:i:s'}
 		,{type:'date',name:'realityStartTime',dateFormat:'Y/m/d H:i:s'}
 		,{type:'date',name:'realityEndTime',dateFormat:'Y/m/d H:i:s'}
 		,{type:'date',name:'applyTime',dateFormat:'Y/m/d H:i:s'}
 		,{type:'string',name:'leaveType'}
-		,{type:'string',name:'processStatus'}
+		//,{type:'string',name:'processStatus'}
 		,{type:'string',name:'reason'}
-		,{type:'string',name:'processInstanceId'}
+		//,{type:'string',name:'processInstanceId'}
+		,{type:'int',name:'status'}
 	],
 	proxy: {
 		type: 'rest',

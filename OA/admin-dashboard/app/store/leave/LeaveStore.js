@@ -1,7 +1,7 @@
-﻿Ext.define('Admin.store.leave.LeaveStroe', {
+﻿Ext.define('Admin.store.leave.LeaveStore', {
 	extend: 'Ext.data.Store',
-	storeId:'leaveStroe',
-	alias: 'store.leaveStroe',
+	storeId:'leaveStore',
+	alias: 'store.leaveStore',
 	model:'Admin.model.leave.LeaveModel',
 	proxy: {
 		type: 'rest',

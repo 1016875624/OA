@@ -48,13 +48,13 @@
 		var values  =form.getValues();//获取form数据
 		record.set(values);
 		record.save();
-		Ext.data.StoreManager.lookup('leaveStroe').load();
+		Ext.data.StoreManager.lookup('leaveStore').load();
 		win.close();
 	},
 	/*Edit Submit*/	
 	submitEditForm:function(btn){
 		var win    = btn.up('window');
-		var store = Ext.data.StoreManager.lookup('leaveStroe');
+		var store = Ext.data.StoreManager.lookup('leaveStore');
 		var values  = win.down('form').getValues();//获取form数据
 		var record = store.getById(values.id);//获取id获取store中的数据
 		record.set(values);//rest put 
@@ -79,7 +79,7 @@
 		store.load({params:{start:0, limit:20, page:1}});
 	},
 	submitSearchForm:function(btn){
-		var store =	Ext.data.StoreManager.lookup('leaveStroe');
+		var store =	Ext.data.StoreManager.lookup('leaveStore');
 		var win = btn.up('window');
 		var form = win.down('form');
 		var values  = form.getValues();
