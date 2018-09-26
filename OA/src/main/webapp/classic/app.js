@@ -85122,8 +85122,8 @@ Ext.define('Ext.ux.layout.ResponsiveColumn', {extend:Ext.layout.container.Auto, 
 });
 Ext.define('Admin.model.Base', {extend:Ext.data.Model, schema:{namespace:'Admin.model'}});
 Ext.define('Admin.model.employee.EmployeeModel', {extend:Admin.model.Base, fields:[{type:'string', name:'id'}, {type:'string', name:'name'}, {type:'string', name:'email'}, {type:'string', name:'position'}, {type:'integer', name:'state'}, {type:'string', name:'leader'}, {type:'date', name:'entryTime', dateFormat:'Y/m/d H:i:s'}], proxy:{type:'rest', url:'/employee'}});
-Ext.define('Admin.model.leave.LeaveModel', {extend:Admin.model.Base, fields:[{type:'int', name:'id'}, {type:'string', name:'userId'}, {type:'date', name:'startTime', dateFormat:'Y/m/d H:i:s'}, {type:'date', name:'endTime', dateFormat:'Y/m/d H:i:s'}, {type:'date', name:'realityStartTime', dateFormat:'Y/m/d H:i:s'}, {type:'date', name:'realityEndTime', dateFormat:'Y/m/d H:i:s'}, {type:'date', name:'applyTime', dateFormat:'Y/m/d H:i:s'}, {type:'string', name:'leaveType'}, {type:'string', name:'processStatus'}, 
-{type:'string', name:'reason'}, {type:'string', name:'processInstanceId'}], proxy:{type:'rest', url:'/leave'}});
+Ext.define('Admin.model.leave.LeaveModel', {extend:Admin.model.Base, fields:[{type:'int', name:'id'}, {type:'string', name:'employeeId'}, {type:'date', name:'startTime', dateFormat:'Y/m/d H:i:s'}, {type:'date', name:'endTime', dateFormat:'Y/m/d H:i:s'}, {type:'date', name:'realityStartTime', dateFormat:'Y/m/d H:i:s'}, {type:'date', name:'realityEndTime', dateFormat:'Y/m/d H:i:s'}, {type:'date', name:'applyTime', dateFormat:'Y/m/d H:i:s'}, {type:'string', name:'leaveType'}, {type:'string', name:'reason'}, 
+{type:'int', name:'status'}], proxy:{type:'rest', url:'/leave'}});
 Ext.define('Admin.model.leaveapprove.LeaveApproveModel', {extend:Admin.model.Base, fields:[{type:'int', name:'id'}, {type:'string', name:'userId'}, {type:'date', name:'startTime'}, {type:'date', name:'endTime'}, {type:'date', name:'realityStartTime'}, {type:'date', name:'realityEndTime'}, {type:'date', name:'applyTime'}, {type:'string', name:'leaveType'}, {type:'string', name:'processStatus'}, {type:'string', name:'reason'}, {type:'string', name:'processInstanceId'}, {type:'string', name:'taskId'}, 
 {type:'string', name:'taskName'}, {type:'date', name:'taskCreateTime'}, {type:'string', name:'assignee'}, {type:'string', name:'taskDefinitionKey'}, {type:'string', name:'processDefinitionId'}, {type:'boolean', name:'suspended'}, {type:'int', name:'version'}]});
 Ext.define('Admin.model.process.definition.ProcessDefinitionModel', {extend:Admin.model.Base, fields:[{type:'string', name:'id'}, {type:'string', name:'category'}, {type:'string', name:'name'}, {type:'string', name:'key'}, {type:'string', name:'description'}, {type:'int', name:'version'}, {type:'string', name:'resourceName'}, {type:'string', name:'deploymentId'}, {type:'string', name:'diagramResourceName'}, {type:'string', name:'tenantId'}, {type:'boolean', name:'startFormKey'}, {type:'boolean', 
@@ -85131,14 +85131,15 @@ name:'graphicalNotation'}, {type:'boolean', name:'suspended'}]});
 Ext.define('Admin.model.question.QuestionModel', {extend:Admin.model.Base, fields:[{type:'int', name:'id'}, {type:'string', name:'textQuestion'}, {type:'string', name:'realanswer'}, {type:'string', name:'answers'}, {type:'int', name:'type'}, {type:'int', name:'status'}], proxy:{type:'rest', url:'/question'}});
 Ext.define('Admin.model.workTime.WorkTimeModel', {extend:Admin.model.Base, fields:[{type:'int', name:'id'}, {type:'string', name:'employeeid'}, {type:'string', name:'employeeName'}, {type:'string', name:'departmentName'}, {type:'int', name:'hour'}, {type:'date', name:'date', dateFormat:'Y/m/d'}], proxy:{type:'rest', url:'/workTime'}});
 Ext.define('Admin.store.NavigationTree', {extend:Ext.data.TreeStore, storeId:'NavigationTree', fields:[{name:'text'}], root:{expanded:true, children:[{text:'Dashboard', iconCls:'x-fa fa-desktop', rowCls:'nav-tree-badge nav-tree-badge-new', viewType:'admindashboard', routeId:'dashboard', leaf:true}, {text:'流程定义模块', iconCls:'x-fa fa-address-card', viewType:'processDefinitionCenterPanel', leaf:true}, {text:'员工管理模块', iconCls:'x-fa fa-user', viewType:'employeeCenterPanel', leaf:true}, {text:'订单管理模块', 
-iconCls:'x-fa fa-address-card', viewType:'orderCenterPanel', leaf:true}, {text:'请假管理模块', iconCls:'x-fa fa-address-card', viewType:'leaveCenterPanel', leaf:true}, {text:'请假审批模块', iconCls:'x-fa fa-address-card', viewType:'leaveApproveCenterPanel', leaf:true}, {text:'Login', iconCls:'x-fa fa-check', viewType:'login', leaf:true}]}});
+iconCls:'x-fa fa-address-card', viewType:'orderCenterPanel', leaf:true}, {text:'请假管理模块', iconCls:'x-fa fa-address-card', viewType:'leaveCenterPanel', leaf:true}, {text:'请假审批模块', iconCls:'x-fa fa-address-card', viewType:'leaveApproveCenterPanel', leaf:true}, {text:'Login', iconCls:'x-fa fa-check', viewType:'login', leaf:true}, {text:'工时', iconCls:'x-fa fa-address-card', viewType:'workTimeCenterPanel', leaf:true}, {text:'题库', iconCls:'x-fa fa-address-card', viewType:'questionCenterPanel', leaf:true}]}});
 Ext.define('Admin.store.employee.EmployeeGridStroe', {extend:Ext.data.Store, storeId:'employeeGridStroe', alias:'store.employeeGridStroe', model:'Admin.model.employee.EmployeeModel', proxy:{type:'rest', url:'/employee', reader:{type:'json', rootProperty:'content', totalProperty:'totalElements'}, writer:{type:'json'}, simpleSortMode:true}, autoLoad:true, autoSync:true, remoteSort:true, pageSize:15, sorters:{direction:'ASE', property:'id'}});
-Ext.define('Admin.store.leave.LeaveStroe', {extend:Ext.data.Store, storeId:'leaveStroe', alias:'store.leaveStroe', model:'Admin.model.leave.LeaveModel', proxy:{type:'rest', url:'/leave', reader:{type:'json', rootProperty:'content', totalProperty:'totalElements'}, writer:{type:'json'}, simpleSortMode:true}, autoLoad:true, autoSync:true, remoteSort:true, pageSize:15, sorters:{direction:'DESC', property:'id'}, listeners:{}});
+Ext.define('Admin.store.leave.LeaveStore', {extend:Ext.data.Store, storeId:'leaveStore', alias:'store.leaveStore', model:'Admin.model.leave.LeaveModel', proxy:{type:'rest', url:'/leave', reader:{type:'json', rootProperty:'content', totalProperty:'totalElements'}, writer:{type:'json'}, simpleSortMode:true}, autoLoad:true, autoSync:true, remoteSort:true, pageSize:15, sorters:{direction:'DESC', property:'id'}, listeners:{}});
 Ext.define('Admin.store.leaveapprove.LeaveApproveStore', {extend:Ext.data.Store, storeId:'leaveApproveStore', alias:'store.leaveApproveStore', model:'Admin.model.leaveapprove.LeaveApproveModel', proxy:{type:'ajax', url:'leave/tasks', reader:new Ext.data.JsonReader({type:'json', rootProperty:'content', totalProperty:'totalElements'}), simpleSortMode:true}, remoteSort:true, sorters:[{property:'id', direction:'desc'}], autoLoad:true});
 Ext.define('Admin.store.order.OrderGridStroe', {extend:Ext.data.Store, alias:'store.orderGridStroe', fields:[{type:'int', name:'identifier'}, {type:'string', name:'fullname'}, {type:'string', name:'email'}, {name:'subscription'}, {type:'date', name:'joinDate'}, {type:'boolean', name:'isActive'}, {name:'profile_pic'}], data:{'lists':[{'identifier':1, 'fullname':'Archie Young', 'profile_pic':'1.png', 'email':'dwatkins@mydeo.name', 'subscription':'minima', 'joinDate':'10/16/2012', 'isActive':false}, 
 {'identifier':2, 'fullname':'May Williams', 'profile_pic':'2.png', 'email':'jreid@babbleblab.com', 'subscription':'ab', 'joinDate':'6/13/2004', 'isActive':true}]}, proxy:{type:'memory', reader:{type:'json', rootProperty:'lists'}}, autoLoad:'true', sorters:{direction:'ASC', property:'fullname'}});
 Ext.define('Admin.store.process.definition.ProcessDefinitionStroe', {extend:Ext.data.Store, storeId:'processDefinitionStroe', alias:'store.processDefinitionStroe', model:'Admin.model.process.definition.ProcessDefinitionModel', pageSize:15, proxy:{type:'ajax', url:'/process-definition', reader:{type:'json', rootProperty:'content', totalProperty:'totalElements'}, simpleSortMode:true}, remoteSort:true, sorters:[{property:'id', direction:'desc'}], autoLoad:true, listeners:{}});
 Ext.define('Admin.store.question.QuestionGridStroe', {extend:Ext.data.Store, storeId:'questionGridStroe', alias:'store.questionGridStroe', model:'Admin.model.question.QuestionModel', proxy:{type:'rest', url:'/question', reader:{type:'json', rootProperty:'content', totalProperty:'totalElements'}, writer:{type:'json'}, simpleSortMode:true}, autoLoad:true, autoSync:true, remoteSort:true, pageSize:15, sorters:{direction:'ASE', property:'id'}});
+Ext.define('Admin.store.workTime.WorkTimeGridStroe', {extend:Ext.data.Store, storeId:'workTimeGridStroe', alias:'store.workTimeGridStroe', model:'Admin.model.workTime.WorkTimeModel', proxy:{type:'rest', url:'/workTime', reader:{type:'json', rootProperty:'content', totalProperty:'totalElements'}, writer:{type:'json'}, simpleSortMode:true}, autoLoad:true, autoSync:true, remoteSort:true, pageSize:15, sorters:{direction:'ASE', property:'id'}});
 Ext.define('Admin.view.dashboard.DashboardController', {extend:Ext.app.ViewController, alias:'controller.dashboard', onRefreshToggle:function(tool, e, owner) {
   var store, runner;
   if (tool.toggleValue) {
@@ -85385,22 +85386,22 @@ value:'NEW', hidden:true, readOnly:true}, {xtype:'textfield', name:'userId', fie
 fieldLabel:'请假结束时间', format:'Y/m/d H:i:s', name:'endTime'}, {xtype:'textareafield', grow:true, name:'reason', fieldLabel:'请假原因', anchor:'100%'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitEditForm'}, {xtype:'button', text:'Close', handler:function(btn) {
   btn.up('window').close();
 }}, '-\x3e']});
-Ext.define('Admin.view.leave.LeaveGridPanel', {extend:Ext.panel.Panel, xtype:'leaveGridPanel', layout:'fit', items:[{xtype:'gridpanel', title:'LeaveGrid Results', bind:'{leaveLists}', scrollable:false, selModel:{type:'checkboxmodel'}, columns:[{header:'id', dataIndex:'id', width:60, sortable:true, hidden:true}, {header:'processStatus', dataIndex:'processStatus', width:60, sortable:true, renderer:function(val) {
-  if (val == 'NEW') {
-    return '\x3cspan style\x3d"color:green;"\x3e新建\x3c/span\x3e';
+Ext.define('Admin.view.leave.LeaveGridPanel', {extend:Ext.panel.Panel, xtype:'leaveGridPanel', layout:'fit', items:[{xtype:'gridpanel', title:'LeaveGrid Results', bind:'{leaveLists}', scrollable:false, selModel:{type:'checkboxmodel'}, columns:[{header:'id', dataIndex:'id', width:60, sortable:true, hidden:true}, {header:'status', dataIndex:'status', width:60, sortable:true, renderer:function(val) {
+  if (val == '-1') {
+    return '\x3cspan style\x3d"color:green;"\x3e已删除\x3c/span\x3e';
   } else {
-    if (val == 'APPROVAL') {
-      return '\x3cspan style\x3d"color:blue;"\x3e审批中...\x3c/span\x3e';
+    if (val == '0') {
+      return '\x3cspan style\x3d"color:blue;"\x3e待申请\x3c/span\x3e';
     } else {
-      if (val == 'COMPLETE') {
-        return '\x3cspan style\x3d"color:orange;"\x3e完成审批\x3c/span\x3e';
+      if (val == '1') {
+        return '\x3cspan style\x3d"color:orange;"\x3e待审批\x3c/span\x3e';
       } else {
-        return '\x3cspan style\x3d"color:red;"\x3e取消申请\x3c/span\x3e';
+        return '\x3cspan style\x3d"color:red;"\x3e审批通过\x3c/span\x3e';
       }
     }
   }
   return val;
-}}, {header:'userId', dataIndex:'userId', width:60, sortable:true}, {header:'startTime', dataIndex:'startTime', width:180, sortable:true, renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s')}, {header:'endTime', dataIndex:'endTime', width:180, sortable:true, renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s')}, {header:'leaveType', dataIndex:'leaveType', width:120, sortable:true, renderer:function(val) {
+}}, {header:'employeeId', dataIndex:'employeeId', width:60, sortable:true}, {header:'startTime', dataIndex:'startTime', width:180, sortable:true, renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s')}, {header:'endTime', dataIndex:'endTime', width:180, sortable:true, renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s')}, {header:'leaveType', dataIndex:'leaveType', width:120, sortable:true, renderer:function(val) {
   if (val == 'A') {
     return '\x3cspan style\x3d"color:green;"\x3e带薪假期\x3c/span\x3e';
   } else {
@@ -85455,11 +85456,11 @@ Ext.define('Admin.view.leave.LeaveViewController', {extend:Ext.app.ViewControlle
   var values = form.getValues();
   record.set(values);
   record.save();
-  Ext.data.StoreManager.lookup('leaveStroe').load();
+  Ext.data.StoreManager.lookup('leaveStore').load();
   win.close();
 }, submitEditForm:function(btn) {
   var win = btn.up('window');
-  var store = Ext.data.StoreManager.lookup('leaveStroe');
+  var store = Ext.data.StoreManager.lookup('leaveStore');
   var values = win.down('form').getValues();
   var record = store.getById(values.id);
   record.set(values);
@@ -85475,7 +85476,7 @@ Ext.define('Admin.view.leave.LeaveViewController', {extend:Ext.app.ViewControlle
   }
   store.load({params:{start:0, limit:20, page:1}});
 }, submitSearchForm:function(btn) {
-  var store = Ext.data.StoreManager.lookup('leaveStroe');
+  var store = Ext.data.StoreManager.lookup('leaveStore');
   var win = btn.up('window');
   var form = win.down('form');
   var values = form.getValues();
@@ -85538,7 +85539,7 @@ Ext.define('Admin.view.leave.LeaveViewController', {extend:Ext.app.ViewControlle
 }, cancelLeaveProcess:function(grid, rowIndex, colIndex) {
   Ext.Msg.alert('Title', 'Cancel Leave Process');
 }});
-Ext.define('Admin.view.leave.LeaveViewModel', {extend:Ext.app.ViewModel, alias:'viewmodel.leaveViewModel', stores:{leaveLists:{type:'leaveStroe'}}});
+Ext.define('Admin.view.leave.LeaveViewModel', {extend:Ext.app.ViewModel, alias:'viewmodel.leaveViewModel', stores:{leaveLists:{type:'leaveStore'}}});
 Ext.define('Admin.view.leaveapprove.LeaveApproveCenterPanel', {extend:Ext.panel.Panel, xtype:'leaveApproveCenterPanel', layout:'fit', margin:'20 20 20 20', controller:'leaveApproveViewController', viewModel:{type:'leaveApproveViewModel'}, items:[{xtype:'leaveApproveGrid'}]});
 Ext.define('Admin.view.leaveapprove.LeaveApproveGrid', {extend:Ext.grid.Panel, xtype:'leaveApproveGrid', title:'tiele', iconCls:'fa-arrow-circle-o-up', bind:'{leaveApproveStore}', columns:[{xtype:'actioncolumn', items:[{xtype:'button', iconCls:'x-fa fa-pencil', tooltip:'签收任务', getClass:function(v, meta, rec) {
   if (rec.get('assignee') != '') {
@@ -86002,12 +86003,13 @@ Ext.define('Admin.view.question.QuestionViewController', {extend:Ext.app.ViewCon
 }, onCheckButton:function(grid, rowIndex, colIndex) {
   Ext.Msg.alert('Title', 'Click Check Button');
 }});
-Ext.define('Admin.view.workTime.WorkTimeAddWindow', {extend:Ext.window.Window, alias:'widget.workTimeAddWindow', height:500, minHeight:100, minWidth:300, width:500, scrollable:true, title:'Add workTime Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your name', items:[{xtype:'textfield', fieldLabel:'当天上班时间', name:'hour'}, {xtype:'datefield', fieldLabel:'日期', name:'date', format:'Y/m/d'}]}], 
-buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitAddForm'}, {xtype:'button', text:'Close', handler:function(btn) {
+Ext.define('Admin.view.workTime.WorkTimeAddWindow', {extend:Ext.window.Window, alias:'widget.workTimeAddWindow', height:450, minHeight:100, minWidth:300, width:500, scrollable:true, title:'Add workTime Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your WorkTime', items:[{xtype:'textfield', fieldLabel:'id', name:'id', hidden:true, readOnly:true}, {xtype:'textfield', fieldLabel:'员工编号', 
+name:'employeeid'}, {xtype:'textfield', fieldLabel:'当天上班时间', name:'hour'}, {xtype:'datefield', fieldLabel:'日期', name:'date', format:'Y/m/d'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitAddForm'}, {xtype:'button', text:'Close', handler:function(btn) {
   btn.up('window').close();
 }}, '-\x3e']});
-Ext.define('Admin.view.workTime.WorkTimeEditWindow', {extend:Ext.window.Window, alias:'widget.workTimeEditWindow', height:600, minHeight:100, minWidth:300, width:500, scrollable:true, title:'Edit workTime Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your name', items:[{xtype:'textfield', fieldLabel:'id', name:'id'}, {xtype:'textfield', fieldLabel:'name', name:'name'}, {xtype:'textfield', 
-fieldLabel:'partment', name:'partment'}, {xtype:'textfield', fieldLabel:'name', name:'name'}, {xtype:'textfield', fieldLabel:'name', name:'name'}, {xtype:'textfield', fieldLabel:'name', name:'name'}, {xtype:'textfield', fieldLabel:'name', name:'name'}, {xtype:'datefield', fieldLabel:'Entry Time', name:'entryTime', format:'Y/m/d H:i:s'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitEditForm'}, {xtype:'button', text:'Close', handler:function(btn) {
+Ext.define('Admin.view.workTime.WorkTimeCenterPanel', {extend:Ext.container.Container, xtype:'workTimeCenterPanel', controller:'workTimeViewController', viewModel:{type:'workTimeViewModel'}, layout:'fit', items:[{xtype:'workTimeGridPanel'}]});
+Ext.define('Admin.view.workTime.WorkTimeEditWindow', {extend:Ext.window.Window, alias:'widget.workTimeEditWindow', height:450, minHeight:100, minWidth:300, width:500, scrollable:true, title:'Edit workTime Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your name', items:[{xtype:'textfield', fieldLabel:'id', name:'id', hidden:true, readOnly:true}, {xtype:'textfield', fieldLabel:'员工编号', 
+name:'employeeid', disabled:true}, {xtype:'textfield', fieldLabel:'员工姓名', name:'employeeName', disabled:true}, {xtype:'textfield', fieldLabel:'部门名称', name:'departmentName', disabled:true}, {xtype:'textfield', fieldLabel:'当天工作时间(单位：h)', name:'hour'}, {xtype:'datefield', fieldLabel:'日期', name:'date', format:'Y/m/d'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitEditForm'}, {xtype:'button', text:'Close', handler:function(btn) {
   btn.up('window').close();
 }}, '-\x3e']});
 Ext.define('Admin.view.workTime.WorkTimeGridPanel', {extend:Ext.panel.Panel, xtype:'workTimeGridPanel', layout:'fit', items:[{xtype:'gridpanel', cls:'user-grid', title:'workTimeGrid Results', bind:'{workTimeLists}', scrollable:false, selModel:{type:'checkboxmodel'}, columns:[{xtype:'gridcolumn', width:40, dataIndex:'id', text:'#', hidden:true}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'employeeid', text:'员工编号', flex:1}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'employeeName', 
@@ -86017,7 +86019,7 @@ reference:'searchFieldValue', name:'orderPanelSearchField'}, '-', {xtype:'datefi
 iconCls:'fa fa-trash', itemId:'workTimeGridPanelRemove', disabled:true, handler:'deleteMoreRows'}], dockedItems:[{xtype:'pagingtoolbar', dock:'bottom', displayInfo:true, bind:'{workTimeLists}'}], listeners:{selectionchange:function(selModel, selections) {
   this.down('#workTimeGridPanelRemove').setDisabled(selections.length === 0);
 }}}]});
-Ext.define('Admin.view.employee.WorkTimeSearchWindow', {extend:Ext.window.Window, alias:'widget.workTimeSearchWindow', height:300, minHeight:300, minWidth:300, width:500, scrollable:true, title:'Search More Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your name', items:[{xtype:'textfield', fieldLabel:'id', name:'id'}, {xtype:'textfield', fieldLabel:'name', name:'name'}, {xtype:'datefield', 
+Ext.define('Admin.view.workTime.WorkTimeSearchWindow', {extend:Ext.window.Window, alias:'widget.workTimeSearchWindow', height:300, minHeight:300, minWidth:300, width:500, scrollable:true, title:'Search More Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your workTime', items:[{xtype:'textfield', fieldLabel:'id', name:'id'}, {xtype:'textfield', fieldLabel:'name', name:'name'}, {xtype:'datefield', 
 format:'Y/m/d H:i:s', name:'entryTime'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitSearchForm'}, {xtype:'button', text:'Close', handler:function(btn) {
   btn.up('window').close();
 }}, '-\x3e']});
@@ -86119,4 +86121,5 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {extend:Ext.app.ViewCon
 }, onCheckButton:function(grid, rowIndex, colIndex) {
   Ext.Msg.alert('Title', 'Click Check Button');
 }});
+Ext.define('Admin.view.workTime.WorkTimeViewModel', {extend:Ext.app.ViewModel, alias:'viewmodel.workTimeViewModel', stores:{workTimeLists:{type:'workTimeGridStroe'}}});
 Ext.application({extend:Admin.Application, name:'Admin', mainView:'Admin.view.main.Main'});
