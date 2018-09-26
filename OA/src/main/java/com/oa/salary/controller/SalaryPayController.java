@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,7 +38,7 @@ public class SalaryPayController {
 	}
 	
 	@PostMapping
-	public ExtAjaxResponse save(SalaryPayDTO salaryPayDTO) 
+	public ExtAjaxResponse save(@RequestBody SalaryPayDTO salaryPayDTO) 
 	{
 		try {
 			if (salaryPayDTO.getStatus()==null) {
@@ -51,7 +52,7 @@ public class SalaryPayController {
 	}
 	
 	@PutMapping(value="{id}")
-    public ExtAjaxResponse update(@PathVariable("id") Integer id,SalaryPayDTO salaryPayDTO) {
+    public ExtAjaxResponse update(@PathVariable("id") Integer id,@RequestBody SalaryPayDTO salaryPayDTO) {
     	try {
     		salaryPayDTO.setId(id);
     		salaryPayService.update(salaryPayDTO);
@@ -73,4 +74,5 @@ public class SalaryPayController {
 			return new ExtAjaxResponse(false,"删除失败");
 		}
 	}
+	
 }

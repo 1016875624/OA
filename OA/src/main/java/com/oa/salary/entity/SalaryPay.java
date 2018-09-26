@@ -52,12 +52,12 @@ public class SalaryPay {
 	/**
 	* @Fields realWorktime : 实际工作时间
 	*/
-	private int realWorktime;
+	private Integer realWorktime;
 	
 	/**
 	* @Fields worktime : 要求工作时间
 	*/
-	private int worktime;
+	private Integer worktime;
 	/**
 	* @Fields attendRate : 出勤率
 	*/

@@ -41,7 +41,7 @@ public class DepartmentController {
 	}
 	
 	@PostMapping
-	public ExtAjaxResponse save(DepartmentDTO departmentDTO) 
+	public ExtAjaxResponse save(@RequestBody DepartmentDTO departmentDTO) 
 	{
 		try {
 			
@@ -56,7 +56,7 @@ public class DepartmentController {
 	}
 	
 	@PutMapping(value="{id}")
-    public ExtAjaxResponse update(@PathVariable("id") String id,DepartmentDTO departmentDTO) {
+    public ExtAjaxResponse update(@PathVariable("id") String id,@RequestBody DepartmentDTO departmentDTO) {
     	try {
     		Department entity = null;
 			entity=DepartmentDTO.DtoToEntity(departmentDTO);
