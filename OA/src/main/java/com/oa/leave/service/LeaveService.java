@@ -6,13 +6,19 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.oa.common.beans.BeanUtils;
+import com.oa.employee.service.EmployeeService;
 import com.oa.leave.entity.Leave;
+import com.oa.leave.entity.LeaveDTO;
 import com.oa.leave.repository.LeaveRepository;
+import com.oa.worktime.entity.WorkTime;
+import com.oa.worktime.entity.WorkTimeDTO;
 
 @Service
 @Transactional
@@ -21,6 +27,8 @@ public class LeaveService implements ILeaveService {
 	@Autowired
 	private LeaveRepository leaveRepository;
 	
+	@Autowired
+	private EmployeeService employeeService;
 	//保存
 	public void save(Leave leave) {
 		if(leave != null) {
@@ -58,6 +66,36 @@ public class LeaveService implements ILeaveService {
 	@Transactional(readOnly = true)
 	public Page<Leave> findAll(Specification<Leave> spec, Pageable pageable) {
 		return leaveRepository.findAll(spec, pageable);
+	}
+	
+	//entity传到dto
+	public LeaveDTO entityToDto(Leave leave) {
+		LeaveDTO leaveDTO=new LeaveDTO();
+		BeanUtils.copyProperties(leave, leaveDTO);
+		if (leave.getEmployee()!=null) {
+			leaveDTO.setEmployeeId(leave.getEmployee().getId());
+			leaveDTO.setEmployeeName(leave.getEmployee().getName());
+		}
+		return leaveDTO;
+	}
+	
+	//dto传到entity
+	public LeaveDTO dtoToentity(LeaveDTO leaveDTO) {
+		Leave leave=new Leave();
+		BeanUtils.copyProperties(leaveDTO, leave);
+		leave.setEmployee(employeeService.findById(leaveDTO.getEmployeeId()).get());
+		return leaveDTO;
+	}
+	
+	//将查询的entity类封装到dto
+	public Page<LeaveDTO> findAllInDto(Specification<Leave> spec, Pageable pageable) {
+		Page<Leave> page=findAll(spec, pageable);
+		List<Leave> leaves= page.getContent();
+		List<LeaveDTO> leaveDTOs=new ArrayList<>();
+		for (Leave leave : leaves) {
+			leaveDTOs.add(entityToDto(leave));
+		}
+		return new PageImpl<>(leaveDTOs, pageable, leaveDTOs.size());
 	}
 
 //	//根据职员ID来查找职员

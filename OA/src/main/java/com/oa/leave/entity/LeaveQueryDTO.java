@@ -28,6 +28,8 @@ public class LeaveQueryDTO
 
 	private Integer status;
 	
+	private Employee employee;
+	
 	public void setEmployeeId(String employeeId) {
 		this.employeeId = employeeId;
 	}
@@ -68,12 +70,31 @@ public class LeaveQueryDTO
 		this.leaderId = leaderId;
 	}
 
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
 	@SuppressWarnings({ "serial"})
 	public static Specification<Leave> getWhereClause(final LeaveQueryDTO leaveQueryDTO) {
+		if (leaveQueryDTO.getEmployeeId()!=null&&!"".equals(leaveQueryDTO.getEmployeeId().trim())) {
+			Employee employee=new Employee();
+			employee.setId(leaveQueryDTO.getEmployeeId());
+			leaveQueryDTO.setEmployee(employee);
+		}
+		if (leaveQueryDTO.getLeaderId()!=null&&!"".equals(leaveQueryDTO.getLeaderId().trim())) {
+			Employee employee=new Employee();
+			employee.setId(leaveQueryDTO.getLeaderId());
+			leaveQueryDTO.setEmployee(employee);
+		}
 		return new Specification<Leave>() {
 			@Override
 			public Predicate toPredicate(Root<Leave> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 			
+				
 				List<Predicate> predicate = new ArrayList<>();
 				
 				if (null!=leaveQueryDTO.getLeaderId()) {
