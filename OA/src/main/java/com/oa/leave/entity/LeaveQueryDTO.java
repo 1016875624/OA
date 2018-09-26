@@ -23,6 +23,8 @@ public class LeaveQueryDTO
 
 	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")  
 	private Date endTime;
+	
+	private String leaderId;
 
 	private Integer status;
 	
@@ -57,6 +59,14 @@ public class LeaveQueryDTO
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+	
+	public String getLeaderId() {
+		return leaderId;
+	}
+
+	public void setLeaderId(String leaderId) {
+		this.leaderId = leaderId;
+	}
 
 	@SuppressWarnings({ "serial"})
 	public static Specification<Leave> getWhereClause(final LeaveQueryDTO leaveQueryDTO) {
@@ -65,7 +75,11 @@ public class LeaveQueryDTO
 			public Predicate toPredicate(Root<Leave> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 			
 				List<Predicate> predicate = new ArrayList<>();
-		
+				
+				if (null!=leaveQueryDTO.getLeaderId()) {
+					predicate.add(criteriaBuilder.equal(root.get("employee").get("leader").as(String.class),
+							leaveQueryDTO.getLeaderId()));
+				}
 				if (null!=leaveQueryDTO.getEmployeeId()) {
 					predicate.add(criteriaBuilder.equal(root.get("employee").get("id").as(String.class),
 							leaveQueryDTO.getEmployeeId()));
@@ -80,9 +94,6 @@ public class LeaveQueryDTO
 				}
 				if (leaveQueryDTO.getStatus()!=null) {
 					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),leaveQueryDTO.getStatus()));
-				}
-				else {
-					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),0));
 				}
 				
 				Predicate[] pre = new Predicate[predicate.size()];

@@ -38,14 +38,15 @@ public class LeaveController {
 	@Autowired
 	private IEmployeeService employeeService;
 	
+	//添加保存，状态设置为0,表示该表为待申请状态
 	@PostMapping
     public ExtAjaxResponse save(HttpSession session,@RequestBody Leave leave) {
-		
     	try {
     		String applicantId = SessionUtil.getUserName(session);
     		Optional<Employee> employee = employeeService.findById(applicantId);
     		if(applicantId!=null) {
     			leave.setEmployee(employee.orElse(null));
+    			leave.setStatus(0);
         		leaveService.save(leave);
     		}
     		return new ExtAjaxResponse(true,"保存成功!");
@@ -55,10 +56,12 @@ public class LeaveController {
 	    }
     }
 	
+	//修改，状态设置为0,表示该表为待申请状态
 	@PutMapping(value="{id}")
     public @ResponseBody ExtAjaxResponse update(@PathVariable("id") Long id,@RequestBody Leave leave) {
     	try {
     		Leave entity = leaveService.findOne(id);
+    		leave.setStatus(0);
 			if(entity!=null) {
 				BeanUtils.copyProperties(leave, entity);//使用自定义的BeanUtils
 				leaveService.save(entity);
@@ -69,7 +72,36 @@ public class LeaveController {
 	        return new ExtAjaxResponse(false,"更新失败!");
 	    }
     }
+	
+	//发出申请,状态设置为1,表示该表为待审核状态
+	@PostMapping("/application")
+	public ExtAjaxResponse application(@RequestParam(name="id") Long id) {
+		try {
+			Leave leave = leaveService.findOne(id);
+			leave.setStatus(1);
+			leaveService.save(leave);
+			return new ExtAjaxResponse(true,"发出申请成功！");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ExtAjaxResponse(false,"发出申请失败！");
+		}
+	}
+	
+	//审核,状态设置为2,表示该表为已审核状态
+	@PostMapping("/approval")
+	public ExtAjaxResponse approval(@RequestParam(name="id") Long id) {
+		try {
+			Leave leave = leaveService.findOne(id);
+			leave.setStatus(2);
+			leaveService.save(leave);
+			return new ExtAjaxResponse(true,"审核成功！");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ExtAjaxResponse(false,"审核失败！");
+		}
+	}
 
+	//删除
 	@DeleteMapping(value="{id}")
     public @ResponseBody ExtAjaxResponse delete(@PathVariable("id") Long id) {
     	try {
@@ -84,6 +116,7 @@ public class LeaveController {
 	    }
     }
 	
+	//删除多个
 	@PostMapping("/deletes")
 	public ExtAjaxResponse deleteRows(@RequestParam(name="ids") Long[] ids) 
 	{
@@ -93,10 +126,12 @@ public class LeaveController {
 			}
 			return new ExtAjaxResponse(true,"批量删除成功！");
 		} catch (Exception e) {
-			return new ExtAjaxResponse(true,"批量删除失败！");
+			e.printStackTrace();
+			return new ExtAjaxResponse(false,"批量删除失败！");
 		}
 	}
 	
+	//根据当前登录用户的id来分页查询
 	@GetMapping
     public Page<Leave> findLeaveByApplicantId(LeaveQueryDTO leaveQueryDTO,HttpSession session,ExtjsPageRequest pageable) 
 	{
@@ -110,4 +145,22 @@ public class LeaveController {
 		}
 		return page;
     }
+	
+	//根据上级ID为当前用户的来对审批表分页查询
+	@GetMapping("/approvalTable")
+    public Page<Leave> findLeaveByLeaderId(LeaveQueryDTO leaveQueryDTO,HttpSession session,ExtjsPageRequest pageable) 
+	{
+		Page<Leave> page;
+		//获得当前用户ID
+		String applicantId = SessionUtil.getUserName(session);
+		if(applicantId!=null) {
+			leaveQueryDTO.setLeaderId(applicantId);
+			leaveQueryDTO.setStatus(1);
+			page = leaveService.findAll(LeaveQueryDTO.getWhereClause(leaveQueryDTO), pageable.getPageable());
+		}else {
+			page = new PageImpl<Leave>(new ArrayList<Leave>(),pageable.getPageable(),0);
+		}
+		return page;
+    }
+	
 }

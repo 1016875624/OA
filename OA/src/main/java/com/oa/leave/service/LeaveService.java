@@ -21,10 +21,9 @@ public class LeaveService implements ILeaveService {
 	@Autowired
 	private LeaveRepository leaveRepository;
 	
-	//保存,状态设置为0,表示该表为待申请状态
+	//保存
 	public void save(Leave leave) {
 		if(leave != null) {
-			leave.setStatus(0);
 			leaveRepository.save(leave);
 		}
 	}
