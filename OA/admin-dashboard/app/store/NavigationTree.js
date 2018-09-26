@@ -51,6 +51,16 @@
                 //hidden:true,
                 //style:'display:none',
                 leaf: true
+           },{
+               text: '工时',
+               iconCls: 'x-fa fa-address-card',
+               viewType: 'workTimeCenterPanel',
+               leaf: true
+           },{
+               text: '题库',
+               iconCls: 'x-fa fa-address-card',
+               viewType: 'questionCenterPanel',
+               leaf: true
            }
         ]
     }

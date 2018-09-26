@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,9 +41,9 @@ public class WorkTimeController {
 	}
 	
 	@PostMapping
-	public ExtAjaxResponse save(WorkTimeDTO workTimeDTO) 
+	public ExtAjaxResponse save(@RequestBody WorkTimeDTO workTimeDTO) 
 	{
-		
+		System.out.println(workTimeDTO);
 		Employee em= null;
 		try {
 			if (workTimeDTO.getEmployeeid()!=null&&!"".equals(workTimeDTO.getEmployeeid().trim())) {
@@ -65,7 +66,7 @@ public class WorkTimeController {
 	}
 	
 	@PutMapping(value="{id}")
-    public ExtAjaxResponse update(@PathVariable("id") Integer id,WorkTimeDTO workTimeDTO) {
+    public ExtAjaxResponse update(@PathVariable("id") Integer id,@RequestBody WorkTimeDTO workTimeDTO) {
     	try {
     		WorkTime entity = workTimeService.findById(id);
 			if(entity!=null) {
