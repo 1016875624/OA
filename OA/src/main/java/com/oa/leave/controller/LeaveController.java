@@ -26,6 +26,7 @@ import com.oa.common.web.SessionUtil;
 import com.oa.employee.entity.Employee;
 import com.oa.employee.service.IEmployeeService;
 import com.oa.leave.entity.Leave;
+import com.oa.leave.entity.LeaveDTO;
 import com.oa.leave.entity.LeaveQueryDTO;
 import com.oa.leave.service.ILeaveService;
 
@@ -133,32 +134,32 @@ public class LeaveController {
 	
 	//根据当前登录用户的id来分页查询
 	@GetMapping
-    public Page<Leave> findLeaveByApplicantId(LeaveQueryDTO leaveQueryDTO,HttpSession session,ExtjsPageRequest pageable) 
+    public Page<LeaveDTO> findLeaveByApplicantId(LeaveQueryDTO leaveQueryDTO,HttpSession session,ExtjsPageRequest pageable) 
 	{
-		Page<Leave> page;
+		Page<LeaveDTO> page;
 		String applicantId = SessionUtil.getUserName(session);
 		if(applicantId!=null) {
 			leaveQueryDTO.setEmployeeId(applicantId);
-			page = leaveService.findAll(LeaveQueryDTO.getWhereClause(leaveQueryDTO), pageable.getPageable());
+			page = leaveService.findAllInDto(LeaveQueryDTO.getWhereClause(leaveQueryDTO), pageable.getPageable());
 		}else {
-			page = new PageImpl<Leave>(new ArrayList<Leave>(),pageable.getPageable(),0);
+			page = new PageImpl<LeaveDTO>(new ArrayList<LeaveDTO>(),pageable.getPageable(),0);
 		}
 		return page;
     }
 	
 	//根据上级ID为当前用户的来对审批表分页查询
 	@GetMapping("/approvalTable")
-    public Page<Leave> findLeaveByLeaderId(LeaveQueryDTO leaveQueryDTO,HttpSession session,ExtjsPageRequest pageable) 
+    public Page<LeaveDTO> findLeaveByLeaderId(LeaveQueryDTO leaveQueryDTO,HttpSession session,ExtjsPageRequest pageable) 
 	{
-		Page<Leave> page;
+		Page<LeaveDTO> page;
 		//获得当前用户ID
 		String applicantId = SessionUtil.getUserName(session);
 		if(applicantId!=null) {
 			leaveQueryDTO.setLeaderId(applicantId);
 			leaveQueryDTO.setStatus(1);
-			page = leaveService.findAll(LeaveQueryDTO.getWhereClause(leaveQueryDTO), pageable.getPageable());
+			page = leaveService.findAllInDto(LeaveQueryDTO.getWhereClause(leaveQueryDTO), pageable.getPageable());
 		}else {
-			page = new PageImpl<Leave>(new ArrayList<Leave>(),pageable.getPageable(),0);
+			page = new PageImpl<LeaveDTO>(new ArrayList<LeaveDTO>(),pageable.getPageable(),0);
 		}
 		return page;
     }
