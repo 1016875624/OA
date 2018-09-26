@@ -18,18 +18,19 @@ import com.oa.common.web.ExtjsPageRequest;
 import com.oa.department.entity.DepartmentQueryDTO;
 import com.oa.salary.entity.SalaryPay;
 import com.oa.salary.entity.SalaryPayDTO;
+import com.oa.salary.entity.SalaryPayQueryDTO;
 import com.oa.salary.service.ISalaryPayService;
 
 
 
 @RestController
-@RequestMapping("/department")
+@RequestMapping("/salarypay")
 public class SalaryPayController {
 	@Autowired
 	private ISalaryPayService salaryPayService;
 	
 	@GetMapping
-	public Page<SalaryPay> getPage(DepartmentQueryDTO departmentQueryDTO,ExtjsPageRequest extjsPageRequest){
+	public Page<SalaryPay> getPage(SalaryPayQueryDTO salaryPayQueryDTO,ExtjsPageRequest extjsPageRequest){
 		
 		//return salaryPayService.findAll(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
 		return salaryPayService.findAll(extjsPageRequest.getPageable());

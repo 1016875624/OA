@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.oa.department.entity.Department;
+import com.oa.department.entity.DepartmentDTO;
 import com.oa.department.repository.DepartmentRepository;
 import com.oa.employee.entity.Employee;
 import com.oa.employee.service.EmployeeService;
@@ -59,31 +61,26 @@ public class DepartmentService implements IDepartmentService {
 
 	@Override
 	public Department findById(String id) {
-		// TODO Auto-generated method stub
 		return departmentRepository.findById(id).get();
 	}
 
 	@Override
 	public boolean existsById(String id) {
-		// TODO Auto-generated method stub
 		return departmentRepository.existsById(id);
 	}
 
 	@Override
 	public List<Department> findAll() {
-		// TODO Auto-generated method stub
 		return departmentRepository.findAll();
 	}
 
 	@Override
 	public List<Department> findAllById(List<String> ids) {
-		// TODO Auto-generated method stub
 		return departmentRepository.findAllById(ids);
 	}
 
 	@Override
 	public long count() {
-		// TODO Auto-generated method stub
 		return departmentRepository.count();
 	}
 
@@ -174,12 +171,20 @@ public class DepartmentService implements IDepartmentService {
 			deleteById(string);
 		}
 	}
-
+	//TODO 这里要进行优化 尽量用一条sql语句解决，而不是遍历
 	@Override
 	public Department update(Department department) {
+		Department d1=departmentRepository.findById(department.getId()).get();
+		//先接解除原来的关系 然后再建立新的关系
+		for (Employee employee : d1.getEmployees()) {
+			employee.setDepartment(null);
+			employeeService.save(employee);
+		}
 		
-		if (!department.getEmployees().isEmpty()) {
-			for (Employee e : department.getEmployees()) {
+		List<Employee>employees=department.getEmployees();
+		//建立新的关系
+		if (!employees.isEmpty()) {
+			for (Employee e : employees) {
 				Employee emp=employeeService.findById(e.getId()).orElse(null);
 				if (emp==null) {
 					continue;
@@ -187,10 +192,22 @@ public class DepartmentService implements IDepartmentService {
 				emp.setDepartment(department);
 				employeeService.save(emp);
 			}
-			
 		}
+		d1.setEmployees(employees);
+		departmentRepository.save(d1);
 		return department;
 	}
 
+	@Override
+	public Page<DepartmentDTO> findAllInDTO(Specification<Department> spec, Pageable pageable) {
+		Page<Department> departPage=findAll(spec, pageable);
+		List<Department>departments=departPage.getContent();
+		List<DepartmentDTO>departmentDTOs=new ArrayList<>();
+		for (Department department : departments) {
+			departmentDTOs.add(DepartmentDTO.EntityToDTO(department));
+		}
+		return new PageImpl<>(departmentDTOs, pageable, departPage.getTotalElements());
+	}
 
+	
 }

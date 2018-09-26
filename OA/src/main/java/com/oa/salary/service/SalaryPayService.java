@@ -3,12 +3,15 @@ package com.oa.salary.service;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.oa.employee.entity.Employee;
@@ -17,6 +20,8 @@ import com.oa.salary.entity.SalaryPay;
 import com.oa.salary.entity.SalaryPayDTO;
 import com.oa.salary.repository.SalaryPayRepository;
 
+@Service
+@Transactional
 public class SalaryPayService implements ISalaryPayService {
 	@Autowired
 	private SalaryPayRepository salaryPayRepository;
@@ -190,5 +195,15 @@ public class SalaryPayService implements ISalaryPayService {
 			salaryPay.setEmployee(emp);
 		}
 		salaryPayRepository.save(salaryPay);
+	}
+
+	@Override
+	public Page<SalaryPayDTO> findAllInDTO(Specification<SalaryPay> spec, Pageable pageable) {
+		Page<SalaryPay>salaryPage=findAll(spec, pageable);
+		List<SalaryPay>salaryPays=salaryPage.getContent();
+		for (SalaryPay salaryPay : salaryPays) {
+			
+		}
+		return null;
 	}
 }

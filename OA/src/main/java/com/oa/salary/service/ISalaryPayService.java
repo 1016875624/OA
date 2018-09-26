@@ -60,5 +60,7 @@ public interface ISalaryPayService {
 	void save(SalaryPayDTO salaryPayDTO);
 	
 	void update(SalaryPayDTO salaryPayDTO);
+	
+	Page<SalaryPayDTO> findAllInDTO(@Nullable Specification<SalaryPay> spec, Pageable pageable);
 }
 
