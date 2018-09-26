@@ -22,9 +22,8 @@
             	var json = Ext.util.JSON.decode(response.responseText);
 	            if(json.success){
 	            	me.redirectTo('dashboard', true);
-	            	Ext.getCmp('loginUserName').setText(json.map.userId);
+	            	Ext.getCmp('loginUserId').setText(json.map.userId);
 	            	//Ext.getCmp('loginUserImage').getEl().dom.src = json.map.loginUserImage;
-	            
 		        }else{
 		        	Ext.Msg.alert('登录失败', json.msg);
 		        }
@@ -49,15 +48,14 @@
     },
 	
 	onChangeCode:  function() {
-        //this.redirectTo('dashboard', true);
-		Ext.Msg.alert("Title","Click onChangeCode Button");
+			/*Ext.Ajax.request({
+				url: '/verify/code',
+				method: 'get',  
+				success: function(response) {
+            	var o = Ext.getCmp("changeCode").getEl().dom.src="/verify/code?date="+new Date();
+				}				 
+			});*/
+			var o = Ext.getCmp("changeCode").getEl().dom.src="/verify/code?date="+new Date();
+			//Ext.Msg.alert("Title","Click onChangeCode Button");
     },
-	
-	onGetCode : function() {
-		//this.lookupReference('codeFieldValue').show();
-        Ext.Ajax.request({
-            url: '/verify/code.action',
-            method: 'post'
-        });
-    }
 });

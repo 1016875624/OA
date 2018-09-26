@@ -36,7 +36,7 @@ public class EmployeeController {
 	//private id
 	//添加
 	@PostMapping
-	public String save(EmployeeDTO employeeDTO) 
+	public String save(@RequestBody EmployeeDTO employeeDTO) 
 	{	
 		System.out.println(employeeDTO);
 		Employee employee = new Employee();
@@ -59,18 +59,9 @@ public class EmployeeController {
 	}
 		
 	//查找分页显示
-	/*@GetMapping
-	public Page<Employee> getPage(EmployeeQueryDTO employeeQueryDTO , ExtjsPageRequest pageRequest) 
-	{
-		return employeeService.findAll(employeeQueryDTO.getWhereClause(employeeQueryDTO), pageRequest.getPageable());
-	}*/
 	@GetMapping
-	public Page<Employee> getPage(EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
-		if (employeeQueryDTO.getId()!=null) {
-			//employeeQueryDTO.setId(employeeService.findById(employeeQueryDTO.getId());
-			//worktimeQueryDto.setEmployee(employeeService.findById(worktimeQueryDto.getEmployeeid()).orElse(null));
-		}
-		return employeeService.findAll(EmployeeQueryDTO.getWhereClause(employeeQueryDTO), extjsPageRequest.getPageable());
+	public Page<EmployeeDTO> getPage(EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
+		return employeeService.findAllInDto(employeeQueryDTO.getWhereClause(employeeQueryDTO), extjsPageRequest.getPageable());
 	}
 
 	
@@ -101,14 +92,32 @@ public class EmployeeController {
 			return new ExtAjaxResponse(true,"批量删除失败！");
 		}
 	}
-	
+	/*
+	//修改更新
+		@PutMapping(value="{id}")
+	    public @ResponseBody ExtAjaxResponse update(@PathVariable("id") String id,@RequestBody Employee employee) {
+			System.out.println("000");
+	    	try {
+	    		Employee entity = employeeService.findById(id).get();
+				if(entity!=null) {
+					BeanUtils.copyProperties(employee, entity);//使用自定义的BeanUtils
+					employeeService.save(entity);
+				}
+	    		return new ExtAjaxResponse(true,"更新成功!");
+		    } catch (Exception e) {
+		    	e.printStackTrace();
+		        return new ExtAjaxResponse(false,"更新失败!");
+		    }
+	    }
+	*/
 	//修改更新
 	@PutMapping(value="{id}")
-    public @ResponseBody ExtAjaxResponse update(@PathVariable("id") String id,@RequestBody Employee employee) {
+    public @ResponseBody ExtAjaxResponse update(@PathVariable("id") String id,@RequestBody EmployeeDTO employeeDTO) {
+		System.out.println("000");
     	try {
     		Employee entity = employeeService.findById(id).get();
 			if(entity!=null) {
-				BeanUtils.copyProperties(employee, entity);//使用自定义的BeanUtils
+				BeanUtils.copyProperties(employeeDTO, entity);//使用自定义的BeanUtils
 				employeeService.save(entity);
 			}
     		return new ExtAjaxResponse(true,"更新成功!");

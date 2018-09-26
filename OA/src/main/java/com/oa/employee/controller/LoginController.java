@@ -7,9 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.activiti.engine.IdentityService;
-import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.User;
-import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +26,21 @@ public class LoginController {
  	private static Logger logger = LoggerFactory.getLogger(LoginController.class);
     @Autowired
     private IdentityService identityService;
+    
+    /**
+     * 权限管理
+     **/
+   /* @RequestMapping("/hello")
+		public String hello() {
+			return "不验证哦";
+		}
+	   
+	//@PreAuthorize("hasRole('ADMIN')")
+		@RequestMapping("/authorize")
+		public String authorize() {
+			return "有权限访问";
+		}
+	*/
     /**
      * 登录系统
      **/

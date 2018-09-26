@@ -19,21 +19,21 @@
 		selModel: {type: 'checkboxmodel'},
 		columns: [
 			 {header: 'id',dataIndex:'id',width: 60,sortable: true,hidden:true}
-			,{header: 'status',dataIndex: 'status',width: 60,sortable: true,
+			,{header: 'processStatus',dataIndex: 'processStatus',width: 60,sortable: true,
 	            renderer: function(val) {
-		            if (val =='-1') {
-			            return '<span style="color:green;">已删除</span>';
-			        } else if (val =='0') {
-			            return '<span style="color:blue;">待申请</span>';
-			        } else if (val =='1') {
-			            return '<span style="color:orange;">待审批</span>';
+		            if (val =='NEW') {
+			            return '<span style="color:green;">新建</span>';
+			        } else if (val =='APPROVAL') {
+			            return '<span style="color:blue;">审批中...</span>';
+			        } else if (val =='COMPLETE') {
+			            return '<span style="color:orange;">完成审批</span>';
 			        }else{
-			        	return '<span style="color:red;">审批通过</span>';
+			        	return '<span style="color:red;">取消申请</span>';
 			        }
 			        return val;
 	            }
 			}
-			,{header: 'employeeId',dataIndex: 'employeeId',width: 60,sortable: true}
+			,{header: 'userId',dataIndex: 'userId',width: 60,sortable: true}
 			,{header: 'startTime',dataIndex: 'startTime',width: 180,sortable: true,renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s')}
 			,{header: 'endTime',dataIndex: 'endTime',width: 180,sortable: true,renderer: Ext.util.Format.dateRenderer('Y/m/d H:i:s')}
 			,{header: 'leaveType',dataIndex: 'leaveType',width: 120,sortable: true,

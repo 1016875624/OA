@@ -40,7 +40,7 @@ Ext.define('Admin.view.employee.EmployeeAddWindow', {
 			store: Ext.create('Ext.data.Store', {
                 fields: ['value', 'name'],
                 data: [
-				{"value":"1","name":"行政部"},
+				{"value":"行政部","name":"行政部"},
 				{"value":"2","name":"人事部"},
 				{"value":"3","name":"财务部"},
 				{"value":"4","name":"技术部"},
