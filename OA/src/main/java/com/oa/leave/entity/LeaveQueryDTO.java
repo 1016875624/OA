@@ -80,16 +80,16 @@ public class LeaveQueryDTO
 
 	@SuppressWarnings({ "serial"})
 	public static Specification<Leave> getWhereClause(final LeaveQueryDTO leaveQueryDTO) {
-		if (leaveQueryDTO.getEmployeeId()!=null&&!"".equals(leaveQueryDTO.getEmployeeId().trim())) {
-			Employee employee=new Employee();
-			employee.setId(leaveQueryDTO.getEmployeeId());
-			leaveQueryDTO.setEmployee(employee);
-		}
-		if (leaveQueryDTO.getLeaderId()!=null&&!"".equals(leaveQueryDTO.getLeaderId().trim())) {
-			Employee employee=new Employee();
-			employee.setId(leaveQueryDTO.getLeaderId());
-			leaveQueryDTO.setEmployee(employee);
-		}
+//		if (leaveQueryDTO.getEmployeeId()!=null&&!"".equals(leaveQueryDTO.getEmployeeId().trim())) {
+//			Employee employee=new Employee();
+//			employee.setId(leaveQueryDTO.getEmployeeId());
+//			leaveQueryDTO.setEmployee(employee);
+//		}
+//		if (leaveQueryDTO.getLeaderId()!=null&&!"".equals(leaveQueryDTO.getLeaderId().trim())) {
+//			Employee employee=new Employee();
+//			employee.setLeader(leaveQueryDTO.getLeaderId());
+//			leaveQueryDTO.setEmployee(employee);
+//		}
 		return new Specification<Leave>() {
 			@Override
 			public Predicate toPredicate(Root<Leave> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -98,7 +98,7 @@ public class LeaveQueryDTO
 				List<Predicate> predicate = new ArrayList<>();
 				
 				if (null!=leaveQueryDTO.getLeaderId()) {
-					predicate.add(criteriaBuilder.equal(root.get("employee").get("leader").as(String.class),
+					predicate.add(criteriaBuilder.equal(root.get("employee").get("leader").get("id").as(String.class),
 							leaveQueryDTO.getLeaderId()));
 				}
 				if (null!=leaveQueryDTO.getEmployeeId()) {
