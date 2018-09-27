@@ -35,7 +35,7 @@
            xtype: 'combobox',
            fieldLabel: '部门名称',
            name:'departmentName'
-        	   
+              
               
        }, {
            xtype: 'textfield',
