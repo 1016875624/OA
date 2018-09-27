@@ -5,7 +5,7 @@
 	model:'Admin.model.question.QuestionModel',
 	proxy: {
 		type: 'rest',
-		url: '/question',
+		url: 'http://localhost:8080/question',
 		reader:{
 			type:'json',
 			rootProperty:'content',//对应后台返回的结果集名称

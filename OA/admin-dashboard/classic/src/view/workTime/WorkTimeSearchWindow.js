@@ -35,43 +35,30 @@
            xtype: 'combobox',
            fieldLabel: '请选择部门',
            name:'departmentName',
-    	   store:Ext.create("Ext.data.Store", {
-    		   proxy: new Ext.data.HttpProxy({ 
-    			   type: 'ajax',
-    			   method:"post",
-    			   url: "/department/simpleget",
-    			   //root:'names'
-    		   }),  
-    		    /*reader: new Ext.data.JsonReader(  
-    		                  { rootProperty: "names" },  
-    		                  ["value", "name"]  
-    		                  ),*/
-    		   autoLoad : true
-    	   }),
-    	   //valueField:'value',
-    	   hiddeName:'name',
-    	   displayField:'name',
-    	   emptyText: '请选择部门',
-    	   mode: 'remote',
-    	   triggerAction:'all',
-    	   selectOnFocus: true,  
-           allowBlank: false
-           
-           //editable: false
-//           listeners:{    
-//               select : function(combo, record,index){
-//                   isEdit = true;
-//               }
-//           },
-//           renderer:function(value,metadata,record){
-//        	   if(isEdit){
-//                   var index = cbstore.find(Ext.getCmp('content').valueField,value);
-//                   var record = cbstore.getAt(index);
-//                   return record.data.name;
-//               }else{
-//                   return value;
-//               }
-//           }
+           store:Ext.create("Ext.data.Store", {
+			    fields: ["id", "name"],
+			   	proxy: {
+			        type: 'ajax',
+			        url:'http://localhost:8080/department/simpleget',
+				    reader:{
+				    	type:'json',
+				    },
+			    }
+			   	,
+			   	autoLoad: 'true',
+				autoSync:'true',
+			}),
+			displayField:'name',
+			valueField:'id',
+			value:'id',
+			editable:false,
+			queryMode: 'local',
+			triggerAction: 'all',
+			emptyText: 'Select a state...',
+			width: 135,
+			listeners:{
+				change:'tbarSelectChange'
+			}
        }, {
            xtype: 'textfield',
            fieldLabel: '当天工作时间(单位：h)',

@@ -5,7 +5,7 @@
 	model:'Admin.model.workTime.WorkTimeModel',
 	proxy: {
 		type: 'rest',
-		url: '/workTime',
+		url: 'http://localhost:8080/workTime',
 		reader:{
 			type:'json',
 			rootProperty:'content',//对应后台返回的结果集名称
