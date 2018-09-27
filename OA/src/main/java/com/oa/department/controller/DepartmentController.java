@@ -24,6 +24,7 @@ import com.oa.common.web.ExtjsPageRequest;
 import com.oa.department.entity.Department;
 import com.oa.department.entity.DepartmentDTO;
 import com.oa.department.entity.DepartmentQueryDTO;
+import com.oa.department.entity.DepartmentSimpleDTO;
 import com.oa.department.service.IDepartmentService;
 import com.oa.employee.entity.Employee;
 import com.oa.employee.service.IEmployeeService;
@@ -37,15 +38,24 @@ public class DepartmentController {
 	private IDepartmentService departmentService;
 	
 	@GetMapping
+	public Page<DepartmentSimpleDTO> getPage(DepartmentQueryDTO departmentQueryDTO,ExtjsPageRequest extjsPageRequest){
+		//return departmentService.findAllInDTO(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
+		return departmentService.findAllInSimpleDTO(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
+	}
+	
+	/*
+	 * 
+	@GetMapping
 	public Page<DepartmentDTO> getPage(DepartmentQueryDTO departmentQueryDTO,ExtjsPageRequest extjsPageRequest){
 		return departmentService.findAllInDTO(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
+		//return departmentService.findAllInSimpleDTO(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
 	}
+	*/
 	
 	@PostMapping
 	public ExtAjaxResponse save(@RequestBody DepartmentDTO departmentDTO) 
 	{
 		try {
-			
 			Department department=DepartmentDTO.DtoToEntity(departmentDTO);
 			department.setStatus(0);
 			
@@ -80,13 +90,24 @@ public class DepartmentController {
 			return new ExtAjaxResponse(false,"删除失败");
 		}
 	}
-	@RequestMapping(value="/simpleget")
-	public List<String> getDepartmentNames() {
+	@RequestMapping("/simpleget")
+	public List<DepartmentSimpleDTO> getDepartmentNames() {
+		/*List<String>names=new ArrayList<>();
+		List<Department>departments=departmentService.findAll();
+		for (Department department : departments) {
+			names.add(department.getName());
+		}*/
+		return departmentService.findAllInSimpleDTO();
+	}
+	
+	/*@RequestMapping("/simpleget1")
+	public List<String> getDepartmentNames1() {
 		List<String>names=new ArrayList<>();
 		List<Department>departments=departmentService.findAll();
 		for (Department department : departments) {
 			names.add(department.getName());
 		}
 		return names;
-	}
+		//return departmentService.findAllInSimpleDTO();
+	}*/
 }

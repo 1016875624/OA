@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.oa.department.entity.Department;
 import com.oa.department.entity.DepartmentDTO;
+import com.oa.department.entity.DepartmentSimpleDTO;
 
 
 public interface IDepartmentService {
@@ -61,6 +62,10 @@ public interface IDepartmentService {
 	
 	Page<DepartmentDTO> findAllInDTO(@Nullable Specification<Department> spec, Pageable pageable);
 	
+	Page<DepartmentSimpleDTO> findAllInSimpleDTO(@Nullable Specification<Department> spec, Pageable pageable);
+	
 	void deleteAllById(String[]ids);
+	
+	List<DepartmentSimpleDTO> findAllInSimpleDTO();
 	
 }

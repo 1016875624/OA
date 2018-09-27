@@ -1,3 +1,4 @@
+var department=Ext.ComponentQuery.query("department");
 Ext.define('Admin.view.department.DepartmentViewController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.departmentViewController',
@@ -27,7 +28,7 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 	
 	/**********头部事件*********/
 	openSearchWindow:function(btn){
-		var win=Ext.widget('userSearchWindow');
+		var win=Ext.widget('departmentSearchWindow');
 		//win.setTitle('高级查询');
 		btn.up('gridpanel').up('container').add(win);
 		//win.show();
@@ -38,15 +39,20 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		win.down('button[text=save]').setHandler(this.highLevelSearch);
 	},
 	clickAddBtn:function(btn){
-		var win=Ext.widget('userWindow');
+		var win=Ext.widget('departmentWindow');
 		win.setTitle('添加数据');
 		btn.up('gridpanel').up('container').add(win);
-		win.down('datefield').format='Y/m/d H:i:s';
+		var containner=btn.up('gridpanel').up('container');
+		var idField=win.getComponent("department_form_id");
+		var ifield=Ext.getCmp("department_form_id");
+		console.log(Ext.ClassManager.getName(ifield));
+		ifield.setHidden(false);
+		//win.down('datefield').format='Y/m/d H:i:s';
 		var grid=btn.up('gridpanel');
 		var form1=win.down('form').getForm();
 		win.down('button[text=save]').setHandler(function(){
 			//Ext.Msg.alert("Add","you click the button named save");
-			var record = Ext.create('Admin.model.user.UserModel');
+			var record = Ext.create('Admin.model.department.DepartmentModel');
 			var values  =form1.getValues();//获取form数据
 			console.log(values);
            	record.set(values);
@@ -70,19 +76,19 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		console.log(Ext.ClassManager.getName(rec));
 		console.log(rec);
 		console.log(rec.data);
-		console.log(rec.data.orderDate);
-		console.log(Ext.ClassManager.getName(rec.get('orderDate')));
+		console.log(rec.data.id);
+		console.log(Ext.ClassManager.getName(rec.get('name')));
 		//console.log(Ext.ClassManager.getName(win));
 		//console.log(Ext.ClassManager.getName(win.down('form')));
 		//console.log(Ext.ClassManager.getName(win.down('form')));
 		//console.log(Ext.typeOf(win.down('form')));
-		win.down('datefield').format='Y/m/d H:i:s';
+		//win.down('datefield').format='Y/m/d H:i:s';
 		win.down('form').loadRecord(rec);
 		//console.log(Ext.ClassManager.getName(Ext.getCmp('userWindowSave')));
 		/*Ext.getCmp('userWindowSave').setHandler(function(){
 			Ext.Msg.alert("","you click the button named save");
 		});*/
-		var store = Ext.data.StoreManager.lookup('userGridStroe');
+		var store = Ext.data.StoreManager.lookup('departmentGridStroe');
 		console.log(Ext.ClassManager.getName(win.down('button')));
 		win.down('button[text=save]').setHandler(function(){
 			//Ext.Msg.alert("tips","you click the button named save");
@@ -144,7 +150,6 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		 });
 	},
 	
-	
 	showWindow:function(grid, rowIndex, colIndex){
 		//Ext.m_data=records[0];
 		var rec=grid.getStore().getAt(rowIndex);
@@ -200,7 +205,7 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 	quickSearch:function(btn){
 		var field=this.lookupReference('searchFieldName');
 		var value=this.lookupReference('searchFieldValue');
-		var value1=this.lookupReference('searchDateFieldValue');
+		//var value1=this.lookupReference('searchDateFieldValue');
 		var grid=btn.up('gridpanel');
 		var store=grid.getStore();
 		var model=store.getModel();
@@ -224,55 +229,39 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		//Ext.apply(store.proxy.extraParams, {orderNumber:"",createTimeStart:"",createTimeEnd:""});
 		//Ext.apply(store.proxy.extraParams, {orderNo:"",startDate:"",endDate:""});
 		//Ext.apply(store.proxy.extraParams, {});
-		Ext.apply(store.proxy.extraParams, {orderNo:"",startDate:"",endDate:""});
-		if(field.getValue()==='orderNo'){
-			Ext.apply(store.proxy.extraParams, {orderNo:value.getValue()});
+		Ext.apply(store.proxy.extraParams, {id:"",name:""});
+		if(field.getValue()==='id'){
+			Ext.apply(store.proxy.extraParams, {id:value.getValue()});
 		}
-		if(field.getValue()==='orderDate'){
-			Ext.apply(store.proxy.extraParams,{
-				startDate:Ext.util.Format.date(value1.getValue(), 'Y/m/d H:i:s'),
-				//createTimeEnd:Ext.util.Format.date(searchDataFieldValue2, 'Y/m/d H:i:s')
-			});
+		if(field.getValue()==='name'){
+			Ext.apply(store.proxy.extraParams,{name:value.getValue()});
 		}
-		store.load({params:{start:0, limit:20, page:1}});
+		//store.load({params:{start:0, limit:20, page:1}});
+		store.load();
 		//Ext.Msg.alert("field",field.getValue());
 		//Ext.Msg.alert("field",field.getValue());
 		//Ext.Msg.alert("value",value.getValue());
 	},
 	highLevelSearch:function(btn){
 		//win.down('datefield').format='Y/m/d H:i:s';
-		Ext.apply(store.proxy.extraParams, {orderNo:"",startDate:"",endDate:""});
+		var store = Ext.data.StoreManager.lookup('departmentGridStroe');
+		Ext.apply(store.proxy.extraParams, {id:"",name:""});
 		var win=btn.up('window');
 		var myform= win.down('form').getForm();
-		win.down('datefield').format='Y/m/d H:i:s';;
+		//win.down('datefield').format='Y/m/d H:i:s';;
 		console.log(myform);
 		var val=myform.getValues();
 		console.log(myform.getValues());
 		console.log(myform.getValues(true));
-		var store = Ext.data.StoreManager.lookup('userGridStroe');
-		if(val.startDate=="")
-		{
-			delete val.startDate;
-			delete val.endDate;
-			if(val.orderNo=="")
-			{
-				Ext.apply(store.proxy.extraParams, {orderNo:""});
-				store.load({params:{start:0, limit:20, page:1}});
-				win.close();
-				return ;
-			}
-		}
-		//delete val.id;
-		
-		//var store= btn.up('gridpanel').getStore();
 		Ext.apply(store.proxy.extraParams, val);
-		store.load({params:{start:0, limit:20, page:1}});
+		//store.load({params:{start:0, limit:20, page:1}});
 		console.log(val);
+		store.load();
 		win.close();
 	},
-	selectChange:function(box, newValue, oldValue, eOpts){
+	tbarSelectChange:function(box, newValue, oldValue, eOpts){
 		
-		if(newValue=="orderNo"){
+		/*if(newValue=="id"){
 			this.lookupReference('searchFieldValue').show();
 			this.lookupReference('searchDateFieldValue').hide();
 		}else{
@@ -280,7 +269,7 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 			this.lookupReference('searchFieldValue').hide();
 			
 			this.lookupReference('searchDateFieldValue').show();
-		}
+		}*/
 		
 		console.log(newValue);
 	},
