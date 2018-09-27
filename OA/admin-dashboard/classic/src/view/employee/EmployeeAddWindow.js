@@ -40,13 +40,16 @@ Ext.define('Admin.view.employee.EmployeeAddWindow', {
 			store: Ext.create('Ext.data.Store', {
                 fields: ['value', 'name'],
                 data: [
-				{"value":"1","name":"行政部"},
-				{"value":"2","name":"人事部"},
-				{"value":"3","name":"财务部"},
-				{"value":"4","name":"技术部"},
+				{"value":"1","name":"董事会"},
+				{"value":"2","name":"总裁部"},
+				{"value":"3","name":"市场部"},
+				{"value":"4","name":"项目部"},
                 {"value":"5","name":"人事部"}, 
-                {"value":"6","name":"测试部"},
-				{"value":"7","name":"后勤部"}
+                {"value":"6","name":"法务部"},
+				{"value":"7","name":"新闻部"},
+				{"value":"8","name":"财务部"},
+				{"value":"9","name":"管理员"},
+				{"value":"10","name":"tom"}
                 ]
                 }),
                 displayField: 'name',
