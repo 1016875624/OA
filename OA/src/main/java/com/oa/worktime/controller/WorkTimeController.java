@@ -1,5 +1,7 @@
 package com.oa.worktime.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,12 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oa.common.beans.BeanUtils;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.ExtjsPageRequest;
 import com.oa.department.entity.Department;
+import com.oa.department.service.IDepartmentService;
 import com.oa.employee.entity.Employee;
 import com.oa.employee.service.IEmployeeService;
 import com.oa.worktime.entity.WorkTime;
@@ -31,6 +35,8 @@ public class WorkTimeController {
 	@Autowired
 	private IEmployeeService employeeService;
 	
+	@Autowired
+	private IDepartmentService departmentService;
 	@GetMapping
 	public Page<WorkTimeDTO> getPage(WorkTimeQueryDTO worktimeQueryDto,ExtjsPageRequest extjsPageRequest){
 		if (worktimeQueryDto.getEmployeeid()!=null) {
@@ -93,4 +99,34 @@ public class WorkTimeController {
 			return new ExtAjaxResponse(false,"删除失败");
 		}
 	}
+	
+	@PostMapping(value="/deletes")
+	public ExtAjaxResponse deleteMoreRow(@RequestParam(name="ids") Integer[]ids) {
+		try {
+			if(ids!=null) {
+				List<WorkTime> workTimes=workTimeService.findAllById(ids);
+				for (WorkTime workTime : workTimes) {
+					workTime.setStatus(1);
+					workTimeService.save(workTime);
+				}
+			}
+			return new ExtAjaxResponse(true,"删除多条成功");
+		} catch (Exception e) {
+			return new ExtAjaxResponse(false,"删除多条失败");
+		}
+		
+	}
+//	
+//	@GetMapping(value="/searchDeparName")
+//	public ExtAjaxResponse searchDeparName()
+//	{
+//		try {
+//			
+//			return departmentService
+//			return new ExtAjaxResponse(true,"查询成功");
+//		} catch (Exception e) {
+//			return new ExtAjaxResponse(false,"查询失败");
+//		}
+//		
+//	}
 }
