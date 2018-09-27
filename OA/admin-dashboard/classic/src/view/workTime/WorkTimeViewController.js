@@ -86,11 +86,13 @@
 		var win = btn.up('window');
 		var form = win.down('form');
 		var values  = form.getValues();
-		Ext.apply(store.proxy.extraParams, {id:"",name:"",entryTime:""});
+		Ext.apply(store.proxy.extraParams, {employeeid:"",employeeName:"",departmentName:"",hour:"",date:""});
 		Ext.apply(store.proxy.extraParams,{
-			id:values.id,
-			name:value.name,
-			entryTime:Ext.util.Format.date(values.entryTime, 'Y/m/d H:i:s')
+			employeeid:values.employeeid,
+			employeeName:values.employeeName,
+			departmentName:values.departmentName,
+			hour:values.hour,
+			date:Ext.util.Format.date(values.date, 'Y/m/d')
 		});
 		store.load({params:{start:0, limit:20, page:1}});
 		win.close();

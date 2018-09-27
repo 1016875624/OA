@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.oa.department.entity.Department;
 import com.oa.employee.entity.Employee;
 
 import lombok.Data;
@@ -24,6 +25,10 @@ public class WorkTimeQueryDTO {
 	private String employeeid;
 	
 	private Employee employee;
+	
+	private String departmentName;
+	
+	private Department department;
 	
 	@DateTimeFormat(pattern="yyyy/MM/dd")  
 	private Date date;

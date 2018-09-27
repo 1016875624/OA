@@ -24,7 +24,18 @@
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'textQuestion',text: '题目',flex: 1},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'realanswer',text: '标准答案',flex: 1},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'answers',text: '选择题选项',flex: 1},
-				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'type',text: '类型'},
+				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'type',text: '类型',
+					renderer:function(val){
+						if(val=='1'){
+							return '<span>选择题</span>';
+						}else if(val='2'){
+							return '<span>填空题</span>';
+						}
+						return val;
+						
+					}
+				
+				},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'status',text: '状态'},
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: '操作',tooltip: 'edit ',flex: 1,
                     items: [
@@ -60,6 +71,13 @@
             	xtype:'textfield',
             	reference:'searchFieldValue',
             	name:'orderPanelSearchField'
+		    }, '-',{
+		    	xtype:'combobox',
+		    	name:'type',
+		    	reference:'questionType',
+		        iconCls: 'fa fa-search',
+		        handler: 'quickSearch',
+		        fieldLabel:'题目类型',
 		    }, '-',{
 		        text: 'Search',
 		        iconCls: 'fa fa-search',

@@ -8,8 +8,7 @@
         'Ext.form.field.ComboBox',
         'Ext.selection.CheckboxModel',
         'Ext.form.field.Date',
-        'Ext.grid.column.Date',
-        'Ext.fx.target.Element'
+        'Ext.grid.column.Date'
     ],
     
     layout: 'fit',
@@ -44,8 +43,8 @@
 	            store:Ext.create("Ext.data.Store", {
 				    fields: ["name", "value"],
 				    data: [
-				      	{ name: '员工编号', value: 'id' },
-						{ name: '员工姓名', value: 'employeeName'}
+				      	{ name: '员工编号', value: 'employeeid' },
+						{ name: '日期'   , value:'date'}
 				    ]
 				}),
 	            displayField: 'name',
@@ -64,6 +63,11 @@
             	reference:'searchFieldValue',
             	name:'orderPanelSearchField'
 		    }, '-',{
+				xtype: 'combobox',
+				hideLabel: true,
+				hidden:true,
+				reference:'employeeIdBox'
+			}, '-',{
 				xtype: 'datefield',
 				hideLabel: true,
 				hidden:true,
@@ -71,9 +75,6 @@
 				reference:'searchDataFieldValue',
 				fieldLabel: 'From',
 				name: 'from_date'
-				//,id:'from_date',
-				//vtype: 'daterange',
-				//endDateField: 'to_date'
 			}, '-',{
 		        text: 'Search',
 		        iconCls: 'fa fa-search',

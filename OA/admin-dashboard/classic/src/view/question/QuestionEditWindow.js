@@ -18,19 +18,20 @@ Ext.define('Admin.view.question.QuestionEditWindow', {
         padding: '10px',
         ariaLabel: 'Enter your question',
         items: [
-		
-		 {
-            xtype: 'textfield',
-            fieldLabel: '题目',
-            name:'textQuestion'
-        }, {
+    	{
+			xtype     : 'textareafield',
+			grow      : true,
+			name      : 'textQuestion',
+			fieldLabel: '题目',
+			anchor    : '100%'
+		} ,{
             xtype: 'textfield',
             fieldLabel: '题目类型',
             name:'type'
         }, {
             xtype: 'textfield',
             fieldLabel: '标准答案',
-            name:'realanswer'
+            name:'realanswer'																																																		
         }, {
             xtype: 'textfield',
             fieldLabel: '选择题选项',
