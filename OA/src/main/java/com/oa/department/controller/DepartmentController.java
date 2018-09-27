@@ -80,7 +80,7 @@ public class DepartmentController {
 			return new ExtAjaxResponse(false,"删除失败");
 		}
 	}
-	@RequestMapping("/simpleget")
+	@RequestMapping(value="/simpleget")
 	public List<String> getDepartmentNames() {
 		List<String>names=new ArrayList<>();
 		List<Department>departments=departmentService.findAll();
