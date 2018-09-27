@@ -1,3 +1,4 @@
+
 Ext.define('Admin.view.question.QuestionEditWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.questionEditWindow',

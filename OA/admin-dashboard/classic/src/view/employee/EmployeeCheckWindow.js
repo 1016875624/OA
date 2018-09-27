@@ -21,37 +21,15 @@ Ext.define('Admin.view.employee.EmployeeCheckWindow', {
 
 			},
 			defaultType: 'textfield',
-			items: [{name: '员工编号',fieldLabel: 'id'},
-					// {name: 'profile_pic',fieldLabel: 'User',
-						// renderer: function(value) {
-							// return "<img src='resources/images/user-profile/" + value + "' alt='Profile Pic' height='40px' width='40px'>";
-						// }
-					// },
-					{name: '员工姓名',fieldLabel: 'name'}, 
-					{name: '所属部门',fieldLabel: 'department'}, 
-					{name: '职位',fieldLabel: 'position'}, 
+			items: [{name: 'id',fieldLabel: 'id'},
+					{name: 'name',fieldLabel: 'name'}, 
+					{name: 'department',fieldLabel: 'department'}, 
+					{name: 'position',fieldLabel: 'position'}, 
 					{name: 'email',fieldLabel: 'email'},
-					{name: '在职状态',fieldLabel: 'status'},
-					{name: '上级领导',fieldLabel: 'leader'},
-					{name: 'joinDate',fieldLabel: 'entryTime'},
+					{name: 'status',fieldLabel: 'status'},
+					{name: 'leader',fieldLabel: 'leader'},
+					{name: 'entryTime',fieldLabel: 'entryTime'},
 			],
-			
-			// buttons: [{
-					// text: 'OK',
-					// handler: function () {
-					// }
-
-				// }, {
-
-					// text: 'Cancel',
-					// handler: function () {
-						// this.up('window').hide();
-
-					// }
-
-				// }
-			// ]
-
 		}
 	],
 });

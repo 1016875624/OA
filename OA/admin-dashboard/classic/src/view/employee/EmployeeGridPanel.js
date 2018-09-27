@@ -74,9 +74,6 @@
 				reference:'searchDataFieldValue',
 				fieldLabel: 'From',
 				name: 'from_date'
-				//,id:'from_date',
-				//vtype: 'daterange',
-				//endDateField: 'to_date'
 			}, '-',{
 		        text: 'Search',
 		        iconCls: 'fa fa-search',

@@ -11,6 +11,6 @@
         'Ext.data.reader.Json'
     ],
     stores: {
-        leaveLists: {type: 'leaveStore'}
+        leaveLists: {type: 'leaveStroe'}
     }
 });

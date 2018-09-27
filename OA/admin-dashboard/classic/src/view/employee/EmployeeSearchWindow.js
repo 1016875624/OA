@@ -18,12 +18,6 @@
         padding: '10px',
         ariaLabel: 'Enter your name',
         items: [{
-            // xtype: 'textfield',
-            // fieldLabel: 'id',
-            // name:'id',
-            // hidden: true,
-            // readOnly: true
-        // }, {
 				xtype: 'textfield',
 				fieldLabel: 'id',
 				name:'id'
@@ -34,7 +28,6 @@
 			}, {
 				xtype: 'datefield',
 				format: 'Y/m/d H:i:s',
-				//fieldLabel: 'To',
 				name: 'entryTime'
 				
          }]

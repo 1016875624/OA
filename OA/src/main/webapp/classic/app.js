@@ -85123,8 +85123,8 @@ Ext.define('Ext.ux.layout.ResponsiveColumn', {extend:Ext.layout.container.Auto, 
 Ext.define('Admin.model.Base', {extend:Ext.data.Model, schema:{namespace:'Admin.model'}});
 Ext.define('Admin.model.department.DepartmentModel', {extend:Ext.data.Model, fields:[{type:'string', name:'id'}, {type:'string', name:'name'}], proxy:{type:'rest', url:'http://localhost:8080/department', reader:{type:'json', rootProperty:'content', totalProperty:'totalElements'}, simpleSortMode:true}});
 Ext.define('Admin.model.employee.EmployeeModel', {extend:Admin.model.Base, fields:[{type:'string', name:'id'}, {type:'string', name:'name'}, {type:'string', name:'email'}, {type:'string', name:'position'}, {type:'integer', name:'state'}, {type:'string', name:'leader'}, {type:'date', name:'entryTime', dateFormat:'Y/m/d H:i:s'}], proxy:{type:'rest', url:'/employee'}});
-Ext.define('Admin.model.leave.LeaveModel', {extend:Admin.model.Base, fields:[{type:'int', name:'id'}, {type:'string', name:'employeeId'}, {type:'date', name:'startTime', dateFormat:'Y/m/d H:i:s'}, {type:'date', name:'endTime', dateFormat:'Y/m/d H:i:s'}, {type:'date', name:'realityStartTime', dateFormat:'Y/m/d H:i:s'}, {type:'date', name:'realityEndTime', dateFormat:'Y/m/d H:i:s'}, {type:'date', name:'applyTime', dateFormat:'Y/m/d H:i:s'}, {type:'string', name:'leaveType'}, {type:'string', name:'reason'}, 
-{type:'int', name:'status'}], proxy:{type:'rest', url:'/leave'}});
+Ext.define('Admin.model.leave.LeaveModel', {extend:Admin.model.Base, fields:[{type:'int', name:'id'}, {type:'string', name:'userId'}, {type:'date', name:'startTime', dateFormat:'Y/m/d H:i:s'}, {type:'date', name:'endTime', dateFormat:'Y/m/d H:i:s'}, {type:'date', name:'realityStartTime', dateFormat:'Y/m/d H:i:s'}, {type:'date', name:'realityEndTime', dateFormat:'Y/m/d H:i:s'}, {type:'date', name:'applyTime', dateFormat:'Y/m/d H:i:s'}, {type:'string', name:'leaveType'}, {type:'string', name:'processStatus'}, 
+{type:'string', name:'reason'}, {type:'string', name:'processInstanceId'}], proxy:{type:'rest', url:'/leave'}});
 Ext.define('Admin.model.leaveapprove.LeaveApproveModel', {extend:Admin.model.Base, fields:[{type:'int', name:'id'}, {type:'string', name:'userId'}, {type:'date', name:'startTime'}, {type:'date', name:'endTime'}, {type:'date', name:'realityStartTime'}, {type:'date', name:'realityEndTime'}, {type:'date', name:'applyTime'}, {type:'string', name:'leaveType'}, {type:'string', name:'processStatus'}, {type:'string', name:'reason'}, {type:'string', name:'processInstanceId'}, {type:'string', name:'taskId'}, 
 {type:'string', name:'taskName'}, {type:'date', name:'taskCreateTime'}, {type:'string', name:'assignee'}, {type:'string', name:'taskDefinitionKey'}, {type:'string', name:'processDefinitionId'}, {type:'boolean', name:'suspended'}, {type:'int', name:'version'}]});
 Ext.define('Admin.model.process.definition.ProcessDefinitionModel', {extend:Admin.model.Base, fields:[{type:'string', name:'id'}, {type:'string', name:'category'}, {type:'string', name:'name'}, {type:'string', name:'key'}, {type:'string', name:'description'}, {type:'int', name:'version'}, {type:'string', name:'resourceName'}, {type:'string', name:'deploymentId'}, {type:'string', name:'diagramResourceName'}, {type:'string', name:'tenantId'}, {type:'boolean', name:'startFormKey'}, {type:'boolean', 
@@ -85136,12 +85136,11 @@ viewType:'employeeCenterPanel', leaf:true}, {text:'订单管理模块', iconCls:
 viewType:'questionCenterPanel', leaf:true}]}});
 Ext.define('Admin.store.department.DepartmentGridStroe', {extend:Ext.data.Store, alias:'store.departmentGridStroe', storeId:'departmentGridStroe', model:'Admin.model.department.DepartmentModel', autoLoad:'true', autoSync:'true', remoteSort:true, pageSize:10, sorters:{direction:'DESC', property:'id'}});
 Ext.define('Admin.store.employee.EmployeeGridStroe', {extend:Ext.data.Store, storeId:'employeeGridStroe', alias:'store.employeeGridStroe', model:'Admin.model.employee.EmployeeModel', proxy:{type:'rest', url:'/employee', reader:{type:'json', rootProperty:'content', totalProperty:'totalElements'}, writer:{type:'json'}, simpleSortMode:true}, autoLoad:true, autoSync:true, remoteSort:true, pageSize:15, sorters:{direction:'ASE', property:'id'}});
-Ext.define('Admin.store.leave.LeaveStore', {extend:Ext.data.Store, storeId:'leaveStore', alias:'store.leaveStore', model:'Admin.model.leave.LeaveModel', proxy:{type:'rest', url:'/leave', reader:{type:'json', rootProperty:'content', totalProperty:'totalElements'}, writer:{type:'json'}, simpleSortMode:true}, autoLoad:true, autoSync:true, remoteSort:true, pageSize:15, sorters:{direction:'DESC', property:'id'}, listeners:{}});
+Ext.define('Admin.store.leave.LeaveStroe', {extend:Ext.data.Store, storeId:'leaveStroe', alias:'store.leaveStroe', model:'Admin.model.leave.LeaveModel', proxy:{type:'rest', url:'/leave', reader:{type:'json', rootProperty:'content', totalProperty:'totalElements'}, writer:{type:'json'}, simpleSortMode:true}, autoLoad:true, autoSync:true, remoteSort:true, pageSize:15, sorters:{direction:'DESC', property:'id'}, listeners:{}});
 Ext.define('Admin.store.leaveapprove.LeaveApproveStore', {extend:Ext.data.Store, storeId:'leaveApproveStore', alias:'store.leaveApproveStore', model:'Admin.model.leaveapprove.LeaveApproveModel', proxy:{type:'ajax', url:'leave/tasks', reader:new Ext.data.JsonReader({type:'json', rootProperty:'content', totalProperty:'totalElements'}), simpleSortMode:true}, remoteSort:true, sorters:[{property:'id', direction:'desc'}], autoLoad:true});
 Ext.define('Admin.store.order.OrderGridStroe', {extend:Ext.data.Store, alias:'store.orderGridStroe', fields:[{type:'int', name:'identifier'}, {type:'string', name:'fullname'}, {type:'string', name:'email'}, {name:'subscription'}, {type:'date', name:'joinDate'}, {type:'boolean', name:'isActive'}, {name:'profile_pic'}], data:{'lists':[{'identifier':1, 'fullname':'Archie Young', 'profile_pic':'1.png', 'email':'dwatkins@mydeo.name', 'subscription':'minima', 'joinDate':'10/16/2012', 'isActive':false}, 
 {'identifier':2, 'fullname':'May Williams', 'profile_pic':'2.png', 'email':'jreid@babbleblab.com', 'subscription':'ab', 'joinDate':'6/13/2004', 'isActive':true}]}, proxy:{type:'memory', reader:{type:'json', rootProperty:'lists'}}, autoLoad:'true', sorters:{direction:'ASC', property:'fullname'}});
 Ext.define('Admin.store.process.definition.ProcessDefinitionStroe', {extend:Ext.data.Store, storeId:'processDefinitionStroe', alias:'store.processDefinitionStroe', model:'Admin.model.process.definition.ProcessDefinitionModel', pageSize:15, proxy:{type:'ajax', url:'/process-definition', reader:{type:'json', rootProperty:'content', totalProperty:'totalElements'}, simpleSortMode:true}, remoteSort:true, sorters:[{property:'id', direction:'desc'}], autoLoad:true, listeners:{}});
-Ext.define('Admin.store.question.QuestionGridStroe', {extend:Ext.data.Store, storeId:'questionGridStroe', alias:'store.questionGridStroe', model:'Admin.model.question.QuestionModel', proxy:{type:'rest', url:'/question', reader:{type:'json', rootProperty:'content', totalProperty:'totalElements'}, writer:{type:'json'}, simpleSortMode:true}, autoLoad:true, autoSync:true, remoteSort:true, pageSize:15, sorters:{direction:'ASE', property:'id'}});
 Ext.define('Admin.store.workTime.WorkTimeGridStroe', {extend:Ext.data.Store, storeId:'workTimeGridStroe', alias:'store.workTimeGridStroe', model:'Admin.model.workTime.WorkTimeModel', proxy:{type:'rest', url:'/workTime', reader:{type:'json', rootProperty:'content', totalProperty:'totalElements'}, writer:{type:'json'}, simpleSortMode:true}, autoLoad:true, autoSync:true, remoteSort:true, pageSize:15, sorters:{direction:'ASE', property:'id'}});
 Ext.define('Admin.view.dashboard.DashboardController', {extend:Ext.app.ViewController, alias:'controller.dashboard', onRefreshToggle:function(tool, e, owner) {
   var store, runner;
@@ -85189,7 +85188,7 @@ Ext.define('Admin.view.authentication.AuthenticationController', {extend:Ext.app
     var json = Ext.util.JSON.decode(response.responseText);
     if (json.success) {
       me.redirectTo('dashboard', true);
-      Ext.getCmp('loginUserName').setText(json.map.userId);
+      Ext.getCmp('loginUserId').setText(json.map.userId);
     } else {
       Ext.Msg.alert('登录失败', json.msg);
     }
@@ -85203,9 +85202,7 @@ Ext.define('Admin.view.authentication.AuthenticationController', {extend:Ext.app
 }, onResetClick:function() {
   this.redirectTo('dashboard', true);
 }, onChangeCode:function() {
-  Ext.Msg.alert('Title', 'Click onChangeCode Button');
-}, onGetCode:function() {
-  Ext.Ajax.request({url:'/verify/code.action', method:'post'});
+  var o = Ext.getCmp('changeCode').getEl().dom.src = '/verify/code?date\x3d' + new Date;
 }});
 Ext.define('Admin.view.authentication.AuthenticationModel', {extend:Ext.app.ViewModel, alias:'viewmodel.authentication', data:{userid:'', fullName:'', password:'', email:'', persist:false, agrees:false}});
 Ext.define('Admin.view.authentication.Dialog', {extend:Ext.form.Panel, xtype:'authdialog', controller:'authentication', viewModel:{type:'authentication'}, defaultFocus:'textfield:focusable:not([hidden]):not([disabled]):not([value])', autoComplete:false, initComponent:function() {
@@ -85233,9 +85230,9 @@ fieldLabel:"It's been a while. please enter your password to resume", emptyText:
 'or, sign in using other credentials\x3c/a\x3e' + '\x3c/div\x3e'}]}]}]});
 Ext.define('Admin.view.authentication.Login', {extend:Admin.view.authentication.LockingWindow, xtype:'login', title:"Let's Log In", defaultFocus:'authdialog', items:[{xtype:'authdialog', defaultButton:'loginButton', autoComplete:true, bodyPadding:'20 20', cls:'auth-dialog-login', header:false, width:415, layout:{type:'vbox', align:'stretch'}, defaults:{margin:'5 0'}, items:[{xtype:'label', text:'Sign into your account'}, {xtype:'textfield', cls:'auth-textbox', name:'userid', bind:'{userid}', height:55, 
 hideLabel:true, allowBlank:false, emptyText:'user id', triggers:{glyphed:{cls:'trigger-glyph-noop auth-email-trigger'}}}, {xtype:'textfield', cls:'auth-textbox', height:55, hideLabel:true, emptyText:'Password', inputType:'password', name:'password', bind:'{password}', allowBlank:false, triggers:{glyphed:{cls:'trigger-glyph-noop auth-password-trigger'}}}, {xtype:'textfield', cls:'auth-textbox', height:55, hideLabel:true, emptyText:'Verification Code', inputType:'code', name:'code', bind:'{code}', 
-allowBlank:false, triggers:{glyphed:{cls:'trigger-glyph-noop auth-password-trigger'}}}, {items:[{height:55, html:'\x3cimg src\x3d"/verify/code.action"/\x3e'}, {xtype:'button', height:55, width:150, text:'看不清，换一张', onclick:'onChangeCode'}]}, {xtype:'button', reference:'loginButton', scale:'large', ui:'soft-green', iconAlign:'right', iconCls:'x-fa fa-angle-right', text:'Login', formBind:true, listeners:{click:'onLoginButton'}}, {xtype:'container', layout:'hbox', items:[{xtype:'checkboxfield', flex:1, 
-cls:'form-panel-font-color rememberMeCheckbox', height:30, bind:'{persist}', boxLabel:'Remember me'}, {xtype:'box', html:'\x3ca href\x3d"#passwordreset" class\x3d"link-forgot-password"\x3e Forgot Password ?\x3c/a\x3e'}]}, {xtype:'box', html:'\x3cdiv class\x3d"outer-div"\x3e\x3cdiv class\x3d"seperator"\x3eOR\x3c/div\x3e\x3c/div\x3e', margin:'10 0'}, {xtype:'button', scale:'large', ui:'facebook', iconAlign:'right', iconCls:'x-fa fa-facebook', text:'Login with Facebook', listeners:{click:'onFaceBookLogin'}}, 
-{xtype:'box', html:'\x3cdiv class\x3d"outer-div"\x3e\x3cdiv class\x3d"seperator"\x3eOR\x3c/div\x3e\x3c/div\x3e', margin:'10 0'}, {xtype:'button', scale:'large', ui:'gray', iconAlign:'right', iconCls:'x-fa fa-user-plus', text:'Create Account', listeners:{click:'onNewAccount'}}]}], initComponent:function() {
+allowBlank:false, triggers:{glyphed:{cls:'trigger-glyph-noop auth-password-trigger'}}}, {items:[{xtype:'box', width:225, height:60, id:'changeCode', autoEl:{tag:'img', src:'/verify/code'}}, {xtype:'button', height:60, width:150, text:'看不清，换一张', listeners:{click:'onChangeCode'}}]}, {xtype:'button', reference:'loginButton', scale:'large', ui:'soft-green', iconAlign:'right', iconCls:'x-fa fa-angle-right', text:'Login', formBind:true, listeners:{click:'onLoginButton'}}, {xtype:'container', layout:'hbox', 
+items:[{xtype:'checkboxfield', flex:1, cls:'form-panel-font-color rememberMeCheckbox', height:30, bind:'{persist}', boxLabel:'Remember me'}, {xtype:'box', html:'\x3ca href\x3d"#passwordreset" class\x3d"link-forgot-password"\x3e Forgot Password ?\x3c/a\x3e'}]}, {xtype:'box', html:'\x3cdiv class\x3d"outer-div"\x3e\x3cdiv class\x3d"seperator"\x3eOR\x3c/div\x3e\x3c/div\x3e', margin:'10 0'}, {xtype:'button', scale:'large', ui:'facebook', iconAlign:'right', iconCls:'x-fa fa-facebook', text:'Login with Facebook', 
+listeners:{click:'onFaceBookLogin'}}, {xtype:'box', html:'\x3cdiv class\x3d"outer-div"\x3e\x3cdiv class\x3d"seperator"\x3eOR\x3c/div\x3e\x3c/div\x3e', margin:'10 0'}, {xtype:'button', scale:'large', ui:'gray', iconAlign:'right', iconCls:'x-fa fa-user-plus', text:'Create Account', listeners:{click:'onNewAccount'}}]}], initComponent:function() {
   this.addCls('user-login-register-container');
   this.callParent(arguments);
 }});
@@ -85425,10 +85422,10 @@ name:'status', store:Ext.create('Ext.data.Store', {fields:['value', 'name'], dat
   btn.up('window').close();
 }}, '-\x3e']});
 Ext.define('Admin.view.employee.EmployeeCenterPanel', {extend:Ext.container.Container, xtype:'employeeCenterPanel', controller:'employeeViewController', viewModel:{type:'employeeViewModel'}, layout:'fit', items:[{xtype:'employeeGridPanel'}]});
-Ext.define('Admin.view.employee.EmployeeCheckWindow', {extend:Ext.window.Window, alias:'widget.employeeCheckWindow', autoShow:true, modal:true, layout:'fit', width:500, height:500, title:'查看用户信息', items:[{xtype:'form', layout:{type:'vbox', align:'stretch'}, bodyPadding:20, scrollable:true, defaults:{labelWidth:100, labelSeparator:''}, defaultType:'textfield', items:[{name:'员工编号', fieldLabel:'id'}, {name:'员工姓名', fieldLabel:'name'}, {name:'所属部门', fieldLabel:'department'}, {name:'职位', fieldLabel:'position'}, 
-{name:'email', fieldLabel:'email'}, {name:'在职状态', fieldLabel:'status'}, {name:'上级领导', fieldLabel:'leader'}, {name:'joinDate', fieldLabel:'entryTime'}]}]});
+Ext.define('Admin.view.employee.EmployeeCheckWindow', {extend:Ext.window.Window, alias:'widget.employeeCheckWindow', autoShow:true, modal:true, layout:'fit', width:500, height:500, title:'查看用户信息', items:[{xtype:'form', layout:{type:'vbox', align:'stretch'}, bodyPadding:20, scrollable:true, defaults:{labelWidth:100, labelSeparator:''}, defaultType:'textfield', items:[{name:'id', fieldLabel:'id'}, {name:'name', fieldLabel:'name'}, {name:'department', fieldLabel:'department'}, {name:'position', fieldLabel:'position'}, 
+{name:'email', fieldLabel:'email'}, {name:'status', fieldLabel:'status'}, {name:'leader', fieldLabel:'leader'}, {name:'entryTime', fieldLabel:'entryTime'}]}]});
 Ext.define('Admin.view.employee.EmployeeEditWindow', {extend:Ext.window.Window, alias:'widget.employeeEditWindow', height:600, minHeight:100, minWidth:300, width:500, scrollable:true, title:'Edit employee Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your name', items:[{xtype:'textfield', fieldLabel:'员工id', name:'id'}, {xtype:'textfield', fieldLabel:'员工姓名', name:'name'}, {xtype:'combobox', 
-fieldLabel:'员工部门', name:'department', store:Ext.create('Ext.data.Store', {fields:['value', 'name'], data:[{'value':'1', 'name':'行政部'}, {'value':'2', 'name':'人事部'}, {'value':'3', 'name':'财务部'}, {'value':'4', 'name':'技术部'}, {'value':'5', 'name':'人事部'}, {'value':'6', 'name':'测试部'}, {'value':'7', 'name':'后勤部'}]}), displayField:'name', valueField:'value'}, {xtype:'textfield', fieldLabel:'员工邮箱', name:'email'}, {xtype:'textfield', fieldLabel:'职位', name:'position'}, {xtype:'combobox', fieldLabel:'在职状态', 
+fieldLabel:'员工部门', name:'department', store:Ext.create('Ext.data.Store', {fields:['value', 'name'], data:[{'value':'行政部', 'name':'行政部'}, {'value':'2', 'name':'人事部'}, {'value':'3', 'name':'财务部'}, {'value':'4', 'name':'技术部'}, {'value':'5', 'name':'人事部'}, {'value':'6', 'name':'测试部'}, {'value':'7', 'name':'后勤部'}]}), displayField:'name', valueField:'value'}, {xtype:'textfield', fieldLabel:'员工邮箱', name:'email'}, {xtype:'textfield', fieldLabel:'职位', name:'position'}, {xtype:'combobox', fieldLabel:'在职状态', 
 name:'status', store:Ext.create('Ext.data.Store', {fields:['value', 'name'], data:[{'value':'0', 'name':'正常'}, {'value':'1', 'name':'离职'}, {'value':'-1', 'name':'封禁'}]}), displayField:'name', valueField:'value'}, {xtype:'textfield', fieldLabel:'上级领导', name:'leader'}, {xtype:'datefield', fieldLabel:'入职时间', name:'entryTime', format:'Y/m/d H:i:s'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitEditForm'}, {xtype:'button', text:'Close', handler:function(btn) {
   btn.up('window').close();
 }}, '-\x3e']});
@@ -85540,7 +85537,7 @@ Ext.define('Admin.view.employee.EmployeeViewController', {extend:Ext.app.ViewCon
   }
 }, onCheckButton:function(grid, rowIndex, colIndex) {
   var rec = grid.getStore().getAt(rowIndex);
-  var win = Ext.widget('EmployeeCheckWindow');
+  var win = Ext.widget('employeeCheckWindow');
   win.show();
   win.down('form').getForm().loadRecord(rec);
   console.log(Ext.ClassManager.getName(win.down('form')));
@@ -85557,22 +85554,22 @@ value:'NEW', hidden:true, readOnly:true}, {xtype:'textfield', name:'userId', fie
 fieldLabel:'请假结束时间', format:'Y/m/d H:i:s', name:'endTime'}, {xtype:'textareafield', grow:true, name:'reason', fieldLabel:'请假原因', anchor:'100%'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitEditForm'}, {xtype:'button', text:'Close', handler:function(btn) {
   btn.up('window').close();
 }}, '-\x3e']});
-Ext.define('Admin.view.leave.LeaveGridPanel', {extend:Ext.panel.Panel, xtype:'leaveGridPanel', layout:'fit', items:[{xtype:'gridpanel', title:'LeaveGrid Results', bind:'{leaveLists}', scrollable:false, selModel:{type:'checkboxmodel'}, columns:[{header:'id', dataIndex:'id', width:60, sortable:true, hidden:true}, {header:'status', dataIndex:'status', width:60, sortable:true, renderer:function(val) {
-  if (val == '-1') {
-    return '\x3cspan style\x3d"color:green;"\x3e已删除\x3c/span\x3e';
+Ext.define('Admin.view.leave.LeaveGridPanel', {extend:Ext.panel.Panel, xtype:'leaveGridPanel', layout:'fit', items:[{xtype:'gridpanel', title:'LeaveGrid Results', bind:'{leaveLists}', scrollable:false, selModel:{type:'checkboxmodel'}, columns:[{header:'id', dataIndex:'id', width:60, sortable:true, hidden:true}, {header:'processStatus', dataIndex:'processStatus', width:60, sortable:true, renderer:function(val) {
+  if (val == 'NEW') {
+    return '\x3cspan style\x3d"color:green;"\x3e新建\x3c/span\x3e';
   } else {
-    if (val == '0') {
-      return '\x3cspan style\x3d"color:blue;"\x3e待申请\x3c/span\x3e';
+    if (val == 'APPROVAL') {
+      return '\x3cspan style\x3d"color:blue;"\x3e审批中...\x3c/span\x3e';
     } else {
-      if (val == '1') {
-        return '\x3cspan style\x3d"color:orange;"\x3e待审批\x3c/span\x3e';
+      if (val == 'COMPLETE') {
+        return '\x3cspan style\x3d"color:orange;"\x3e完成审批\x3c/span\x3e';
       } else {
-        return '\x3cspan style\x3d"color:red;"\x3e审批通过\x3c/span\x3e';
+        return '\x3cspan style\x3d"color:red;"\x3e取消申请\x3c/span\x3e';
       }
     }
   }
   return val;
-}}, {header:'employeeId', dataIndex:'employeeId', width:60, sortable:true}, {header:'startTime', dataIndex:'startTime', width:180, sortable:true, renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s')}, {header:'endTime', dataIndex:'endTime', width:180, sortable:true, renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s')}, {header:'leaveType', dataIndex:'leaveType', width:120, sortable:true, renderer:function(val) {
+}}, {header:'userId', dataIndex:'userId', width:60, sortable:true}, {header:'startTime', dataIndex:'startTime', width:180, sortable:true, renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s')}, {header:'endTime', dataIndex:'endTime', width:180, sortable:true, renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s')}, {header:'leaveType', dataIndex:'leaveType', width:120, sortable:true, renderer:function(val) {
   if (val == 'A') {
     return '\x3cspan style\x3d"color:green;"\x3e带薪假期\x3c/span\x3e';
   } else {
@@ -85627,11 +85624,11 @@ Ext.define('Admin.view.leave.LeaveViewController', {extend:Ext.app.ViewControlle
   var values = form.getValues();
   record.set(values);
   record.save();
-  Ext.data.StoreManager.lookup('leaveStore').load();
+  Ext.data.StoreManager.lookup('leaveStroe').load();
   win.close();
 }, submitEditForm:function(btn) {
   var win = btn.up('window');
-  var store = Ext.data.StoreManager.lookup('leaveStore');
+  var store = Ext.data.StoreManager.lookup('leaveStroe');
   var values = win.down('form').getValues();
   var record = store.getById(values.id);
   record.set(values);
@@ -85647,7 +85644,7 @@ Ext.define('Admin.view.leave.LeaveViewController', {extend:Ext.app.ViewControlle
   }
   store.load({params:{start:0, limit:20, page:1}});
 }, submitSearchForm:function(btn) {
-  var store = Ext.data.StoreManager.lookup('leaveStore');
+  var store = Ext.data.StoreManager.lookup('leaveStroe');
   var win = btn.up('window');
   var form = win.down('form');
   var values = form.getValues();
@@ -85710,7 +85707,7 @@ Ext.define('Admin.view.leave.LeaveViewController', {extend:Ext.app.ViewControlle
 }, cancelLeaveProcess:function(grid, rowIndex, colIndex) {
   Ext.Msg.alert('Title', 'Cancel Leave Process');
 }});
-Ext.define('Admin.view.leave.LeaveViewModel', {extend:Ext.app.ViewModel, alias:'viewmodel.leaveViewModel', stores:{leaveLists:{type:'leaveStore'}}});
+Ext.define('Admin.view.leave.LeaveViewModel', {extend:Ext.app.ViewModel, alias:'viewmodel.leaveViewModel', stores:{leaveLists:{type:'leaveStroe'}}});
 Ext.define('Admin.view.leaveapprove.LeaveApproveCenterPanel', {extend:Ext.panel.Panel, xtype:'leaveApproveCenterPanel', layout:'fit', margin:'20 20 20 20', controller:'leaveApproveViewController', viewModel:{type:'leaveApproveViewModel'}, items:[{xtype:'leaveApproveGrid'}]});
 Ext.define('Admin.view.leaveapprove.LeaveApproveGrid', {extend:Ext.grid.Panel, xtype:'leaveApproveGrid', title:'tiele', iconCls:'fa-arrow-circle-o-up', bind:'{leaveApproveStore}', columns:[{xtype:'actioncolumn', items:[{xtype:'button', iconCls:'x-fa fa-pencil', tooltip:'签收任务', getClass:function(v, meta, rec) {
   if (rec.get('assignee') != '') {
@@ -86183,6 +86180,8 @@ Ext.define('Admin.view.question.QuestionViewController', {extend:Ext.app.ViewCon
 }, onCheckButton:function(grid, rowIndex, colIndex) {
   Ext.Msg.alert('Title', 'Click Check Button');
 }});
+=======
+>>>>>>> branch 'master' of git@github.com:1016875624/OA.git
 Ext.define('Admin.view.workTime.WorkTimeAddWindow', {extend:Ext.window.Window, alias:'widget.workTimeAddWindow', height:450, minHeight:100, minWidth:300, width:500, scrollable:true, title:'Add workTime Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your WorkTime', items:[{xtype:'textfield', fieldLabel:'id', name:'id', hidden:true, readOnly:true}, {xtype:'textfield', fieldLabel:'员工编号', 
 name:'employeeid'}, {xtype:'textfield', fieldLabel:'当天上班时间', name:'hour'}, {xtype:'datefield', fieldLabel:'日期', name:'date', format:'Y/m/d'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitAddForm'}, {xtype:'button', text:'Close', handler:function(btn) {
   btn.up('window').close();
@@ -86192,6 +86191,7 @@ Ext.define('Admin.view.workTime.WorkTimeEditWindow', {extend:Ext.window.Window, 
 name:'employeeid', disabled:true}, {xtype:'textfield', fieldLabel:'员工姓名', name:'employeeName', disabled:true}, {xtype:'textfield', fieldLabel:'部门名称', name:'departmentName', disabled:true}, {xtype:'textfield', fieldLabel:'当天工作时间(单位：h)', name:'hour'}, {xtype:'datefield', fieldLabel:'日期', name:'date', format:'Y/m/d'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitEditForm'}, {xtype:'button', text:'Close', handler:function(btn) {
   btn.up('window').close();
 }}, '-\x3e']});
+<<<<<<< HEAD
 Ext.define('Admin.view.workTime.WorkTimeGridPanel', {extend:Ext.panel.Panel, xtype:'workTimeGridPanel', layout:'fit', items:[{xtype:'gridpanel', cls:'user-grid', title:'workTimeGrid Results', bind:'{workTimeLists}', scrollable:false, selModel:{type:'checkboxmodel'}, columns:[{xtype:'gridcolumn', width:40, dataIndex:'id', text:'#', hidden:true}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'employeeid', text:'员工编号', flex:1}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'employeeName', 
 text:'员工姓名', flex:1}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'departmentName', text:'部门', flex:1}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'hour', text:'当天的上班时间', flex:1}, {xtype:'datecolumn', cls:'content-column', width:200, dataIndex:'date', text:'日期', formatter:'date("Y/m/d")'}, {xtype:'actioncolumn', cls:'content-column', width:120, text:'操作', tooltip:'edit ', flex:1, items:[{xtype:'button', iconCls:'x-fa fa-pencil', handler:'openEditWindow'}, {xtype:'button', iconCls:'x-fa fa-close', 
 handler:'deleteOneRow'}, {xtype:'button', iconCls:'x-fa fa-eye', handler:'onCheckButton'}]}], tbar:[{xtype:'combobox', reference:'searchFieldName', store:Ext.create('Ext.data.Store', {fields:['name', 'value'], data:[{name:'员工编号', value:'employeeid'}, {name:'日期', value:'date'}]}), displayField:'name', valueField:'value', value:'id', editable:false, queryMode:'local', triggerAction:'all', emptyText:'Select a state...', width:135, listeners:{select:'searchComboboxSelectChuang'}}, '-', {xtype:'textfield', 
@@ -86201,6 +86201,8 @@ handler:'openAddWindow'}, '-', {text:'Removes', tooltip:'Remove the selected ite
 }}}]});
 Ext.define('Admin.view.workTime.WorkTimeSearchWindow', {extend:Ext.window.Window, alias:'widget.workTimeSearchWindow', height:450, minHeight:300, minWidth:300, width:500, scrollable:true, title:'Search More Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your searchvalue', items:[{xtype:'textfield', fieldLabel:'id', name:'id', hidden:true, readOnly:true}, {xtype:'textfield', fieldLabel:'员工编号', 
 name:'employeeid'}, {xtype:'textfield', fieldLabel:'员工姓名', name:'employeeName'}, {xtype:'combobox', fieldLabel:'部门名称', name:'departmentName'}, {xtype:'textfield', fieldLabel:'当天工作时间(单位：h)', name:'hour'}, {xtype:'datefield', fieldLabel:'日期', name:'date', format:'Y/m/d'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitSearchForm'}, {xtype:'button', text:'Close', handler:function(btn) {
+Ext.define('Admin.view.workTime.WorkTimeSearchWindow', {extend:Ext.window.Window, alias:'widget.workTimeSearchWindow', height:300, minHeight:300, minWidth:300, width:500, scrollable:true, title:'Search More Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your workTime', items:[{xtype:'textfield', fieldLabel:'id', name:'id'}, {xtype:'textfield', fieldLabel:'name', name:'name'}, {xtype:'datefield', 
+format:'Y/m/d H:i:s', name:'entryTime'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitSearchForm'}, {xtype:'button', text:'Close', handler:function(btn) {
   btn.up('window').close();
 }}, '-\x3e']});
 Ext.define('Admin.view.workTime.WorkTimeViewController', {extend:Ext.app.ViewController, alias:'controller.workTimeViewController', openAddWindow:function(toolbar, rowIndex, colIndex) {
