@@ -27,8 +27,6 @@ public class DepartmentQueryDTO {
 			@Override
 			public Predicate toPredicate(Root<Department> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				List<Predicate> predicate = new ArrayList<>();
-				System.out.println(departmentQueryDTO);
-				
 				
 				if (StringUtils.isNotBlank(departmentQueryDTO.getName())) {
 					predicate.add(criteriaBuilder.like(root.get("name").as(String.class),

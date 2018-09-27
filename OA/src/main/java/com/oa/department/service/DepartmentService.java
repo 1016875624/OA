@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.oa.department.entity.Department;
 import com.oa.department.entity.DepartmentDTO;
+import com.oa.department.entity.DepartmentSimpleDTO;
 import com.oa.department.repository.DepartmentRepository;
 import com.oa.employee.entity.Employee;
 import com.oa.employee.service.EmployeeService;
@@ -36,7 +37,7 @@ public class DepartmentService implements IDepartmentService {
 	@Override
 	public Department save(Department entity) {
 		Department department=null;
-		if (entity.getId()==null) {
+		if (!departmentRepository.existsById(entity.getId())) {
 			department= departmentRepository.save(entity);
 		}
 		
@@ -193,8 +194,13 @@ public class DepartmentService implements IDepartmentService {
 				employeeService.save(emp);
 			}
 		}
-		d1.setEmployees(employees);
-		departmentRepository.save(d1);
+		//d1.setEmployees(employees);
+		//departmentRepository.save(d1);
+		int status=d1.getStatus();
+		if (department.getStatus()==null) {
+			department.setStatus(status);
+		}
+		departmentRepository.save(department);
 		return department;
 	}
 
@@ -207,6 +213,31 @@ public class DepartmentService implements IDepartmentService {
 			departmentDTOs.add(DepartmentDTO.EntityToDTO(department));
 		}
 		return new PageImpl<>(departmentDTOs, pageable, departPage.getTotalElements());
+	}
+
+	@Override
+	public Page<DepartmentSimpleDTO> findAllInSimpleDTO(Specification<Department> spec, Pageable pageable) {
+		Page<Department> departPage=findAll(spec, pageable);
+		List<Department>departments=departPage.getContent();
+		List<DepartmentSimpleDTO>departmentSimpleDTOs=new ArrayList<>();
+		for (Department department : departments) {
+			departmentSimpleDTOs.add(DepartmentSimpleDTO.EntityToDTO(department));
+		}
+		return new PageImpl<>(departmentSimpleDTOs, pageable, departPage.getTotalElements());
+	}
+
+	@Override
+	public List<DepartmentSimpleDTO> findAllInSimpleDTO() {
+		List<Department> departments=findAll();
+		List<DepartmentSimpleDTO>departmentSimpleDTOs=new ArrayList<>();
+		for (Department department : departments) {
+			if (department.getStatus()!=null) {
+				if (department.getStatus()>=0) {
+					departmentSimpleDTOs.add(DepartmentSimpleDTO.EntityToDTO(department));
+				}
+			}
+		}
+		return departmentSimpleDTOs;
 	}
 
 	

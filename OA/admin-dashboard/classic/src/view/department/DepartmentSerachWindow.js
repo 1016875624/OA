@@ -26,12 +26,11 @@ Ext.define('Admin.view.department.DepartmentSearchWindow', {
 		},
 		defaultType:'textfield',
 		items:[
-			{fieldLabel: 'orderNo', name: 'orderNo'},
-			{xtype:'datefield',format: 'Y/m/d H:i:s',fieldLabel: 'startDate', name: 'startDate'}
-			,{xtype:'datefield',fieldLabel: 'endDate', name: 'endDate',format: 'Y/m/d H:i:s'},
+			{fieldLabel: 'id', name: 'id'},
+			{fieldLabel: 'name', name: 'name'}
+			/*{xtype:'datefield',format: 'Y/m/d H:i:s',fieldLabel: 'startDate', name: 'startDate'}
+			,{xtype:'datefield',fieldLabel: 'endDate', name: 'endDate',format: 'Y/m/d H:i:s'},*/
 		],
-		
-		
 	
 		}],
 	

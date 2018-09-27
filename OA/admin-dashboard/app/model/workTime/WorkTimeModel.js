@@ -13,6 +13,6 @@ Ext.define('Admin.model.workTime.WorkTimeModel', {
 	],
 	proxy: {
 		type: 'rest',
-		url: '/workTime',
+		url: 'http://localhost:8080/workTime',
 	}
 });

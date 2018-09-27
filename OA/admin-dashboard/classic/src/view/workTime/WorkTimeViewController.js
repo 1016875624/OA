@@ -124,7 +124,7 @@
                         selectIds.push(row.data.id);
                     });
                   	Ext.Ajax.request({ 
-						url : '/workTime/deletes', 
+						url : 'http://localhost:8080/workTime/deletes', 
 						method : 'post', 
 						params : { 
 							//ids[] :selectIds

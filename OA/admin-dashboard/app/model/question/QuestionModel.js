@@ -13,6 +13,6 @@ Ext.define('Admin.model.question.QuestionModel', {
 	],
 	proxy: {
 		type: 'rest',
-		url: '/question',
+		url: 'http://localhost:8080/question',
 	}
 });
