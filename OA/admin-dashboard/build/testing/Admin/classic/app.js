@@ -85129,11 +85129,6 @@ Ext.define('Admin.model.leaveapprove.LeaveApproveModel', {extend:Admin.model.Bas
 {type:'string', name:'taskName'}, {type:'date', name:'taskCreateTime'}, {type:'string', name:'assignee'}, {type:'string', name:'taskDefinitionKey'}, {type:'string', name:'processDefinitionId'}, {type:'boolean', name:'suspended'}, {type:'int', name:'version'}]});
 Ext.define('Admin.model.process.definition.ProcessDefinitionModel', {extend:Admin.model.Base, fields:[{type:'string', name:'id'}, {type:'string', name:'category'}, {type:'string', name:'name'}, {type:'string', name:'key'}, {type:'string', name:'description'}, {type:'int', name:'version'}, {type:'string', name:'resourceName'}, {type:'string', name:'deploymentId'}, {type:'string', name:'diagramResourceName'}, {type:'string', name:'tenantId'}, {type:'boolean', name:'startFormKey'}, {type:'boolean', 
 name:'graphicalNotation'}, {type:'boolean', name:'suspended'}]});
-<<<<<<< HEAD
-Ext.define('Admin.model.question.QuestionModel', {extend:Admin.model.Base, fields:[{type:'int', name:'id'}, {type:'string', name:'textQuestion'}, {type:'string', name:'realanswer'}, {type:'string', name:'answers'}, {type:'int', name:'type'}, {type:'int', name:'status'}], proxy:{type:'rest', url:'/question'}});
-Ext.define('Admin.model.workTime.WorkTimeModel', {extend:Admin.model.Base, fields:[{type:'int', name:'id'}, {type:'string', name:'employeeid'}, {type:'string', name:'employeeName'}, {type:'string', name:'departmentName'}, {type:'int', name:'hour'}, {type:'date', name:'date', dateFormat:'Y/m/d'}], proxy:{type:'rest', url:'/workTime'}});
-=======
->>>>>>> branch 'master' of git@github.com:1016875624/OA.git
 Ext.define('Admin.store.NavigationTree', {extend:Ext.data.TreeStore, storeId:'NavigationTree', fields:[{name:'text'}], root:{expanded:true, children:[{text:'Dashboard', iconCls:'x-fa fa-desktop', rowCls:'nav-tree-badge nav-tree-badge-new', viewType:'admindashboard', routeId:'dashboard', leaf:true}, {text:'流程定义模块', iconCls:'x-fa fa-address-card', viewType:'processDefinitionCenterPanel', leaf:true}, {text:'部门', iconCls:'x-fa fa-user', viewType:'department', leaf:true}, {text:'员工管理模块', iconCls:'x-fa fa-user', 
 viewType:'employeeCenterPanel', leaf:true}, {text:'订单管理模块', iconCls:'x-fa fa-address-card', viewType:'orderCenterPanel', leaf:true}, {text:'请假管理模块', iconCls:'x-fa fa-address-card', viewType:'leaveCenterPanel', leaf:true}, {text:'请假审批模块', iconCls:'x-fa fa-address-card', viewType:'leaveApproveCenterPanel', leaf:true}, {text:'Login', iconCls:'x-fa fa-check', viewType:'login', leaf:true}, {text:'工时', iconCls:'x-fa fa-address-card', viewType:'workTimeCenterPanel', leaf:true}, {text:'题库', iconCls:'x-fa fa-address-card', 
 viewType:'questionCenterPanel', leaf:true}]}});
@@ -86054,7 +86049,6 @@ Ext.define('Admin.view.process.definition.ProcessDefinitionViewController', {ext
   Ext.Msg.alert('Title', 'Click Convert Model Button');
 }});
 Ext.define('Admin.view.process.definition.ProcessDefinitionViewModel', {extend:Ext.app.ViewModel, alias:'viewmodel.processDefinitionViewModel', stores:{processDefinitionLists:{type:'processDefinitionStroe'}}});
-<<<<<<< HEAD
 Ext.define('Admin.view.question.QuestionAddWindow', {extend:Ext.window.Window, alias:'widget.questionAddWindow', height:500, minHeight:100, minWidth:300, width:500, scrollable:true, title:'Add question Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your name', items:[{xtype:'textfield', fieldLabel:'id', name:'id', hidden:true, readOnly:true}, {xtype:'textfield', fieldLabel:'员工姓名', name:'name'}, 
 {xtype:'combobox', fieldLabel:'员工部门', name:'department', store:Ext.create('Ext.data.Store', {fields:['value', 'name'], data:[{'value':'1', 'name':'行政部'}, {'value':'2', 'name':'人事部'}, {'value':'3', 'name':'财务部'}, {'value':'4', 'name':'技术部'}, {'value':'5', 'name':'人事部'}, {'value':'6', 'name':'测试部'}, {'value':'7', 'name':'后勤部'}]}), displayField:'name', valueField:'value'}, {xtype:'textfield', fieldLabel:'员工邮箱', name:'email'}, {xtype:'textfield', fieldLabel:'职位', name:'position'}, {xtype:'combobox', 
 fieldLabel:'在职状态', name:'status', store:Ext.create('Ext.data.Store', {fields:['value', 'name'], data:[{'value':'0', 'name':'正常'}, {'value':'1', 'name':'离职'}, {'value':'-1', 'name':'封禁'}]}), displayField:'name', valueField:'value'}, {xtype:'textfield', fieldLabel:'上级领导', name:'leader'}, {xtype:'datefield', fieldLabel:'入职时间', name:'entryTime', format:'Y/m/d H:i:s'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitAddForm'}, {xtype:'button', text:'Close', handler:function(btn) {
@@ -86184,8 +86178,6 @@ Ext.define('Admin.view.question.QuestionViewController', {extend:Ext.app.ViewCon
 }, onCheckButton:function(grid, rowIndex, colIndex) {
   Ext.Msg.alert('Title', 'Click Check Button');
 }});
-=======
->>>>>>> branch 'master' of git@github.com:1016875624/OA.git
 Ext.define('Admin.view.workTime.WorkTimeAddWindow', {extend:Ext.window.Window, alias:'widget.workTimeAddWindow', height:450, minHeight:100, minWidth:300, width:500, scrollable:true, title:'Add workTime Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your WorkTime', items:[{xtype:'textfield', fieldLabel:'id', name:'id', hidden:true, readOnly:true}, {xtype:'textfield', fieldLabel:'员工编号', 
 name:'employeeid'}, {xtype:'textfield', fieldLabel:'当天上班时间', name:'hour'}, {xtype:'datefield', fieldLabel:'日期', name:'date', format:'Y/m/d'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitAddForm'}, {xtype:'button', text:'Close', handler:function(btn) {
   btn.up('window').close();
@@ -86195,7 +86187,6 @@ Ext.define('Admin.view.workTime.WorkTimeEditWindow', {extend:Ext.window.Window, 
 name:'employeeid', disabled:true}, {xtype:'textfield', fieldLabel:'员工姓名', name:'employeeName', disabled:true}, {xtype:'textfield', fieldLabel:'部门名称', name:'departmentName', disabled:true}, {xtype:'textfield', fieldLabel:'当天工作时间(单位：h)', name:'hour'}, {xtype:'datefield', fieldLabel:'日期', name:'date', format:'Y/m/d'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitEditForm'}, {xtype:'button', text:'Close', handler:function(btn) {
   btn.up('window').close();
 }}, '-\x3e']});
-<<<<<<< HEAD
 Ext.define('Admin.view.workTime.WorkTimeGridPanel', {extend:Ext.panel.Panel, xtype:'workTimeGridPanel', layout:'fit', items:[{xtype:'gridpanel', cls:'user-grid', title:'workTimeGrid Results', bind:'{workTimeLists}', scrollable:false, selModel:{type:'checkboxmodel'}, columns:[{xtype:'gridcolumn', width:40, dataIndex:'id', text:'#', hidden:true}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'employeeid', text:'员工编号', flex:1}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'employeeName', 
 text:'员工姓名', flex:1}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'departmentName', text:'部门', flex:1}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'hour', text:'当天的上班时间', flex:1}, {xtype:'datecolumn', cls:'content-column', width:200, dataIndex:'date', text:'日期', formatter:'date("Y/m/d")'}, {xtype:'actioncolumn', cls:'content-column', width:120, text:'操作', tooltip:'edit ', flex:1, items:[{xtype:'button', iconCls:'x-fa fa-pencil', handler:'openEditWindow'}, {xtype:'button', iconCls:'x-fa fa-close', 
 handler:'deleteOneRow'}, {xtype:'button', iconCls:'x-fa fa-eye', handler:'onCheckButton'}]}], tbar:[{xtype:'combobox', reference:'searchFieldName', store:Ext.create('Ext.data.Store', {fields:['name', 'value'], data:[{name:'员工编号', value:'employeeid'}, {name:'日期', value:'date'}]}), displayField:'name', valueField:'value', value:'id', editable:false, queryMode:'local', triggerAction:'all', emptyText:'Select a state...', width:135, listeners:{select:'searchComboboxSelectChuang'}}, '-', {xtype:'textfield', 
@@ -86205,13 +86196,8 @@ handler:'openAddWindow'}, '-', {text:'Removes', tooltip:'Remove the selected ite
 }}}]});
 Ext.define('Admin.view.workTime.WorkTimeSearchWindow', {extend:Ext.window.Window, alias:'widget.workTimeSearchWindow', height:450, minHeight:300, minWidth:300, width:500, scrollable:true, title:'Search More Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your searchvalue', items:[{xtype:'textfield', fieldLabel:'id', name:'id', hidden:true, readOnly:true}, {xtype:'textfield', fieldLabel:'员工编号', 
 name:'employeeid'}, {xtype:'textfield', fieldLabel:'员工姓名', name:'employeeName'}, {xtype:'combobox', fieldLabel:'部门名称', name:'departmentName'}, {xtype:'textfield', fieldLabel:'当天工作时间(单位：h)', name:'hour'}, {xtype:'datefield', fieldLabel:'日期', name:'date', format:'Y/m/d'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitSearchForm'}, {xtype:'button', text:'Close', handler:function(btn) {
-=======
-Ext.define('Admin.view.workTime.WorkTimeSearchWindow', {extend:Ext.window.Window, alias:'widget.workTimeSearchWindow', height:300, minHeight:300, minWidth:300, width:500, scrollable:true, title:'Search More Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your workTime', items:[{xtype:'textfield', fieldLabel:'id', name:'id'}, {xtype:'textfield', fieldLabel:'name', name:'name'}, {xtype:'datefield', 
-format:'Y/m/d H:i:s', name:'entryTime'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitSearchForm'}, {xtype:'button', text:'Close', handler:function(btn) {
->>>>>>> branch 'master' of git@github.com:1016875624/OA.git
   btn.up('window').close();
 }}, '-\x3e']});
-<<<<<<< HEAD
 Ext.define('Admin.view.workTime.WorkTimeViewController', {extend:Ext.app.ViewController, alias:'controller.workTimeViewController', openAddWindow:function(toolbar, rowIndex, colIndex) {
   toolbar.up('panel').up('container').add(Ext.widget('workTimeAddWindow')).show();
 }, openEditWindow:function(grid, rowIndex, colIndex) {
@@ -86310,7 +86296,5 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {extend:Ext.app.ViewCon
 }, onCheckButton:function(grid, rowIndex, colIndex) {
   Ext.Msg.alert('Title', 'Click Check Button');
 }});
-=======
->>>>>>> branch 'master' of git@github.com:1016875624/OA.git
 Ext.define('Admin.view.workTime.WorkTimeViewModel', {extend:Ext.app.ViewModel, alias:'viewmodel.workTimeViewModel', stores:{workTimeLists:{type:'workTimeGridStroe'}}});
 Ext.application({extend:Admin.Application, name:'Admin', mainView:'Admin.view.main.Main'});
