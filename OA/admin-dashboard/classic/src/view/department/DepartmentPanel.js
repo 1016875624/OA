@@ -71,14 +71,14 @@ Ext.define('Admin.view.department.DepartmentPanel', {
 				store:Ext.create("Ext.data.Store", {
 				    fields: ["name", "value"],
 				    data: [
-				      	{ name: '订单编号', value: 'orderNo' },
-						{ name: '创建时间', value: 'orderDate' }
+				      	{ name: 'id', value: 'id' },
+						{ name: '部门名称', value: 'name' }
 				    ]
 				}),
 				//label:'查询类型',
 				displayField:'name',
 				valueField:'value',
-				value:'orderNo',
+				value:'id',
 				//value:'订单编号',
 				editable:false,
 				queryMode: 'local',
@@ -86,19 +86,64 @@ Ext.define('Admin.view.department.DepartmentPanel', {
 				emptyText: 'Select a state...',
 				width: 135,
 				listeners:{
-					change:'selectChange'
+					change:'tbarSelectChange'
 				}
 			},'-',{
 				xtype:'textfield',
 				name:'orderPanelSearchField',
 				reference:'searchFieldValue'
-			},'-',{
+			},
+			/*'-',{
 				xtype:'datefield',
 				name:'orderPanelSearchDateField',
 				reference:'searchDateFieldValue',
 				formatter: 'date("Y/m/d H:i:s")',
 				hidden:true
-			},'-',{
+			},*/
+			
+			{
+				xtype: 'combobox',
+				hideLable:true,
+				reference:'test',
+				store:Ext.create("Ext.data.Store", {
+				    fields: ["id", "name"],
+				    /*data: [
+				      	{ name: 'id', value: 'id' },
+						{ name: '部门名称', value: 'name' }
+				    ]*/
+				   	proxy: {
+				        type: 'ajax',
+						//url:"/order",
+				        url:'http://localhost:8080/department/simpleget',
+						//url: '~api/search/users'	//mvc url  xxx.json
+					    reader:{
+					    	type:'json',
+					    	//rootProperty:'content',
+							//totalProperty:'totalElements'
+					    },
+						//simpleSortMode: true
+				    }
+				   	,
+				   	autoLoad: 'true',
+					autoSync:'true',
+				}),
+				//label:'查询类型',
+				displayField:'name',
+				valueField:'id',
+				value:'id',
+				//value:'订单编号',
+				editable:false,
+				queryMode: 'local',
+				triggerAction: 'all',
+				
+				emptyText: 'Select a state...',
+				width: 135,
+				listeners:{
+					change:'tbarSelectChange'
+				}
+			},
+			
+			'-',{
 		        text: 'Search',
 		        iconCls: 'fa fa-search',
 		        handler: 'quickSearch'

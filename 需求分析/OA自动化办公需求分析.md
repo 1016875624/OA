@@ -379,6 +379,51 @@ if (ans.length!=realans.length) {
 
 
 
+## Extjs一些常用的方法
+
+### 根据xtype查找
+
+```js
+Ext.ComponentQuery.query(selector, [root]) ：返回一个符合匹配的组件数组
+```
+
+
+
+
+
+
+
+### 根据id获取组件
+
+```js
+var ifield=Ext.getCmp("department_form_id");
+//Ext.getCmp("id");
+//itemid
+//
+var idField=win.getComponent("department_form_id");
+//这个方法要用container才能使用,也就是动态加入的应该不起作用
+//getComponent("itemid")
+
+//根据设置的reference进行查找
+this.lookupReference("reference");
+
+```
+
+### form内部查找
+
+```js
+//这里是xtype 的formobj的内部函数
+formObj.getForm().findField(id/name);
+```
+
+
+
+
+
+
+
+itemid的使用
+
 ## 项目中遇到的一些问题总结
 
 ### 2018/09/25

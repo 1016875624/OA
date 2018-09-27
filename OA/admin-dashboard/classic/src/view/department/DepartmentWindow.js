@@ -25,9 +25,9 @@ Ext.define('Admin.view.department.DepartmentWindow', {
 			labelSeparator:''
 		},
 		defaultType:'textfield',
-		items:[{fieldLabel: 'id', name: 'id',hidden:true},
-			{fieldLabel: 'orderNo', name: 'orderNo'},
-			{xtype:'datefield',format: 'Y-m-d H:i:s',fieldLabel: 'orderDate', name: 'orderDate'}
+		items:[
+			{fieldLabel: 'id', name: 'id',hidden:true,itemid:'department_form_id',id:"department_form_id"},
+			{fieldLabel: 'name', name: 'name'}
 		],
 		
 		
