@@ -25,7 +25,7 @@
             },
             {
                 text: '部门',
-                iconCls: 'x-fa fa-user',
+                iconCls: 'x-fa fa-building-o',
                 //rowCls: 'nav-tree-badge nav-tree-badge-new',
                 viewType: 'department',
                 leaf: true

@@ -1,6 +1,6 @@
-Ext.define('Admin.view.department.DepartmentPanel', {
+Ext.define('Admin.view.quit.QuitPanel', {
     extend: 'Ext.panel.Panel',
-    xtype: 'departmentPanel',
+    xtype: 'quitPanel',
 
     requires: [
         'Ext.grid.Panel',
@@ -16,11 +16,11 @@ Ext.define('Admin.view.department.DepartmentPanel', {
 	
     items: [{
             xtype: 'gridpanel',
-            cls: 'department-grid',
-			itemId:'departmentGridPanel',
-            title: 'department results',
+            cls: 'quit-grid',
+			itemId:'quitGridPanel',
+            title: 'quit results',
             //routeId: 'user',
-            bind: '{departmentLists}',
+            bind: '{quitLists}',
             scrollable: false,
             columns: [
                 {xtype: 'gridcolumn',width: 40,dataIndex: 'id',text: 'id',hidden:true},
@@ -114,7 +114,7 @@ Ext.define('Admin.view.department.DepartmentPanel', {
 				   	proxy: {
 				        type: 'ajax',
 						//url:"/order",
-				        url:'http://localhost:8080/department/simpleget',
+				        url:'http://localhost:8080/quit/simpleget',
 						//url: '~api/search/users'	//mvc url  xxx.json
 					    reader:{
 					    	type:'json',
