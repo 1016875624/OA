@@ -36,7 +36,7 @@ Ext.define('Admin.view.employee.EmployeeAddWindow', {
         }, {
             xtype: 'combobox',
             fieldLabel: '员工部门',
-            name:'department',
+            name:'departmentName',
 			store: Ext.create('Ext.data.Store', {
                 fields: ['value', 'name'],
                 data: [
@@ -79,7 +79,7 @@ Ext.define('Admin.view.employee.EmployeeAddWindow', {
         }, {
             xtype: 'textfield',
             fieldLabel: '上级领导',
-            name:'leader'
+            name:'leaderName'
         }, {
             xtype: 'datefield',
             fieldLabel: '入职时间',

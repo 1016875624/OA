@@ -50,7 +50,7 @@
 				}),
 	            displayField: 'name',
 	            valueField:'value',
-	            value:'id',
+	            value:'选择查询方式',
 	            editable: false,
 	            queryMode: 'local',
 	            triggerAction: 'all',
