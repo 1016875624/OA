@@ -14,6 +14,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.oa.common.date.utils.DateUtils;
 import com.oa.employee.entity.Employee;
 
 import lombok.Data;
@@ -63,14 +64,28 @@ public class QuitQueryDTO {
 					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),quitQueryDTO.getStatus()));
 				}
 				else {
-					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),0));
+					predicate.add(criteriaBuilder.ge(root.get("status").as(Integer.class),0));
 				}
 				if (null!=quitQueryDTO.getPreQuitDate()) {
 					if (quitQueryDTO.getSufApplyDate()!=null) {
-						predicate.add(criteriaBuilder.between(root.get("quitDate").as(Date.class), quitQueryDTO.getPreQuitDate(), quitQueryDTO.getSufQuitDate()));
+						predicate.add(criteriaBuilder.between(root.get("quitDate").as(Date.class), quitQueryDTO.getPreQuitDate(), 
+								quitQueryDTO.getSufQuitDate()));
 					}
 					else {
-						
+						predicate.add(criteriaBuilder.between(root.get("quitDate").as(Date.class),
+								DateUtils.getToDayStart(quitQueryDTO.getPreQuitDate()), 
+								DateUtils.getToDayEnd(quitQueryDTO.getPreQuitDate())));
+					}
+				}
+				if (quitQueryDTO.getPreApplyDate()!=null) {
+					if (quitQueryDTO.getSufApplyDate()!=null) {
+						predicate.add(criteriaBuilder.between(root.get("applyDate").as(Date.class), quitQueryDTO.getPreApplyDate(), 
+								quitQueryDTO.getSufApplyDate()));
+					}
+					else {
+						predicate.add(criteriaBuilder.between(root.get("applyDate").as(Date.class),
+								DateUtils.getToDayStart(quitQueryDTO.getPreApplyDate()), 
+								DateUtils.getToDayEnd(quitQueryDTO.getPreApplyDate())));
 					}
 				}
 				

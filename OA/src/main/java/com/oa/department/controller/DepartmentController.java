@@ -1,6 +1,7 @@
 package com.oa.department.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class DepartmentController {
 	}
 	
 	@PostMapping
-	public ExtAjaxResponse save(DepartmentDTO departmentDTO) 
+	public ExtAjaxResponse save(@RequestBody DepartmentDTO departmentDTO) 
 	{
 		try {
 			
@@ -56,7 +57,7 @@ public class DepartmentController {
 	}
 	
 	@PutMapping(value="{id}")
-    public ExtAjaxResponse update(@PathVariable("id") String id,DepartmentDTO departmentDTO) {
+    public ExtAjaxResponse update(@PathVariable("id") String id,@RequestBody DepartmentDTO departmentDTO) {
     	try {
     		Department entity = null;
 			entity=DepartmentDTO.DtoToEntity(departmentDTO);
@@ -78,5 +79,14 @@ public class DepartmentController {
 		} catch (Exception e) {
 			return new ExtAjaxResponse(false,"删除失败");
 		}
+	}
+	@RequestMapping("/simpleget")
+	public List<String> getDepartmentNames() {
+		List<String>names=new ArrayList<>();
+		List<Department>departments=departmentService.findAll();
+		for (Department department : departments) {
+			names.add(department.getName());
+		}
+		return names;
 	}
 }

@@ -40,7 +40,7 @@ public class SalaryPayTest {
 		Employee employee=new Employee();
 		employee.setId("salarypay");
 		employee.setName("工资发放");
-		employeeService.save(employee);
+		//employeeService.save(employee);
 		for (int i = 0; i < 20; i++) {
 			SalaryPay salaryPay=new SalaryPay();
 			salaryPay.setEmployee(employee);

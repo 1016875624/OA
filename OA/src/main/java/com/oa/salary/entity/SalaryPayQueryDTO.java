@@ -28,6 +28,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.oa.common.date.utils.DateUtils;
 import com.oa.department.entity.Department;
 import com.oa.department.entity.DepartmentQueryDTO;
 import com.oa.employee.entity.Employee;
@@ -72,22 +73,22 @@ public class SalaryPayQueryDTO {
 	/**
 	* @Fields realWorktime : 实际工作时间范围
 	*/
-	private int preRealWorktime;
+	private Integer preRealWorktime;
 	
 	
 	/**
 	* @Fields sufRealWorktime : 时间工作时间范围
 	*/
-	private int sufRealWorktime;
+	private Integer sufRealWorktime;
 	
 	/**
 	* @Fields preWorktime : 要求工作时间范围
 	*/
-	private int preWorktime;
+	private Integer preWorktime;
 	/**
 	* @Fields sufWorktime : 要求工作时间范围
 	*/
-	private int sufWorktime;
+	private Integer sufWorktime;
 	/**
 	* @Fields attendRate : 出勤率
 	*/
@@ -147,16 +148,59 @@ public class SalaryPayQueryDTO {
 							"%" + salaryPayQueryDTO.getEmployeeName() + "%"));
 				}
 				
+				if (StringUtils.isNotBlank(salaryPayQueryDTO.getEmployeeid())) {
+					predicate.add(criteriaBuilder.like(root.get("employee").get("id").as(String.class),
+							"%" + salaryPayQueryDTO.getEmployeeid() + "%"));
+				}
+				
 				if (salaryPayQueryDTO.getStartDate()!=null) {
 					if (salaryPayQueryDTO.getEndDate()!=null) {
-						predicate.add(criteriaBuilder.between(root.get("date").as(Date.class), startDate, endDate));
+						predicate.add(criteriaBuilder.between(root.get("date").as(Date.class),
+								salaryPayQueryDTO.getStartDate(), salaryPayQueryDTO.getEndDate()));
 					}
 					else {
-						//Date d1=salaryPayQueryDTO.getStartDate();
-						//LocalDateTime ld1=LocalDateTime.ofInstant(d1.toInstant(), ZoneId.of("GMT+8"));
-						predicate.add(criteriaBuilder.equal(root.get("date").as(Date.class), salaryPayQueryDTO.getStartDate()));
+						predicate.add(criteriaBuilder.between(root.get("date").as(Date.class), 
+								DateUtils.getToDayStart(salaryPayQueryDTO.getStartDate()), 
+								DateUtils.getToDayEnd(salaryPayQueryDTO.getStartDate())));
 					}
 				}
+				if(null!=salaryPayQueryDTO.getStatus()) {
+					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),salaryPayQueryDTO.getStatus()));
+
+				}else {
+					predicate.add(criteriaBuilder.ge(root.get("status").as(Integer.class),0));
+				}
+				
+				if (salaryPayQueryDTO.getPreMoney()!=null) {
+					if (salaryPayQueryDTO.getSufMoney()!=null) {
+						predicate.add(criteriaBuilder.between(root.get("money").as(Double.class), 
+								salaryPayQueryDTO.getPreMoney(), salaryPayQueryDTO.getSufMoney()));
+					}
+					else {
+						//如果只给开始的值的话,那么返回前后的500的范围
+						predicate.add(criteriaBuilder.between(root.get("money").as(Double.class), 
+								salaryPayQueryDTO.getPreMoney()-500, salaryPayQueryDTO.getSufMoney()+500));
+					}
+				}
+				if (salaryPayQueryDTO.getPreRealWorktime()!=null) {
+					if (salaryPayQueryDTO.getSufRealWorktime()!=null) {
+						predicate.add(criteriaBuilder.between(root.get("realWorktime").as(Integer.class), salaryPayQueryDTO.getPreRealWorktime(),
+									salaryPayQueryDTO.getSufRealWorktime()
+								));
+					}else {
+						predicate.add(criteriaBuilder.equal(root.get("realWorktime").as(Integer.class), salaryPayQueryDTO.getPreRealWorktime()
+							));
+					}
+				}
+				if (salaryPayQueryDTO.getPreWorktime()!=null) {
+					if (salaryPayQueryDTO.getSufWorktime()!=null) {
+						predicate.add(criteriaBuilder.between(root.get("worktime").as(Integer.class), salaryPayQueryDTO.getPreWorktime(),
+								salaryPayQueryDTO.getSufWorktime()
+							));
+					}
+				}
+				
+				
 				
 				Predicate[] pre = new Predicate[predicate.size()];
 				return query.where(predicate.toArray(pre)).getRestriction();
