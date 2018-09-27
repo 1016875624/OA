@@ -103,7 +103,7 @@ public class LeaveController {
 	}
 	
 	//驳回,将状态变回0,表示该表为待申请状态
-	@PostMapping("/reject")
+	@PutMapping("/reject")
 	public ExtAjaxResponse reject(@RequestParam(name="id") Long id, @RequestBody Leave leave) {
 		try {
     		Leave entity = leaveService.findOne(id);
