@@ -1,12 +1,12 @@
-Ext.define('Admin.view.employee.EmployeeAddWindow', {
+Ext.define('Admin.view.question.QuestionAddWindow', {
     extend: 'Ext.window.Window',
-    alias: 'widget.employeeAddWindow',
+    alias: 'widget.questionAddWindow',
     height: 500,
     minHeight: 100,
     minWidth: 300,
     width: 500,
     scrollable: true,
-    title: 'Add employee Window',
+    title: 'Add question Window',
     closable: true,
     constrain: true,
     
@@ -19,17 +19,12 @@ Ext.define('Admin.view.employee.EmployeeAddWindow', {
         padding: '10px',
         ariaLabel: 'Enter your name',
         items: [{
-            // xtype: 'textfield',
-            // fieldLabel: 'id',
-            // name:'id',
-            // hidden: true,
-            // readOnly: true
-        // }, 
-		//{
-            xtype: 'textfield',
-            fieldLabel: '员工id',
-            name:'id'
-        }, {
+             xtype: 'textfield',
+             fieldLabel: 'id',
+             name:'id',
+             hidden: true,
+             readOnly: true
+         },{
             xtype: 'textfield',
             fieldLabel: '员工姓名',
             name:'name'
@@ -40,16 +35,13 @@ Ext.define('Admin.view.employee.EmployeeAddWindow', {
 			store: Ext.create('Ext.data.Store', {
                 fields: ['value', 'name'],
                 data: [
-				{"value":"1","name":"董事会"},
-				{"value":"2","name":"总裁部"},
-				{"value":"3","name":"市场部"},
-				{"value":"4","name":"项目部"},
+				{"value":"1","name":"行政部"},
+				{"value":"2","name":"人事部"},
+				{"value":"3","name":"财务部"},
+				{"value":"4","name":"技术部"},
                 {"value":"5","name":"人事部"}, 
-                {"value":"6","name":"法务部"},
-				{"value":"7","name":"新闻部"},
-				{"value":"8","name":"财务部"},
-				{"value":"9","name":"管理员"},
-				{"value":"10","name":"tom"}
+                {"value":"6","name":"测试部"},
+				{"value":"7","name":"后勤部"}
                 ]
                 }),
                 displayField: 'name',
