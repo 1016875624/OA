@@ -85121,6 +85121,7 @@ Ext.define('Ext.ux.layout.ResponsiveColumn', {extend:Ext.layout.container.Auto, 
   }
 });
 Ext.define('Admin.model.Base', {extend:Ext.data.Model, schema:{namespace:'Admin.model'}});
+Ext.define('Admin.model.department.DepartmentModel', {extend:Ext.data.Model, fields:[{type:'string', name:'id'}, {type:'string', name:'name'}], proxy:{type:'rest', url:'http://localhost:8080/department', reader:{type:'json', rootProperty:'content', totalProperty:'totalElements'}, simpleSortMode:true}});
 Ext.define('Admin.model.employee.EmployeeModel', {extend:Admin.model.Base, fields:[{type:'string', name:'id'}, {type:'string', name:'name'}, {type:'string', name:'email'}, {type:'string', name:'position'}, {type:'integer', name:'state'}, {type:'string', name:'leader'}, {type:'date', name:'entryTime', dateFormat:'Y/m/d H:i:s'}], proxy:{type:'rest', url:'/employee'}});
 Ext.define('Admin.model.leave.LeaveModel', {extend:Admin.model.Base, fields:[{type:'int', name:'id'}, {type:'string', name:'employeeId'}, {type:'date', name:'startTime', dateFormat:'Y/m/d H:i:s'}, {type:'date', name:'endTime', dateFormat:'Y/m/d H:i:s'}, {type:'date', name:'realityStartTime', dateFormat:'Y/m/d H:i:s'}, {type:'date', name:'realityEndTime', dateFormat:'Y/m/d H:i:s'}, {type:'date', name:'applyTime', dateFormat:'Y/m/d H:i:s'}, {type:'string', name:'leaveType'}, {type:'string', name:'reason'}, 
 {type:'int', name:'status'}], proxy:{type:'rest', url:'/leave'}});
@@ -85130,8 +85131,10 @@ Ext.define('Admin.model.process.definition.ProcessDefinitionModel', {extend:Admi
 name:'graphicalNotation'}, {type:'boolean', name:'suspended'}]});
 Ext.define('Admin.model.question.QuestionModel', {extend:Admin.model.Base, fields:[{type:'int', name:'id'}, {type:'string', name:'textQuestion'}, {type:'string', name:'realanswer'}, {type:'string', name:'answers'}, {type:'int', name:'type'}, {type:'int', name:'status'}], proxy:{type:'rest', url:'/question'}});
 Ext.define('Admin.model.workTime.WorkTimeModel', {extend:Admin.model.Base, fields:[{type:'int', name:'id'}, {type:'string', name:'employeeid'}, {type:'string', name:'employeeName'}, {type:'string', name:'departmentName'}, {type:'int', name:'hour'}, {type:'date', name:'date', dateFormat:'Y/m/d'}], proxy:{type:'rest', url:'/workTime'}});
-Ext.define('Admin.store.NavigationTree', {extend:Ext.data.TreeStore, storeId:'NavigationTree', fields:[{name:'text'}], root:{expanded:true, children:[{text:'Dashboard', iconCls:'x-fa fa-desktop', rowCls:'nav-tree-badge nav-tree-badge-new', viewType:'admindashboard', routeId:'dashboard', leaf:true}, {text:'流程定义模块', iconCls:'x-fa fa-address-card', viewType:'processDefinitionCenterPanel', leaf:true}, {text:'员工管理模块', iconCls:'x-fa fa-user', viewType:'employeeCenterPanel', leaf:true}, {text:'订单管理模块', 
-iconCls:'x-fa fa-address-card', viewType:'orderCenterPanel', leaf:true}, {text:'请假管理模块', iconCls:'x-fa fa-address-card', viewType:'leaveCenterPanel', leaf:true}, {text:'请假审批模块', iconCls:'x-fa fa-address-card', viewType:'leaveApproveCenterPanel', leaf:true}, {text:'Login', iconCls:'x-fa fa-check', viewType:'login', leaf:true}, {text:'工时', iconCls:'x-fa fa-address-card', viewType:'workTimeCenterPanel', leaf:true}, {text:'题库', iconCls:'x-fa fa-address-card', viewType:'questionCenterPanel', leaf:true}]}});
+Ext.define('Admin.store.NavigationTree', {extend:Ext.data.TreeStore, storeId:'NavigationTree', fields:[{name:'text'}], root:{expanded:true, children:[{text:'Dashboard', iconCls:'x-fa fa-desktop', rowCls:'nav-tree-badge nav-tree-badge-new', viewType:'admindashboard', routeId:'dashboard', leaf:true}, {text:'流程定义模块', iconCls:'x-fa fa-address-card', viewType:'processDefinitionCenterPanel', leaf:true}, {text:'部门', iconCls:'x-fa fa-user', viewType:'department', leaf:true}, {text:'员工管理模块', iconCls:'x-fa fa-user', 
+viewType:'employeeCenterPanel', leaf:true}, {text:'订单管理模块', iconCls:'x-fa fa-address-card', viewType:'orderCenterPanel', leaf:true}, {text:'请假管理模块', iconCls:'x-fa fa-address-card', viewType:'leaveCenterPanel', leaf:true}, {text:'请假审批模块', iconCls:'x-fa fa-address-card', viewType:'leaveApproveCenterPanel', leaf:true}, {text:'Login', iconCls:'x-fa fa-check', viewType:'login', leaf:true}, {text:'工时', iconCls:'x-fa fa-address-card', viewType:'workTimeCenterPanel', leaf:true}, {text:'题库', iconCls:'x-fa fa-address-card', 
+viewType:'questionCenterPanel', leaf:true}]}});
+Ext.define('Admin.store.department.DepartmentGridStroe', {extend:Ext.data.Store, alias:'store.departmentGridStroe', storeId:'departmentGridStroe', model:'Admin.model.department.DepartmentModel', autoLoad:'true', autoSync:'true', remoteSort:true, pageSize:10, sorters:{direction:'DESC', property:'id'}});
 Ext.define('Admin.store.employee.EmployeeGridStroe', {extend:Ext.data.Store, storeId:'employeeGridStroe', alias:'store.employeeGridStroe', model:'Admin.model.employee.EmployeeModel', proxy:{type:'rest', url:'/employee', reader:{type:'json', rootProperty:'content', totalProperty:'totalElements'}, writer:{type:'json'}, simpleSortMode:true}, autoLoad:true, autoSync:true, remoteSort:true, pageSize:15, sorters:{direction:'ASE', property:'id'}});
 Ext.define('Admin.store.leave.LeaveStore', {extend:Ext.data.Store, storeId:'leaveStore', alias:'store.leaveStore', model:'Admin.model.leave.LeaveModel', proxy:{type:'rest', url:'/leave', reader:{type:'json', rootProperty:'content', totalProperty:'totalElements'}, writer:{type:'json'}, simpleSortMode:true}, autoLoad:true, autoSync:true, remoteSort:true, pageSize:15, sorters:{direction:'DESC', property:'id'}, listeners:{}});
 Ext.define('Admin.store.leaveapprove.LeaveApproveStore', {extend:Ext.data.Store, storeId:'leaveApproveStore', alias:'store.leaveApproveStore', model:'Admin.model.leaveapprove.LeaveApproveModel', proxy:{type:'ajax', url:'leave/tasks', reader:new Ext.data.JsonReader({type:'json', rootProperty:'content', totalProperty:'totalElements'}), simpleSortMode:true}, remoteSort:true, sorters:[{property:'id', direction:'desc'}], autoLoad:true});
@@ -85248,6 +85251,174 @@ isValid:function() {
 }}, {xtype:'button', scale:'large', ui:'soft-blue', formBind:true, reference:'submitButton', bind:false, margin:'5 0', iconAlign:'right', iconCls:'x-fa fa-angle-right', text:'Signup', listeners:{click:'onSignupClick'}}, {xtype:'box', html:'\x3cdiv class\x3d"outer-div"\x3e\x3cdiv class\x3d"seperator"\x3eOR\x3c/div\x3e\x3c/div\x3e'}, {xtype:'button', scale:'large', ui:'facebook', margin:'5 0', iconAlign:'right', iconCls:'x-fa fa-facebook', text:'Login with Facebook', listeners:{click:'onFaceBookLogin'}}, 
 {xtype:'component', html:'\x3cdiv style\x3d"text-align:right"\x3e' + '\x3ca href\x3d"#login" class\x3d"link-forgot-password"\x3e' + 'Back to Log In\x3c/a\x3e' + '\x3c/div\x3e'}]}]});
 Ext.define('Admin.view.dashboard.Dashboard', {extend:Ext.container.Container, xtype:'admindashboard', controller:'dashboard', viewModel:{type:'dashboard'}, layout:'responsivecolumn', listeners:{hide:'onHideView'}, html:'admindashboard'});
+Ext.define('Admin.view.department.Department', {extend:Ext.container.Container, xtype:'department', controller:'departmentViewController', viewModel:{type:'departmentViewModel'}, layout:'fit', items:[{xtype:'departmentPanel'}]});
+Ext.define('Admin.view.department.DepartmentPanel', {extend:Ext.panel.Panel, xtype:'departmentPanel', layout:'fit', items:[{xtype:'gridpanel', cls:'department-grid', itemId:'departmentGridPanel', title:'department results', bind:'{departmentLists}', scrollable:false, columns:[{xtype:'gridcolumn', width:40, dataIndex:'id', text:'id', hidden:true}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'name', text:'部门名称', flex:1}, {xtype:'actioncolumn', cls:'content-column', width:120, dataIndex:'bool', 
+text:'Actions', tooltip:'edit ', items:[{xtype:'button', iconCls:'x-fa fa-pencil', handler:'showWindow1'}, {xtype:'button', iconCls:'x-fa fa-close', handler:'onDeleteButton'}, {xtype:'button', iconCls:'x-fa fa-ban', handler:'onDisableButton'}]}], listeners:{selectionchange:function(view, records, selection, eOpts) {
+  Ext.m_data = records[0];
+  this.down('#userRemoveBtn').setDisabled(records.length === 0);
+}}, selModel:{type:'checkboxmodel', checkOnly:true}, dockedItems:[{xtype:'pagingtoolbar', dock:'bottom', itemId:'userPaginationToolbar', displayInfo:true, bind:'{userLists}'}], tbar:[{xtype:'combobox', hideLable:true, reference:'searchFieldName', store:Ext.create('Ext.data.Store', {fields:['name', 'value'], data:[{name:'订单编号', value:'orderNo'}, {name:'创建时间', value:'orderDate'}]}), displayField:'name', valueField:'value', value:'orderNo', editable:false, queryMode:'local', triggerAction:'all', emptyText:'Select a state...', 
+width:135, listeners:{change:'selectChange'}}, '-', {xtype:'textfield', name:'orderPanelSearchField', reference:'searchFieldValue'}, '-', {xtype:'datefield', name:'orderPanelSearchDateField', reference:'searchDateFieldValue', formatter:'date("Y/m/d H:i:s")', hidden:true}, '-', {text:'Search', iconCls:'fa fa-search', handler:'quickSearch'}, '-', {text:'Search More', iconCls:'fa fa-search-plus', handler:'openSearchWindow'}, '-\x3e', {xtype:'button', text:'Add', tooltip:'Add a new row', iconCls:'fa fa-plus', 
+handler:'clickAddBtn'}, '-', {xtype:'button', text:'Removes', iconCls:'fa fa-trash', disabled:true, itemId:'userRemoveBtn', handler:'userClickDeleteMore1'}]}]});
+Ext.define('Admin.view.department.DepartmentSearchWindow', {extend:Ext.window.Window, xtype:'departmentSearchWindow', autoShow:true, modal:true, layout:'fit', width:600, height:450, title:'高级查询', items:[{xtype:'form', layout:{type:'vbox', align:'stretch'}, bodyPadding:20, scrollable:true, 'default':{labelWidth:100, labelSeparator:''}, defaultType:'textfield', items:[{fieldLabel:'orderNo', name:'orderNo'}, {xtype:'datefield', format:'Y/m/d H:i:s', fieldLabel:'startDate', name:'startDate'}, {xtype:'datefield', 
+fieldLabel:'endDate', name:'endDate', format:'Y/m/d H:i:s'}]}], buttons:['-\x3e', {text:'save', handler:function() {
+  this.up('window').close();
+}}, {text:'Cancel', handler:function() {
+  this.up('window').close();
+}}, '-\x3e']});
+Ext.define('Admin.view.department.DepartmentViewController', {extend:Ext.app.ViewController, alias:'controller.departmentViewController', onEditButton:function(grid, rowIndex, colIndex) {
+  var rec = grid.getStore().getAt(rowIndex);
+  Ext.Msg.alert('Title', rec.get('fullname'));
+}, onDeleteButton:function(grid, rowIndex, colIndex) {
+  Ext.MessageBox.confirm('提示', '确定要进行删除操作吗？数据将无法还原！', function(btn, text) {
+    if (btn == 'yes') {
+      var store = grid.getStore();
+      var record = store.getAt(rowIndex);
+      store.remove(record);
+    }
+  }, this);
+}, onDisableButton:function(grid, rowIndex, colIndex) {
+  Ext.Msg.alert('Title', 'Click Disable Button');
+}, openSearchWindow:function(btn) {
+  var win = Ext.widget('userSearchWindow');
+  btn.up('gridpanel').up('container').add(win);
+  win.down('button[text\x3dsave]').setHandler(this.highLevelSearch);
+}, clickAddBtn:function(btn) {
+  var win = Ext.widget('userWindow');
+  win.setTitle('添加数据');
+  btn.up('gridpanel').up('container').add(win);
+  win.down('datefield').format = 'Y/m/d H:i:s';
+  var grid = btn.up('gridpanel');
+  var form1 = win.down('form').getForm();
+  win.down('button[text\x3dsave]').setHandler(function() {
+    var record = Ext.create('Admin.model.user.UserModel');
+    var values = form1.getValues();
+    console.log(values);
+    record.set(values);
+    console.log(record);
+    record.save();
+    win.close();
+    grid.getStore().load();
+  });
+}, showWindow1:function(grid, rowIndex, colIndex) {
+  var rec = grid.getStore().getAt(rowIndex);
+  var win = Ext.widget('departmentWindow');
+  grid.up('container').add(win);
+  win.show();
+  console.log(Ext.ClassManager.getName(rec));
+  console.log(rec);
+  console.log(rec.data);
+  console.log(rec.data.orderDate);
+  console.log(Ext.ClassManager.getName(rec.get('orderDate')));
+  win.down('datefield').format = 'Y/m/d H:i:s';
+  win.down('form').loadRecord(rec);
+  var store = Ext.data.StoreManager.lookup('userGridStroe');
+  console.log(Ext.ClassManager.getName(win.down('button')));
+  win.down('button[text\x3dsave]').setHandler(function() {
+    var values = win.down('form').getValues();
+    var record = store.getById(values.id);
+    record.set(values);
+    win.close();
+    store.load();
+  });
+  console.log(Ext.ClassManager.getName(Ext.get('userWindowSave')));
+}, userClickDeleteMore:function(btn) {
+  var grid = btn.up('gridpanel');
+  console.log(btn);
+  console.log(grid);
+  console.log(Ext.ClassManager.getName(grid));
+  var selects = grid.getSelection();
+  var store = grid.getStore();
+  store.remove(selects);
+}, userClickDeleteMore1:function(btn) {
+  var grid = btn.up('gridpanel');
+  console.log(btn);
+  console.log(grid);
+  console.log(Ext.ClassManager.getName(grid));
+  var selects = grid.getSelection();
+  var store = grid.getStore();
+  console.log(selects);
+  var ids = new Array;
+  Ext.Array.each(selects, function(val, index, countriesItSelf) {
+    console.log(val);
+    console.log(val.data);
+    console.log(val.data.id);
+    ids.push(val.get('id'));
+  });
+  console.log(ids);
+  Ext.Ajax.request({url:'http://localhost:8080/order/deleteMore', method:'post', params:{id:ids}, success:function(response, opts) {
+    store.load();
+  }, failure:function(response, opts) {
+    console.log('server-side failure with status code ' + response.status);
+  }});
+}, showWindow:function(grid, rowIndex, colIndex) {
+  var rec = grid.getStore().getAt(rowIndex);
+  Ext.Msg.alert('Title', grid);
+  Ext.Msg.alert('Title', rowIndex);
+  Ext.Msg.alert('Title', colIndex);
+  console.log(grid);
+  console.log(rowIndex);
+  console.log(colIndex);
+  var win = Ext.create('Ext.window.Window', {title:'Hello', height:600, width:800, layout:'fit', items:{xtype:'panel', height:550, width:750, items:[{xtype:'textfield', fieldLabel:'First Name', name:'fullname', value:Ext.m_data.data['fullname']}, {xtype:'textfield', fieldLabel:'Last Name', name:'Email', value:Ext.m_data.data['email']}, {xtype:'datefield', fieldLabel:'joinDate', name:'joinDate', value:rec.get('joinDate')}, {xtype:'textfield', fieldLabel:'Subscription', name:'Subscription'}]}});
+  win.show();
+}, quickSearch:function(btn) {
+  var field = this.lookupReference('searchFieldName');
+  var value = this.lookupReference('searchFieldValue');
+  var value1 = this.lookupReference('searchDateFieldValue');
+  var grid = btn.up('gridpanel');
+  var store = grid.getStore();
+  var model = store.getModel();
+  Ext.apply(store.proxy.extraParams, {orderNo:'', startDate:'', endDate:''});
+  if (field.getValue() === 'orderNo') {
+    Ext.apply(store.proxy.extraParams, {orderNo:value.getValue()});
+  }
+  if (field.getValue() === 'orderDate') {
+    Ext.apply(store.proxy.extraParams, {startDate:Ext.util.Format.date(value1.getValue(), 'Y/m/d H:i:s')});
+  }
+  store.load({params:{start:0, limit:20, page:1}});
+}, highLevelSearch:function(btn) {
+  Ext.apply(store.proxy.extraParams, {orderNo:'', startDate:'', endDate:''});
+  var win = btn.up('window');
+  var myform = win.down('form').getForm();
+  win.down('datefield').format = 'Y/m/d H:i:s';
+  console.log(myform);
+  var val = myform.getValues();
+  console.log(myform.getValues());
+  console.log(myform.getValues(true));
+  var store = Ext.data.StoreManager.lookup('userGridStroe');
+  if (val.startDate == '') {
+    delete val.startDate;
+    delete val.endDate;
+    if (val.orderNo == '') {
+      Ext.apply(store.proxy.extraParams, {orderNo:''});
+      store.load({params:{start:0, limit:20, page:1}});
+      win.close();
+      return;
+    }
+  }
+  Ext.apply(store.proxy.extraParams, val);
+  store.load({params:{start:0, limit:20, page:1}});
+  console.log(val);
+  win.close();
+}, selectChange:function(box, newValue, oldValue, eOpts) {
+  if (newValue == 'orderNo') {
+    this.lookupReference('searchFieldValue').show();
+    this.lookupReference('searchDateFieldValue').hide();
+  } else {
+    this.lookupReference('searchFieldValue').hide();
+    this.lookupReference('searchDateFieldValue').show();
+  }
+  console.log(newValue);
+}, test:function() {
+  Ext.Msg.alert('test', 'test');
+}, init:function() {
+}});
+Ext.define('Admin.view.department.DepartmentViewModel', {extend:Ext.app.ViewModel, alias:'viewmodel.departmentViewModel', stores:{departmentLists:{type:'departmentGridStroe'}}});
+Ext.define('Admin.view.department.DepartmentWindow', {extend:Ext.window.Window, xtype:'departmentWindow', autoShow:true, modal:true, layout:'fit', width:600, height:450, title:'修改部门信息', items:[{xtype:'form', layout:{type:'vbox', align:'stretch'}, bodyPadding:20, scrollable:true, 'default':{labelWidth:100, labelSeparator:''}, defaultType:'textfield', items:[{fieldLabel:'id', name:'id', hidden:true}, {fieldLabel:'orderNo', name:'orderNo'}, {xtype:'datefield', format:'Y-m-d H:i:s', fieldLabel:'orderDate', 
+name:'orderDate'}]}], buttons:['-\x3e', {id:'departmentWindowSave', text:'save', handler:function() {
+  this.up('window').close();
+}}, {text:'Cancel', handler:function() {
+  this.up('window').close();
+}}, '-\x3e']});
 Ext.define('Admin.view.employee.EmployeeAddWindow', {extend:Ext.window.Window, alias:'widget.employeeAddWindow', height:500, minHeight:100, minWidth:300, width:500, scrollable:true, title:'Add employee Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your name', items:[{xtype:'textfield', fieldLabel:'员工id', name:'id'}, {xtype:'textfield', fieldLabel:'员工姓名', name:'name'}, {xtype:'combobox', 
 fieldLabel:'员工部门', name:'department', store:Ext.create('Ext.data.Store', {fields:['value', 'name'], data:[{'value':'1', 'name':'行政部'}, {'value':'2', 'name':'人事部'}, {'value':'3', 'name':'财务部'}, {'value':'4', 'name':'技术部'}, {'value':'5', 'name':'人事部'}, {'value':'6', 'name':'测试部'}, {'value':'7', 'name':'后勤部'}]}), displayField:'name', valueField:'value'}, {xtype:'textfield', fieldLabel:'员工邮箱', name:'email'}, {xtype:'textfield', fieldLabel:'职位', name:'position'}, {xtype:'combobox', fieldLabel:'在职状态', 
 name:'status', store:Ext.create('Ext.data.Store', {fields:['value', 'name'], data:[{'value':'0', 'name':'正常'}, {'value':'1', 'name':'离职'}, {'value':'-1', 'name':'封禁'}]}), displayField:'name', valueField:'value'}, {xtype:'textfield', fieldLabel:'上级领导', name:'leader'}, {xtype:'datefield', fieldLabel:'入职时间', name:'entryTime', format:'Y/m/d H:i:s'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitAddForm'}, {xtype:'button', text:'Close', handler:function(btn) {
@@ -85889,16 +86060,25 @@ fieldLabel:'在职状态', name:'status', store:Ext.create('Ext.data.Store', {fi
   btn.up('window').close();
 }}, '-\x3e']});
 Ext.define('Admin.view.question.QuestionCenterPanel', {extend:Ext.container.Container, xtype:'questionCenterPanel', controller:'questionViewController', viewModel:{type:'questionViewModel'}, layout:'fit', items:[{xtype:'questionGridPanel'}]});
-Ext.define('Admin.view.question.QuestionEditWindow', {extend:Ext.window.Window, alias:'widget.questionEditWindow', height:600, minHeight:100, minWidth:300, width:500, scrollable:true, title:'Edit question Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your question', items:[{xtype:'textfield', fieldLabel:'题目', name:'textQuestion'}, {xtype:'textfield', fieldLabel:'题目类型', name:'type'}, 
-{xtype:'textfield', fieldLabel:'标准答案', name:'realanswer'}, {xtype:'textfield', fieldLabel:'选择题选项', name:'answers'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitEditForm'}, {xtype:'button', text:'Close', handler:function(btn) {
+Ext.define('Admin.view.question.QuestionEditWindow', {extend:Ext.window.Window, alias:'widget.questionEditWindow', height:600, minHeight:100, minWidth:300, width:500, scrollable:true, title:'Edit question Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your question', items:[{xtype:'textareafield', grow:true, name:'textQuestion', fieldLabel:'题目', anchor:'100%'}, {xtype:'textfield', fieldLabel:'题目类型', 
+name:'type'}, {xtype:'textfield', fieldLabel:'标准答案', name:'realanswer'}, {xtype:'textfield', fieldLabel:'选择题选项', name:'answers'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitEditForm'}, {xtype:'button', text:'Close', handler:function(btn) {
   btn.up('window').close();
 }}, '-\x3e']});
 Ext.define('Admin.view.question.QuestionViewModel', {extend:Ext.app.ViewModel, alias:'viewmodel.questionViewModel', stores:{questionLists:{type:'questionGridStroe'}}});
 Ext.define('Admin.view.question.QuestionViewModel', {extend:Ext.panel.Panel, xtype:'questionGridPanel', layout:'fit', items:[{xtype:'gridpanel', cls:'user-grid', title:'questionGrid Results', bind:'{questionLists}', scrollable:false, selModel:{type:'checkboxmodel'}, columns:[{xtype:'gridcolumn', width:40, dataIndex:'id', text:'#', hidden:true}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'textQuestion', text:'题目', flex:1}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'realanswer', 
-text:'标准答案', flex:1}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'answers', text:'选择题选项', flex:1}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'type', text:'类型'}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'status', text:'状态'}, {xtype:'actioncolumn', cls:'content-column', width:120, text:'操作', tooltip:'edit ', flex:1, items:[{xtype:'button', iconCls:'x-fa fa-pencil', handler:'openEditWindow'}, {xtype:'button', iconCls:'x-fa fa-close', handler:'deleteOneRow'}, {xtype:'button', 
-iconCls:'x-fa fa-eye', handler:'onCheckButton'}]}], tbar:[{xtype:'combobox', reference:'searchFieldName', store:Ext.create('Ext.data.Store', {fields:['name', 'value'], data:[{name:'题目', value:'textQuestion'}, {name:'题目类型', value:'type'}]}), displayField:'name', valueField:'value', value:'id', editable:false, queryMode:'local', triggerAction:'all', emptyText:'Select a state...', width:135, listeners:{select:'searchComboboxSelectChuang'}}, '-', {xtype:'textfield', reference:'searchFieldValue', name:'orderPanelSearchField'}, 
-'-', {text:'Search', iconCls:'fa fa-search', handler:'quickSearch'}, '-', {text:'Search More', iconCls:'fa fa-search-plus', handler:'openSearchWindow'}, '-\x3e', {text:'Add', tooltip:'Add a new row', iconCls:'fa fa-plus', handler:'openAddWindow'}, '-', {text:'Removes', tooltip:'Remove the selected item', iconCls:'fa fa-trash', itemId:'questionGridPanelRemove', disabled:true, handler:'deleteMoreRows'}], dockedItems:[{xtype:'pagingtoolbar', dock:'bottom', displayInfo:true, bind:'{questionLists}'}], 
-listeners:{selectionchange:function(selModel, selections) {
+text:'标准答案', flex:1}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'answers', text:'选择题选项', flex:1}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'type', text:'类型', renderer:function(val) {
+  if (val == '1') {
+    return '\x3cspan\x3e选择题\x3c/span\x3e';
+  } else {
+    if (val = '2') {
+      return '\x3cspan\x3e填空题\x3c/span\x3e';
+    }
+  }
+  return val;
+}}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'status', text:'状态'}, {xtype:'actioncolumn', cls:'content-column', width:120, text:'操作', tooltip:'edit ', flex:1, items:[{xtype:'button', iconCls:'x-fa fa-pencil', handler:'openEditWindow'}, {xtype:'button', iconCls:'x-fa fa-close', handler:'deleteOneRow'}, {xtype:'button', iconCls:'x-fa fa-eye', handler:'onCheckButton'}]}], tbar:[{xtype:'combobox', reference:'searchFieldName', store:Ext.create('Ext.data.Store', {fields:['name', 'value'], data:[{name:'题目', 
+value:'textQuestion'}, {name:'题目类型', value:'type'}]}), displayField:'name', valueField:'value', value:'id', editable:false, queryMode:'local', triggerAction:'all', emptyText:'Select a state...', width:135, listeners:{select:'searchComboboxSelectChuang'}}, '-', {xtype:'textfield', reference:'searchFieldValue', name:'orderPanelSearchField'}, '-', {xtype:'combobox', name:'type', reference:'questionType', iconCls:'fa fa-search', handler:'quickSearch', fieldLabel:'题目类型'}, '-', {text:'Search', iconCls:'fa fa-search', 
+handler:'quickSearch'}, '-', {text:'Search More', iconCls:'fa fa-search-plus', handler:'openSearchWindow'}, '-\x3e', {text:'Add', tooltip:'Add a new row', iconCls:'fa fa-plus', handler:'openAddWindow'}, '-', {text:'Removes', tooltip:'Remove the selected item', iconCls:'fa fa-trash', itemId:'questionGridPanelRemove', disabled:true, handler:'deleteMoreRows'}], dockedItems:[{xtype:'pagingtoolbar', dock:'bottom', displayInfo:true, bind:'{questionLists}'}], listeners:{selectionchange:function(selModel, 
+selections) {
   this.down('#questionGridPanelRemove').setDisabled(selections.length === 0);
 }}}]});
 Ext.define('Admin.view.question.QuestionSearchWindow', {extend:Ext.window.Window, alias:'widget.questionSearchWindow', height:300, minHeight:300, minWidth:300, width:500, scrollable:true, title:'Search More Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your name', items:[{xtype:'textfield', fieldLabel:'id', name:'id'}, {xtype:'textfield', fieldLabel:'name', name:'name'}, {xtype:'datefield', 
@@ -86014,13 +86194,13 @@ name:'employeeid', disabled:true}, {xtype:'textfield', fieldLabel:'员工姓名'
 }}, '-\x3e']});
 Ext.define('Admin.view.workTime.WorkTimeGridPanel', {extend:Ext.panel.Panel, xtype:'workTimeGridPanel', layout:'fit', items:[{xtype:'gridpanel', cls:'user-grid', title:'workTimeGrid Results', bind:'{workTimeLists}', scrollable:false, selModel:{type:'checkboxmodel'}, columns:[{xtype:'gridcolumn', width:40, dataIndex:'id', text:'#', hidden:true}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'employeeid', text:'员工编号', flex:1}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'employeeName', 
 text:'员工姓名', flex:1}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'departmentName', text:'部门', flex:1}, {xtype:'gridcolumn', cls:'content-column', dataIndex:'hour', text:'当天的上班时间', flex:1}, {xtype:'datecolumn', cls:'content-column', width:200, dataIndex:'date', text:'日期', formatter:'date("Y/m/d")'}, {xtype:'actioncolumn', cls:'content-column', width:120, text:'操作', tooltip:'edit ', flex:1, items:[{xtype:'button', iconCls:'x-fa fa-pencil', handler:'openEditWindow'}, {xtype:'button', iconCls:'x-fa fa-close', 
-handler:'deleteOneRow'}, {xtype:'button', iconCls:'x-fa fa-eye', handler:'onCheckButton'}]}], tbar:[{xtype:'combobox', reference:'searchFieldName', store:Ext.create('Ext.data.Store', {fields:['name', 'value'], data:[{name:'员工编号', value:'id'}, {name:'员工姓名', value:'employeeName'}]}), displayField:'name', valueField:'value', value:'id', editable:false, queryMode:'local', triggerAction:'all', emptyText:'Select a state...', width:135, listeners:{select:'searchComboboxSelectChuang'}}, '-', {xtype:'textfield', 
-reference:'searchFieldValue', name:'orderPanelSearchField'}, '-', {xtype:'datefield', hideLabel:true, hidden:true, format:'Y/m/d', reference:'searchDataFieldValue', fieldLabel:'From', name:'from_date'}, '-', {text:'Search', iconCls:'fa fa-search', handler:'quickSearch'}, '-', {text:'Search More', iconCls:'fa fa-search-plus', handler:'openSearchWindow'}, '-\x3e', {text:'Add', tooltip:'Add a new row', iconCls:'fa fa-plus', handler:'openAddWindow'}, '-', {text:'Removes', tooltip:'Remove the selected item', 
-iconCls:'fa fa-trash', itemId:'workTimeGridPanelRemove', disabled:true, handler:'deleteMoreRows'}], dockedItems:[{xtype:'pagingtoolbar', dock:'bottom', displayInfo:true, bind:'{workTimeLists}'}], listeners:{selectionchange:function(selModel, selections) {
+handler:'deleteOneRow'}, {xtype:'button', iconCls:'x-fa fa-eye', handler:'onCheckButton'}]}], tbar:[{xtype:'combobox', reference:'searchFieldName', store:Ext.create('Ext.data.Store', {fields:['name', 'value'], data:[{name:'员工编号', value:'employeeid'}, {name:'日期', value:'date'}]}), displayField:'name', valueField:'value', value:'id', editable:false, queryMode:'local', triggerAction:'all', emptyText:'Select a state...', width:135, listeners:{select:'searchComboboxSelectChuang'}}, '-', {xtype:'textfield', 
+reference:'searchFieldValue', name:'orderPanelSearchField'}, '-', {xtype:'combobox', hideLabel:true, hidden:true, reference:'employeeIdBox'}, '-', {xtype:'datefield', hideLabel:true, hidden:true, format:'Y/m/d', reference:'searchDataFieldValue', fieldLabel:'From', name:'from_date'}, '-', {text:'Search', iconCls:'fa fa-search', handler:'quickSearch'}, '-', {text:'Search More', iconCls:'fa fa-search-plus', handler:'openSearchWindow'}, '-\x3e', {text:'Add', tooltip:'Add a new row', iconCls:'fa fa-plus', 
+handler:'openAddWindow'}, '-', {text:'Removes', tooltip:'Remove the selected item', iconCls:'fa fa-trash', itemId:'workTimeGridPanelRemove', disabled:true, handler:'deleteMoreRows'}], dockedItems:[{xtype:'pagingtoolbar', dock:'bottom', displayInfo:true, bind:'{workTimeLists}'}], listeners:{selectionchange:function(selModel, selections) {
   this.down('#workTimeGridPanelRemove').setDisabled(selections.length === 0);
 }}}]});
-Ext.define('Admin.view.workTime.WorkTimeSearchWindow', {extend:Ext.window.Window, alias:'widget.workTimeSearchWindow', height:300, minHeight:300, minWidth:300, width:500, scrollable:true, title:'Search More Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your workTime', items:[{xtype:'textfield', fieldLabel:'id', name:'id'}, {xtype:'textfield', fieldLabel:'name', name:'name'}, {xtype:'datefield', 
-format:'Y/m/d H:i:s', name:'entryTime'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitSearchForm'}, {xtype:'button', text:'Close', handler:function(btn) {
+Ext.define('Admin.view.workTime.WorkTimeSearchWindow', {extend:Ext.window.Window, alias:'widget.workTimeSearchWindow', height:450, minHeight:300, minWidth:300, width:500, scrollable:true, title:'Search More Window', closable:true, constrain:true, defaultFocus:'textfield', modal:true, layout:'fit', items:[{xtype:'form', layout:'form', padding:'10px', ariaLabel:'Enter your searchvalue', items:[{xtype:'textfield', fieldLabel:'id', name:'id', hidden:true, readOnly:true}, {xtype:'textfield', fieldLabel:'员工编号', 
+name:'employeeid'}, {xtype:'textfield', fieldLabel:'员工姓名', name:'employeeName'}, {xtype:'combobox', fieldLabel:'部门名称', name:'departmentName'}, {xtype:'textfield', fieldLabel:'当天工作时间(单位：h)', name:'hour'}, {xtype:'datefield', fieldLabel:'日期', name:'date', format:'Y/m/d'}]}], buttons:['-\x3e', {xtype:'button', text:'Submit', handler:'submitSearchForm'}, {xtype:'button', text:'Close', handler:function(btn) {
   btn.up('window').close();
 }}, '-\x3e']});
 Ext.define('Admin.view.workTime.WorkTimeViewController', {extend:Ext.app.ViewController, alias:'controller.workTimeViewController', openAddWindow:function(toolbar, rowIndex, colIndex) {
@@ -86080,8 +86260,8 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {extend:Ext.app.ViewCon
   var win = btn.up('window');
   var form = win.down('form');
   var values = form.getValues();
-  Ext.apply(store.proxy.extraParams, {id:'', name:'', entryTime:''});
-  Ext.apply(store.proxy.extraParams, {id:values.id, name:value.name, entryTime:Ext.util.Format.date(values.entryTime, 'Y/m/d H:i:s')});
+  Ext.apply(store.proxy.extraParams, {employeeid:'', employeeName:'', departmentName:'', hour:'', date:''});
+  Ext.apply(store.proxy.extraParams, {employeeid:values.employeeid, employeeName:values.employeeName, departmentName:values.departmentName, hour:values.hour, date:Ext.util.Format.date(values.date, 'Y/m/d')});
   store.load({params:{start:0, limit:20, page:1}});
   win.close();
 }, deleteOneRow:function(grid, rowIndex, colIndex) {
