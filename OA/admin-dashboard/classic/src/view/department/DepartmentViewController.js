@@ -7,7 +7,7 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		var rec = grid.getStore().getAt(rowIndex);
         Ext.Msg.alert('Title', rec.get('fullname'));
 	},
-	onDeleteButton:function(grid, rowIndex, colIndex){
+	gridDelete:function(grid, rowIndex, colIndex){
 		//Ext.Msg.alert("Title","Click Delete Button");
 		Ext.MessageBox.confirm('提示', '确定要进行删除操作吗？数据将无法还原！',
   			function(btn, text){
@@ -21,7 +21,7 @@ Ext.define('Admin.view.department.DepartmentViewController', {
         , this);
 	
 	},
-	onDisableButton:function(grid, rowIndex, colIndex){
+	gridDisable:function(grid, rowIndex, colIndex){
 		Ext.Msg.alert("Title","Click Disable Button");
 	},
 	
@@ -62,7 +62,7 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 	
 	
 	
-	showWindow1:function(grid, rowIndex, colIndex){
+	gridModify:function(grid, rowIndex, colIndex){
 		var rec=grid.getStore().getAt(rowIndex);
 		var win=Ext.widget('departmentWindow');
 		grid.up('container').add(win);

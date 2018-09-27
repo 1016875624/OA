@@ -28,9 +28,9 @@ Ext.define('Admin.view.department.DepartmentPanel', {
                 //{xtype: 'datecolumn',cls: 'content-column',width: 200,dataIndex: 'orderDate',text: 'orderDate',formatter: 'date("Y/m/d H:i:s")'},
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,dataIndex: 'bool',text: 'Actions',tooltip: 'edit ',
                     items: [
-                        {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'showWindow1'},
-                        {xtype: 'button',iconCls: 'x-fa fa-close'	,handler: 'onDeleteButton'},
-                        {xtype: 'button',iconCls: 'x-fa fa-ban'	 	,handler: 'onDisableButton'}
+                        {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'gridModify'},
+                        {xtype: 'button',iconCls: 'x-fa fa-close'	,handler: 'gridDelete'},
+                        //{xtype: 'button',iconCls: 'x-fa fa-ban'	 	,handler: 'gridDisable'}
                     ]
                 }
 				

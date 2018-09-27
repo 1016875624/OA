@@ -71,4 +71,9 @@ admin-dashboard/classic.json
 admin-dashboard/classic.jsonp
 admin-dashboard/bootstrap.css
 admin-dashboard/bootstrap.js
-OA/src/main/webapp/classic/app.js
+OA/admin-dashboard/build/
+OA/src/main/webapp/classic/
+OA/src/main/webapp/resources/
+OA/src/main/webapp/index.html
+OA/src/main/webapp/
+#webapp/
