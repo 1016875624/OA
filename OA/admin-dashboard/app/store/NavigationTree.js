@@ -22,7 +22,15 @@
                 iconCls: 'x-fa fa-address-card',
                 viewType: 'processDefinitionCenterPanel',
                 leaf: true
-            },{
+            },
+            {
+                text: '部门',
+                iconCls: 'x-fa fa-user',
+                //rowCls: 'nav-tree-badge nav-tree-badge-new',
+                viewType: 'department',
+                leaf: true
+            },
+            {
                 text: '员工管理模块',
                 iconCls: 'x-fa fa-user',
                 //rowCls: 'nav-tree-badge nav-tree-badge-new',
@@ -51,6 +59,16 @@
                 //hidden:true,
                 //style:'display:none',
                 leaf: true
+           },{
+               text: '工时',
+               iconCls: 'x-fa fa-address-card',
+               viewType: 'workTimeCenterPanel',
+               leaf: true
+           },{
+               text: '题库',
+               iconCls: 'x-fa fa-address-card',
+               viewType: 'questionCenterPanel',
+               leaf: true
            }
         ]
     }

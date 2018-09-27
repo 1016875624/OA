@@ -173,6 +173,7 @@ public class WorkTimeService implements IWorkTimeService {
 		}
 		if (workTime.getEmployee()!=null) {
 			workTimeDTO.setEmployeeName(workTime.getEmployee().getName());
+			workTimeDTO.setEmployeeid(workTime.getEmployee().getId());
 		}
 		return workTimeDTO;
 		
