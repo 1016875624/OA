@@ -52,16 +52,16 @@ public class EmployeeController {
 		try {
 			//Employee entity = employeeService.findById(id).get();
 			employeeService.save(employee);
-			return "success:true";
+			return "添加成功";
 		} catch (Exception e) {
-			return "success:false";
+			return "添加失败";
 		}
 	}
 		
 	//查找分页显示
 	@GetMapping
 	public Page<EmployeeDTO> getPage(EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
-		return employeeService.findAllInDto(employeeQueryDTO.getWhereClause(employeeQueryDTO), extjsPageRequest.getPageable());
+		return employeeService.findAllInDto(EmployeeQueryDTO.getWhereClause(employeeQueryDTO), extjsPageRequest.getPageable());
 	}
 
 	

@@ -80,14 +80,16 @@ public class EmployeeService implements IEmployeeService{
 	public EmployeeDTO entityToDto(Employee employee) {
 		EmployeeDTO employeeDTO=new EmployeeDTO();
 		BeanUtils.copyProperties(employee, employeeDTO);
-		/*if (employee.getEmployee()!=null&&employee.getEmployee().getDepartment()!=null) {
-			employeeDTO.setDepartmentName(employee.getEmployee().getDepartment().getName());
+		if (employee.getDepartment()!=null) {
+			employeeDTO.setDepartmentName(employee.getDepartment().getName());
+			employeeDTO.setDepartmentid(employee.getDepartment().getId());
 		}
-		if (employee.getEmployee()!=null) {
-			employeeDTO.setEmployeeName(employee.getEmployee().getName());
-		}*/
+		if (employee.getLeader()!=null) {
+			employeeDTO.setLeaderid(employee.getLeader().getId());
+			employeeDTO.setLeaderName(employee.getLeader().getName());
+		}
+		//employeeDTO.setDepartmentName(employee.getDepartment().getName());
 		return employeeDTO;
-		
 	}
 	
 	@Override

@@ -23,11 +23,11 @@ Ext.define('Admin.view.employee.EmployeeCheckWindow', {
 			defaultType: 'textfield',
 			items: [{name: 'id',fieldLabel: 'id'},
 					{name: 'name',fieldLabel: 'name'}, 
-					{name: 'department',fieldLabel: 'department'}, 
+					{name: 'departmentName',fieldLabel: 'departmentName'}, 
 					{name: 'position',fieldLabel: 'position'}, 
 					{name: 'email',fieldLabel: 'email'},
 					{name: 'status',fieldLabel: 'status'},
-					{name: 'leader',fieldLabel: 'leader'},
+					{name: 'leaderName',fieldLabel: 'leader'},
 					{name: 'entryTime',fieldLabel: 'entryTime',format: 'Y/m/d H:i:s'},
 			],
 		}
