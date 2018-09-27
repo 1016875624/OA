@@ -67,3 +67,8 @@ buildNumber.properties
 
 ##exclude the extjs build floder
 OA/admin-dashboard/build/
+admin-dashboard/classic.json
+admin-dashboard/classic.jsonp
+admin-dashboard/bootstrap.css
+admin-dashboard/bootstrap.js
+OA/src/main/webapp/classic/app.js
