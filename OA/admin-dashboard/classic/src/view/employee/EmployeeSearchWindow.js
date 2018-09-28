@@ -26,6 +26,10 @@
 				fieldLabel: 'name',
 				name:'name'
 			}, {
+				xtype: 'textfield',
+				fieldLabel: 'department',
+				name:'departmentName'
+			}, {
 				xtype: 'datefield',
 				format: 'Y/m/d H:i:s',
 				name: 'entryTime'

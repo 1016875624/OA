@@ -27,23 +27,24 @@ Ext.define('Admin.view.employee.EmployeeEditWindow', {
 				fieldLabel: '员工姓名',
 				name:'name'
 			}, {
+				
 				xtype: 'combobox',
 				fieldLabel: '员工部门',
 				name:'departmentName',
-				store: Ext.create('Ext.data.Store', {
-	                fields: ['value', 'name'],
-	                data: [
-					{"value":"行政部","name":"行政部"},
-					{"value":"2","name":"人事部"},
-					{"value":"3","name":"财务部"},
-					{"value":"4","name":"技术部"},
-	                {"value":"5","name":"人事部"}, 
-	                {"value":"6","name":"测试部"},
-					{"value":"7","name":"后勤部"}
-	                ]
-	                }),
-	                displayField: 'name',
-	                valueField: 'value',
+				store:Ext.create("Ext.data.Store", {
+				fields: ["id", "name"],
+				proxy: {
+						type: 'ajax',
+						url:'http://localhost:8080/department/simpleget',
+						reader:{
+						type:'json',
+						},
+					},
+					autoLoad: 'true',
+					autoSync:'true',
+				}),
+				displayField:'name',
+				valueField:'id'
 			}, {
 				xtype: 'textfield',
 				fieldLabel: '员工邮箱',

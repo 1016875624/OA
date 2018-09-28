@@ -34,7 +34,7 @@
        }, {
            xtype: 'combobox',
            fieldLabel: '请选择部门',
-           name:'departmentName',
+           name:'departmentid',
            store:Ext.create("Ext.data.Store", {
 			    fields: ["id", "name"],
 			   	proxy: {
@@ -50,14 +50,14 @@
 			}),
 			displayField:'name',
 			valueField:'id',
-			value:'id',
+			//value:'',
 			editable:false,
 			queryMode: 'local',
 			triggerAction: 'all',
 			emptyText: 'Select a state...',
 			width: 135,
 			listeners:{
-				change:'tbarSelectChange'
+				//change:'tbarSelectChange'
 			}
        }, {
            xtype: 'textfield',

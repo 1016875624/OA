@@ -61,18 +61,21 @@
 	quickSearch:function(btn){
 		var searchField = this.lookupReference('searchFieldName').getValue();
 		var searchValue = this.lookupReference('searchFieldValue').getValue();
+		var searchComboboxValue = this.lookupReference('searchComboboxValue').getValue();
 		var searchDataFieldValue = this.lookupReference('searchDataFieldValue').getValue();
-		//var searchDataFieldValue2 = this.lookupReference('searchDataFieldValue2').getValue();
 		
 		var store =	btn.up('gridpanel').getStore();
 		//var store = Ext.getCmp('userGridPanel').getStore();// Ext.getCmp(）需要在employeePanel设置id属性
-		Ext.apply(store.proxy.extraParams, {id:"",name:"",entryTime:""});
+		Ext.apply(store.proxy.extraParams, {id:"",name:"",entryTime:"",departmentName:""});
 		
 		if(searchField==='id'){
 			Ext.apply(store.proxy.extraParams, {id:searchValue});
 		}
 		if(searchField==='name'){
 			Ext.apply(store.proxy.extraParams, {name:searchValue});
+		}
+		if(searchField==='departmentName'){
+			Ext.apply(store.proxy.extraParams, {departmentName:searchValue});
 		}
 		if(searchField==='entryTime'){
 			Ext.apply(store.proxy.extraParams,{
