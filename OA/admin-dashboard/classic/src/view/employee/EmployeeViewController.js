@@ -177,9 +177,17 @@
 	/*Check*/	
 	onCheckButton:function(grid, rowIndex, colIndex){
 		var rec = grid.getStore().getAt(rowIndex);
-		var win = Ext.widget('employeeCheckWindow');;
+		var win = Ext.widget('employeeCheckWindow');
 		win.show();
 		win.down("form").getForm().loadRecord(rec);
 		console.log(Ext.ClassManager.getName(win.down("form")));
+	},
+    
+    sendEmail:function(grid, rowIndex, colIndex){
+    	var win = Ext.widget('employeeEmailWindow');
+		win.show();
+	},
+	
+	submitSave:function(btn){
 	}
 });
