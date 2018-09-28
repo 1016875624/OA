@@ -80,6 +80,12 @@ public class WorkTimeQueryDTO {
 					}else {
 						predicate.add(criteriaBuilder.between(root.get("date").as(Date.class),
 								DateUtils.getToDayStart(workTimeQueryDTO.getStartDate()),
+								DateUtils.getToDayEnd(workTimeQueryDTO.getStartDate())));
+					}
+				}else{
+					if(null!=workTimeQueryDTO.getEndDate()) {
+						predicate.add(criteriaBuilder.between(root.get("date").as(Date.class),
+								DateUtils.getToDayStart(workTimeQueryDTO.getEndDate()),
 								DateUtils.getToDayEnd(workTimeQueryDTO.getEndDate())));
 					}
 				}
