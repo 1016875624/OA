@@ -1,7 +1,8 @@
 Ext.define('Admin.view.employee.EmployeeEditWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.employeeEditWindow',
-    height: 600,
+    autoShow: true,
+    height: 450,
     minHeight: 100,
     minWidth: 300,
     width: 500,
