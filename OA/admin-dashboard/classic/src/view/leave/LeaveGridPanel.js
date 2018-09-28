@@ -19,24 +19,26 @@
 		selModel: {type: 'checkboxmodel'},
 		columns: [
 			 {header: 'id',dataIndex:'id',width: 60,sortable: true,hidden:true}
-			,{header: 'processStatus',dataIndex: 'processStatus',width: 60,sortable: true,
+			,{header: '状态',dataIndex: 'status',width: 120,sortable: true,
 	            renderer: function(val) {
-		            if (val =='NEW') {
-			            return '<span style="color:green;">新建</span>';
-			        } else if (val =='APPROVAL') {
-			            return '<span style="color:blue;">审批中...</span>';
-			        } else if (val =='COMPLETE') {
-			            return '<span style="color:orange;">完成审批</span>';
-			        }else{
-			        	return '<span style="color:red;">取消申请</span>';
+		            if (val =='-1') {
+			            return '<span style="color:green;">已删除</span>';
+			        } else if (val =='0') {
+			            return '<span style="color:blue;">待申请</span>';
+			        } else if (val =='1') {
+			            return '<span style="color:orange;">待审批</span>';
+			        }else if (val =='2'){
+			        	return '<span style="color:red;">审批通过</span>';
+			        }else if (val =='3'){
+			        	return '<span style="color:red;">已销假</span>';
 			        }
 			        return val;
 	            }
 			}
-			,{header: 'userId',dataIndex: 'userId',width: 60,sortable: true}
-			,{header: 'startTime',dataIndex: 'startTime',width: 180,sortable: true,renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s')}
-			,{header: 'endTime',dataIndex: 'endTime',width: 180,sortable: true,renderer: Ext.util.Format.dateRenderer('Y/m/d H:i:s')}
-			,{header: 'leaveType',dataIndex: 'leaveType',width: 120,sortable: true,
+			,{header: '职员ID',dataIndex: 'employeeId',width: 120,sortable: true}
+			,{header: '拟开始时间',dataIndex: 'startTime',width: 180,sortable: true,renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s')}
+			,{header: '拟结束时间',dataIndex: 'endTime',width: 180,sortable: true,renderer: Ext.util.Format.dateRenderer('Y/m/d H:i:s')}
+			,{header: '请假类型',dataIndex: 'leaveType',width: 120,sortable: true,
 	            renderer: function(val) {
 		            if (val =='A') {
 			            return '<span style="color:green;">带薪假期</span>';
@@ -48,28 +50,28 @@
 			        return val;
 	            }
 	        }
-			,{header: 'reason',dataIndex: 'reason',width: 220,sortable: true}
+			,{header: '原因',dataIndex: 'reason',width: 220,sortable: true}
 			//,{header: 'realityStartTime',dataIndex: 'realityStartTime',width: 60,sortable: true,renderer: Ext.util.Format.dateRenderer('Y/m/d H:i:s')}
 			//,{header: 'realityEndTime',dataIndex: 'realityEndTime',width: 60,sortable: true,renderer: Ext.util.Format.dateRenderer('Y/m/d H:i:s')}
 			//,{header: 'applyTime',dataIndex: 'applyTime',width: 180,sortable: true,renderer: Ext.util.Format.dateRenderer('Y/m/d H:i:s')}
 			// ,{header: 'processInstanceId' ,dataIndex: 'processInstanceId',width: 180,sortable: true}
-			,{xtype: 'actioncolumn',cls: 'content-column', width: 120,text: 'Actions',tooltip: 'edit ',
+			,{xtype: 'actioncolumn',cls: 'content-column', width: 140,text: '操作',tooltip: 'edit ',
 				items: [
 					{xtype: 'button', iconCls: 'x-fa fa-pencil',handler: 'openEditWindow'},
 					{xtype: 'button',iconCls: 'x-fa fa-close',handler: 'deleteOneRow'},
 					{
 		                xtype: 'button',iconCls: 'x-fa fa-star',tooltip: '发起请假',
 		                getClass: function(v, meta, rec) {
-		                    if (rec.get('processInstanceId')!="") {
+		                    if (rec.get('status')!=0) {
 		                        return 'x-hidden';
 		                    }
 		                    return 'x-fa fa-star';
 		                },
 		                handler: 'starLeaveProcess'
 		            },{
-		                xtype: 'button',iconCls: 'x-fa fa-ban',tooltip: '取消请假',
+		                xtype: 'button',iconCls: 'x-fa fa-ban',tooltip: '销假',
 		                getClass: function(v, meta, rec) {
-		                    if (rec.get('processInstanceId')=="") {
+		                    if (rec.get('status')!=2) {
 		                        return 'x-hidden';
 		                    }
 		                    return 'x-fa fa-ban';
