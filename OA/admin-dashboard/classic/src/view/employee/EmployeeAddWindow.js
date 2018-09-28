@@ -20,33 +20,18 @@ Ext.define('Admin.view.employee.EmployeeAddWindow', {
         ariaLabel: 'Enter your name',
         items: [{
             xtype: 'textfield',
-            fieldLabel: '员工id',
+            fieldLabel: '员工编号',
             name:'id'
         }, {
             xtype: 'textfield',
             fieldLabel: '员工姓名',
             name:'name'
         }, {
-            xtype: 'combobox',
 			fieldLabel: '员工部门',
-			name:'departmentName',
-			//hideLable:true,
-			reference:'test',
-			store:Ext.create("Ext.data.Store", {
-				fields: ["id", "name"],
-				proxy: {
-					type: 'ajax',
-					url:'http://localhost:8080/department/simpleget',
-					reader:{
-						type:'json',
-					},
-				}
-				,
-				autoLoad: 'true',
-				autoSync:'true',
-			}),
-			displayField:'name',
-			valueField:'id'
+			xtype:"departmentcombobox",
+	    	reference:'departmentBox',
+	    	name:'departmentid',
+	    	//hidden:true
         }, {
             xtype: 'textfield',
             fieldLabel: '员工邮箱',
@@ -77,7 +62,7 @@ Ext.define('Admin.view.employee.EmployeeAddWindow', {
             xtype: 'datefield',
             fieldLabel: '入职时间',
             name:'entryTime',
-            format: 'Y/m/d H:i:s'
+            format: 'Y/m/d'
         }]
     }],
 	buttons: ['->',{

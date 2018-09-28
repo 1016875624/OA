@@ -13,6 +13,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewModel', {
     ],
 
     stores: {
-    	workTimeLists: {type: 'workTimeGridStroe'}
+    	workTimeLists: {type: 'workTimeGridStroe'},
+		departmentList:{type:'departmentLoadStroe'},
     }
 });

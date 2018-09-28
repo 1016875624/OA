@@ -53,10 +53,12 @@ Ext.define('Admin.view.workTime.WorkTimeEditWindow', {
              		{"name":"24"}
              		]
              }),
+             editable: false,
              queryMode:'local',
              displayField:'name',
              valueField:'name'
         }, {
+        	editable: false,
             xtype: 'datefield',
             fieldLabel: '日期',
             name:'date',
