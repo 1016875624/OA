@@ -26,7 +26,7 @@
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'employeeid',text: '员工编号',flex: 1},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'employeeName',text: '员工姓名',flex: 1},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'departmentName',text: '部门',flex: 1},
-				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'hour',text: '当天的上班时间',flex: 1},
+				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'hour',text: '当天的上班时间 (单位：H)',flex: 1},
 				{xtype: 'datecolumn',cls: 'content-column',width: 200,dataIndex: 'date',text: '日期',formatter: 'date("Y/m/d")'},
                 
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: '操作',tooltip: 'edit ',flex: 1,
@@ -45,7 +45,8 @@
 				    fields: ["name", "value"],
 				    data: [
 				      	{ name: '员工编号', value: 'employeeid' },
-						{ name: '日期'   , value:'date'}
+						{ name: '日期'   , value:'date'},
+						{ name: '部门'   , value:'departmentName'}
 				    ]
 				}),
 	            displayField: 'name',
@@ -57,17 +58,47 @@
 	            emptyText: 'Select a state...',
 	            width: 135,
 	            listeners:{
-					select: 'searchComboboxSelectChuang'
+					//select: 'searchComboboxSelectChuang',
+					change:'tbarSelectChange'
 				}
 	        },'-',{
             	xtype:'textfield',
             	reference:'searchFieldValue',
-            	name:'orderPanelSearchField'
+            	name:'orderPanelSearchField',
+            	emptyText: '输入员工编号',
+            	hidden:true,
+            	hideLabel: true
 		    }, '-',{
-				xtype: 'combobox',
+		       xtype: 'combobox',
+	           fieldLabel: '请选择部门',
+	           name:'departmentid',
+	           store:Ext.create("Ext.data.Store", {
+				    fields: ["id", "name"],
+				   	proxy: {
+				        type: 'ajax',
+				        url:'http://localhost:8080/department/simpleget',
+					    reader:{
+					    	type:'json',
+					    },
+				    }
+				   	,
+				   	autoLoad: 'true',
+					autoSync:'true',
+				}),
+				displayField:'name',
+				valueField:'id',
+				//value:'',
+				editable:false,
+				queryMode: 'local',
+				triggerAction: 'all',
+				emptyText: 'Select a state...',
+				width: 135,
+				listeners:{
+					//change:'tbarSelectChange'
+				},
 				hideLabel: true,
 				hidden:true,
-				reference:'employeeIdBox'
+				reference:'departmentBox'
 			}, '-',{
 				xtype: 'datefield',
 				hideLabel: true,
@@ -75,7 +106,19 @@
 				format: 'Y/m/d',
 				reference:'searchDataFieldValue',
 				fieldLabel: 'From',
+				editable:false,
+				emptyText: '起始时间',
 				name: 'from_date'
+			}, '-',{
+				xtype: 'datefield',
+				hideLabel: true,
+				hidden:true,
+				editable:false,
+				format: 'Y/m/d',
+				reference:'searchDataFieldValue2',
+				fieldLabel: 'To',
+				emptyText: '末时间',
+				name: 'end_date'
 			}, '-',{
 		        text: 'Search',
 		        iconCls: 'fa fa-search',

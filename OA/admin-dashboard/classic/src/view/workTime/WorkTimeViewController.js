@@ -1,5 +1,4 @@
-
-﻿Ext.define('Admin.view.workTime.WorkTimeViewController', {
+Ext.define('Admin.view.workTime.WorkTimeViewController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.workTimeViewController',
     /********************************************** Controller View *****************************************************/
@@ -60,38 +59,72 @@
 		
 	/*Quick Search*/	
 	quickSearch:function(btn){
-		var searchField = this.lookupReference('searchFieldName').getValue();
-		var searchValue = this.lookupReference('searchFieldValue').getValue();
-		var searchDataFieldValue = this.lookupReference('searchDataFieldValue').getValue();
-		//var searchDataFieldValue2 = this.lookupReference('searchDataFieldValue2').getValue();
-		
 		var store =	btn.up('gridpanel').getStore();
-		//var store = Ext.getCmp('userGridPanel').getStore();// Ext.getCmp(）需要在workTimePanel设置id属性
-		Ext.apply(store.proxy.extraParams, {id:"",name:"",entryTime:""});
+		Ext.apply(store.proxy.extraParams, {employeeid:"",departmentid:"",StartDate:"",EndDate:""});
+		var searchField = this.lookupReference('searchFieldName').getValue();
 		
-		if(searchField==='id'){
-			Ext.apply(store.proxy.extraParams, {id:searchValue});
+		var searchValue = this.lookupReference('searchFieldValue').getValue();
+		var searchComboValue = this.lookupReference('departmentBox').getValue();
+		var searchDataFieldValue = this.lookupReference('searchDataFieldValue').getValue();
+		var searchDataFieldValue2 = this.lookupReference('searchDataFieldValue2').getValue();
+		if(searchField==='employeeid'){
+			Ext.apply(store.proxy.extraParams, {employeeid:searchValue});
 		}
-		if(searchField==='name'){
-			Ext.apply(store.proxy.extraParams, {name:searchValue});
+		if(searchField==='departmentName'){
+			Ext.apply(store.proxy.extraParams, {departmentid:searchComboValue});
 		}
-		if(searchField==='entryTime'){
+		if(searchField==='date'){
 			Ext.apply(store.proxy.extraParams,{
-				entryTime:Ext.util.Format.date(searchDataFieldValue, 'Y/m/d H:i:s')
+				date:Ext.util.Format.date(searchDataFieldValue, 'Y/m/d'),
+				date:Ext.util.Format.date(searchDataFieldValue2, 'Y/m/d')
 			});
 		}
 		store.load({params:{start:0, limit:20, page:1}});
 	},
+	tbarSelectChange:function(box,newValue,oldValue,eOpts){
+		console.log("12356");
+		var searchValue = this.lookupReference('searchFieldValue');
+		var searchComboValue = this.lookupReference('departmentBox');
+		var searchDataFieldValue = this.lookupReference('searchDataFieldValue');
+		var searchDataFieldValue2 = this.lookupReference('searchDataFieldValue2');
+		//console.log(Ext.ClassManager.getName(searchValue));
+		if(newValue=="employeeid"){
+			searchComboValue.setHidden(true);
+			searchValue.setHidden(false);
+			searchDataFieldValue.setHidden(true);
+			searchDataFieldValue2.setHidden(true);
+		}
+		else if(newValue=="date"){
+			searchDataFieldValue.setHidden(false);
+			searchDataFieldValue2.setHidden(false);
+			searchComboValue.setHidden(true);
+			searchValue.setHidden(true);
+			
+		}
+		else if(newValue=="departmentName"){
+			searchComboValue.setHidden(false);
+			searchValue.setHidden(true);
+			searchDataFieldValue.setHidden(true);
+			searchDataFieldValue2.setHidden(true);
+		}else{
+			searchComboValue.setHidden(true);
+			searchValue.setHidden(true);
+			searchDataFieldValue.setHidden(true);
+			searchDataFieldValue2.setHidden(true);
+		}
+		
+	},
+	
 	submitSearchForm:function(btn){
 		var store =	Ext.data.StoreManager.lookup('workTimeGridStroe');
 		var win = btn.up('window');
 		var form = win.down('form');
 		var values  = form.getValues();
-		Ext.apply(store.proxy.extraParams, {employeeid:"",employeeName:"",departmentName:"",hour:"",date:""});
+		Ext.apply(store.proxy.extraParams, {employeeid:"",employeeName:"",departmentid:"",hour:"",date:""});
 		Ext.apply(store.proxy.extraParams,{
 			employeeid:values.employeeid,
 			employeeName:values.employeeName,
-			departmentName:values.departmentName,
+			departmentid:values.departmentid,
 			hour:values.hour,
 			date:Ext.util.Format.date(values.date, 'Y/m/d')
 		});

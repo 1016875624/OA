@@ -34,31 +34,18 @@
        }, {
            xtype: 'combobox',
            fieldLabel: '请选择部门',
-           name:'departmentName',
-           store:Ext.create("Ext.data.Store", {
-			    fields: ["id", "name"],
-			   	proxy: {
-			        type: 'ajax',
-			        url:'http://localhost:8080/department/simpleget',
-				    reader:{
-				    	type:'json',
-				    },
-			    }
-			   	,
-			   	autoLoad: 'true',
-				autoSync:'true',
-			}),
-			displayField:'name',
-			valueField:'id',
-			value:'id',
-			editable:false,
-			queryMode: 'local',
-			triggerAction: 'all',
-			emptyText: 'Select a state...',
-			width: 135,
-			listeners:{
-				change:'tbarSelectChange'
-			}
+           name:'departmentid',
+           store:Ext.data.StoreManager.lookup("departmentBoxStroe"),
+		   displayField:'name',
+		   valueField:'id',
+		   //value:'',
+		   editable:false,
+		   
+		   triggerAction: 'all',
+		   emptyText: 'Select a state...',
+		   width: 135
+		   
+		   
        }, {
            xtype: 'textfield',
            fieldLabel: '当天工作时间(单位：h)',

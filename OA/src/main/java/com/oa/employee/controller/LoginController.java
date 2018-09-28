@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.support.SessionAttributeStore;
 
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.SessionUtil;
@@ -72,6 +72,7 @@ public class LoginController {
             map.put("userId", userId);
             map.put("msg", "登录成功!");
             //map.put("loginUserImage", "imgUrl");
+            session.setAttribute("userId", userId);
             return new ExtAjaxResponse(true,map);
         } else {
         	return new ExtAjaxResponse(false,"登录失败!帐号或者密码有误!请重新登录!");
