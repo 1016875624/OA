@@ -27,7 +27,7 @@ Ext.define('Admin.view.quit.QuitSearchWindow', {
 		defaultType:'textfield',
 		items:[
 			{fieldLabel: 'id', name: 'id'},
-			{fieldLabel: 'name', name: 'name'}
+			{fieldLabel: 'name', name: 'name'},
 			/*{xtype:'datefield',format: 'Y/m/d H:i:s',fieldLabel: 'startDate', name: 'startDate'}
 			,{xtype:'datefield',fieldLabel: 'endDate', name: 'endDate',format: 'Y/m/d H:i:s'},*/
 		],

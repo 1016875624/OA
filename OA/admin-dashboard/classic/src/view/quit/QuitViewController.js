@@ -204,7 +204,11 @@ Ext.define('Admin.view.quit.QuitViewController', {
 	},
 	quickSearch:function(btn){
 		var field=this.lookupReference('searchFieldName');
-		var value=this.lookupReference('searchTextField');
+		var text=this.lookupReference('searchTextField');
+		var m_date=this.lookupReference("searchDateField");
+		var fieldName=this.lookupReference("searchFieldName");
+		var combox=this.lookupReference("searchComboboxField");
+
 		//var value1=this.lookupReference('searchDateFieldValue');
 		var grid=btn.up('gridpanel');
 		var store=grid.getStore();
@@ -229,13 +233,31 @@ Ext.define('Admin.view.quit.QuitViewController', {
 		//Ext.apply(store.proxy.extraParams, {orderNumber:"",createTimeStart:"",createTimeEnd:""});
 		//Ext.apply(store.proxy.extraParams, {orderNo:"",startDate:"",endDate:""});
 		//Ext.apply(store.proxy.extraParams, {});
-		Ext.apply(store.proxy.extraParams, {id:"",name:""});
-		if(field.getValue()==='id'){
+		Ext.apply(store.proxy.extraParams, 
+			{id:"",name:"",employeeid:"",employeeName:"",reason:"",departmentid:"",departmentName:"",preApplyDate:"",preQuitDate:""}
+		);
+		/*if(field.getValue()==='id'){
 			Ext.apply(store.proxy.extraParams, {id:value.getValue()});
 		}
 		if(field.getValue()==='name'){
 			Ext.apply(store.proxy.extraParams,{name:value.getValue()});
+		}*/
+		var nameval=fieldName.getValue();
+		if(fieldName.getValue()=="preApplyDate"||fieldName.getValue()=="preQuitDate"){
+		    console.log("{'"+nameval+"':'"+m_date.getValue()+"'}");
+		    //val=JSON.parse("'{"+nameval+"':'"+m_date.getValue()+"'}");
+            val=JSON.parse('{"'+nameval+'":"'+m_date.getValue()+'"}');
+		    console.log(val);
+			Ext.apply(store.proxy.extraParams,val);
+		}else if (fieldName.getValue()=="departmentName"||fieldName.getValue()=="departmentid"){
+            //val=JSON.parse(nameval+":"+m_date.getValue());
+			Ext.apply(store.proxy.extraParams,{departmentid:combox.getValue()});
+		}else {
+            console.log("{"+nameval+":"+text.getValue()+"}");
+            val=JSON.parse('{"'+nameval+'":"'+text.getValue()+'"}');
+            Ext.apply(store.proxy.extraParams,val);
 		}
+		
 		//store.load({params:{start:0, limit:20, page:1}});
 		store.load();
 		//Ext.Msg.alert("field",field.getValue());
@@ -260,16 +282,28 @@ Ext.define('Admin.view.quit.QuitViewController', {
 		win.close();
 	},
 	tbarSelectChange:function(box, newValue, oldValue, eOpts){
-		
-		/*if(newValue=="id"){
-			this.lookupReference('searchFieldValue').show();
-			this.lookupReference('searchDateFieldValue').hide();
-		}else{
-			
-			this.lookupReference('searchFieldValue').hide();
-			
-			this.lookupReference('searchDateFieldValue').show();
-		}*/
+		var text=this.lookupReference('searchTextField');
+		var date=this.lookupReference('searchDateField');
+		var combox=this.lookupReference("searchComboboxField");
+		text.setValue("");
+		date.setValue("");
+		combox.setValue("");
+		if(newValue=="preApplyDate"||newValue=="preQuitDate"){
+			text.hide();
+			date.show();
+			combox.hide();
+		}
+		else if (newValue=="departmentName"||newValue=="departmentid"){
+            text.hide();
+            date.hide();
+            combox.show();
+        }
+
+		else{
+            text.show();
+            date.hide();
+            combox.hide();
+		}
 		//box.getStore().load();
 		console.log(newValue);
 	},

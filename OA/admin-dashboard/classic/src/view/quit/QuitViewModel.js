@@ -13,6 +13,7 @@ Ext.define('Admin.view.quit.QuitViewModel', {
     ],
 
     stores: {
-		quitLists: {type: 'quitGridStroe'}
+		quitLists: {type: 'quitGridStroe'},
+		departmentList:{type:'departmentLoadStroe'},
     }
 });

@@ -29,6 +29,8 @@ public class QuitController {
 	
 	@GetMapping
 	public Page<QuitDTO> getPage(QuitQueryDTO quitQueryDTO,ExtjsPageRequest extjsPageRequest){
+		System.out.println(quitQueryDTO);
+		System.out.println(extjsPageRequest);
 		/*if (quitQueryDTO.getEmployeeid()!=null) {
 			quitQueryDTO.setEmployee1(employeeService.findById(quitQueryDTO.getEmployeeid()).orElse(null));
 		}*/
