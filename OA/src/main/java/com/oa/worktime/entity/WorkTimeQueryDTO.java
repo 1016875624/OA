@@ -16,6 +16,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.oa.department.entity.Department;
 import com.oa.employee.entity.Employee;
 
+import jodd.util.StringUtil;
 import lombok.Data;
 
 @Data
@@ -28,8 +29,7 @@ public class WorkTimeQueryDTO {
 	
 	private String departmentName;
 	
-	private Department department;
-	
+	private String departmentid;
 	@DateTimeFormat(pattern="yyyy/MM/dd")  
 	private Date date;
 	
@@ -48,13 +48,14 @@ public class WorkTimeQueryDTO {
 			
 				List<Predicate> predicate = new ArrayList<>();
 				
-//				if (null!=workTimeQueryDTO.getId()) {
-//					predicate.add(criteriaBuilder.equal(root.get("id").as(Integer.class),
-//							workTimeQueryDTO.getId()));
-//				}
-				if (null!=workTimeQueryDTO.getEmployeeid()) {
-					predicate.add(criteriaBuilder.equal(root.get("employee").as(Employee.class),
-							workTimeQueryDTO.getEmployee()));
+
+				if (StringUtils.isNotBlank(workTimeQueryDTO.getEmployeeid())) {
+					predicate.add(criteriaBuilder.like(root.get("employee").get("id").as(String.class),
+							"%"+workTimeQueryDTO.getEmployeeid()+"%"));
+				}
+				if(StringUtil.isNotBlank(workTimeQueryDTO.getDepartmentName())) {
+					predicate.add(criteriaBuilder.like(root.get("employee").get("name").as(String.class),
+							"%"+workTimeQueryDTO.getDepartmentName()+"%"));
 				}
 				if (null!=workTimeQueryDTO.getDate()) {
 					predicate.add(criteriaBuilder.greaterThanOrEqualTo(root.get("date").as(Date.class),
@@ -71,6 +72,13 @@ public class WorkTimeQueryDTO {
 				else {
 					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),0));
 				}
+				
+				if (StringUtils.isNotBlank(workTimeQueryDTO.getDepartmentid())) {
+					predicate.add(criteriaBuilder.like(
+							root.get("employee").get("department").get("id").as(String.class),
+							"%"+workTimeQueryDTO.getDepartmentid()+"%"));
+				}
+				
 				
 				Predicate[] pre = new Predicate[predicate.size()];
 				return query.where(predicate.toArray(pre)).getRestriction();

@@ -195,6 +195,12 @@ public class WorkTimeService implements IWorkTimeService {
 		}
 		return new PageImpl<>(workTimeDTOs, pageable, workTimeDTOs.size());
 	}
+
+	@Override
+	public List<WorkTime> findWorkTimes(String id) {
+		
+		return workTimeRepository.findWorkTimes(id);
+	}
 	
 	
 }

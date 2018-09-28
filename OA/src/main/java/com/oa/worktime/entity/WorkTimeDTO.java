@@ -35,5 +35,6 @@ public class WorkTimeDTO {
 	private Integer status;
 	
 	private String departmentName;
+	private String departmentid;
 	
 }
