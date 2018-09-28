@@ -43,11 +43,6 @@ Ext.define('Admin.view.quit.QuitViewController', {
 		win.setTitle('添加数据');
 		btn.up('gridpanel').up('container').add(win);
 		var containner=btn.up('gridpanel').up('container');
-		var idField=win.getComponent("quit_form_id");
-		var ifield=Ext.getCmp("quit_form_id");
-		console.log(Ext.ClassManager.getName(ifield));
-		ifield.setHidden(false);
-		//win.down('datefield').format='Y/m/d H:i:s';
 		var grid=btn.up('gridpanel');
 		var form1=win.down('form').getForm();
 		win.down('button[text=save]').setHandler(function(){
@@ -246,7 +241,7 @@ Ext.define('Admin.view.quit.QuitViewController', {
 		if(fieldName.getValue()=="preApplyDate"||fieldName.getValue()=="preQuitDate"){
 		    console.log("{'"+nameval+"':'"+m_date.getValue()+"'}");
 		    //val=JSON.parse("'{"+nameval+"':'"+m_date.getValue()+"'}");
-            val=JSON.parse('{"'+nameval+'":"'+m_date.getValue()+'"}');
+            val=JSON.parse('{"'+nameval+'":"'+Ext.util.Format.date(m_date.getValue(),"Y/m/d H:i:s")+'"}');
 		    console.log(val);
 			Ext.apply(store.proxy.extraParams,val);
 		}else if (fieldName.getValue()=="departmentName"||fieldName.getValue()=="departmentid"){
