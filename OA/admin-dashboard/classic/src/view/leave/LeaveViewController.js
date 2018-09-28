@@ -48,13 +48,13 @@
 		var values  =form.getValues();//获取form数据
 		record.set(values);
 		record.save();
-		Ext.data.StoreManager.lookup('leaveStroe').load();
+		Ext.data.StoreManager.lookup('leaveStore').load();
 		win.close();
 	},
 	/*Edit Submit*/	
 	submitEditForm:function(btn){
 		var win    = btn.up('window');
-		var store = Ext.data.StoreManager.lookup('leaveStroe');
+		var store = Ext.data.StoreManager.lookup('leaveStore');
 		var values  = win.down('form').getValues();//获取form数据
 		var record = store.getById(values.id);//获取id获取store中的数据
 		record.set(values);//rest put 
@@ -79,7 +79,7 @@
 		store.load({params:{start:0, limit:20, page:1}});
 	},
 	submitSearchForm:function(btn){
-		var store =	Ext.data.StoreManager.lookup('leaveStroe');
+		var store =	Ext.data.StoreManager.lookup('leaveStore');
 		var win = btn.up('window');
 		var form = win.down('form');
 		var values  = form.getValues();
@@ -95,8 +95,8 @@
 	deleteOneRow:function(grid, rowIndex, colIndex){
 		var store = grid.getStore();
 		var record = store.getAt(rowIndex);
-		if(record.data.processStatus=="NEW"){
-			Ext.MessageBox.confirm('提示', '确定要进行删除操作吗？数据将无法还原！',function(btn, text){
+		if(record.data.status=="0"){
+			Ext.MessageBox.confirm('提示', '确定要进行删除操作吗？',function(btn, text){
 				if(btn=='yes'){
 					store.remove(record);
 				}
@@ -147,7 +147,7 @@
 	starLeaveProcess:function(grid, rowIndex, colIndex){
 		var record = grid.getStore().getAt(rowIndex);
 		Ext.Ajax.request({ 
-			url : '/leave/start', 
+			url : '/leave/application', 
 			method : 'post', 
 			params : {
 				id :record.get("id")
@@ -167,5 +167,8 @@
 	/*Cancel Leave Process*/	
 	cancelLeaveProcess:function(grid, rowIndex, colIndex){
 		Ext.Msg.alert("Title","Cancel Leave Process");
+		//先打开销假窗口
+		//填写真开始时间和离开时间
+		//传数据
 	}
 });
