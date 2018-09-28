@@ -38,6 +38,13 @@ public class QuitQueryDTO {
 	
 	private String employeeid;
 	
+	private String employeeName;
+	
+	
+	private String departmentid;
+	
+	private String departmentName;
+	
 	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
 	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
 	private Date preQuitDate;
@@ -51,10 +58,11 @@ public class QuitQueryDTO {
 	@SuppressWarnings({"serial"})
 	public static Specification<Quit> getWhereClause(final QuitQueryDTO quitQueryDTO) {
 		return new Specification<Quit>() {
+			
 			@Override
 			public Predicate toPredicate(Root<Quit> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				List<Predicate> predicate = new ArrayList<>();
-				if (StringUtils.isBlank(quitQueryDTO.getEmployeeid())) {
+				if (!StringUtils.isBlank(quitQueryDTO.getEmployeeid())) {
 					predicate.add(criteriaBuilder.equal(root.get("employee").get("id").as(String.class), quitQueryDTO.getEmployeeid()));
 				}
 				if (null!=quitQueryDTO.getId()) {
@@ -94,10 +102,27 @@ public class QuitQueryDTO {
 							quitQueryDTO.getQuitDate()));
 				}*/
 				
-				if (StringUtils.isBlank(quitQueryDTO.getReason())) {
+				if (!StringUtils.isBlank(quitQueryDTO.getReason())) {
 					predicate.add(criteriaBuilder.like(root.get("reason"), "%"+quitQueryDTO.getReason()+"%"));
 				}
 				
+				if (StringUtils.isNotBlank(quitQueryDTO.getDepartmentid())) {
+					predicate.add(criteriaBuilder.like(root.get("employee").
+							get("department").get("id").as(String.class)
+							, "%"+quitQueryDTO.getDepartmentid()+"%"));
+				}
+				
+				if (StringUtils.isNotBlank(quitQueryDTO.getDepartmentName())) {
+					predicate.add(criteriaBuilder.like(root.get("employee")
+							.get("department").get("name").as(String.class),
+							"%"+quitQueryDTO.getDepartmentName()+"%"));
+				}
+				
+				if (StringUtils.isNotBlank(quitQueryDTO.getEmployeeName())) {
+					predicate.add(criteriaBuilder.like(root.get("employee")
+							.get("name").as(String.class),
+							"%"+quitQueryDTO.getDepartmentName()+"%"));
+				}
 				
 				
 				Predicate[] pre = new Predicate[predicate.size()];

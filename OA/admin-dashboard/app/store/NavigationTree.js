@@ -69,6 +69,11 @@
                iconCls: 'x-fa fa-address-card',
                viewType: 'questionCenterPanel',
                leaf: true
+           },{
+               text: '离职',
+               iconCls: 'x-fa fa-address-card',
+               viewType: 'quit',
+               leaf: true
            }
         ]
     }

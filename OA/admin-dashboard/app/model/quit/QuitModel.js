@@ -10,8 +10,14 @@ Ext.define('Admin.model.quit.QuitModel', {
 	    {type: 'string',name: 'orderNo'}
 	],*/
 	fields: [
-	    {type: 'string',name: 'id'},
-	    {type: 'string',name: 'name'}
+	    {type: 'int',name: 'id'},
+	    {type: 'string',name: 'employeeid'},
+	    {type: 'string',name: 'employeeName'},
+	    {type: 'string',name: 'departmentName'},
+	    {type: 'string',name: 'reason'},
+	    {type: 'date',name: 'applyDate',dateFormat:'Y/m/d H:i:s'},
+	    {type: 'date',name: 'quitDate',dateFormat:'Y/m/d H:i:s'},
+	    {type: 'string',name: 'status'}
 	],
 	proxy: {
         type: 'rest',

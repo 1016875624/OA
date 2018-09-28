@@ -59,9 +59,9 @@ Ext.define('Admin.view.department.DepartmentPanel', {
             dockedItems: [{
                 xtype: 'pagingtoolbar',
                 dock: 'bottom',
-                itemId: 'userPaginationToolbar',
+                itemId: 'paginationToolbar',
                 displayInfo: true,
-                bind: '{userLists}'
+                bind: '{departmentLists}'
             }],
 			tbar: [
 			{
