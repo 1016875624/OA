@@ -60,13 +60,13 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 	/*Quick Search*/	
 	quickSearch:function(btn){
 		var store =	btn.up('gridpanel').getStore();
-		Ext.apply(store.proxy.extraParams, {employeeid:"",departmentid:"",date:""});
+		Ext.apply(store.proxy.extraParams, {employeeid:"",departmentid:"",StartDate:"",EndDate:""});
 		var searchField = this.lookupReference('searchFieldName').getValue();
 		
 		var searchValue = this.lookupReference('searchFieldValue').getValue();
 		var searchComboValue = this.lookupReference('departmentBox').getValue();
 		var searchDataFieldValue = this.lookupReference('searchDataFieldValue').getValue();
-		
+		var searchDataFieldValue2 = this.lookupReference('searchDataFieldValue2').getValue();
 		if(searchField==='employeeid'){
 			Ext.apply(store.proxy.extraParams, {employeeid:searchValue});
 		}
@@ -75,7 +75,8 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		}
 		if(searchField==='date'){
 			Ext.apply(store.proxy.extraParams,{
-				date:Ext.util.Format.date(searchDataFieldValue, 'Y/m/d')
+				date:Ext.util.Format.date(searchDataFieldValue, 'Y/m/d'),
+				date:Ext.util.Format.date(searchDataFieldValue2, 'Y/m/d')
 			});
 		}
 		store.load({params:{start:0, limit:20, page:1}});
@@ -85,14 +86,17 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		var searchValue = this.lookupReference('searchFieldValue');
 		var searchComboValue = this.lookupReference('departmentBox');
 		var searchDataFieldValue = this.lookupReference('searchDataFieldValue');
+		var searchDataFieldValue2 = this.lookupReference('searchDataFieldValue2');
 		//console.log(Ext.ClassManager.getName(searchValue));
 		if(newValue=="employeeid"){
 			searchComboValue.setHidden(true);
 			searchValue.setHidden(false);
 			searchDataFieldValue.setHidden(true);
+			searchDataFieldValue2.setHidden(true);
 		}
 		else if(newValue=="date"){
 			searchDataFieldValue.setHidden(false);
+			searchDataFieldValue2.setHidden(false);
 			searchComboValue.setHidden(true);
 			searchValue.setHidden(true);
 			
@@ -101,10 +105,12 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 			searchComboValue.setHidden(false);
 			searchValue.setHidden(true);
 			searchDataFieldValue.setHidden(true);
+			searchDataFieldValue2.setHidden(true);
 		}else{
 			searchComboValue.setHidden(true);
 			searchValue.setHidden(true);
 			searchDataFieldValue.setHidden(true);
+			searchDataFieldValue2.setHidden(true);
 		}
 		
 	},

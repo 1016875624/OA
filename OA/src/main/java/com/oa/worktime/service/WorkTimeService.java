@@ -193,7 +193,7 @@ public class WorkTimeService implements IWorkTimeService {
 		for (WorkTime workTime : workTimes) {
 			workTimeDTOs.add(entityToDto(workTime));
 		}
-		return new PageImpl<>(workTimeDTOs, pageable, workTimeDTOs.size());
+		return new PageImpl<>(workTimeDTOs, pageable, page.getTotalElements());
 	}
 
 	@Override
