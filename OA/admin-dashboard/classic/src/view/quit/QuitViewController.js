@@ -204,7 +204,7 @@ Ext.define('Admin.view.quit.QuitViewController', {
 	},
 	quickSearch:function(btn){
 		var field=this.lookupReference('searchFieldName');
-		var value=this.lookupReference('searchFieldValue');
+		var value=this.lookupReference('searchTextField');
 		//var value1=this.lookupReference('searchDateFieldValue');
 		var grid=btn.up('gridpanel');
 		var store=grid.getStore();

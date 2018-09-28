@@ -39,8 +39,9 @@ public class WorkTime {
 	* @Fields employee : 某个员工的工时
 	*/
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(nullable=false)
+	@JoinColumn(nullable = false)
 	private Employee employee;
+	
 	/**
 	* @Fields date : 日期
 	*/
