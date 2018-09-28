@@ -20,17 +20,15 @@
 	openSearchWindow:function(toolbar, rowIndex, colIndex){
 		toolbar.up('panel').up('container').add(Ext.widget('questionSearchWindow')).show();
 	},
-	/*combobox选中后控制对应输入（文本框和日期框）框显示隐藏*/
 	searchComboboxSelectChuang:function(combo,record,index){
-		//alert(record.data.name);
 		var searchField = this.lookupReference('searchFieldName').getValue();
-		if(searchField==='entryTime'){
-			this.lookupReference('searchFieldValue').hide();
-			this.lookupReference('searchDataFieldValue').show();
+		if(searchField==='textQuestion'){
+			this.lookupReference('searchTextQuesValue').show();
+			this.lookupReference('questionType').hide();
 		}
 		else{
-			this.lookupReference('searchFieldValue').show();
-			this.lookupReference('searchDataFieldValue').hide();
+			this.lookupReference('searchTextQuesValue').hide();
+			this.lookupReference('questionType').show();
 		}
 		
 	},

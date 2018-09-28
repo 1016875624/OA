@@ -1,5 +1,4 @@
-
-﻿Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
+Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
     extend: 'Ext.panel.Panel',
     xtype: 'workTimeGridPanel',
     requires: [

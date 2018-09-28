@@ -5,8 +5,8 @@ Ext.define('Admin.view.employee.EmployeeCheckWindow', {
 	modal: true,
 	layout: 'fit',
 	width: 500,
-	height: 500,
-	title: '查看用户信息',
+	height: 450,
+	title: 'View Information Window',
 	items: [{
 			xtype: 'form',
 			layout: {

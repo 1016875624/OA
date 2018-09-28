@@ -1,4 +1,4 @@
-Ext.define('Admin.view.question.QuestionViewModel', {
+Ext.define('Admin.view.question.QuestionsViewModel', {
     extend: 'Ext.app.ViewModel',
     alias: 'viewmodel.questionViewModel',
 

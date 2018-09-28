@@ -42,11 +42,12 @@
 				//{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'status',text: '在职状态',flex: 1},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'leaderName',text: '上级领导',flex: 1},
 				{xtype: 'datecolumn',cls: 'content-column',width: 200,dataIndex: 'entryTime',text: '入职时间',formatter: 'date("Y/m/d")'},
-                {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: '操作',tooltip: 'edit ',
+                {xtype: 'actioncolumn',cls: 'content-column', width: 160,text: '操作',tooltip: 'edit ',
                     items: [
                         {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'openEditWindow'},
                         {xtype: 'button',iconCls: 'x-fa fa-close'	,handler: 'deleteOneRow'},
-                        {xtype: 'button',iconCls: 'x-fa fa-eye'	 	,handler: 'onCheckButton'}
+                        {xtype: 'button',iconCls: 'x-fa fa-eye'	 	,handler: 'onCheckButton'},
+                        {xtype: 'button',iconCls: 'x-fa fa-paper-plane',handler: 'sendEmail'}
                     ]
                 }
             ],
