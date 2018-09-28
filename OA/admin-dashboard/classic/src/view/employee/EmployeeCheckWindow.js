@@ -28,7 +28,7 @@ Ext.define('Admin.view.employee.EmployeeCheckWindow', {
 					{name: 'email',fieldLabel: 'email'},
 					{name: 'status',fieldLabel: '状态'},
 					{name: 'leaderName',fieldLabel: '上级'},
-					{name: 'entryTime',fieldLabel: '入职时间',format: 'Y/m/d H:i:s'},
+					{name: 'entryTime',fieldLabel: '入职时间',format: 'Y/m/d'},
 			],
 		}
 	],

@@ -23,6 +23,8 @@ import com.oa.employee.entity.Employee;
 import com.oa.employee.entity.EmployeeDTO;
 import com.oa.employee.entity.EmployeeQueryDTO;
 import com.oa.employee.service.IEmployeeService;
+import com.oa.worktime.entity.WorkTime;
+
 
 @RestController
 @RequestMapping("/employee")
@@ -49,7 +51,7 @@ public class EmployeeController {
 		if (employeeDTO.getDepartmentid()!=null) {
 			department=departmentService.findById(employeeDTO.getDepartmentid());
 		}
-		
+		employee.setStatus(0);
 		employee.setLeader(leader);
 		employee.setDepartment(department);
 		System.out.println(employee);
@@ -75,7 +77,12 @@ public class EmployeeController {
 	{
 		try {
 			if(id!=null) {
-				employeeService.deleteById(id);
+					Employee employee=employeeService.findById(id).orElse(null);
+					employee.setStatus(-1);
+					employeeService.save(employee);
+//					WorkTime workTime=workTimeService.findById(id);
+//					workTime.setStatus(1);
+//					workTimeService.save(workTime);
 			}
 			return new ExtAjaxResponse(true,"删除成功！");
 		} catch (Exception e) {
@@ -85,15 +92,15 @@ public class EmployeeController {
 	
 	//批量删除
 	@PostMapping("/deletes")
-	public ExtAjaxResponse deleteRows(@RequestParam(name="ids") String[] ids) 
+	public ExtAjaxResponse deleteMoreRows(@RequestParam(name="ids") String[] ids) 
 	{
 		try {
 			if(ids!=null) {
 				employeeService.deleteAll(ids);
 			}
-			return new ExtAjaxResponse(true,"批量删除成功！");
+			return new ExtAjaxResponse(true,"删除多条成功");
 		} catch (Exception e) {
-			return new ExtAjaxResponse(true,"批量删除失败！");
+			return new ExtAjaxResponse(false,"删除多条失败");
 		}
 	}
 
@@ -102,7 +109,7 @@ public class EmployeeController {
     public @ResponseBody ExtAjaxResponse update(@PathVariable("id") String id,@RequestBody EmployeeDTO employeeDTO) {
 		System.out.println("000");
     	try {
-    		Employee entity = employeeService.findById(id).get();
+    		Employee entity = employeeService.findById(id).orElse(null);
 			if(entity!=null) {
 				BeanUtils.copyProperties(employeeDTO, entity);//使用自定义的BeanUtils
 				employeeService.save(entity);

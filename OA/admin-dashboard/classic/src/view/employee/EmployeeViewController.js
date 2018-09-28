@@ -59,45 +59,72 @@
 		
 	/*Quick Search*/	
 	quickSearch:function(btn){
-		var searchField = this.lookupReference('searchFieldName').getValue();
-		var searchValue = this.lookupReference('searchFieldValue').getValue();
-		var searchComboboxValue = this.lookupReference('searchComboboxValue').getValue();
-		var searchDataFieldValue = this.lookupReference('searchDataFieldValue').getValue();
-		
 		var store =	btn.up('gridpanel').getStore();
-		//var store = Ext.getCmp('userGridPanel').getStore();// Ext.getCmp(）需要在employeePanel设置id属性
-		Ext.apply(store.proxy.extraParams, {id:"",name:"",entryTime:"",departmentName:""});
+		Ext.apply(store.proxy.extraParams, {id:"",departmentid:"",entryTime:""});
+		var searchField = this.lookupReference('searchFieldName').getValue();
+		
+		var searchValue = this.lookupReference('searchFieldValue').getValue();
+		var searchComboValue = this.lookupReference('departmentBox').getValue();
+		var searchDataFieldValue = this.lookupReference('searchDataFieldValue').getValue();
 		
 		if(searchField==='id'){
 			Ext.apply(store.proxy.extraParams, {id:searchValue});
 		}
-		if(searchField==='name'){
-			Ext.apply(store.proxy.extraParams, {name:searchValue});
-		}
 		if(searchField==='departmentName'){
-			Ext.apply(store.proxy.extraParams, {departmentName:searchValue});
+			Ext.apply(store.proxy.extraParams, {departmentid:searchComboValue});
 		}
 		if(searchField==='entryTime'){
 			Ext.apply(store.proxy.extraParams,{
-				entryTime:Ext.util.Format.date(searchDataFieldValue, 'Y/m/d H:i:s')
+				entryTime:Ext.util.Format.date(searchDataFieldValue, 'Y/m/d')
 			});
 		}
 		store.load({params:{start:0, limit:20, page:1}});
 	},
+	tbarSelectChange:function(box,newValue,oldValue,eOpts){
+		console.log("12356");
+		var searchValue = this.lookupReference('searchFieldValue');
+		var searchComboValue = this.lookupReference('departmentBox');
+		var searchDataFieldValue = this.lookupReference('searchDataFieldValue');
+		//console.log(Ext.ClassManager.getName(searchValue));
+		if(newValue=="id"){
+			searchComboValue.setHidden(true);
+			searchValue.setHidden(false);
+			searchDataFieldValue.setHidden(true);
+		}
+		else if(newValue=="entryTime"){
+			searchDataFieldValue.setHidden(false);
+			searchComboValue.setHidden(true);
+			searchValue.setHidden(true);
+			
+		}
+		else if(newValue=="departmentName"){
+			searchComboValue.setHidden(false);
+			searchValue.setHidden(true);
+			searchDataFieldValue.setHidden(true);
+		}else{
+			searchComboValue.setHidden(true);
+			searchValue.setHidden(true);
+			searchDataFieldValue.setHidden(true);
+		}
+		
+	},
+	
 	submitSearchForm:function(btn){
 		var store =	Ext.data.StoreManager.lookup('employeeGridStroe');
 		var win = btn.up('window');
 		var form = win.down('form');
 		var values  = form.getValues();
-		Ext.apply(store.proxy.extraParams, {id:"",name:"",entryTime:""});
+		Ext.apply(store.proxy.extraParams, {id:"",departmentid:"",entryTime:""});
 		Ext.apply(store.proxy.extraParams,{
 			id:values.id,
-			name:value.name,
-			entryTime:Ext.util.Format.date(values.entryTime, 'Y/m/d H:i:s')
+			departmentid:values.departmentid,
+			entryTime:values.entryTime,
+			date:Ext.util.Format.date(values.date, 'Y/m/d')
 		});
 		store.load({params:{start:0, limit:20, page:1}});
 		win.close();
 	},
+	
 	/*Delete One Row*/	
 	deleteOneRow:function(grid, rowIndex, colIndex){
 	   Ext.MessageBox.confirm('提示', '确定要进行删除操作吗？数据将无法还原！',
@@ -124,10 +151,9 @@
                         selectIds.push(row.data.id);
                     });
                   	Ext.Ajax.request({ 
-						url : '/employee/deletes', 
+						url : 'http://localhost:8080/employee/deletes', 
 						method : 'post', 
 						params : { 
-							//ids[] :selectIds
 							ids :selectIds
 						}, 
 						success: function(response, options) {

@@ -13,40 +13,24 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.oa.department.entity.Department;
+
+import lombok.Data;
 import lombok.ToString;
 
 @ToString
+@Data
 public class EmployeeQueryDTO {
 	private String id;
 
-	private String name;
-
-	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
+	//private String name;
+	private Department department;
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private Date entryTime;
+	
+	private String departmentid;
 
-	public String getId() {
-		return id;
-	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Date getEntryTime() {
-		return entryTime;
-	}
-
-	public void setEntryTime(Date entryTime) {
-		this.entryTime = entryTime;
-	}
 
 	@SuppressWarnings({ "serial" })
 	public static Specification<Employee> getWhereClause(final EmployeeQueryDTO employeeQueryDTO) {
@@ -59,12 +43,16 @@ public class EmployeeQueryDTO {
 					predicate.add(criteriaBuilder.like(root.get("id").as(String.class),
 							"%" + employeeQueryDTO.getId() + "%"));
 				}
-				if (StringUtils.isNotBlank(employeeQueryDTO.getName())) {
+				/*if (StringUtils.isNotBlank(employeeQueryDTO.getName())) {
 					predicate.add(criteriaBuilder.like(root.get("name").as(String.class),
 							"%" + employeeQueryDTO.getName() + "%"));
+				}*/
+				if (StringUtils.isNoneBlank(employeeQueryDTO.getDepartmentid())) {
+					predicate.add(criteriaBuilder.like(root.get("department").get("id").as(String.class),
+							"%" + employeeQueryDTO.getDepartmentid() + "%"));
 				}
 				if (null != employeeQueryDTO.getEntryTime()) {
-					predicate.add(criteriaBuilder.lessThanOrEqualTo(root.get("entryTime").as(Date.class),
+					predicate.add(criteriaBuilder.equal(root.get("entryTime").as(Date.class),
 							employeeQueryDTO.getEntryTime()));
 				}
 

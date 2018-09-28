@@ -1,8 +1,9 @@
 package com.oa.employee.service;
 
-import java.sql.Date;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -100,7 +101,7 @@ public class EmployeeService implements IEmployeeService{
 		for (Employee employee : employees) {
 			employeeDTOs.add(entityToDto(employee));
 		}
-		return new PageImpl<>(employeeDTOs, pageable, employeeDTOs.size());
+		return new PageImpl<>(employeeDTOs, pageable, page.getTotalElements());
 	}
 
 	public void deleteAllemployee() {

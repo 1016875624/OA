@@ -19,19 +19,38 @@
         ariaLabel: 'Enter your name',
         items: [{
 				xtype: 'textfield',
-				fieldLabel: 'id',
+				fieldLabel: '员工编号',
 				name:'id'
 			}, {
-				xtype: 'textfield',
-				fieldLabel: 'name',
-				name:'name'
-			}, {
-				xtype: 'textfield',
-				fieldLabel: 'department',
-				name:'departmentName'
+				xtype: 'combobox',
+		           fieldLabel: '所属部门',
+		           name:'departmentid',
+		           store:Ext.create("Ext.data.Store", {
+					    fields: ["id", "name"],
+					   	proxy: {
+					        type: 'ajax',
+					        url:'http://localhost:8080/department/simpleget',
+						    reader:{
+						    	type:'json',
+						    },
+					    }
+					   	,
+					   	autoLoad: 'true',
+						autoSync:'true',
+					}),
+					displayField:'name',
+					valueField:'id',
+					editable:false,
+					queryMode: 'local',
+					triggerAction: 'all',
+					//emptyText: 'Select a state...',
+					listeners:{
+					
+					}
 			}, {
 				xtype: 'datefield',
-				format: 'Y/m/d H:i:s',
+				fieldLabel: '入职时间',
+				format: 'Y/m/d',
 				name: 'entryTime'
 				
          }]

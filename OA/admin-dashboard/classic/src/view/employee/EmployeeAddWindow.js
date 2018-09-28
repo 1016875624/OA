@@ -20,7 +20,7 @@ Ext.define('Admin.view.employee.EmployeeAddWindow', {
         ariaLabel: 'Enter your name',
         items: [{
             xtype: 'textfield',
-            fieldLabel: '员工id',
+            fieldLabel: '员工编号',
             name:'id'
         }, {
             xtype: 'textfield',
@@ -29,7 +29,7 @@ Ext.define('Admin.view.employee.EmployeeAddWindow', {
         }, {
             xtype: 'combobox',
 			fieldLabel: '员工部门',
-			name:'departmentName',
+			name:'departmentid',
 			//hideLable:true,
 			reference:'test',
 			store:Ext.create("Ext.data.Store", {
@@ -77,7 +77,7 @@ Ext.define('Admin.view.employee.EmployeeAddWindow', {
             xtype: 'datefield',
             fieldLabel: '入职时间',
             name:'entryTime',
-            format: 'Y/m/d H:i:s'
+            format: 'Y/m/d'
         }]
     }],
 	buttons: ['->',{
