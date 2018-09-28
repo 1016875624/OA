@@ -18,7 +18,7 @@ import lombok.Data;
 
 @Data
 public class QuestionQueryDTO {
-	private String question;
+	private String textQuestion;
 	private String realanswer;
 	private String answers;
 	private Integer type;
@@ -30,9 +30,9 @@ public class QuestionQueryDTO {
 			public Predicate toPredicate(Root<Question> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 			
 				List<Predicate> predicate = new ArrayList<>();
-				if(StringUtils.isNotBlank(questionQueryDTO.getQuestion())) {
-					predicate.add(criteriaBuilder.like(root.get("question").as(String.class),
-							"%" + questionQueryDTO.getQuestion() + "%"));
+				if(StringUtils.isNotBlank(questionQueryDTO.getTextQuestion())) {
+					predicate.add(criteriaBuilder.like(root.get("textQuestion").as(String.class),
+							"%" + questionQueryDTO.getTextQuestion() + "%"));
 				}
 				if(null!=questionQueryDTO.getType()) {
 					predicate.add(criteriaBuilder.equal(root.get("type").as(Integer.class),questionQueryDTO.getType()));

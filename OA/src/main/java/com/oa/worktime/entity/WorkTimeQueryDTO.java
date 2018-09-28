@@ -13,6 +13,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.oa.common.date.utils.DateUtils;
 import com.oa.department.entity.Department;
 import com.oa.employee.entity.Employee;
 
@@ -30,8 +32,18 @@ public class WorkTimeQueryDTO {
 	private String departmentName;
 	
 	private String departmentid;
+	
 	@DateTimeFormat(pattern="yyyy/MM/dd")  
 	private Date date;
+	
+	
+	@JsonFormat(pattern="yyyy/MM/dd",timezone="GMT+8")
+	@DateTimeFormat(pattern="yyyy/MM/dd")
+	private Date StartDate;
+	
+	@JsonFormat(pattern="yyyy/MM/dd",timezone="GMT+8")
+	@DateTimeFormat(pattern="yyyy/MM/dd")
+	private Date EndDate;
 	
 	private Integer hour;
 	private Integer status;
@@ -61,7 +73,22 @@ public class WorkTimeQueryDTO {
 					predicate.add(criteriaBuilder.greaterThanOrEqualTo(root.get("date").as(Date.class),
 							workTimeQueryDTO.getDate()));
 				}
-				
+				if(null!=workTimeQueryDTO.getStartDate()) {
+					if(null!=workTimeQueryDTO.getEndDate()) {
+						predicate.add(criteriaBuilder.between(root.get("date").as(Date.class), 
+								workTimeQueryDTO.getStartDate(), workTimeQueryDTO.getEndDate()));
+					}else {
+						predicate.add(criteriaBuilder.between(root.get("date").as(Date.class),
+								DateUtils.getToDayStart(workTimeQueryDTO.getStartDate()),
+								DateUtils.getToDayEnd(workTimeQueryDTO.getStartDate())));
+					}
+				}else{
+					if(null!=workTimeQueryDTO.getEndDate()) {
+						predicate.add(criteriaBuilder.between(root.get("date").as(Date.class),
+								DateUtils.getToDayStart(workTimeQueryDTO.getEndDate()),
+								DateUtils.getToDayEnd(workTimeQueryDTO.getEndDate())));
+					}
+				}
 				if (null!=workTimeQueryDTO.getHour()) {
 					predicate.add(criteriaBuilder.equal(root.get("hour").as(Integer.class),
 							workTimeQueryDTO.getHour()));

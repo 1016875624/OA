@@ -173,13 +173,13 @@ public class MailMsgSingle {
 		message.addRecipients(RecipientType.TO, "");
 		Multipart multipart=new MimeMultipart();
 		MimeBodyPart mbp=new MimeBodyPart();*/
-		InternetAddress[]addresses= InternetAddress.parse("10168@qq.com");
+		InternetAddress[]addresses= InternetAddress.parse("499859073@qq.com");
 		for (InternetAddress internetAddress : addresses) {
 			//internetAddress.s
 			//System.out.println(internetAddress);
 		}
 		
-		InternetAddress internetAddress=new InternetAddress("admin@qq.com", "nihao", "utf-8");
+		InternetAddress internetAddress=new InternetAddress("499859073@qq.com", "nihao", "utf-8");
 		System.out.println(internetAddress);
 		MailMsgSingle mailMsgSingle=new MailMsgSingle();
 		//mailMsgSingle.setToMail("").setToName("").set

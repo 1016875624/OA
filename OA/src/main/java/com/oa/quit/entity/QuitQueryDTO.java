@@ -63,10 +63,10 @@ public class QuitQueryDTO {
 			public Predicate toPredicate(Root<Quit> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				List<Predicate> predicate = new ArrayList<>();
 				if (!StringUtils.isBlank(quitQueryDTO.getEmployeeid())) {
-					predicate.add(criteriaBuilder.equal(root.get("employee").get("id").as(String.class), quitQueryDTO.getEmployeeid()));
+					predicate.add(criteriaBuilder.like(root.get("employee").get("id").as(String.class), "%"+quitQueryDTO.getEmployeeid()+"%"));
 				}
 				if (null!=quitQueryDTO.getId()) {
-					predicate.add(criteriaBuilder.equal(root.get("question").as(Integer.class),quitQueryDTO.getId()));
+					predicate.add(criteriaBuilder.equal(root.get("id").as(Integer.class),quitQueryDTO.getId()));
 				}
 				if (null!=quitQueryDTO.getStatus()) {
 					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),quitQueryDTO.getStatus()));

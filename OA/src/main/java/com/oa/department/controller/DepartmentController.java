@@ -99,6 +99,17 @@ public class DepartmentController {
 		}*/
 		return departmentService.findAllInSimpleDTO();
 	}
+	
+	@RequestMapping("/simpleget1")
+	public List<DepartmentSimpleDTO> getDepartmentNames1() {
+		/*List<String>names=new ArrayList<>();
+		List<Department>departments=departmentService.findAll();
+		for (Department department : departments) {
+			names.add(department.getName());
+		}*/
+		return departmentService.findAllInSimpleDTO();
+	}
+	
 	@RequestMapping("/deleteMore")
 	public void deleteMore(String []id) {
 		departmentService.deleteAll(id);

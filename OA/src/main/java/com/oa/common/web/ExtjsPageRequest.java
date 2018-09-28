@@ -4,11 +4,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+
+import lombok.ToString;
 /**
  * 
  * @author Sx
  *
  */
+@ToString
 public class ExtjsPageRequest 
 {
 	//分页条件
