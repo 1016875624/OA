@@ -19,6 +19,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 	/*Search More*/	
 	openSearchWindow:function(toolbar, rowIndex, colIndex){
 		toolbar.up('panel').up('container').add(Ext.widget('workTimeSearchWindow')).show();
+		Ext.data.StoreManager.lookup('departmentLoadStroe').load();
 	},
 	/*combobox选中后控制对应输入（文本框和日期框）框显示隐藏*/
 	searchComboboxSelectChuang:function(combo,record,index){
