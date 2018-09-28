@@ -43,13 +43,12 @@
 		   
 		   triggerAction: 'all',
 		   emptyText: 'Select a state...',
-		   width: 135
+		   width: 135,
 		   listeners:{
 				change:function(){
 					
 				}
 			}
-		   
        }, {
     	   xtype: 'combobox',
            fieldLabel: '当天上班时间(单位：H)',

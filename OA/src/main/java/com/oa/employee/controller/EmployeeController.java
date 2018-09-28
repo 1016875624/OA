@@ -80,9 +80,6 @@ public class EmployeeController {
 					Employee employee=employeeService.findById(id).orElse(null);
 					employee.setStatus(-1);
 					employeeService.save(employee);
-//					WorkTime workTime=workTimeService.findById(id);
-//					workTime.setStatus(1);
-//					workTimeService.save(workTime);
 			}
 			return new ExtAjaxResponse(true,"删除成功！");
 		} catch (Exception e) {
@@ -107,7 +104,6 @@ public class EmployeeController {
 	//修改更新
 	@PutMapping(value="{id}")
     public @ResponseBody ExtAjaxResponse update(@PathVariable("id") String id,@RequestBody EmployeeDTO employeeDTO) {
-		System.out.println("000");
     	try {
     		Employee entity = employeeService.findById(id).orElse(null);
 			if(entity!=null) {
