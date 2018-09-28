@@ -22,31 +22,11 @@
 				fieldLabel: '员工编号',
 				name:'id'
 			}, {
-				xtype: 'combobox',
-		           fieldLabel: '所属部门',
-		           name:'departmentid',
-		           store:Ext.create("Ext.data.Store", {
-					    fields: ["id", "name"],
-					   	proxy: {
-					        type: 'ajax',
-					        url:'http://localhost:8080/department/simpleget',
-						    reader:{
-						    	type:'json',
-						    },
-					    }
-					   	,
-					   	autoLoad: 'true',
-						autoSync:'true',
-					}),
-					displayField:'name',
-					valueField:'id',
-					editable:false,
-					queryMode: 'local',
-					triggerAction: 'all',
-					//emptyText: 'Select a state...',
-					listeners:{
-					
-					}
+	            fieldLabel: '所属部门',
+	            xtype:"departmentcombobox",
+	            reference:'departmentBox',
+	            name:'departmentid',
+	            //hidden:true
 			}, {
 				xtype: 'datefield',
 				fieldLabel: '入职时间',

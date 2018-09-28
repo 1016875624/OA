@@ -28,23 +28,11 @@ Ext.define('Admin.view.employee.EmployeeEditWindow', {
 				name:'name'
 			}, {
 				
-				xtype: 'combobox',
 				fieldLabel: '员工部门',
-				name:'departmentName',
-				store:Ext.create("Ext.data.Store", {
-				fields: ["id", "name"],
-				proxy: {
-						type: 'ajax',
-						url:'http://localhost:8080/department/simpleget',
-						reader:{
-						type:'json',
-						},
-					},
-					autoLoad: 'true',
-					autoSync:'true',
-				}),
-				displayField:'name',
-				valueField:'id'
+				xtype:"departmentcombobox",
+		    	reference:'departmentBox',
+		    	name:'departmentid',
+		    	//hidden:true
 			}, {
 				xtype: 'textfield',
 				fieldLabel: '员工邮箱',
