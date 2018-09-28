@@ -39,9 +39,12 @@ public class DepartmentService implements IDepartmentService {
 		Department department=null;
 		if (!departmentRepository.existsById(entity.getId())) {
 			department= departmentRepository.save(entity);
+		}else {
+			department=departmentRepository.findById(entity.getId()).get();
 		}
 		
 		if (!entity.getEmployees().isEmpty()) {
+			System.out.println("进来了");
 			for (Employee e : entity.getEmployees()) {
 				Employee emp=employeeService.findById(e.getId()).orElse(null);
 				if (emp==null) {

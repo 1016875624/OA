@@ -25,7 +25,7 @@
             },
             {
                 text: '部门',
-                iconCls: 'x-fa fa-user',
+                iconCls: 'x-fa fa-building-o',
                 //rowCls: 'nav-tree-badge nav-tree-badge-new',
                 viewType: 'department',
                 leaf: true
@@ -43,16 +43,24 @@
                 viewType: 'orderCenterPanel',
                 leaf: true
             },{
-                text: '请假管理模块',
-                iconCls: 'x-fa fa-address-card',
-                viewType: 'leaveCenterPanel',
-                leaf: true
-            },{
-                text: '请假审批模块',
-                iconCls: 'x-fa fa-address-card',
-                viewType: 'leaveApproveCenterPanel',
-                leaf: true
-            },{
+				text: '请假模块',
+                iconCls: 'x-fa fa-leanpub',
+				expanded: false,
+                selectable: false,
+				children:[
+					{
+						text: '请假管理模块',
+						iconCls: 'x-fa fa-address-card',
+						viewType: 'leaveCenterPanel',
+						leaf: true
+					},{
+						text: '请假审批模块',
+						iconCls: 'x-fa fa-address-card',
+						viewType: 'leaveApproveCenterPanel',
+						leaf: true
+					}
+				]
+			},{
                 text: 'Login',
                 iconCls: 'x-fa fa-check',
                 viewType: 'login',
@@ -68,6 +76,11 @@
                text: '题库',
                iconCls: 'x-fa fa-address-card',
                viewType: 'questionCenterPanel',
+               leaf: true
+           },{
+               text: '离职',
+               iconCls: 'x-fa fa-address-card',
+               viewType: 'quit',
                leaf: true
            }
         ]

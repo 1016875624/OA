@@ -1,6 +1,6 @@
-Ext.define('Admin.view.department.DepartmentPanel', {
+Ext.define('Admin.view.quit.QuitPanel', {
     extend: 'Ext.panel.Panel',
-    xtype: 'departmentPanel',
+    xtype: 'quitPanel',
 
     requires: [
         'Ext.grid.Panel',
@@ -16,17 +16,25 @@ Ext.define('Admin.view.department.DepartmentPanel', {
 	
     items: [{
             xtype: 'gridpanel',
-            cls: 'department-grid',
-			itemId:'departmentGridPanel',
-            title: 'department results',
+            cls: 'quit-grid',
+			itemId:'quitGridPanel',
+            title: 'quit results',
             //routeId: 'user',
-            bind: '{departmentLists}',
+            bind: '{quitLists}',
             scrollable: false,
             columns: [
-                {xtype: 'gridcolumn',width: 40,dataIndex: 'id',text: 'id',hidden:true},
-                {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'name',text: '部门名称',flex: 1},
+                {xtype: 'gridcolumn',dataIndex: 'id',text: 'id',hidden:true,},
+                {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'employeeName',text: '员工姓名'},
+                {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'departmentName',text: '部门'},
+                
+                {xtype: 'datecolumn', cls: 'content-column',width:150, dataIndex: 'applyDate',text: '申请时间',format:'Y/m/d H:i:s'},
+                {xtype: 'datecolumn', cls: 'content-column',width:150,dataIndex: 'quitDate',text: '离职时间',format:'Y/m/d H:i:s'},
+                
+                {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'reason',text: '离职时间'},
+                {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'status',text: '离职时间'},
                 //{xtype: 'datecolumn',cls: 'content-column',width: 200,dataIndex: 'orderDate',text: 'orderDate',formatter: 'date("Y/m/d H:i:s")'},
-                {xtype: 'actioncolumn',cls: 'content-column', width: 120,dataIndex: 'bool',text: 'Actions',tooltip: 'edit ',
+                
+                {xtype: 'actioncolumn',cls: 'content-column', width: 120,dataIndex: 'bool',text: 'Actions',tooltip: 'edit ',flex:1,
                     items: [
                         {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'gridModify'},
                         {xtype: 'button',iconCls: 'x-fa fa-close'	,handler: 'gridDelete'},
@@ -61,7 +69,7 @@ Ext.define('Admin.view.department.DepartmentPanel', {
                 dock: 'bottom',
                 itemId: 'paginationToolbar',
                 displayInfo: true,
-                bind: '{departmentLists}'
+                bind: '{quitLists}'
             }],
 			tbar: [
 			{
@@ -72,7 +80,14 @@ Ext.define('Admin.view.department.DepartmentPanel', {
 				    fields: ["name", "value"],
 				    data: [
 				      	{ name: 'id', value: 'id' },
-						{ name: '部门名称', value: 'name' }
+				      	{ name: '员工id', value: 'employeeid' },
+						{ name: '员工名称', value: 'employeeName' },
+						{ name: '离职原因', value: 'reason' },
+						{ name: '部门id', value: 'departmentid' },
+						{ name: '部门名称', value: 'departmentName' },
+						{ name: '申请日期', value: 'preApplyDate' },
+						{ name: '离职日期', value: 'preQuitDate' },
+						
 				    ]
 				}),
 				//label:'查询类型',
@@ -83,16 +98,24 @@ Ext.define('Admin.view.department.DepartmentPanel', {
 				editable:false,
 				queryMode: 'local',
 				triggerAction: 'all',
-				emptyText: 'Select a state...',
+				emptyText: '请选择查询内容',
 				width: 135,
 				listeners:{
 					change:'tbarSelectChange'
 				}
 			},'-',{
 				xtype:'textfield',
-				name:'orderPanelSearchField',
-				reference:'searchFieldValue'
+				name:'searchTextField',
+				reference:'searchTextField'
 			},
+			'-',{
+				xtype:'datefield',
+				name:'searchDateField',
+				reference:'searchDateField',
+				format:"Y/m/d H:i:s",
+				hidden:true
+			},
+			
 			/*'-',{
 				xtype:'datefield',
 				name:'orderPanelSearchDateField',
@@ -101,20 +124,20 @@ Ext.define('Admin.view.department.DepartmentPanel', {
 				hidden:true
 			},*/
 			
-			{
+			/*{
 				xtype: 'combobox',
 				hideLable:true,
 				reference:'test',
 				store:Ext.create("Ext.data.Store", {
 				    fields: ["id", "name"],
-				    /*data: [
-				      	{ name: 'id', value: 'id' },
-						{ name: '部门名称', value: 'name' }
-				    ]*/
+//				    data: [
+//				      	{ name: 'id', value: 'id' },
+//						{ name: '部门名称', value: 'name' }
+//				    ]
 				   	proxy: {
 				        type: 'ajax',
 						//url:"/order",
-				        url:'http://localhost:8080/department/simpleget',
+				        url:'http://localhost:8080/quit/simpleget',
 						//url: '~api/search/users'	//mvc url  xxx.json
 					    reader:{
 					    	type:'json',
@@ -141,7 +164,7 @@ Ext.define('Admin.view.department.DepartmentPanel', {
 				listeners:{
 					change:'tbarSelectChange'
 				}
-			},
+			},*/
 			
 			'-',{
 		        text: 'Search',
@@ -163,7 +186,7 @@ Ext.define('Admin.view.department.DepartmentPanel', {
 				text : 'Removes',
 				iconCls:'fa fa-trash',
 		        disabled: true,
-				itemId:'userRemoveBtn',
+				itemId:'removeBtn',
 				handler:'tbarClickDeleteMore'
 			},
 			],

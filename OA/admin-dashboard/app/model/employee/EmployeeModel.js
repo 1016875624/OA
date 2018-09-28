@@ -6,11 +6,12 @@ Ext.define('Admin.model.employee.EmployeeModel', {
     fields: [
 	    {type: 'string',name: 'id'},
 		{type: 'string',name: 'name'},
-		//{type: 'department',name: 'department'},
+		{type: 'string',name: 'departmentName'},
 		{type: 'string',name: 'email'},
 		{type: 'string',name: 'position'},
-		{type: 'integer',name: 'state'},
-		{type: 'string',name: 'leader'},
+		{type: 'int',name: 'state'},
+		{type: 'string',name: 'leaderName'},
+		{type: 'string',name: 'departmentid'},
 	    {type: 'date', name: 'entryTime', dateFormat:'Y/m/d H:i:s'}
 	],
 	proxy: {

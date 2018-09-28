@@ -1,7 +1,7 @@
-var department=Ext.ComponentQuery.query("department");
-Ext.define('Admin.view.department.DepartmentViewController', {
+var quit=Ext.ComponentQuery.query("quit");
+Ext.define('Admin.view.quit.QuitViewController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.departmentViewController',
+    alias: 'controller.quitViewController',
     
 	onEditButton:function(grid, rowIndex, colIndex){
 		//获取本列的数据
@@ -28,7 +28,7 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 	
 	/**********头部事件*********/
 	openSearchWindow:function(btn){
-		var win=Ext.widget('departmentSearchWindow');
+		var win=Ext.widget('quitSearchWindow');
 		//win.setTitle('高级查询');
 		btn.up('gridpanel').up('container').add(win);
 		//win.show();
@@ -39,12 +39,12 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		win.down('button[text=save]').setHandler(this.highLevelSearch);
 	},
 	tbarClickAddBtn:function(btn){
-		var win=Ext.widget('departmentWindow');
+		var win=Ext.widget('quitWindow');
 		win.setTitle('添加数据');
 		btn.up('gridpanel').up('container').add(win);
 		var containner=btn.up('gridpanel').up('container');
-		var idField=win.getComponent("department_form_id");
-		var ifield=Ext.getCmp("department_form_id");
+		var idField=win.getComponent("quit_form_id");
+		var ifield=Ext.getCmp("quit_form_id");
 		console.log(Ext.ClassManager.getName(ifield));
 		ifield.setHidden(false);
 		//win.down('datefield').format='Y/m/d H:i:s';
@@ -52,7 +52,7 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		var form1=win.down('form').getForm();
 		win.down('button[text=save]').setHandler(function(){
 			//Ext.Msg.alert("Add","you click the button named save");
-			var record = Ext.create('Admin.model.department.DepartmentModel');
+			var record = Ext.create('Admin.model.quit.QuitModel');
 			var values  =form1.getValues();//获取form数据
 			console.log(values);
            	record.set(values);
@@ -70,7 +70,7 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 	
 	gridModify:function(grid, rowIndex, colIndex){
 		var rec=grid.getStore().getAt(rowIndex);
-		var win=Ext.widget('departmentWindow');
+		var win=Ext.widget('quitWindow');
 		grid.up('container').add(win);
 		win.show();
 		console.log(Ext.ClassManager.getName(rec));
@@ -88,7 +88,7 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		/*Ext.getCmp('userWindowSave').setHandler(function(){
 			Ext.Msg.alert("","you click the button named save");
 		});*/
-		var store = Ext.data.StoreManager.lookup('departmentGridStroe');
+		var store = Ext.data.StoreManager.lookup('quitGridStroe');
 		console.log(Ext.ClassManager.getName(win.down('button')));
 		win.down('button[text=save]').setHandler(function(){
 			//Ext.Msg.alert("tips","you click the button named save");
@@ -132,7 +132,7 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		});
 		console.log(ids);
 		Ext.Ajax.request({
-			url: 'http://localhost:8080/department/deleteMore',
+			url: 'http://localhost:8080/quit/deleteMore',
 			method:'post',
 			params:{id:ids},
 			//jsonData:{id:ids},
@@ -204,7 +204,7 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 	},
 	quickSearch:function(btn){
 		var field=this.lookupReference('searchFieldName');
-		var value=this.lookupReference('searchFieldValue');
+		var value=this.lookupReference('searchTextField');
 		//var value1=this.lookupReference('searchDateFieldValue');
 		var grid=btn.up('gridpanel');
 		var store=grid.getStore();
@@ -244,7 +244,7 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 	},
 	highLevelSearch:function(btn){
 		//win.down('datefield').format='Y/m/d H:i:s';
-		var store = Ext.data.StoreManager.lookup('departmentGridStroe');
+		var store = Ext.data.StoreManager.lookup('quitGridStroe');
 		Ext.apply(store.proxy.extraParams, {id:"",name:""});
 		var win=btn.up('window');
 		var myform= win.down('form').getForm();
