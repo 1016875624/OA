@@ -68,38 +68,14 @@
             	emptyText: '输入员工编号',
             	hidden:true,
             	hideLabel: true
-		    }, '-',{
-		       xtype: 'combobox',
-	           fieldLabel: '请选择部门',
-	           name:'departmentid',
-	           store:Ext.create("Ext.data.Store", {
-				    fields: ["id", "name"],
-				   	proxy: {
-				        type: 'ajax',
-				        url:'http://localhost:8080/department/simpleget',
-					    reader:{
-					    	type:'json',
-					    },
-				    }
-				   	,
-				   	autoLoad: 'true',
-					autoSync:'true',
-				}),
-				displayField:'name',
-				valueField:'id',
-				//value:'',
-				editable:false,
-				queryMode: 'local',
-				triggerAction: 'all',
-				emptyText: 'Select a state...',
-				width: 135,
-				listeners:{
-					//change:'tbarSelectChange'
-				},
-				hideLabel: true,
-				hidden:true,
-				reference:'departmentBox'
-			}, '-',{
+		    }, 
+		    {
+		    	xtype:"departmentcombobox",
+		    	reference:'departmentBox',
+		    	name:'departmentid',
+		    	hidden:true,
+		    },
+		    '-',{
 				xtype: 'datefield',
 				hideLabel: true,
 				hidden:true,

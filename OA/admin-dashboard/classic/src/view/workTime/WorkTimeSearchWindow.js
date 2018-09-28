@@ -1,4 +1,4 @@
-﻿Ext.define('Admin.view.workTime.WorkTimeSearchWindow', {
+Ext.define('Admin.view.workTime.WorkTimeSearchWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.workTimeSearchWindow',
     height: 450,
@@ -32,23 +32,9 @@
            fieldLabel: '员工姓名',
            name:'employeeName'
        }, {
-           xtype: 'combobox',
-           fieldLabel: '请选择部门',
-           name:'departmentid',
-           store:Ext.data.StoreManager.lookup("departmentBoxStroe"),
-		   displayField:'name',
-		   valueField:'id',
-		   //value:'',
-		   editable:false,
-		   
-		   triggerAction: 'all',
-		   emptyText: 'Select a state...',
-		   width: 135,
-		   listeners:{
-				change:function(){
-					
-				}
-			}
+    	   fieldLabel: '部门名称',
+           xtype: 'departmentcombobox',
+		   name:'departmentid'
        }, {
     	   xtype: 'combobox',
            fieldLabel: '当天上班时间(单位：H)',
@@ -84,4 +70,4 @@
             btn.up('window').close();
         }
     },'->']
-});
+})
