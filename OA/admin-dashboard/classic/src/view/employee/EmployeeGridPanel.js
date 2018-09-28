@@ -48,6 +48,7 @@
 				    data: [
 				      	{ name: '员工编号', value: 'id' },
 						{ name: '员工姓名', value: 'name' },
+						{ name: '部门人员', value: 'departmentName' },
 						{ name: '入职时间', value: 'entryTime' }
 				    ]
 				}),
@@ -65,8 +66,8 @@
 	        },'-',{
             	xtype:'textfield',
             	reference:'searchFieldValue',
-            	name:'orderPanelSearchField'
-		    }, '-',{
+            	//name:'orderPanelSearchField'
+		    },'-',{
 				xtype: 'datefield',
 				hideLabel: true,
 				hidden:true,

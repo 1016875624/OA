@@ -1,7 +1,5 @@
 package com.oa.employee.controller;
 
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,12 +18,11 @@ import com.oa.common.beans.BeanUtils;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.ExtjsPageRequest;
 import com.oa.department.entity.Department;
+import com.oa.department.service.IDepartmentService;
 import com.oa.employee.entity.Employee;
 import com.oa.employee.entity.EmployeeDTO;
 import com.oa.employee.entity.EmployeeQueryDTO;
 import com.oa.employee.service.IEmployeeService;
-import com.oa.worktime.entity.WorkTime;
-import com.oa.worktime.entity.WorkTimeQueryDTO;
 
 @RestController
 @RequestMapping("/employee")
@@ -33,7 +30,10 @@ public class EmployeeController {
 	@Autowired
 	private IEmployeeService employeeService;
 	
-	//private id
+	@Autowired
+	private IDepartmentService departmentService; 
+	
+
 	//添加
 	@PostMapping
 	public String save(@RequestBody EmployeeDTO employeeDTO) 
@@ -42,12 +42,16 @@ public class EmployeeController {
 		Employee employee = new Employee();
 		BeanUtils.copyProperties(employeeDTO, employee);
 		Employee leader=null;
+		Department department=new Department();
 		if (employeeDTO.getLeaderid()!=null) {
 			leader=employeeService.findById(employeeDTO.getLeaderid()).orElse(null);
 		}
-		//Department department=null;
+		if (employeeDTO.getDepartmentid()!=null) {
+			department=departmentService.findById(employeeDTO.getDepartmentid());
+		}
+		
 		employee.setLeader(leader);
-		employee.setDepartment(null);
+		employee.setDepartment(department);
 		System.out.println(employee);
 		try {
 			//Employee entity = employeeService.findById(id).get();
@@ -92,24 +96,7 @@ public class EmployeeController {
 			return new ExtAjaxResponse(true,"批量删除失败！");
 		}
 	}
-	/*
-	//修改更新
-		@PutMapping(value="{id}")
-	    public @ResponseBody ExtAjaxResponse update(@PathVariable("id") String id,@RequestBody Employee employee) {
-			System.out.println("000");
-	    	try {
-	    		Employee entity = employeeService.findById(id).get();
-				if(entity!=null) {
-					BeanUtils.copyProperties(employee, entity);//使用自定义的BeanUtils
-					employeeService.save(entity);
-				}
-	    		return new ExtAjaxResponse(true,"更新成功!");
-		    } catch (Exception e) {
-		    	e.printStackTrace();
-		        return new ExtAjaxResponse(false,"更新失败!");
-		    }
-	    }
-	*/
+
 	//修改更新
 	@PutMapping(value="{id}")
     public @ResponseBody ExtAjaxResponse update(@PathVariable("id") String id,@RequestBody EmployeeDTO employeeDTO) {

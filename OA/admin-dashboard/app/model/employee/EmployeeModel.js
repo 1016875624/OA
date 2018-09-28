@@ -16,6 +16,6 @@ Ext.define('Admin.model.employee.EmployeeModel', {
 	],
 	proxy: {
 		type: 'rest',
-		url: '/employee',
+		url: 'http://localhost:8080/employee',
 	}
 });

@@ -5,7 +5,7 @@
 	model:'Admin.model.employee.EmployeeModel',
 	proxy: {
 		type: 'rest',
-		url: '/employee',
+		url: 'http://localhost:8080/employee',
 		reader:{
 			type:'json',
 			rootProperty:'content',//对应后台返回的结果集名称

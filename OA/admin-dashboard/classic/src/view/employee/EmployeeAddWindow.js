@@ -19,13 +19,6 @@ Ext.define('Admin.view.employee.EmployeeAddWindow', {
         padding: '10px',
         ariaLabel: 'Enter your name',
         items: [{
-            // xtype: 'textfield',
-            // fieldLabel: 'id',
-            // name:'id',
-            // hidden: true,
-            // readOnly: true
-        // }, 
-		//{
             xtype: 'textfield',
             fieldLabel: '员工id',
             name:'id'
@@ -35,25 +28,25 @@ Ext.define('Admin.view.employee.EmployeeAddWindow', {
             name:'name'
         }, {
             xtype: 'combobox',
-            fieldLabel: '员工部门',
-            name:'departmentName',
-			store: Ext.create('Ext.data.Store', {
-                fields: ['value', 'name'],
-                data: [
-				{"value":"1","name":"董事会"},
-				{"value":"2","name":"总裁部"},
-				{"value":"3","name":"市场部"},
-				{"value":"4","name":"项目部"},
-                {"value":"5","name":"人事部"}, 
-                {"value":"6","name":"法务部"},
-				{"value":"7","name":"新闻部"},
-				{"value":"8","name":"财务部"},
-				{"value":"9","name":"管理员"},
-				{"value":"10","name":"tom"}
-                ]
-                }),
-                displayField: 'name',
-                valueField: 'value',
+			fieldLabel: '员工部门',
+			name:'departmentName',
+			//hideLable:true,
+			reference:'test',
+			store:Ext.create("Ext.data.Store", {
+				fields: ["id", "name"],
+				proxy: {
+					type: 'ajax',
+					url:'http://localhost:8080/department/simpleget',
+					reader:{
+						type:'json',
+					},
+				}
+				,
+				autoLoad: 'true',
+				autoSync:'true',
+			}),
+			displayField:'name',
+			valueField:'id'
         }, {
             xtype: 'textfield',
             fieldLabel: '员工邮箱',
