@@ -1,9 +1,5 @@
 package com.oa.salary.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -22,44 +18,69 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.oa.employee.entity.Employee;
 
-@Entity
-@Table(name="salary_pay")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+/**
+ * 薪资发放表
+ * 
+ * @author Solomon.yuen
+ *
+ */
+@Entity //实体
+@Table(name = "salary_Pay")  //数据库表名称
+@AllArgsConstructor	//有参数的构造方法
+@NoArgsConstructor	//无参数的构造方法
 public class SalaryPay {
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
-	
-	
-	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
-	private Employee employee;
-	@JsonFormat(pattern="yyyy/MM/dd",timezone="GMT+8")
-	@DateTimeFormat(pattern="yyyy/MM/dd")
-	@Temporal(TemporalType.DATE)
+	private int id;
+	private Employee emplyee;
 	private Date date;
-	/**
-	* @Fields status : 状态 0表示为发放 1表示已经发放
-	*/
-	private Integer status;
-	
-	/**
-	* @Fields money : 实际到手
-	*/
+	private int status;
 	private Double money;
-	
-	/**
-	* @Fields realWorktime : 实际工作时间
-	*/
-	private int realWorktime;
-	
-	/**
-	* @Fields worktime : 要求工作时间
-	*/
-	private int worktime;
-	/**
-	* @Fields attendRate : 出勤率
-	*/
-	private Double attendRate;
+
+	@Id	//ID
+	@GeneratedValue(strategy = GenerationType.IDENTITY)  //数据库增长策略
+	public int getId() {
+		return id;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)	//多对一关系，单向关联
+	public Employee getEmplyee() {
+		return emplyee;
+	}
+
+	@JsonFormat(pattern = "yyyy/MM/dd", timezone = "GMT+8")	 //返回给前端JSON的日期格式
+	@DateTimeFormat(pattern = "yyyy/MM/dd")  //接收的日期格式
+	@Temporal(TemporalType.DATE)  //实体类会封装成日期"YYYY/MM/dd"映射到数据库。是Temporal的三种方法之一。
+	public Date getDate() {
+		return date;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public Double getMoney() {
+		return money;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setEmplyee(Employee emplyee) {
+		this.emplyee = emplyee;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public void setMoney(Double money) {
+		this.money = money;
+	}
 }
