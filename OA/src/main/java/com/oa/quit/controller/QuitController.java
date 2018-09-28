@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,8 +30,6 @@ public class QuitController {
 	
 	@GetMapping
 	public Page<QuitDTO> getPage(QuitQueryDTO quitQueryDTO,ExtjsPageRequest extjsPageRequest){
-		System.out.println(quitQueryDTO);
-		System.out.println(extjsPageRequest);
 		/*if (quitQueryDTO.getEmployeeid()!=null) {
 			quitQueryDTO.setEmployee1(employeeService.findById(quitQueryDTO.getEmployeeid()).orElse(null));
 		}*/
@@ -38,8 +37,9 @@ public class QuitController {
 	}
 	
 	@PostMapping
-	public ExtAjaxResponse save(QuitDTO quitDTO) 
+	public ExtAjaxResponse save(@RequestBody QuitDTO quitDTO) 
 	{
+		System.out.println(quitDTO);
 		Quit quit=new Quit();
 		Employee emp=null;
 		try {
@@ -48,7 +48,9 @@ public class QuitController {
 				emp.setId(quitDTO.getEmployeeid());
 			}
 			BeanUtils.copyProperties(quitDTO, quit);
-			//quit.setStatus(0);
+			if (quitDTO.getStatus()==null) {
+				quit.setStatus(0);
+			}
 			quit.setEmployee(emp);
 			quitService.save(quit);
 			return new ExtAjaxResponse(true,"添加成功");
@@ -92,6 +94,11 @@ public class QuitController {
 		} catch (Exception e) {
 			return new ExtAjaxResponse(false,"删除失败");
 		}
+	}
+	
+	@RequestMapping("/deleteMore")
+	public void deleteMore(Integer []id) {
+		quitService.deleteAll(id);
 	}
 	
 }

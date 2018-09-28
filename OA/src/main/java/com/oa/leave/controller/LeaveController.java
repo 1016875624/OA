@@ -81,7 +81,7 @@ public class LeaveController {
 			Leave leave = leaveService.findOne(id);
 			leave.setStatus(1);
 			leaveService.save(leave);
-			leaveService.sendMail();
+			leaveService.sendMail(leave);
 			return new ExtAjaxResponse(true,"发出申请成功！");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -90,7 +90,7 @@ public class LeaveController {
 	}
 	
 	//审核,状态设置为2,表示该表为已审核状态
-	@PostMapping("/approval")
+	@GetMapping("/approval")
 	public ExtAjaxResponse approval(@RequestParam(name="id") Long id) {
 		try {
 			Leave leave = leaveService.findOne(id);

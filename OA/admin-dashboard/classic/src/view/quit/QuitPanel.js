@@ -115,16 +115,16 @@ Ext.define('Admin.view.quit.QuitPanel', {
 				format:"Y/m/d H:i:s",
 				hidden:true
 			},
-			{
+			/*{
 				xtype: 'combobox',
 				hideLable:true,
 				reference:'searchComboboxField',
 				store:Ext.create("Ext.data.Store", {
 					fields: ["id", "name"],
-					/*data: [
-						  { name: 'id', value: 'id' },
-						{ name: '部门名称', value: 'name' }
-					]*/
+					// data: [
+					// 	  { name: 'id', value: 'id' },
+					// 	{ name: '部门名称', value: 'name' }
+					// ]
 					proxy: {
 						type: 'ajax',
 						//url:"/order",
@@ -156,44 +156,12 @@ Ext.define('Admin.view.quit.QuitPanel', {
 					//change:'tbarSelectChange'
 				},
 				hidden:true
-			},
-			/*{
-				xtype: 'combobox',
-				hideLable:true,
-				//reference:'searchComboboxField',
-				//store:"",
-				//bind:"{departmentList}",
-                //label:'查询类型',
-				displayField:'name',
-				valueField:'id',
-				//value:'id',
-				//value:'订单编号',
-				editable:false,
-				queryMode: 'local',
-				triggerAction: 'all',
-
-				emptyText: 'Select a state...',
-				width: 135,
-				listeners:{
-					//change:'tbarSelectChange',
-					focus:function (box) {
-                        console.log("123");
-                        console.log(Ext.ClassManager.getName(Ext.data.StoreManager.lookup('departmentLoadStroe')));
-
-                        //console.log(departmentList);
-                        //console.log(Ext.getCmp("departmentNameStore"));
-                        //box.bindStore(Ext.data.StoreManager.lookup('departmentLoadStroe'));
-                    },
-                    afterrender:function (box) {
-                        box.bindStore(Ext.data.StoreManager.lookup('departmentLoadStroe'));
-                    }
-                },
-				hidden:false,
 			},*/
-            {
+            /*{
                 xtype:"departmentcombobox",
-                hidden:false,
-            },
+                hidden:true,
+                reference:'searchComboboxField',
+            },*/
 
 			/*'-',{
 				xtype:'datefield',

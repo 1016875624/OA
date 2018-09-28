@@ -13,6 +13,7 @@ Ext.define('Admin.view.employee.EmployeeViewModel', {
     ],
 
     stores: {
-		employeeLists: {type: 'employeeGridStroe'}
+		employeeLists: {type: 'employeeGridStroe'},
+		departmentList:{type:'departmentLoadStroe'},
     }
 });
