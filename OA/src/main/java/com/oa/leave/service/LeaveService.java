@@ -17,8 +17,6 @@ import com.oa.employee.service.EmployeeService;
 import com.oa.leave.entity.Leave;
 import com.oa.leave.entity.LeaveDTO;
 import com.oa.leave.repository.LeaveRepository;
-import com.oa.worktime.entity.WorkTime;
-import com.oa.worktime.entity.WorkTimeDTO;
 
 @Service
 @Transactional
@@ -29,6 +27,7 @@ public class LeaveService implements ILeaveService {
 	
 	@Autowired
 	private EmployeeService employeeService;
+	
 	//保存
 	public void save(Leave leave) {
 		if(leave != null) {
@@ -98,6 +97,7 @@ public class LeaveService implements ILeaveService {
 		return new PageImpl<>(leaveDTOs, pageable, leaveDTOs.size());
 	}
 
+	
 //	//根据职员ID来查找职员
 //	@Transactional(readOnly = true)
 //	public Employee findEmployee(String applicantId) {
