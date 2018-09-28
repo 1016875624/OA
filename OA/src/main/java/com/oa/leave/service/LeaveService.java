@@ -2,7 +2,11 @@ package com.oa.leave.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,10 +16,16 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.oa.common.beans.BeanUtils;
 import com.oa.common.mail.Mail;
 import com.oa.common.mail.MailUtil;
 import com.oa.employee.service.EmployeeService;
+import com.oa.employee.service.IEmployeeService;
 import com.oa.leave.entity.Leave;
 import com.oa.leave.entity.LeaveDTO;
 import com.oa.leave.repository.LeaveRepository;
@@ -28,7 +38,9 @@ public class LeaveService implements ILeaveService {
 	private LeaveRepository leaveRepository;
 	
 	@Autowired
-	private EmployeeService employeeService;
+	private IEmployeeService employeeService;
+	
+    private static String SECRET = "mysecret";
 	
 	//保存
 	public void save(Leave leave) {
@@ -109,7 +121,10 @@ public class LeaveService implements ILeaveService {
 		String leaveType = "A";
 		String userName = "卢弟弟";
 		String subject = "请假审批表";
-		String lianjie = "http://localhost:8080/leave/approval?id=1";
+		String leaveJWT = createToken(leave.getId());
+		String praseLeaveJWT = verifyToken(leaveJWT);
+		String lianjie = "http://localhost:8080/leave/approval?id=" + leaveJWT;
+		System.out.println(praseLeaveJWT);
 		if(leaveType == "A") {
 			leaveType = "带薪假期";
 		}
@@ -134,6 +149,46 @@ public class LeaveService implements ILeaveService {
 			System.out.println("发送失败");
 		}
 	}
+
+	public String createToken(Long id){
+		String sId = String.valueOf(id);
+		Date iatDate = new Date();
+        Calendar nowTime = Calendar.getInstance();
+        nowTime.add(Calendar.MINUTE,100);
+        Date expiresDate = nowTime.getTime();
+ 
+        Map<String,Object> map = new HashMap<String,Object>();
+        try {
+        	 map.put("alg","HS256");
+             map.put("type","JWT");
+             String token = JWT.create().withHeader(map)
+                     .withClaim("id",sId)
+                     .withExpiresAt(expiresDate)
+                     .withIssuedAt(iatDate)
+                     .sign(Algorithm.HMAC256(SECRET));
+             return token;
+		} catch (Exception e) {
+			return "失败";
+		}
+	}
+	
+    public String verifyToken(String token) {
+        try {
+        	JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET)).build();
+            DecodedJWT jwt = null;
+        	jwt = verifier.verify(token);
+            Map<String,Claim> result = jwt.getClaims();
+     
+            jwt.getKeyId() ;
+            jwt.getToken();
+            jwt.getClaim("id").asString();
+     
+            return result.get("id").asString();
+		} catch (Exception e) {
+			return "失败";
+		}
+    }
+    
 
 	
 //	//根据职员ID来查找职员

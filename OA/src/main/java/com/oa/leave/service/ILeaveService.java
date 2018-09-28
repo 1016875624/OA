@@ -22,4 +22,7 @@ public interface ILeaveService {
 	public Page<Leave> findAll(Specification<Leave> spec, Pageable pageable);
 	Page<LeaveDTO> findAllInDto(@Nullable Specification<Leave> spec, Pageable pageable);
 	public void sendMail(Leave leave);
+	
+	public String createToken(Long id);
+	public String verifyToken(String token);
 }
