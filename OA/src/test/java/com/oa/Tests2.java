@@ -68,4 +68,9 @@ public class Tests2 {
 		workTimeService.save(worktime);
 	}
 	
+	@Test
+	public void findWorkTime() {
+		List<WorkTime> workTimes=workTimeService.findWorkTimes("admin");
+		System.out.println(workTimes);
+	}
 }

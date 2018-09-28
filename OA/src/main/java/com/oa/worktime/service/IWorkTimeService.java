@@ -61,5 +61,7 @@ public interface IWorkTimeService {
 	Page<WorkTimeDTO> findAllInDto(@Nullable Specification<WorkTime> spec, Pageable pageable);
 	
 	void deleteAllById(Integer[]ids);
+	
+	List<WorkTime> findWorkTimes(String id);
 }
 

@@ -39,6 +39,10 @@ public class WorkTimeController {
 	private IDepartmentService departmentService;
 	@GetMapping
 	public Page<WorkTimeDTO> getPage(WorkTimeQueryDTO worktimeQueryDto,ExtjsPageRequest extjsPageRequest){
+		/*if(worktimeQueryDto.getDepartmentid()!=null) {
+			//worktimeQueryDto.setDepartment(departmentService.findById(worktimeQueryDto.getDepartmentid()));
+			
+		}*/
 		if (worktimeQueryDto.getEmployeeid()!=null) {
 			worktimeQueryDto.setEmployee(employeeService.findById(worktimeQueryDto.getEmployeeid()).orElse(null));
 		}
