@@ -108,12 +108,12 @@ public class LeaveService implements ILeaveService {
         mail.setReceiver("499859073@qq.com"); 			//接收人  
         mail.setUsername("499859073@qq.com"); 			//登录账号,一般都是和邮箱名一样
         mail.setPassword("omkjcaekcutzbhcc");  //QQ邮箱登录第三方客户端时,密码框请输入“授权码”进行验证。其他的密码具体查看邮件服务器的说明
-        mail.setSubject("标题");  
+        mail.setSubject("请假审批表");
         mail.setMessage("<h1>内容</h1>");  
         if (new MailUtil().send(mail)) {
-       	 System.out.println("发送成功");
+       	 	System.out.println("发送成功");
 		} else {
-			 System.out.println("发送失败");
+			System.out.println("发送失败");
 		} 
 	}
 
