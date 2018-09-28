@@ -43,16 +43,24 @@
                 viewType: 'orderCenterPanel',
                 leaf: true
             },{
-                text: '请假管理模块',
-                iconCls: 'x-fa fa-address-card',
-                viewType: 'leaveCenterPanel',
-                leaf: true
-            },{
-                text: '请假审批模块',
-                iconCls: 'x-fa fa-address-card',
-                viewType: 'leaveApproveCenterPanel',
-                leaf: true
-            },{
+				text: '请假模块',
+                iconCls: 'x-fa fa-leanpub',
+				expanded: false,
+                selectable: false,
+				children:[
+					{
+						text: '请假管理模块',
+						iconCls: 'x-fa fa-address-card',
+						viewType: 'leaveCenterPanel',
+						leaf: true
+					},{
+						text: '请假审批模块',
+						iconCls: 'x-fa fa-address-card',
+						viewType: 'leaveApproveCenterPanel',
+						leaf: true
+					}
+				]
+			},{
                 text: 'Login',
                 iconCls: 'x-fa fa-check',
                 viewType: 'login',
