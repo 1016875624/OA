@@ -58,8 +58,8 @@ public class LeaveController {
     }
 	
 	//修改，状态设置为0,表示该表为待申请状态
-	@PutMapping(value="{id}")
-    public @ResponseBody ExtAjaxResponse update(@PathVariable("id") Long id,@RequestBody Leave leave) {
+	@PutMapping("update")
+    public @ResponseBody ExtAjaxResponse update(@RequestParam(name="id") Long id,@RequestBody Leave leave) {
     	try {
     		Leave entity = leaveService.findOne(id);
     		leave.setStatus(0);
@@ -101,7 +101,42 @@ public class LeaveController {
 			return new ExtAjaxResponse(false,"审核失败！");
 		}
 	}
+	
+	//驳回,将状态变回0,表示该表为待申请状态
+	@PutMapping("/reject")
+	public ExtAjaxResponse reject(@RequestParam(name="id") Long id, @RequestBody Leave leave) {
+		try {
+    		Leave entity = leaveService.findOne(id);
+    		leave.setStatus(0);
+			if(entity!=null) {
+				BeanUtils.copyProperties(leave, entity);//使用自定义的BeanUtils
+				leaveService.save(entity);
+			}
+    		return new ExtAjaxResponse(true,"驳回成功!");
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	        return new ExtAjaxResponse(false,"驳回失败!");
+	    }
+	}
 
+	
+	//销假,将状态变回3,表示该表为已销假状态
+	@PutMapping("/endleave")
+    public @ResponseBody ExtAjaxResponse endleave(@RequestParam(name="id") Long id,@RequestBody Leave leave) {
+    	try {
+    		Leave entity = leaveService.findOne(id);
+    		leave.setStatus(3);
+			if(entity!=null) {
+				BeanUtils.copyProperties(leave, entity);//使用自定义的BeanUtils
+				leaveService.save(entity);
+			}
+    		return new ExtAjaxResponse(true,"销假成功!");
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	        return new ExtAjaxResponse(false,"销假失败!");
+	    }
+    }
+	
 	//删除
 	@DeleteMapping(value="{id}")
     public @ResponseBody ExtAjaxResponse delete(@PathVariable("id") Long id) {
