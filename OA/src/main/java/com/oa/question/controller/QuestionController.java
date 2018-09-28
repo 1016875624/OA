@@ -24,7 +24,7 @@ import com.oa.question.entity.QuestionDTO;
 import com.oa.question.entity.QuestionQueryDTO;
 import com.oa.question.service.IQuestionService;
 @RestController
-@RequestMapping("/question")
+@RequestMapping("/textquestion")
 public class QuestionController {
 	@Autowired IQuestionService questionService;
 	

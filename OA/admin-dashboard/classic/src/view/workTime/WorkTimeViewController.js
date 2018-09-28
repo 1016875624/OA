@@ -158,7 +158,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
                         selectIds.push(row.data.id);
                     });
                   	Ext.Ajax.request({ 
-						url : 'http://localhost:8080/workTime/deletes', 
+						url : 'http://localhost:8080/textquestion/deletes', 
 						method : 'post', 
 						params : { 
 							//ids[] :selectIds
