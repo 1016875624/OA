@@ -41,12 +41,14 @@ Ext.define('Admin.view.workTime.WorkTimeAddWindow', {
             		{"name":"24"}
             		]
             }),
+            editable: false,
             queryMode:'local',
             displayField:'name',
             valueField:'name'
             
         }, {
             xtype: 'datefield',
+            editable: false,
             fieldLabel: '日期',
             name:'date',
             format: 'Y/m/d'

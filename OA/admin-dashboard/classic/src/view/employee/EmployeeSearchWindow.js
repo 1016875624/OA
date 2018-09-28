@@ -19,19 +19,18 @@
         ariaLabel: 'Enter your name',
         items: [{
 				xtype: 'textfield',
-				fieldLabel: 'id',
+				fieldLabel: '员工编号',
 				name:'id'
 			}, {
-				xtype: 'textfield',
-				fieldLabel: 'name',
-				name:'name'
-			}, {
-				xtype: 'textfield',
-				fieldLabel: 'department',
-				name:'departmentName'
+	            fieldLabel: '所属部门',
+	            xtype:"departmentcombobox",
+	            reference:'departmentBox',
+	            name:'departmentid',
+	            //hidden:true
 			}, {
 				xtype: 'datefield',
-				format: 'Y/m/d H:i:s',
+				fieldLabel: '入职时间',
+				format: 'Y/m/d',
 				name: 'entryTime'
 				
          }]

@@ -26,8 +26,11 @@ Ext.define('Admin.view.quit.QuitWindow', {
 		},
 		defaultType:'textfield',
 		items:[
-			{fieldLabel: 'id', name: 'id',hidden:true,itemid:'quit_form_id',id:"quit_form_id"},
-			{fieldLabel: 'name', name: 'name'}
+            {fieldLabel: 'id', name: 'id',hidden:true},
+            {fieldLabel: '员工id', name: 'employeeid'},
+            {fieldLabel: '申请日期', name: 'applyDate',xtype:"datefield",format: 'Y/m/d H:i:s'},
+            {fieldLabel: '离职原因', name: 'reason'},
+            {fieldLabel: '离职日期', name: 'quitDate',xtype:"datefield",format: 'Y/m/d H:i:s'},
 		],
 		
 		

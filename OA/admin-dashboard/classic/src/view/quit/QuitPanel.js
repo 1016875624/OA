@@ -31,7 +31,7 @@ Ext.define('Admin.view.quit.QuitPanel', {
                 {xtype: 'datecolumn', cls: 'content-column',width:150,dataIndex: 'quitDate',text: '离职时间',format:'Y/m/d H:i:s'},
                 
                 {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'reason',text: '离职时间'},
-                {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'status',text: '离职时间'},
+                {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'status',text: '状态'},
                 //{xtype: 'datecolumn',cls: 'content-column',width: 200,dataIndex: 'orderDate',text: 'orderDate',formatter: 'date("Y/m/d H:i:s")'},
                 
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,dataIndex: 'bool',text: 'Actions',tooltip: 'edit ',flex:1,
@@ -60,7 +60,7 @@ Ext.define('Admin.view.quit.QuitPanel', {
 					//showWindow(records[0]);
 					Ext.m_data=records[0];
 					
-					this.down('#userRemoveBtn').setDisabled(records.length === 0);
+					this.down('#removeBtn').setDisabled(records.length === 0);
 				}
 			},
 			selModel: {type: 'checkboxmodel',checkOnly: true},
@@ -108,14 +108,61 @@ Ext.define('Admin.view.quit.QuitPanel', {
 				name:'searchTextField',
 				reference:'searchTextField'
 			},
-			'-',{
+			{
 				xtype:'datefield',
 				name:'searchDateField',
 				reference:'searchDateField',
 				format:"Y/m/d H:i:s",
 				hidden:true
 			},
-			
+			/*{
+				xtype: 'combobox',
+				hideLable:true,
+				reference:'searchComboboxField',
+				store:Ext.create("Ext.data.Store", {
+					fields: ["id", "name"],
+					// data: [
+					// 	  { name: 'id', value: 'id' },
+					// 	{ name: '部门名称', value: 'name' }
+					// ]
+					proxy: {
+						type: 'ajax',
+						//url:"/order",
+						url:'http://localhost:8080/department/simpleget',
+						//url: '~api/search/users'	//mvc url  xxx.json
+						reader:{
+							type:'json',
+							//rootProperty:'content',
+							//totalProperty:'totalElements'
+						},
+						//simpleSortMode: true
+					}
+					,
+					autoLoad: 'true',
+					autoSync:'true',
+				}),
+				//label:'查询类型',
+				displayField:'name',
+				valueField:'id',
+				//value:'id',
+				//value:'订单编号',
+				editable:false,
+				queryMode: 'local',
+				triggerAction: 'all',
+
+				emptyText: 'Select a state...',
+				width: 135,
+				listeners:{
+					//change:'tbarSelectChange'
+				},
+				hidden:true
+			},*/
+            /*{
+                xtype:"departmentcombobox",
+                hidden:true,
+                reference:'searchComboboxField',
+            },*/
+
 			/*'-',{
 				xtype:'datefield',
 				name:'orderPanelSearchDateField',

@@ -19,6 +19,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 	/*Search More*/	
 	openSearchWindow:function(toolbar, rowIndex, colIndex){
 		toolbar.up('panel').up('container').add(Ext.widget('workTimeSearchWindow')).show();
+		Ext.data.StoreManager.lookup('departmentLoadStroe').load();
 	},
 	/*combobox选中后控制对应输入（文本框和日期框）框显示隐藏*/
 	searchComboboxSelectChuang:function(combo,record,index){
@@ -60,7 +61,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 	/*Quick Search*/	
 	quickSearch:function(btn){
 		var store =	btn.up('gridpanel').getStore();
-		Ext.apply(store.proxy.extraParams, {employeeid:"",departmentid:"",StartDate:"",EndDate:""});
+		Ext.apply(store.proxy.extraParams, {employeeid:"",departmentid:"",StartDate:"",hour:"",EndDate:""});
 		var searchField = this.lookupReference('searchFieldName').getValue();
 		
 		var searchValue = this.lookupReference('searchFieldValue').getValue();
@@ -75,8 +76,8 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		}
 		if(searchField==='date'){
 			Ext.apply(store.proxy.extraParams,{
-				date:Ext.util.Format.date(searchDataFieldValue, 'Y/m/d'),
-				date:Ext.util.Format.date(searchDataFieldValue2, 'Y/m/d')
+				StartDate:Ext.util.Format.date(searchDataFieldValue, 'Y/m/d'),
+				EndDate:Ext.util.Format.date(searchDataFieldValue2, 'Y/m/d')
 			});
 		}
 		store.load({params:{start:0, limit:20, page:1}});

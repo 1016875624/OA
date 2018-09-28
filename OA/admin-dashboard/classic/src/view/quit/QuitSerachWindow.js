@@ -27,7 +27,19 @@ Ext.define('Admin.view.quit.QuitSearchWindow', {
 		defaultType:'textfield',
 		items:[
 			{fieldLabel: 'id', name: 'id'},
-			{fieldLabel: 'name', name: 'name'}
+            {fieldLabel: '离职原因', name: 'reason'},
+            {fieldLabel: '员工id', name: 'employeeid'},
+            {fieldLabel: '员工姓名', name: 'employeeName'},
+            {
+                xtype:"departmentcombobox",
+                fieldLabel: '部门', name: 'departmentid'
+            },
+            {fieldLabel: 'status', name: 'status'},
+            {fieldLabel: '申请日期范围', name: 'preApplyDate',xtype:"datefield",format:"Y/m/d H:i:s"},
+            {fieldLabel: '申请日期范围', name: 'sufApplyDate',xtype:"datefield",format:"Y/m/d H:i:s"},
+            {fieldLabel: '离职日期范围', name: 'preQuitDate',xtype:"datefield",format:"Y/m/d H:i:s"},
+            {fieldLabel: '离职日期范围', name: 'sufQuitDate',xtype:"datefield",format:"Y/m/d H:i:s"},
+
 			/*{xtype:'datefield',format: 'Y/m/d H:i:s',fieldLabel: 'startDate', name: 'startDate'}
 			,{xtype:'datefield',fieldLabel: 'endDate', name: 'endDate',format: 'Y/m/d H:i:s'},*/
 		],
