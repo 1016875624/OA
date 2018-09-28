@@ -29,6 +29,10 @@ public class SalaryPayDTO {
 	
 	private String employeeid;
 	private String employeeName;
+	
+	private String departmentName;
+	//private String departmentid;
+	
 	@JsonFormat(pattern="yyyy/MM/dd",timezone="GMT+8")
 	@DateTimeFormat(pattern="yyyy/MM/dd")
 	private Date date;
@@ -71,8 +75,14 @@ public class SalaryPayDTO {
 	public static SalaryPayDTO entityToDto(SalaryPay salaryPay) {
 		SalaryPayDTO salaryPayDTO=new SalaryPayDTO();
 		BeanUtils.copyProperties(salaryPay, salaryPayDTO);
-		salaryPayDTO.setEmployeeName(salaryPay.getEmployee().getName());
-		salaryPayDTO.setEmployeeid(salaryPay.getEmployee().getId());
+		if (salaryPay.getEmployee()!=null) {
+			salaryPayDTO.setEmployeeName(salaryPay.getEmployee().getName());
+			salaryPayDTO.setEmployeeid(salaryPay.getEmployee().getId());
+			if (salaryPay.getEmployee().getDepartment()!=null) {
+				salaryPayDTO.setDepartmentName(salaryPay.getEmployee().getDepartment().getName());
+			}
+		}
+		
 		return salaryPayDTO;
 	}
 	
