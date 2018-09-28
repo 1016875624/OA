@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.oa.common.beans.BeanUtils;
+import com.oa.common.mail.Mail;
+import com.oa.common.mail.MailUtil;
 import com.oa.employee.service.EmployeeService;
 import com.oa.leave.entity.Leave;
 import com.oa.leave.entity.LeaveDTO;
@@ -95,6 +97,24 @@ public class LeaveService implements ILeaveService {
 			leaveDTOs.add(entityToDto(leave));
 		}
 		return new PageImpl<>(leaveDTOs, pageable, leaveDTOs.size());
+	}
+
+	public void sendMail() {
+		Mail mail = new Mail();
+        mail.setHost("smtp.qq.com"); 			//设置邮件服务器,如果不用QQ邮箱的,自己找找看相关的  
+        mail.setPortNumber("465");   			//设置邮件服务器端口号,默认25
+        mail.setSender("499859073@qq.com");   			//发送人
+        mail.setName("neal");   					//发送人昵称
+        mail.setReceiver("499859073@qq.com"); 			//接收人  
+        mail.setUsername("499859073@qq.com"); 			//登录账号,一般都是和邮箱名一样
+        mail.setPassword("omkjcaekcutzbhcc");  //QQ邮箱登录第三方客户端时,密码框请输入“授权码”进行验证。其他的密码具体查看邮件服务器的说明
+        mail.setSubject("标题");  
+        mail.setMessage("<h1>内容</h1>");  
+        if (new MailUtil().send(mail)) {
+       	 System.out.println("发送成功");
+		} else {
+			 System.out.println("发送失败");
+		} 
 	}
 
 	
