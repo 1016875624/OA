@@ -58,8 +58,8 @@ public class Employee {
 	/**
 	* @Fields entryTime : 入职时间
 	*/
-	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
-	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy/MM/dd",timezone="GMT+8")
+	@DateTimeFormat(pattern="yyyy/MM/dd")
 	private Date entryTime;
 	
 	@Column(name="PICTURE_ID_")
@@ -71,14 +71,14 @@ public class Employee {
 	private String position;
 	
 	/**
-	* @Fields status : 状态 0代表正常 1代表离职 -1代表封禁
+	* @Fields status : 状态 0代表正常 -1代表删除 1代表封禁2代表离职
 	*/ 
 	private Integer status;
 	
 	/**
 	* @Fields leader : 上级
 	*/
-	@OneToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	@OneToOne(fetch=FetchType.EAGER)
 	private Employee leader;
 
 	@Override
