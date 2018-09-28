@@ -83,6 +83,12 @@
                viewType: 'quit',
                leaf: true
            }
+            ,{
+                text: '薪资',
+                iconCls: 'x-fa fa-address-card',
+                viewType: 'salarypay',
+                leaf: true
+            }
         ]
     }
 });

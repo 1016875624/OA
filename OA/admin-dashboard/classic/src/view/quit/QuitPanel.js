@@ -157,11 +157,11 @@ Ext.define('Admin.view.quit.QuitPanel', {
 				},
 				hidden:true
 			},*/
-            /*{
+            {
                 xtype:"departmentcombobox",
                 hidden:true,
                 reference:'searchComboboxField',
-            },*/
+            },
 
 			/*'-',{
 				xtype:'datefield',
