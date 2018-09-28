@@ -8,13 +8,18 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.oa.common.beans.BeanUtils;
 import com.oa.employee.entity.Employee;
+import com.oa.employee.entity.EmployeeDTO;
 import com.oa.employee.repository.EmployeeRepository;
+
+
 
 @Service
 @Transactional
@@ -70,6 +75,32 @@ public class EmployeeService implements IEmployeeService{
 	//查询
 	public Page<Employee> findAll(Specification<Employee> spec, Pageable pageable){
 		return employeeRepository.findAll(spec,pageable);
+	}
+	
+	public EmployeeDTO entityToDto(Employee employee) {
+		EmployeeDTO employeeDTO=new EmployeeDTO();
+		BeanUtils.copyProperties(employee, employeeDTO);
+		if (employee.getDepartment()!=null) {
+			employeeDTO.setDepartmentName(employee.getDepartment().getName());
+			employeeDTO.setDepartmentid(employee.getDepartment().getId());
+		}
+		if (employee.getLeader()!=null) {
+			employeeDTO.setLeaderid(employee.getLeader().getId());
+			employeeDTO.setLeaderName(employee.getLeader().getName());
+		}
+		//employeeDTO.setDepartmentName(employee.getDepartment().getName());
+		return employeeDTO;
+	}
+	
+	@Override
+	public Page<EmployeeDTO> findAllInDto(Specification<Employee> spec, Pageable pageable) {
+		Page<Employee> page=findAll(spec, pageable);
+		List<Employee> employees= page.getContent();
+		List<EmployeeDTO> employeeDTOs=new ArrayList<>();
+		for (Employee employee : employees) {
+			employeeDTOs.add(entityToDto(employee));
+		}
+		return new PageImpl<>(employeeDTOs, pageable, employeeDTOs.size());
 	}
 
 	public void deleteAllemployee() {

@@ -27,14 +27,12 @@ public class DepartmentQueryDTO {
 			@Override
 			public Predicate toPredicate(Root<Department> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				List<Predicate> predicate = new ArrayList<>();
-				System.out.println(departmentQueryDTO);
-				
 				
 				if (StringUtils.isNotBlank(departmentQueryDTO.getName())) {
 					predicate.add(criteriaBuilder.like(root.get("name").as(String.class),
 							"%" + departmentQueryDTO.getName() + "%"));
 				}
-				if (null!=departmentQueryDTO.getId()) {
+				if (StringUtils.isNotBlank(departmentQueryDTO.getId())) {
 					predicate.add(criteriaBuilder.equal(root.get("id").as(String.class),
 							departmentQueryDTO.getId()));
 				}
@@ -43,7 +41,6 @@ public class DepartmentQueryDTO {
 
 				}else {
 					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),0));
-
 				}
 				
 				Predicate[] pre = new Predicate[predicate.size()];

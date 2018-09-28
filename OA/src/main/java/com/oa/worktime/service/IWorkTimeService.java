@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.Nullable;
 
 import com.oa.worktime.entity.WorkTime;
+import com.oa.worktime.entity.WorkTimeDTO;
 
 
 
@@ -56,6 +57,8 @@ public interface IWorkTimeService {
 	List<WorkTime> findAllById(Integer ids[]);
 	List<WorkTime> findAll(@Nullable Specification<WorkTime> spec, Sort sort);
 	long count(@Nullable Specification<WorkTime> spec);
+	
+	Page<WorkTimeDTO> findAllInDto(@Nullable Specification<WorkTime> spec, Pageable pageable);
 	
 	void deleteAllById(Integer[]ids);
 }

@@ -24,6 +24,8 @@ import com.oa.employee.entity.Employee;
 import com.oa.employee.entity.EmployeeDTO;
 import com.oa.employee.entity.EmployeeQueryDTO;
 import com.oa.employee.service.IEmployeeService;
+import com.oa.worktime.entity.WorkTime;
+import com.oa.worktime.entity.WorkTimeQueryDTO;
 
 @RestController
 @RequestMapping("/employee")
@@ -50,26 +52,18 @@ public class EmployeeController {
 		try {
 			//Employee entity = employeeService.findById(id).get();
 			employeeService.save(employee);
-			return "success:true";
+			return "添加成功";
 		} catch (Exception e) {
-			return "success:false";
+			return "添加失败";
 		}
 	}
 		
 	//查找分页显示
 	@GetMapping
-	public Page<Employee> getPage(EmployeeQueryDTO employeeQueryDTO , ExtjsPageRequest pageRequest) 
-	{
-		return employeeService.findAll(employeeQueryDTO.getWhereClause(employeeQueryDTO), pageRequest.getPageable());
+	public Page<EmployeeDTO> getPage(EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
+		return employeeService.findAllInDto(EmployeeQueryDTO.getWhereClause(employeeQueryDTO), extjsPageRequest.getPageable());
 	}
-	
-	/*//根据id查找
-	@GetMapping(value="{id}")
-	public Employee getOne(@PathVariable("id") String id) 
-	{
-		return employeeService.findById(id).get();
-	}
-	*/
+
 	
 	//根据id删除
 	@DeleteMapping(value="{id}")
@@ -98,14 +92,32 @@ public class EmployeeController {
 			return new ExtAjaxResponse(true,"批量删除失败！");
 		}
 	}
-	
+	/*
+	//修改更新
+		@PutMapping(value="{id}")
+	    public @ResponseBody ExtAjaxResponse update(@PathVariable("id") String id,@RequestBody Employee employee) {
+			System.out.println("000");
+	    	try {
+	    		Employee entity = employeeService.findById(id).get();
+				if(entity!=null) {
+					BeanUtils.copyProperties(employee, entity);//使用自定义的BeanUtils
+					employeeService.save(entity);
+				}
+	    		return new ExtAjaxResponse(true,"更新成功!");
+		    } catch (Exception e) {
+		    	e.printStackTrace();
+		        return new ExtAjaxResponse(false,"更新失败!");
+		    }
+	    }
+	*/
 	//修改更新
 	@PutMapping(value="{id}")
-    public @ResponseBody ExtAjaxResponse update(@PathVariable("id") String id,@RequestBody Employee employee) {
+    public @ResponseBody ExtAjaxResponse update(@PathVariable("id") String id,@RequestBody EmployeeDTO employeeDTO) {
+		System.out.println("000");
     	try {
     		Employee entity = employeeService.findById(id).get();
 			if(entity!=null) {
-				BeanUtils.copyProperties(employee, entity);//使用自定义的BeanUtils
+				BeanUtils.copyProperties(employeeDTO, entity);//使用自定义的BeanUtils
 				employeeService.save(entity);
 			}
     		return new ExtAjaxResponse(true,"更新成功!");
@@ -114,40 +126,4 @@ public class EmployeeController {
 	        return new ExtAjaxResponse(false,"更新失败!");
 	    }
     }
-	/**
-	 * 测试数据
-	 */
-	@RequestMapping("/data")
-	public String testData() {
-		try {
-			for (int i = 1; i < 10; i++) {
-				Employee employee = new Employee();
-				employee.setId(i+"");
-				employee.setName("a"+i);
-				employee.setPassword("111");
-				employee.setEmail(i+"@qq.com");
-				//employee.setDepartment("测试部");
-				employee.setPosition("测试员"+i);
-				employee.setStatus(i%2);
-				employee.setEntryTime(new Date());
-				employeeService.save(employee);
-			}
-			return "success:true";
-		} catch (Exception e) {
-			return "success:false";
-		}
-	}
-/*	
-	public Object updateUser(@RequestBody UserInfo userEntity)
-	{
-		UserInfo user = userRepositoy.findUserInfoById(userEntity.getId());
-		if (user != null)
-		{
-			user.setName(userEntity.getName());
-			userRepositoy.save(user);
-		}
-		ResultMsg resultMsg = new ResultMsg(ResultStatusCode.OK.getErrcode(), ResultStatusCode.OK.getErrmsg(), null);
-		return resultMsg;
-	}
-*/
 }

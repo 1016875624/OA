@@ -148,7 +148,7 @@
 	/*Check*/	
 	onCheckButton:function(grid, rowIndex, colIndex){
 		var rec = grid.getStore().getAt(rowIndex);
-		var win = Ext.widget('EmployeeCheckWindow');;
+		var win = Ext.widget('employeeCheckWindow');;
 		win.show();
 		win.down("form").getForm().loadRecord(rec);
 		console.log(Ext.ClassManager.getName(win.down("form")));

@@ -19,6 +19,9 @@ public class LeaveDTO {
     private String leaveType;
     private String reason;
     
+    private String employeeId;
+	private String employeeName;
+    
     //状态字段
     private Integer status;
     //private ProcessStatus processStatus;//流程状态
@@ -28,6 +31,19 @@ public class LeaveDTO {
     private Date realityStartTime;
     @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     private Date realityEndTime;
+    
+	public String getEmployeeName() {
+		return employeeName;
+	}
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+	public String getEmployeeId() {
+		return employeeId;
+	}
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
+	}
     
     
     

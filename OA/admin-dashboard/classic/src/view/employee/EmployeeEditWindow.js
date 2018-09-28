@@ -18,13 +18,6 @@ Ext.define('Admin.view.employee.EmployeeEditWindow', {
         padding: '10px',
         ariaLabel: 'Enter your name',
         items: [
-		//{
-            // xtype: 'textfield',
-            // fieldLabel: 'id',
-            // name:'id',
-            // hidden: true,
-            // readOnly: true
-        // }, 
 			{
 				xtype: 'textfield',
 				fieldLabel: '员工id',
@@ -36,11 +29,11 @@ Ext.define('Admin.view.employee.EmployeeEditWindow', {
 			}, {
 				xtype: 'combobox',
 				fieldLabel: '员工部门',
-				name:'department',
+				name:'departmentName',
 				store: Ext.create('Ext.data.Store', {
 	                fields: ['value', 'name'],
 	                data: [
-					{"value":"1","name":"行政部"},
+					{"value":"行政部","name":"行政部"},
 					{"value":"2","name":"人事部"},
 					{"value":"3","name":"财务部"},
 					{"value":"4","name":"技术部"},
@@ -76,7 +69,7 @@ Ext.define('Admin.view.employee.EmployeeEditWindow', {
 			}, {
 				xtype: 'textfield',
 				fieldLabel: '上级领导',
-				name:'leader'
+				name:'leaderName'
 			}, {
 				xtype: 'datefield',
 				fieldLabel: '入职时间',

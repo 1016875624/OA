@@ -49,7 +49,7 @@ public class EmployeeQueryDTO {
 	}
 
 	@SuppressWarnings({ "serial" })
-	public Specification<Employee> getWhereClause(final EmployeeQueryDTO employeeQueryDTO) {
+	public static Specification<Employee> getWhereClause(final EmployeeQueryDTO employeeQueryDTO) {
 		return new Specification<Employee>() {
 			@Override
 			public Predicate toPredicate(Root<Employee> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {

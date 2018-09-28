@@ -1,6 +1,7 @@
 package com.oa.department.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import com.oa.common.web.ExtjsPageRequest;
 import com.oa.department.entity.Department;
 import com.oa.department.entity.DepartmentDTO;
 import com.oa.department.entity.DepartmentQueryDTO;
+import com.oa.department.entity.DepartmentSimpleDTO;
 import com.oa.department.service.IDepartmentService;
 import com.oa.employee.entity.Employee;
 import com.oa.employee.service.IEmployeeService;
@@ -34,22 +36,27 @@ import com.oa.employee.service.IEmployeeService;
 public class DepartmentController {
 	@Autowired
 	private IDepartmentService departmentService;
-	@Autowired
-	private IEmployeeService employeeService;
 	
 	@GetMapping
-	public Page<Department> getPage(DepartmentQueryDTO departmentQueryDTO,ExtjsPageRequest extjsPageRequest){
-		
-		return departmentService.findAll(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
+	public Page<DepartmentSimpleDTO> getPage(DepartmentQueryDTO departmentQueryDTO,ExtjsPageRequest extjsPageRequest){
+		//return departmentService.findAllInDTO(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
+		return departmentService.findAllInSimpleDTO(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
 	}
 	
+	/*
+	 * 
+	@GetMapping
+	public Page<DepartmentDTO> getPage(DepartmentQueryDTO departmentQueryDTO,ExtjsPageRequest extjsPageRequest){
+		return departmentService.findAllInDTO(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
+		//return departmentService.findAllInSimpleDTO(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
+	}
+	*/
+	
 	@PostMapping
-	public ExtAjaxResponse save(DepartmentDTO departmentDTO) 
+	public ExtAjaxResponse save(@RequestBody DepartmentDTO departmentDTO) 
 	{
 		try {
-			
-			Department department=new Department();
-			BeanUtils.copyProperties(departmentDTO, department);
+			Department department=DepartmentDTO.DtoToEntity(departmentDTO);
 			department.setStatus(0);
 			
 			departmentService.save(department);
@@ -60,13 +67,11 @@ public class DepartmentController {
 	}
 	
 	@PutMapping(value="{id}")
-    public ExtAjaxResponse update(@PathVariable("id") String id,DepartmentDTO departmentDTO) {
+    public ExtAjaxResponse update(@PathVariable("id") String id,@RequestBody DepartmentDTO departmentDTO) {
     	try {
-    		Department entity = departmentService.findById(id);
-			if(entity!=null) {
-				BeanUtils.copyProperties(departmentDTO, entity);//使用自定义的BeanUtils
-				departmentService.save(entity);
-			}
+    		Department entity = null;
+			entity=DepartmentDTO.DtoToEntity(departmentDTO);
+			departmentService.update(entity);
     		return new ExtAjaxResponse(true,"更新成功!");
 	    } catch (Exception e) {
 	    	e.printStackTrace();
@@ -75,24 +80,38 @@ public class DepartmentController {
     }
 	
 	@DeleteMapping(value="/{id}")
-	public ExtAjaxResponse deleteQuestion(@PathVariable String id) {
+	public ExtAjaxResponse delete(@PathVariable String id) {
 		try {
 			if(id!=null) {
-				
-				Department department=departmentService.findById(id);
-				List<Employee> emps=department.getEmployees();
-				department.setEmployees(null);
-				for (Employee employee : emps) {
-					employee.setDepartment(null);
-					employeeService.save(employee);
-					
-				}
-				department.setStatus(0);
-				departmentService.save(department);
+				departmentService.deleteById(id);
 			}
 			return new ExtAjaxResponse(true,"删除成功");
 		} catch (Exception e) {
 			return new ExtAjaxResponse(false,"删除失败");
 		}
 	}
+	@RequestMapping("/simpleget")
+	public List<DepartmentSimpleDTO> getDepartmentNames() {
+		/*List<String>names=new ArrayList<>();
+		List<Department>departments=departmentService.findAll();
+		for (Department department : departments) {
+			names.add(department.getName());
+		}*/
+		return departmentService.findAllInSimpleDTO();
+	}
+	@RequestMapping("/deleteMore")
+	public void deleteMore(String []id) {
+		departmentService.deleteAll(id);
+	}
+	
+	/*@RequestMapping("/simpleget1")
+	public List<String> getDepartmentNames1() {
+		List<String>names=new ArrayList<>();
+		List<Department>departments=departmentService.findAll();
+		for (Department department : departments) {
+			names.add(department.getName());
+		}
+		return names;
+		//return departmentService.findAllInSimpleDTO();
+	}*/
 }

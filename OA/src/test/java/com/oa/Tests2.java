@@ -1,11 +1,16 @@
 package com.oa;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.oa.department.entity.Department;
+import com.oa.department.service.IDepartmentService;
 import com.oa.employee.entity.Employee;
 import com.oa.employee.service.IEmployeeService;
 import com.oa.question.entity.Question;
@@ -20,6 +25,8 @@ public class Tests2 {
 	private IWorkTimeService workTimeService;
 	@Autowired
 	private IEmployeeService employeeService;
+	@Autowired
+	private IDepartmentService departmentService;
 	@Test
 	public void testAnswer() {
 		Question question=new Question();
@@ -46,9 +53,19 @@ public class Tests2 {
 	public void worktime() {
 		WorkTime worktime=new WorkTime();
 		Employee emp=new Employee();
-		emp.setId("1");
+		Department department=new Department();
+		department.setId("2");
+		
+		emp.setId("2");
+		List<Employee> e=new ArrayList<>();
+		e.add(0, emp);
+		emp.setDepartment(department);
+		
+		department.setEmployees(e);
 		worktime.setEmployee(emp);
+		departmentService.save(department);
 		employeeService.save(emp);
 		workTimeService.save(worktime);
 	}
+	
 }

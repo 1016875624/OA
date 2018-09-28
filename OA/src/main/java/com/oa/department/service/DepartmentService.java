@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -14,7 +15,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.oa.department.entity.Department;
+import com.oa.department.entity.DepartmentDTO;
+import com.oa.department.entity.DepartmentSimpleDTO;
 import com.oa.department.repository.DepartmentRepository;
+import com.oa.employee.entity.Employee;
+import com.oa.employee.service.EmployeeService;
+import com.oa.employee.service.IEmployeeService;
 
 
  
@@ -24,139 +30,215 @@ public class DepartmentService implements IDepartmentService {
 
 	@Autowired
 	private DepartmentRepository departmentRepository;
+	@Autowired
+	private IEmployeeService employeeService;
+	
 	
 	@Override
 	public Department save(Department entity) {
-		// TODO Auto-generated method stub
-		return departmentRepository.save(entity);
+		Department department=null;
+		if (!departmentRepository.existsById(entity.getId())) {
+			department= departmentRepository.save(entity);
+		}
+		
+		if (!entity.getEmployees().isEmpty()) {
+			for (Employee e : entity.getEmployees()) {
+				Employee emp=employeeService.findById(e.getId()).orElse(null);
+				if (emp==null) {
+					continue;
+				}
+				emp.setDepartment(department);
+				employeeService.save(emp);
+			}
+			
+		}
+		return department;
 	}
 
 	@Override
 	public List<Department> saveAll(List<Department> entities) {
-		// TODO Auto-generated method stub
 		return departmentRepository.saveAll(entities);
 	}
 
 	@Override
 	public Department findById(String id) {
-		// TODO Auto-generated method stub
 		return departmentRepository.findById(id).get();
 	}
 
 	@Override
 	public boolean existsById(String id) {
-		// TODO Auto-generated method stub
 		return departmentRepository.existsById(id);
 	}
 
 	@Override
 	public List<Department> findAll() {
-		// TODO Auto-generated method stub
 		return departmentRepository.findAll();
 	}
 
 	@Override
 	public List<Department> findAllById(List<String> ids) {
-		// TODO Auto-generated method stub
 		return departmentRepository.findAllById(ids);
 	}
 
 	@Override
 	public long count() {
-		// TODO Auto-generated method stub
 		return departmentRepository.count();
 	}
 
 	@Override
 	public void deleteById(String id) {
-		// TODO Auto-generated method stub
-
+		Department department=departmentRepository.findById(id).get();
+		List<Employee>employees=department.getEmployees();
+		department.setEmployees(new ArrayList<>());
+		department.setStatus(-1);
+		for (Employee employee : employees) {
+			employee.setDepartment(null);
+			employeeService.save(employee);
+		}
+		departmentRepository.save(department);
 	}
 
 	@Override
 	public void delete(Department entity) {
-		// TODO Auto-generated method stub
-		departmentRepository.delete(entity);
+		deleteById(entity.getId());
 	}
 
 	@Override
 	public void deleteAll(List<Department> entities) {
-		// TODO Auto-generated method stub
-		departmentRepository.deleteAll(entities);
+		for (Department department : entities) {
+				delete(department);
+		}
 	}
 
 	@Override
 	public void deleteAll(String[] ids) {
-		// TODO Auto-generated method stub
-		
+		for (String string : ids) {
+			deleteById(string);
+		}
 	}
 
 	@Override
 	public void deleteAll() {
-		departmentRepository.deleteAll();
-
+		List<Department>departments=departmentRepository.findAll();
+		for (Department department : departments) {
+			delete(department);
+		}
 	}
 
 	@Override
 	public Page<Department> findAll(Pageable pageable) {
-		// TODO Auto-generated method stub
 		return departmentRepository.findAll(pageable);
 	}
 
 	@Override
 	public List<Department> findAll(Sort sort) {
-		// TODO Auto-generated method stub
 		return departmentRepository.findAll(sort);
 	}
 
 	@Override
 	public Optional<Department> findOne(Specification<Department> spec) {
-		// TODO Auto-generated method stub
 		return departmentRepository.findOne(spec);
 	}
 
 	@Override
 	public List<Department> findAll(Specification<Department> spec) {
-		// TODO Auto-generated method stub
 		return departmentRepository.findAll(spec);
 	}
 
 	@Override
 	public Page<Department> findAll(Specification<Department> spec, Pageable pageable) {
-		// TODO Auto-generated method stub
 		return departmentRepository.findAll(spec, pageable);
 	}
 
 	@Override
 	public List<Department> findAllById(String[] ids) {
 		List<String> idLists = new ArrayList<String>(Arrays.asList(ids));
-		// TODO Auto-generated method stub
 		return departmentRepository.findAllById(idLists);
 	}
 
 	@Override
 	public List<Department> findAll(Specification<Department> spec, Sort sort) {
-		// TODO Auto-generated method stub
 		return departmentRepository.findAll(spec, sort);
 	}
 
 	@Override
 	public long count(Specification<Department> spec) {
-		// TODO Auto-generated method stub
 		return departmentRepository.count(spec);
 	}
 
 	@Override
 	public void deleteAllById(String[] ids) {
-		// TODO Auto-generated method stub
-		List<String> idLists = new ArrayList<String>(Arrays.asList(ids));
-		
-		List<Department> Departments = (List<Department>) departmentRepository.findAllById(idLists);
-		if(Departments!=null) {
-			departmentRepository.deleteAll(Departments);
+		for (String string : ids) {
+			deleteById(string);
+		}
+	}
+	//TODO 这里要进行优化 尽量用一条sql语句解决，而不是遍历
+	@Override
+	public Department update(Department department) {
+		Department d1=departmentRepository.findById(department.getId()).get();
+		//先接解除原来的关系 然后再建立新的关系
+		for (Employee employee : d1.getEmployees()) {
+			employee.setDepartment(null);
+			employeeService.save(employee);
 		}
 		
+		List<Employee>employees=department.getEmployees();
+		//建立新的关系
+		if (!employees.isEmpty()) {
+			for (Employee e : employees) {
+				Employee emp=employeeService.findById(e.getId()).orElse(null);
+				if (emp==null) {
+					continue;
+				}
+				emp.setDepartment(department);
+				employeeService.save(emp);
+			}
+		}
+		//d1.setEmployees(employees);
+		//departmentRepository.save(d1);
+		int status=d1.getStatus();
+		if (department.getStatus()==null) {
+			department.setStatus(status);
+		}
+		departmentRepository.save(department);
+		return department;
 	}
 
+	@Override
+	public Page<DepartmentDTO> findAllInDTO(Specification<Department> spec, Pageable pageable) {
+		Page<Department> departPage=findAll(spec, pageable);
+		List<Department>departments=departPage.getContent();
+		List<DepartmentDTO>departmentDTOs=new ArrayList<>();
+		for (Department department : departments) {
+			departmentDTOs.add(DepartmentDTO.EntityToDTO(department));
+		}
+		return new PageImpl<>(departmentDTOs, pageable, departPage.getTotalElements());
+	}
 
+	@Override
+	public Page<DepartmentSimpleDTO> findAllInSimpleDTO(Specification<Department> spec, Pageable pageable) {
+		Page<Department> departPage=findAll(spec, pageable);
+		List<Department>departments=departPage.getContent();
+		List<DepartmentSimpleDTO>departmentSimpleDTOs=new ArrayList<>();
+		for (Department department : departments) {
+			departmentSimpleDTOs.add(DepartmentSimpleDTO.EntityToDTO(department));
+		}
+		return new PageImpl<>(departmentSimpleDTOs, pageable, departPage.getTotalElements());
+	}
+
+	@Override
+	public List<DepartmentSimpleDTO> findAllInSimpleDTO() {
+		List<Department> departments=findAll();
+		List<DepartmentSimpleDTO>departmentSimpleDTOs=new ArrayList<>();
+		for (Department department : departments) {
+			if (department.getStatus()!=null) {
+				if (department.getStatus()>=0) {
+					departmentSimpleDTOs.add(DepartmentSimpleDTO.EntityToDTO(department));
+				}
+			}
+		}
+		return departmentSimpleDTOs;
+	}
+
+	
 }

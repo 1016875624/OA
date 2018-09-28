@@ -66,31 +66,8 @@ Ext.define('Admin.view.authentication.Login', {
                             cls: 'trigger-glyph-noop auth-password-trigger'
                         }
                     }
-                },{
-                    // items:[
-							// xtype: 'textfield',
-							// cls: 'auth-textbox',
-							// name: 'code',
-							// bind: '{code}',
-							// height: 55,
-							// hideLabel: true,
-							// allowBlank : false,
-							// emptyText: 'user id',
-						// },'-',{
-							// xtype: 'textfield',height: 55,text: '验证码',
-								// renderer: function(value) {
-									// return ;
-								// },
-							// handler: 'onGetCode'
-							// }
-						// },{
-							// xtype: 'textfield',
-							//text: '看不清，换一张',
-							// tooltip: 'Add a new row',
-							// iconCls: 'fa fa-plus',
-							// handler: 'openAddWindow'	
-						// }
-					// ]
+                },
+				{
 					xtype: 'textfield',
                     cls: 'auth-textbox',
                     height: 55,
@@ -106,36 +83,43 @@ Ext.define('Admin.view.authentication.Login', {
                         }
                     }
                 },
-				// {
-                    // xtype: 'button',
-                    // scale: 'large',
-                    // ui: 'gray',
-                    // iconAlign: 'right',
-                    // iconCls: 'x-fa fa-code',
-                    // text: '点击获取验证码',
-                    // listeners: {
-                        // click: 'onGetCode'
-                    // },
-					// hidden:true
-                // },
+				
 				{
-					//xtype:'panel', 
-					height: 55,
-					width: 250,
-					html:'<img src="/verify/code.action"/>' ,
-					//reference:'codeFieldValue'
-					//text:'<img src="/verify/code.action"/>',
-					//hidden:true
-				},{
-					xtype:'button',
-					height: 55,
-					width: 250, 
-					text: '看不清，换一张',
-                    onclick: 'onChangeCode'
-					//reference:'codeFieldValue'
-					//text:'<img src="/verify/code.action"/>',
-					//hidden:true
-				},{
+					items:[{
+							//name:'filename',
+							xtype:'box',
+							width: 225,
+							height: 60,
+							id : 'changeCode',
+							autoEl : {
+							tag : 'img',
+							src : "/verify/code"	//这里需要根据此条数据传过来的文件名动态拿图片							 
+							}
+							// height: 55,
+							// html:'<img src="/verify/code"/>'
+						},{
+							xtype:'button',
+							height: 60,
+							width: 150, 
+							text: '看不清，换一张',
+							listeners: {
+										click: 'onChangeCode'
+										}
+						}]
+				},
+				
+				// { 
+					// height: 55,
+					// width: 250,
+					// html:'<img src="/verify/code.action"/>'
+				// },{
+					// xtype:'button',
+					// height: 55,
+					// width: 250, 
+					// text: '看不清，换一张',
+                    // onclick: 'onChangeCode'
+				// },
+				{
                     xtype: 'button',
                     reference: 'loginButton',
                     scale: 'large',

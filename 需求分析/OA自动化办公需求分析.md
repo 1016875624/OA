@@ -379,3 +379,66 @@ if (ans.length!=realans.length) {
 
 
 
+## Extjs一些常用的方法
+
+### 根据xtype查找
+
+```js
+Ext.ComponentQuery.query(selector, [root]) ：返回一个符合匹配的组件数组
+```
+
+
+
+
+
+
+
+### 根据id获取组件
+
+```js
+var ifield=Ext.getCmp("department_form_id");
+//Ext.getCmp("id");
+//itemid
+//
+var idField=win.getComponent("department_form_id");
+//这个方法要用container才能使用,也就是动态加入的应该不起作用
+//getComponent("itemid")
+
+//根据设置的reference进行查找
+this.lookupReference("reference");
+
+```
+
+### form内部查找
+
+```js
+//这里是xtype 的formobj的内部函数
+formObj.getForm().findField(id/name);
+```
+
+
+
+
+
+
+
+itemid的使用
+
+## 项目中遇到的一些问题总结
+
+### 2018/09/25
+
+extjs今天完全运行不起来，出现这个问题的原因是因为git忽略了一些target/这个文件夹中
+
+这里我添加了一个忽略maven的东西的文件，然后extjs中也有一个target的文件夹，里面存放了一些必备的js文件
+
+这样就会导致extjs完全运行不起来
+
+`解决方案`就是把**target改为项目名/target/**这样就不会让extjs出问题了
+
+如果有多个项目，我们就添加多个忽略的规则
+
+还有一些组员出现了一个问题，就是实体对象在创输到前端，对象成环的问题，还有懒加载异常的问题
+
+
+

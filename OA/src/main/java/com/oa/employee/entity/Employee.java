@@ -27,7 +27,7 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude= {"leader"})
+@ToString(exclude= {"leader","department"})
 public class Employee {
 	/**
 	* @Fields id : id
@@ -48,7 +48,7 @@ public class Employee {
 	/**
 	* @Fields department : 员工部门
 	*/
-	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER)
 	private Department department;
 	/**
 	* @Fields email : 员工邮箱

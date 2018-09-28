@@ -23,8 +23,12 @@ public class LeaveQueryDTO
 
 	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")  
 	private Date endTime;
+	
+	private String leaderId;
 
 	private Integer status;
+	
+	private Employee employee;
 	
 	public void setEmployeeId(String employeeId) {
 		this.employeeId = employeeId;
@@ -57,15 +61,46 @@ public class LeaveQueryDTO
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+	
+	public String getLeaderId() {
+		return leaderId;
+	}
+
+	public void setLeaderId(String leaderId) {
+		this.leaderId = leaderId;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
 
 	@SuppressWarnings({ "serial"})
 	public static Specification<Leave> getWhereClause(final LeaveQueryDTO leaveQueryDTO) {
+//		if (leaveQueryDTO.getEmployeeId()!=null&&!"".equals(leaveQueryDTO.getEmployeeId().trim())) {
+//			Employee employee=new Employee();
+//			employee.setId(leaveQueryDTO.getEmployeeId());
+//			leaveQueryDTO.setEmployee(employee);
+//		}
+//		if (leaveQueryDTO.getLeaderId()!=null&&!"".equals(leaveQueryDTO.getLeaderId().trim())) {
+//			Employee employee=new Employee();
+//			employee.setLeader(leaveQueryDTO.getLeaderId());
+//			leaveQueryDTO.setEmployee(employee);
+//		}
 		return new Specification<Leave>() {
 			@Override
 			public Predicate toPredicate(Root<Leave> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 			
+				
 				List<Predicate> predicate = new ArrayList<>();
-		
+				
+				if (null!=leaveQueryDTO.getLeaderId()) {
+					predicate.add(criteriaBuilder.equal(root.get("employee").get("leader").get("id").as(String.class),
+							leaveQueryDTO.getLeaderId()));
+				}
 				if (null!=leaveQueryDTO.getEmployeeId()) {
 					predicate.add(criteriaBuilder.equal(root.get("employee").get("id").as(String.class),
 							leaveQueryDTO.getEmployeeId()));
@@ -80,9 +115,6 @@ public class LeaveQueryDTO
 				}
 				if (leaveQueryDTO.getStatus()!=null) {
 					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),leaveQueryDTO.getStatus()));
-				}
-				else {
-					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),0));
 				}
 				
 				Predicate[] pre = new Predicate[predicate.size()];

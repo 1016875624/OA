@@ -14,7 +14,7 @@
             url: 'login',
             method: 'post',
             params: {
-                userID: btn.up("form").getForm().findField("userid").getValue(),
+                userId: btn.up("form").getForm().findField("userid").getValue(),
                 password: btn.up("form").getForm().findField("password").getValue(),
 				code: btn.up("form").getForm().findField("code").getValue()
             },
@@ -22,9 +22,8 @@
             	var json = Ext.util.JSON.decode(response.responseText);
 	            if(json.success){
 	            	me.redirectTo('dashboard', true);
-	            	Ext.getCmp('loginUserID').setText(json.map.userID);
+	            	Ext.getCmp('loginUserId').setText(json.map.userId);
 	            	//Ext.getCmp('loginUserImage').getEl().dom.src = json.map.loginUserImage;
-	            
 		        }else{
 		        	Ext.Msg.alert('登录失败', json.msg);
 		        }
@@ -49,15 +48,14 @@
     },
 	
 	onChangeCode:  function() {
-        //this.redirectTo('dashboard', true);
-		Ext.Msg.alert("Title","Click onChangeCode Button");
+			/*Ext.Ajax.request({
+				url: '/verify/code',
+				method: 'get',  
+				success: function(response) {
+            	var o = Ext.getCmp("changeCode").getEl().dom.src="/verify/code?date="+new Date();
+				}				 
+			});*/
+			var o = Ext.getCmp("changeCode").getEl().dom.src="/verify/code?date="+new Date();
+			//Ext.Msg.alert("Title","Click onChangeCode Button");
     },
-	
-	onGetCode : function() {
-		//this.lookupReference('codeFieldValue').show();
-        Ext.Ajax.request({
-            url: '/verify/code.action',
-            method: 'post'
-        });
-    }
 });

@@ -24,11 +24,11 @@
                 //{xtype: 'gridcolumn',width: 40,dataIndex: 'id',text: 'Key',hidden:true},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'id',text: '员工编号',flex: 1},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'name',text: '员工姓名',flex: 1},
-                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'department',text: '所属部门',flex: 1},
+                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'departmentName',text: '所属部门',flex: 1},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'position',text: '职位',flex: 1},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'email',text: '邮箱',flex: 1},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'status',text: '在职状态',flex: 1},
-				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'leader',text: '上级领导',flex: 1},
+				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'leaderName',text: '上级领导',flex: 1},
 				{xtype: 'datecolumn',cls: 'content-column',width: 200,dataIndex: 'entryTime',text: '入职时间',formatter: 'date("Y/m/d H:i:s")'},
                 
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: '操作',tooltip: 'edit ',
@@ -74,9 +74,6 @@
 				reference:'searchDataFieldValue',
 				fieldLabel: 'From',
 				name: 'from_date'
-				//,id:'from_date',
-				//vtype: 'daterange',
-				//endDateField: 'to_date'
 			}, '-',{
 		        text: 'Search',
 		        iconCls: 'fa fa-search',

@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,6 +34,7 @@ public class EmployeeDTO {
 	* @Fields department : 员工部门
 	*/
 	private String departmentid;
+	private String departmentName;
 	/**
 	* @Fields email : 员工邮箱
 	*/
@@ -60,4 +62,5 @@ public class EmployeeDTO {
 	* @Fields leader : 上级
 	*/
 	private String leaderid;
+	private String leaderName;
 }

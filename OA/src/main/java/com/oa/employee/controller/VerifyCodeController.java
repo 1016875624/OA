@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/verify")
 public class VerifyCodeController {
     // 验证码图片的宽度。
-    private int width = 60;
+    private int width = 225;
     // 验证码图片的高度。
-    private int height = 20;
+    private int height = 60;
     // 验证码字符个数
     private int codeCount = 4;
     private int x = 0;
@@ -31,18 +31,21 @@ public class VerifyCodeController {
     private int fontHeight;
     private int codeY;
     //验证码图片上会出现的字母和数字
-    char[] codeSequence = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
-            'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
-            'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+    char[] codeSequence = {
+    		'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J','K', 'L', 'M', 'N', 
+    		'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
+    	    'X', 'Y', 'Z', 
+    		'0','1', '2', '3', '4', '5', '6', '7', '8', '9'
+            };
     /**
      * 初始化验证图片属性
      */
     public void init() throws ServletException {
         // 从web.xml中获取初始信息
         // 宽度
-        String strWidth ="80";
+        String strWidth ="225";
         // 高度
-        String strHeight ="30";
+        String strHeight ="60";
         // 字符个数
         String strCodeCount = "4";
         // 将配置的信息转换成数值
@@ -63,7 +66,7 @@ public class VerifyCodeController {
         codeY = height - 4;
     }
 
-    @RequestMapping(value="/code.action",method= RequestMethod.GET)
+    @RequestMapping(value="/code",method= RequestMethod.GET)
     public void service(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, java.io.IOException {
         init();
@@ -122,28 +125,4 @@ public class VerifyCodeController {
         ImageIO.write(buffImg, "jpeg", sos);
         sos.close();
     }
-    /*//响应前端请求的方法
-    @RequestMapping(value="/checkVerifyCode.action",method= RequestMethod.POST)
-    @ResponseBody
-    public Object checkVerifyCode(@RequestParam(value = "verifyCode") String verifyCode,HttpServletRequest req, HttpServletResponse resp){
-      JSONObject jsobjcet = new JSONObject();
-      String flag = null;
-      if(verifyCode!=null){
-          HttpSession session = req.getSession();
-          //获取图片中的验证码
-          String validateCode= (String) session.getAttribute("validateCode");
-          //输入的与图片中的进行比较
-          if(validateCode!=null&&validateCode.equals(verifyCode.toUpperCase())){
-              jsobjcet.put("valid", true);
-              flag = "true";
-          }else{
-              jsobjcet.put("valid", false);
-              flag = "false";
-          }
-      }else{
-          jsobjcet.put("valid", false);
-          flag = "false";
-      }
-      return flag;
-    }*/
 }
