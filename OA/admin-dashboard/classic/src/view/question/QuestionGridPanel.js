@@ -22,8 +22,10 @@ Ext.define('Admin.view.question.QuestionViewModel', {
                 {xtype: 'gridcolumn',width: 40,dataIndex: 'id',text: '#',hidden:true},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'type',text: '类型',
 					renderer:function(val){
-						if(val=='1'){
-							return '<span>选择题</span>';
+						if(val=='0'){
+							return '<span>单选题</span>';
+						}else if(val=='1'){
+							return '<span>多选题</span>';
 						}else if(val=='2'){
 							return '<span>填空题</span>';
 						}

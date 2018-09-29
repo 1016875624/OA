@@ -57,25 +57,21 @@
 		
 	/*Quick Search*/	
 	quickSearch:function(btn){
-		var searchField = this.lookupReference('searchFieldName').getValue();
-		var searchValue = this.lookupReference('searchFieldValue').getValue();
-		var searchDataFieldValue = this.lookupReference('searchDataFieldValue').getValue();
-		//var searchDataFieldValue2 = this.lookupReference('searchDataFieldValue2').getValue();
-		
 		var store =	btn.up('gridpanel').getStore();
-		//var store = Ext.getCmp('userGridPanel').getStore();// Ext.getCmp(）需要在questionPanel设置id属性
-		Ext.apply(store.proxy.extraParams, {id:"",name:"",entryTime:""});
+		Ext.apply(store.proxy.extraParams, {type:"",textQuestion:"",realanswer:"",answers:"",status:""});
+		var searchField = this.lookupReference('searchFieldName').getValue();
 		
-		if(searchField==='id'){
-			Ext.apply(store.proxy.extraParams, {id:searchValue});
+		var searchValue = this.lookupReference('searchTextQuesValue').getValue();
+		var searchQuestionTypeValue = this.lookupReference('questionType').getValue();
+		
+		//var store = Ext.getCmp('userGridPanel').getStore();// Ext.getCmp(）需要在questionPanel设置id属性
+		
+		
+		if(searchField==='textQuestion'){
+			Ext.apply(store.proxy.extraParams, {textQuestion:searchValue});
 		}
-		if(searchField==='name'){
-			Ext.apply(store.proxy.extraParams, {name:searchValue});
-		}
-		if(searchField==='entryTime'){
-			Ext.apply(store.proxy.extraParams,{
-				entryTime:Ext.util.Format.date(searchDataFieldValue, 'Y/m/d H:i:s')
-			});
+		if(searchField==='type'){
+			Ext.apply(store.proxy.extraParams, {type:searchQuestionTypeValue});
 		}
 		store.load({params:{start:0, limit:20, page:1}});
 	},
