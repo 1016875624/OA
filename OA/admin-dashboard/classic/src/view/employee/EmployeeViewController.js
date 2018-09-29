@@ -189,5 +189,25 @@
 	},
 	
 	submitSave:function(btn){
+	},
+	
+	//申请类型
+	tbarSelectChangeType:function(box,newValue,oldValue,eOpts){
+		console.log("12356");
+		var searchValue = this.lookupReference('searchFieldValue');
+		var searchDataFieldValue = this.lookupReference('searchDataFieldValue');
+		if(newValue=="leave"){
+			searchValue.setHidden(false);
+			searchDataFieldValue.setHidden(true);
+		}
+		else if(newValue=="change"){
+			searchDataFieldValue.setHidden(false);
+			searchValue.setHidden(true);
+			
+		}
+		else{
+			searchValue.setHidden(true);
+			searchDataFieldValue.setHidden(true);
+		}
 	}
 });

@@ -30,7 +30,7 @@ Ext.define('Admin.view.employee.EmployeeAddWindow', {
 			fieldLabel: '员工部门',
 			xtype:"departmentcombobox",
 	    	reference:'departmentBox',
-	    	name:'departmentid',
+	    	name:'departmentid'
 	    	//hidden:true
         }, {
             xtype: 'textfield',
