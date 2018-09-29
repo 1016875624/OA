@@ -1,6 +1,8 @@
 package com.oa.question.controller;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,7 +37,7 @@ public class QuestionController {
 	}
 	
 	@PostMapping
-	public ExtAjaxResponse save(QuestionDTO questionDTO) 
+	public ExtAjaxResponse save(@RequestBody QuestionDTO questionDTO) 
 	{
 		System.out.println("right here");
 		try {
@@ -49,7 +52,7 @@ public class QuestionController {
 	}
 	
 	@PutMapping(value="{id}")
-    public ExtAjaxResponse update(@PathVariable("id") Integer id,QuestionDTO questionDTO) {
+    public ExtAjaxResponse update(@PathVariable("id") Integer id,@RequestBody QuestionDTO questionDTO) {
     	try {
     		Question entity = questionService.findById(id);
 			if(entity!=null) {
@@ -76,5 +79,20 @@ public class QuestionController {
 			return new ExtAjaxResponse(false,"删除失败");
 		}
 	}
-	
+	@PostMapping(value="/deletes")
+	public ExtAjaxResponse deleteMoreRow(@RequestParam(name="ids") Integer[]ids) {
+		try {
+			if(ids!=null) {
+				List<Question> questions=questionService.findAllById(ids);
+				for (Question question : questions) {
+					question.setStatus(1);
+					questionService.save(question);
+				}
+			}
+			return new ExtAjaxResponse(true,"删除多条成功");
+		} catch (Exception e) {
+			return new ExtAjaxResponse(false,"删除多条失败");
+		}
+		
+	}
 } 
