@@ -1,6 +1,6 @@
-Ext.define('Admin.view.quit.QuitPanel', {
+Ext.define('Admin.view.salarypay.SalarypayPanel', {
     extend: 'Ext.panel.Panel',
-    xtype: 'quitPanel',
+    xtype: 'salarypayPanel',
 
     requires: [
         'Ext.grid.Panel',
@@ -16,25 +16,27 @@ Ext.define('Admin.view.quit.QuitPanel', {
 	
     items: [{
             xtype: 'gridpanel',
-            cls: 'quit-grid',
-			itemId:'quitGridPanel',
-            title: 'quit results',
+            cls: 'salarypay-grid',
+			itemId:'salarypayGridPanel',
+            title: 'salarypay results',
             //routeId: 'user',
-            bind: '{quitLists}',
+            bind: '{salarypayLists}',
             scrollable: false,
             columns: [
                 {xtype: 'gridcolumn',dataIndex: 'id',text: 'id',hidden:true,},
                 {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'employeeName',text: '员工姓名'},
                 {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'departmentName',text: '部门'},
                 
-                {xtype: 'datecolumn', cls: 'content-column',width:150, dataIndex: 'applyDate',text: '申请时间',format:'Y/m/d H:i:s'},
-                {xtype: 'datecolumn', cls: 'content-column',width:150,dataIndex: 'quitDate',text: '离职时间',format:'Y/m/d H:i:s'},
-                
-                {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'reason',text: '离职时间'},
+                {xtype: 'datecolumn', cls: 'content-column',width:150, dataIndex: 'date',text: '发放时间',format:'Y/m/d H:i:s'},
+
+                {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'money',text: '实际工资'},
+                {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'realWorktime',text: '实际工作时间'},
+                {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'worktime',text: '工作时间'},
+                {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'attendRate',text: '出勤率'},
                 {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'status',text: '状态'},
                 //{xtype: 'datecolumn',cls: 'content-column',width: 200,dataIndex: 'orderDate',text: 'orderDate',formatter: 'date("Y/m/d H:i:s")'},
                 
-                {xtype: 'actioncolumn',cls: 'content-column', width: 120,dataIndex: 'bool',text: 'Actions',tooltip: 'edit ',flex:1,
+                {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: 'Actions',tooltip: 'edit ',flex:1,
                     items: [
                         {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'gridModify'},
                         {xtype: 'button',iconCls: 'x-fa fa-close'	,handler: 'gridDelete'},
@@ -69,7 +71,7 @@ Ext.define('Admin.view.quit.QuitPanel', {
                 dock: 'bottom',
                 itemId: 'paginationToolbar',
                 displayInfo: true,
-                bind: '{quitLists}'
+                bind: '{salarypayLists}'
             }],
 			tbar: [
 			{
@@ -82,12 +84,11 @@ Ext.define('Admin.view.quit.QuitPanel', {
 				      	{ name: 'id', value: 'id' },
 				      	{ name: '员工id', value: 'employeeid' },
 						{ name: '员工名称', value: 'employeeName' },
-						{ name: '离职原因', value: 'reason' },
-						{ name: '部门id', value: 'departmentid' },
-						{ name: '部门名称', value: 'departmentName' },
-						{ name: '申请日期', value: 'preApplyDate' },
-						{ name: '离职日期', value: 'preQuitDate' },
-						
+						{ name: '实际工资', value: 'money' },
+						{ name: '实际工作时间', value: 'realWorktime' },
+						{ name: '工作时间', value: 'worktime' },
+						{ name: '出勤率', value: 'attendRate' },
+						{ name: '发放日期', value: 'startDate' },
 				    ]
 				}),
 				//label:'查询类型',
@@ -184,7 +185,7 @@ Ext.define('Admin.view.quit.QuitPanel', {
 				   	proxy: {
 				        type: 'ajax',
 						//url:"/order",
-				        url:'http://localhost:8080/quit/simpleget',
+				        url:'http://localhost:8080/salarypay/simpleget',
 						//url: '~api/search/users'	//mvc url  xxx.json
 					    reader:{
 					    	type:'json',

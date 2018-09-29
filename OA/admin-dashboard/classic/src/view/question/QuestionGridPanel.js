@@ -1,5 +1,4 @@
-
-﻿Ext.define('Admin.view.question.QuestionViewModel', {
+Ext.define('Admin.view.question.QuestionViewModel', {
     extend: 'Ext.panel.Panel',
     xtype: 'questionGridPanel',
     requires: [
@@ -8,8 +7,7 @@
         'Ext.form.field.ComboBox',
         'Ext.selection.CheckboxModel',
         'Ext.form.field.Date',
-        'Ext.grid.column.Date',
-        'Ext.fx.target.Element'
+        'Ext.grid.column.Date'
     ],
     layout: 'fit',
     items: [{
@@ -22,14 +20,13 @@
             selModel: {type: 'checkboxmodel'},
             columns: [
                 {xtype: 'gridcolumn',width: 40,dataIndex: 'id',text: '#',hidden:true},
-                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'textQuestion',text: '题目',flex: 1},
-				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'realanswer',text: '标准答案',flex: 1},
-				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'answers',text: '选择题选项',flex: 1},
-				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'type',text: '类型',
+                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'type',text: '类型',
 					renderer:function(val){
-						if(val=='1'){
-							return '<span>选择题</span>';
-						}else if(val='2'){
+						if(val=='0'){
+							return '<span>单选题</span>';
+						}else if(val=='1'){
+							return '<span>多选题</span>';
+						}else if(val=='2'){
 							return '<span>填空题</span>';
 						}
 						return val;
@@ -37,7 +34,19 @@
 					}
 				
 				},
-				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'status',text: '状态'},
+                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'textQuestion',text: '题目',flex: 1},
+				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'realanswer',text: '标准答案',flex: 1},
+				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'answers',text: '选择题选项',flex: 1},
+				
+				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'status',text: '状态',
+					renderer:function(val){
+						if(val=='0'){
+							return '<span>正常</span>';
+						}
+						return val;
+						
+					}
+				},
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: '操作',tooltip: 'edit ',flex: 1,
                     items: [
                         {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'openEditWindow'},
@@ -57,28 +66,44 @@
 						{ name: '题目类型', value: 'type' }
 				    ]
 				}),
+				emptyText:'选择查询方式',
 	            displayField: 'name',
 	            valueField:'value',
-	            value:'id',
 	            editable: false,
 	            queryMode: 'local',
 	            triggerAction: 'all',
-	            emptyText: 'Select a state...',
+	            
 	            width: 135,
 	            listeners:{
 					select: 'searchComboboxSelectChuang'
 				}
 	        },'-',{
-            	xtype:'textfield',
-            	reference:'searchFieldValue',
-            	name:'orderPanelSearchField'
+	        	xtype:'textfield',
+            	reference:'searchTextQuesValue',
+            	emptyText: '输入题目部分字段',
+            	hidden:true,
+            	hideLabel: true
 		    }, '-',{
 		    	xtype:'combobox',
 		    	name:'type',
+		    	editable:false,
 		    	reference:'questionType',
 		        iconCls: 'fa fa-search',
-		        handler: 'quickSearch',
+		    	hidden:true,
+		    	hideLabel: true,
+		    	emptyText:'选择题目类型',
 		        fieldLabel:'题目类型',
+				store: Ext.create('Ext.data.Store', {
+					fields: ['value', 'name'],
+					data : [
+						{"value":"0", "name":"单选题"},
+						{"value":"1", "name":"多选题"},
+						{"value":"2", "name":"填空题"}
+					]
+				}),
+				queryMode: 'local',
+				displayField: 'name',
+				valueField: 'value'
 		    }, '-',{
 		        text: 'Search',
 		        iconCls: 'fa fa-search',

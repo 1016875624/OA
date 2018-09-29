@@ -23,6 +23,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bouncycastle.jcajce.provider.asymmetric.dsa.DSASigner.detDSA;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -42,6 +43,8 @@ public class SalaryPayQueryDTO {
 	private String employeeid;
 	private String employeeName;
 	
+	
+	private String departmentid;
 	
 	/**
 	* @Fields startDate : 查询的开始时间
@@ -90,9 +93,13 @@ public class SalaryPayQueryDTO {
 	*/
 	private Integer sufWorktime;
 	/**
-	* @Fields attendRate : 出勤率
+	* @Fields preAttendRate : 出勤率
 	*/
-	private Double attendRate;
+	private Double preAttendRate;
+	/**
+	* @Fields sufAttendRate : 出勤率
+	*/
+	private Double sufAttendRate;
 	
 	
 	public static SalaryPay DtoToEntity(SalaryPayQueryDTO salaryPayDTO) {
@@ -110,32 +117,6 @@ public class SalaryPayQueryDTO {
 	}
 	
 	public Specification<SalaryPay> getWhereClause(final SalaryPayQueryDTO salaryPayQueryDTO) {
-		/*return new Specification<SalaryPay>() {
-			@Override
-			public Predicate toPredicate(Root<SalaryPay> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				List<Predicate> predicate = new ArrayList<>();
-				
-				if (StringUtils.isNotBlank(salaryPayQueryDTO.getName())) {
-					predicate.add(criteriaBuilder.like(root.get("name").as(String.class),
-							"%" + salaryPayQueryDTO.getName() + "%"));
-				}
-				if (null!=salaryPayQueryDTO.getId()) {
-					predicate.add(criteriaBuilder.equal(root.get("id").as(String.class),
-							salaryPayQueryDTO.getId()));
-				}
-				if(null!=salaryPayQueryDTO.getStatus()) {
-					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),salaryPayQueryDTO.getStatus()));
-
-				}else {
-					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),0));
-
-				}
-				
-				Predicate[] pre = new Predicate[predicate.size()];
-				return query.where(predicate.toArray(pre)).getRestriction();
-			}
-		};*/
-		
 		return new Specification<SalaryPay>() {
 
 			@Override
@@ -200,7 +181,25 @@ public class SalaryPayQueryDTO {
 					}
 				}
 				
+				if (StringUtils.isNotBlank(salaryPayQueryDTO.getDepartmentid())) {
+					predicate.add(criteriaBuilder.like(root.get("employee").get("department").get("id").as(String.class),
+							"%" + salaryPayQueryDTO.getDepartmentid() + "%"));
+				}
 				
+				if (salaryPayQueryDTO.getPreAttendRate()!=null) {
+					if (salaryPayQueryDTO.getSufAttendRate()!=null) {
+						predicate.add(criteriaBuilder.between(root.get("attendRate").as(Double.class), salaryPayQueryDTO.getPreAttendRate(),
+								salaryPayQueryDTO.getSufAttendRate()
+							));
+						
+					}
+					else {
+						predicate.add(criteriaBuilder.ge(root.get("attendRate").as(Double.class), salaryPayQueryDTO.getPreAttendRate()));
+					}
+				}
+				else if (salaryPayQueryDTO.getSufAttendRate()!=null) {
+					predicate.add(criteriaBuilder.le(root.get("attendRate").as(Double.class), salaryPayQueryDTO.getSufAttendRate()));
+				}
 				
 				Predicate[] pre = new Predicate[predicate.size()];
 				return query.where(predicate.toArray(pre)).getRestriction();
