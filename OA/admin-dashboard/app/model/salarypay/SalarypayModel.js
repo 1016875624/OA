@@ -18,7 +18,8 @@ Ext.define('Admin.model.salarypay.SalarypayModel', {
         {type: 'int',name: 'realWorktime'},
         {type: 'int',name: 'worktime'},
         {type: 'number',name: 'attendRate'},
-	    {type: 'date',name: 'date',dateFormat:'Y/m/d H:i:s'},
+	    {type: 'date',name: 'date',dateFormat:'Y/m/d'},
+        //{type: 'date',name: 'date',dateFormat:'Y/m/d H:i:s'},
 	    {type: 'string',name: 'status'}
 	],
 	proxy: {
