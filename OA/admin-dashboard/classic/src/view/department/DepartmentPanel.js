@@ -25,12 +25,11 @@ Ext.define('Admin.view.department.DepartmentPanel', {
             columns: [
                 {xtype: 'gridcolumn',width: 40,dataIndex: 'id',text: 'id',hidden:true},
                 {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'name',text: '部门名称',flex: 1},
-                //{xtype: 'datecolumn',cls: 'content-column',width: 200,dataIndex: 'orderDate',text: 'orderDate',formatter: 'date("Y/m/d H:i:s")'},
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,dataIndex: 'bool',text: 'Actions',tooltip: 'edit ',
                     items: [
                         {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'gridModify'},
                         {xtype: 'button',iconCls: 'x-fa fa-close'	,handler: 'gridDelete'},
-                        //{xtype: 'button',iconCls: 'x-fa fa-ban'	 	,handler: 'gridDisable'}
+                        {xtype: 'button',iconCls: 'x-fa fa-exchange'	 	,handler: 'gridChange'}
                     ]
                 }
 				

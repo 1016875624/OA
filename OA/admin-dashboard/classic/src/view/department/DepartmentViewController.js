@@ -70,7 +70,7 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 	
 	gridModify:function(grid, rowIndex, colIndex){
 		var rec=grid.getStore().getAt(rowIndex);
-		var win=Ext.widget('departmentWindow');
+		var win=Ext.widget('departmentEditWindow');
 		grid.up('container').add(win);
 		win.show();
 		console.log(Ext.ClassManager.getName(rec));
@@ -104,15 +104,33 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		
 		console.log(Ext.ClassManager.getName(Ext.get('userWindowSave')));
 	},
-	/*userClickDeleteMore:function(btn){
-		var grid= btn.up('gridpanel');
-		console.log(btn);
-		console.log(grid);
-		console.log(Ext.ClassManager.getName(grid));
-		var selects= grid.getSelection();
-		var store=grid.getStore();
-		store.remove(selects);
-	},*/
+	
+	//部门人员管理
+	gridChange:function(grid, rowIndex, colIndex){
+		var rec=grid.getStore().getAt(rowIndex);
+		var win=Ext.widget('departmentChangeWindow');
+		grid.up('container').add(win);
+		win.show();
+		console.log(Ext.ClassManager.getName(rec));
+		console.log(rec);
+		console.log(rec.data);
+		console.log(rec.data.id);
+		console.log(Ext.ClassManager.getName(rec.get('name')));
+		win.down('form').loadRecord(rec);
+		var store = Ext.data.StoreManager.lookup('departmentGridStroe');
+		console.log(Ext.ClassManager.getName(win.down('button')));
+		win.down('button[text=save]').setHandler(function(){
+			var values  = win.down('form').getValues();//获取form数据
+        	var record = store.getById(values.id);//获取id获取store中的数据
+        	record.set(values);
+			
+			win.close();
+			store.load();
+			
+		});
+		
+		console.log(Ext.ClassManager.getName(Ext.get('userWindowSave')));
+	},
 	tbarClickDeleteMore:function(btn){
 		var grid= btn.up('gridpanel');
 		console.log(btn);
@@ -121,8 +139,6 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		var selects= grid.getSelection();
 		var store=grid.getStore();
 		console.log(selects);
-		//var index=selects.
-		//store.remove(selects);
 		var ids=new Array();
 		Ext.Array.each(selects,function(val, index, countriesItSelf){
 			console.log(val);
@@ -135,12 +151,7 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 			url: 'http://localhost:8080/department/deleteMore',
 			method:'post',
 			params:{id:ids},
-			//jsonData:{id:ids},
-			//jsonData:"id:["+ids+"]",
-			//jsonData:"id=["+ids+"]",
 			success: function(response, opts) {
-				//var obj = Ext.decode(response.responseText);
-				//console.dir(obj);
 				store.load();
 			},
 
@@ -151,9 +162,7 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 	},
 	
 	showWindow:function(grid, rowIndex, colIndex){
-		//Ext.m_data=records[0];
 		var rec=grid.getStore().getAt(rowIndex);
-		//grid.setActiveItem(grid.getStore().getAt(rowIndex));
 		Ext.Msg.alert('Title', grid);
 		Ext.Msg.alert('Title', rowIndex);
 		Ext.Msg.alert('Title', colIndex);
@@ -199,7 +208,6 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 			}
 		});
 		
-		//win.loadRecord(Ext.m_data);
 		win.show();
 	},
 	quickSearch:function(btn){

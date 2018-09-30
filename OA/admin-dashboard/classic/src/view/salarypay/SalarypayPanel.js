@@ -27,8 +27,8 @@ Ext.define('Admin.view.salarypay.SalarypayPanel', {
                 {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'employeeName',text: '员工姓名'},
                 {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'departmentName',text: '部门'},
                 
-                {xtype: 'datecolumn', cls: 'content-column',width:150, dataIndex: 'date',text: '发放时间',format:'Y/m/d H:i:s'},
-
+                //{xtype: 'datecolumn', cls: 'content-column',width:150, dataIndex: 'date',text: '发放时间',format:'Y/m/d H:i:s'},
+                {xtype: 'datecolumn', cls: 'content-column',width:150, dataIndex: 'date',text: '发放日期',format:'Y/m/d'},
                 {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'money',text: '实际工资'},
                 {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'realWorktime',text: '实际工作时间'},
                 {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'worktime',text: '工作时间'},
@@ -84,6 +84,7 @@ Ext.define('Admin.view.salarypay.SalarypayPanel', {
 				      	{ name: 'id', value: 'id' },
 				      	{ name: '员工id', value: 'employeeid' },
 						{ name: '员工名称', value: 'employeeName' },
+						{name:'部门',value:'departmentid'},
 						{ name: '实际工资', value: 'money' },
 						{ name: '实际工作时间', value: 'realWorktime' },
 						{ name: '工作时间', value: 'worktime' },
@@ -109,11 +110,18 @@ Ext.define('Admin.view.salarypay.SalarypayPanel', {
 				name:'searchTextField',
 				reference:'searchTextField'
 			},
-			{
+			/*{
 				xtype:'datefield',
 				name:'searchDateField',
 				reference:'searchDateField',
 				format:"Y/m/d H:i:s",
+				hidden:true
+			},*/
+			{
+				xtype:'datefield',
+				name:'searchDateField',
+				reference:'searchDateField',
+				format:"Y/m/d",
 				hidden:true
 			},
 			/*{

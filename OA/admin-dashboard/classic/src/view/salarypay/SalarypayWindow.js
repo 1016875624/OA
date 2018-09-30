@@ -28,9 +28,13 @@ Ext.define('Admin.view.salarypay.SalarypayWindow', {
 		items:[
             {fieldLabel: 'id', name: 'id',hidden:true},
             {fieldLabel: '员工id', name: 'employeeid'},
-            {fieldLabel: '申请日期', name: 'applyDate',xtype:"datefield",format: 'Y/m/d H:i:s'},
-            {fieldLabel: '离职原因', name: 'reason'},
-            {fieldLabel: '离职日期', name: 'salarypayDate',xtype:"datefield",format: 'Y/m/d H:i:s'},
+            {fieldLabel: '员工姓名', name: 'employeeName'},
+            {fieldLabel: '发放日期', name: 'date',xtype:"datefield",format: 'Y/m/d'},
+            {fieldLabel: '状态', name: 'status'},
+            {fieldLabel: '实际工资', name: 'money',xtype:"numberfield"},
+            {fieldLabel: '要求工作时间', name: 'worktime',xtype:"numberfield",allowDecimals:false},
+            {fieldLabel: '实际工作时间', name: 'realWorktime',xtype:"numberfield",allowDecimals:false},
+            {fieldLabel: '出勤率', name: 'attendRate',xtype:"numberfield"},
 		],
 		
 		
