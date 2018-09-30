@@ -1,6 +1,5 @@
-Ext.define('Admin.view.department.DepartmentWindow', {
+Ext.define('Admin.view.department.DepartmentEditWindow', {
     extend:'Ext.window.Window',
-    //alias:'widget.orderWindow',
 	
 	requires: [
         'Ext.grid.Panel',
@@ -8,7 +7,7 @@ Ext.define('Admin.view.department.DepartmentWindow', {
 		'Ext.form.field.ComboBox',
         'Ext.grid.column.Date'
     ],
-	xtype:'departmentWindow',
+	xtype:'departmentEditWindow',
 	autoShow:true,
 	modal:true,
 	layout:'fit',
