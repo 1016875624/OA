@@ -124,6 +124,10 @@ public class SalaryPayQueryDTO {
 					CriteriaBuilder criteriaBuilder) {
 				List<Predicate> predicate = new ArrayList<>();
 				
+				if (salaryPayQueryDTO.getId()!=null) {
+					predicate.add(criteriaBuilder.equal(root.get("id").as(Integer.class), salaryPayQueryDTO.getId()));
+				}
+				
 				if (StringUtils.isNotBlank(salaryPayQueryDTO.getEmployeeName())) {
 					predicate.add(criteriaBuilder.like(root.get("employee").get("name").as(String.class),
 							"%" + salaryPayQueryDTO.getEmployeeName() + "%"));

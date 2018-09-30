@@ -32,7 +32,7 @@ public class SalaryPayController {
 	
 	@GetMapping
 	public Page<SalaryPayDTO> getPage(SalaryPayQueryDTO salaryPayQueryDTO,ExtjsPageRequest extjsPageRequest){
-		
+		System.out.println(salaryPayQueryDTO);
 		//return salaryPayService.findAll(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
 		return salaryPayService.findAllInDTO(salaryPayQueryDTO.getWhereClause(salaryPayQueryDTO), extjsPageRequest.getPageable());
 	}
@@ -68,6 +68,17 @@ public class SalaryPayController {
 		try {
 			if(id!=null) {
 				salaryPayService.deleteById(id);
+			}
+			return new ExtAjaxResponse(true,"删除成功");
+		} catch (Exception e) {
+			return new ExtAjaxResponse(false,"删除失败");
+		}
+	}
+	@RequestMapping("/deleteMore")
+	public ExtAjaxResponse deleteMore(Integer []id) {
+		try {
+			if(id!=null) {
+				salaryPayService.deleteAll(id);
 			}
 			return new ExtAjaxResponse(true,"删除成功");
 		} catch (Exception e) {

@@ -41,6 +41,14 @@ Ext.define('Admin.view.salarypay.SalarypayViewController', {
 	tbarClickAddBtn:function(btn){
 		var win=Ext.widget('salarypayWindow');
 		win.setTitle('添加数据');
+        var form=win.down("form").getForm();;
+        var employeeid=form.findField("employeeid");
+        var employeeeName=form.findField("employeeName");
+        var id=form.findField("id");
+        id.setHidden(true);
+        employeeid.setDisabled(false);
+        employeeeName.setDisabled(false);
+        employeeeName.setHidden(true);
 		btn.up('gridpanel').up('container').add(win);
 		var containner=btn.up('gridpanel').up('container');
 		var grid=btn.up('gridpanel');
@@ -66,6 +74,13 @@ Ext.define('Admin.view.salarypay.SalarypayViewController', {
 	gridModify:function(grid, rowIndex, colIndex){
 		var rec=grid.getStore().getAt(rowIndex);
 		var win=Ext.widget('salarypayWindow');
+		var form=win.down("form");
+		var employeeid=form.getForm().findField("employeeid");
+		var employeeeName=form.getForm().findField("employeeName");
+		var id=form.getForm().findField("id");
+		id.setHidden(true);
+		employeeid.setDisabled(true);
+		employeeeName.setDisabled(true);
 		grid.up('container').add(win);
 		win.show();
 		console.log(Ext.ClassManager.getName(rec));
@@ -244,7 +259,8 @@ Ext.define('Admin.view.salarypay.SalarypayViewController', {
 		if(fieldName.getValue()=="startDate"){
 		    console.log("{'"+nameval+"':'"+m_date.getValue()+"'}");
 		    //val=JSON.parse("'{"+nameval+"':'"+m_date.getValue()+"'}");
-            val=JSON.parse('{"'+nameval+'":"'+Ext.util.Format.date(m_date.getValue(),"Y/m/d H:i:s")+'"}');
+            //val=JSON.parse('{"'+nameval+'":"'+Ext.util.Format.date(m_date.getValue(),"Y/m/d H:i:s")+'"}');
+            val=JSON.parse('{"'+nameval+'":"'+Ext.util.Format.date(m_date.getValue(),"Y/m/d")+'"}');
 		    console.log(val);
 			Ext.apply(store.proxy.extraParams,val);
 		}else if (fieldName.getValue()=="departmentName"||fieldName.getValue()=="departmentid"){
@@ -257,7 +273,7 @@ Ext.define('Admin.view.salarypay.SalarypayViewController', {
 		}
 		
 		//store.load({params:{start:0, limit:20, page:1}});
-		store.load();
+		store.load({params:{page:1}});
 		//Ext.Msg.alert("field",field.getValue());
 		//Ext.Msg.alert("field",field.getValue());
 		//Ext.Msg.alert("value",value.getValue());
@@ -276,7 +292,8 @@ Ext.define('Admin.view.salarypay.SalarypayViewController', {
 		Ext.apply(store.proxy.extraParams, val);
 		//store.load({params:{start:0, limit:20, page:1}});
 		console.log(val);
-		store.load();
+		//store.load();
+        store.load({params:{page:1}});
 		win.close();
 	},
 	tbarSelectChange:function(box, newValue, oldValue, eOpts){
@@ -286,7 +303,7 @@ Ext.define('Admin.view.salarypay.SalarypayViewController', {
 		text.setValue("");
 		date.setValue("");
 		combox.setValue("");
-		if(newValue=="preApplyDate"||newValue=="preSalarypayDate"){
+		if(newValue=="startDate"){
 			text.hide();
 			date.show();
 			combox.hide();
