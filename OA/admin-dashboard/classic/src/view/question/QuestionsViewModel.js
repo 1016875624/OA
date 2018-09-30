@@ -9,7 +9,8 @@ Ext.define('Admin.view.question.QuestionsViewModel', {
         'Ext.data.field.String',
         'Ext.data.field.Date',
         'Ext.data.field.Boolean',
-        'Ext.data.reader.Json'
+        'Ext.data.reader.Json',
+        'Ext.field.InputMask'
     ],
 
     stores: {

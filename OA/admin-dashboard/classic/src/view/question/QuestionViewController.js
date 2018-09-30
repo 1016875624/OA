@@ -11,7 +11,7 @@
          var record = grid.getStore().getAt(rowIndex);
 		//获取选中数据的字段值：console.log(record.get('id')); 或者 console.log(record.data.id);
 		if (record ) {
-			var win = grid.up('container').add(Ext.widget('questionEditWindow'));
+			var win = grid.up('questionGridPanel').up('container').up('container').add(Ext.widget('questionEditWindow'));
 			win.show();
 			win.down('form').getForm().loadRecord(record);
 		}
