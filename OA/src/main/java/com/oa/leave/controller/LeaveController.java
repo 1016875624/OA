@@ -3,6 +3,8 @@ package com.oa.leave.controller;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +98,23 @@ public class LeaveController {
 			Leave leave = leaveService.findOne(id);
 			leave.setStatus(2);
 			leaveService.save(leave);
+			return new ExtAjaxResponse(true,"审核成功！");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ExtAjaxResponse(false,"审核失败！");
+		}
+	}
+	
+	//通过邮箱审核,状态设置为2,表示该表为已审核状态
+	@GetMapping("/approvalByEmail")
+	public ExtAjaxResponse approvalByEmail(@RequestParam(name="id") String id,HttpServletRequest req, HttpServletResponse resp) {
+		try {
+			String idJwt = leaveService.verifyToken(id);
+			Long lId = Long.parseLong(idJwt);
+			Leave leave = leaveService.findOne(lId);
+			leave.setStatus(2);
+			leaveService.save(leave);
+			resp.sendRedirect("http://localhost:8080/closeWindows.html");
 			return new ExtAjaxResponse(true,"审核成功！");
 		} catch (Exception e) {
 			e.printStackTrace();

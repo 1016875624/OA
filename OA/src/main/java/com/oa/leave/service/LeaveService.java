@@ -122,9 +122,7 @@ public class LeaveService implements ILeaveService {
 		String userName = "卢弟弟";
 		String subject = "请假审批表";
 		String leaveJWT = createToken(leave.getId());
-		String praseLeaveJWT = verifyToken(leaveJWT);
-		String lianjie = "http://localhost:8080/leave/approval?id=" + leaveJWT;
-		System.out.println(praseLeaveJWT);
+		String lianjie = "http://localhost:8080/leave/approvalByEmail?id=" + leaveJWT;
 		if(leaveType == "A") {
 			leaveType = "带薪假期";
 		}
