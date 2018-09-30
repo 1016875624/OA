@@ -2,7 +2,7 @@ Ext.define('Admin.view.employee.EmployeeEmailWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.employeeEmailWindow',
     autoShow: true,
-    height: 450,
+    height: 500,
     minHeight: 100,
     minWidth: 300,
     width: 500,
@@ -49,11 +49,11 @@ Ext.define('Admin.view.employee.EmployeeEmailWindow', {
 				}),
 	            displayField: 'name',
 	            valueField:'value',
-	            value:'申请类型',
+	            //value:'申请类型',
 	            editable: false,
 	            queryMode: 'local',
 	            triggerAction: 'all',
-	            emptyText: 'Select a state...',
+	            emptyText: 'Select a Type...',
 	            width: 135,
 	            listeners:{
 					change:'tbarSelectChangeType'
@@ -75,8 +75,8 @@ Ext.define('Admin.view.employee.EmployeeEmailWindow', {
 		    	reference:'departmentBox',
 		    	name:'departmentid'
 			},{
-				xtype: 'textfield',
-				fieldLabel: '申请调部原因',
+				xtype: 'textareafield',
+				fieldLabel: '申请原因',
 				name:'reason'
 			}
 			],
