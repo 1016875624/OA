@@ -40,7 +40,32 @@ public class QuestionController {
 	public ExtAjaxResponse save(@RequestBody QuestionDTO questionDTO) 
 	{
 		System.out.println("right here");
+		String str="";
 		try {
+			if(questionDTO.getType()==0) {
+				
+			}else if(questionDTO.getType()==1) {
+				if(questionDTO.getRealanswerA()!=null&&!"".equals(questionDTO.getRealanswerA().trim())) {
+					str+=questionDTO.getRealanswerA()+"&";
+				}
+				if(questionDTO.getRealanswerB()!=null&&!"".equals(questionDTO.getRealanswerB().trim())) {
+					str+=questionDTO.getRealanswerB()+"&";
+				}
+				if(questionDTO.getRealanswerC()!=null&&!"".equals(questionDTO.getRealanswerC().trim())) {
+					str+=questionDTO.getRealanswerC()+"&";
+				}
+				if(questionDTO.getRealanswerD()!=null&&!"".equals(questionDTO.getRealanswerD().trim())) {
+					str+=questionDTO.getRealanswerD()+"&";
+				}
+				str=str.substring(0, str.length()-1);
+				str=str.trim();
+				//str = str.ToString().RTrim('&');删除一些字符
+				System.out.println("show the result: "+str);
+				questionDTO.setRealanswer(str);
+				
+			}else if(questionDTO.getType()==2) {
+				
+			}
 			Question question=new Question();
 			BeanUtils.copyProperties(questionDTO, question);
 			question.setStatus(0);
