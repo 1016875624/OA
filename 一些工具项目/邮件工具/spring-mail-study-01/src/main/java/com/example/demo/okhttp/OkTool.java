@@ -106,14 +106,75 @@ public class OkTool {
 		return null; 
 	}
 	
-	public static void main(String[] args) throws JsonProcessingException {
+	public String put() throws IOException {
+		Response response=null;
+		FormBody.Builder fb=new FormBody.Builder();
+		if (formData.size()==0) {
+			response=client.newCall(rb.url(url).build()).execute();
+		}else {
+			Set<String>key=formData.keySet();
+			for (String string : key) {
+				fb.add(string, formData.get(string));
+			}
+			response=client.newCall(rb.url(url).put(fb.build()).build()).execute();
+		}
+		url=null;
+		formData.clear();
+		if (response!=null) {
+			return response.body().string();
+		}
+		return null;
+	}
+	
+	public String delete() throws IOException {
+		Response response=null;
+		FormBody.Builder fb=new FormBody.Builder();
+		if (formData.size()==0) {
+			response=client.newCall(rb.url(url).delete().build()).execute();
+		}else {
+			Set<String>key=formData.keySet();
+			for (String string : key) {
+				fb.add(string, formData.get(string));
+			}
+			response=client.newCall(rb.url(url).delete(fb.build()).build()).execute();
+		}
+		url=null;
+		formData.clear();
+		if (response!=null) {
+			return response.body().string();
+		}
+		return null;
+	}
+	
+	public String patch() throws IOException {
+		Response response=null;
+		FormBody.Builder fb=new FormBody.Builder();
+		if (formData.size()==0) {
+			response=client.newCall(rb.url(url).build()).execute();
+		}else {
+			Set<String>key=formData.keySet();
+			for (String string : key) {
+				fb.add(string, formData.get(string));
+			}
+			response=client.newCall(rb.url(url).patch(fb.build()).build()).execute();
+		}
+		url=null;
+		formData.clear();
+		if (response!=null) {
+			return response.body().string();
+		}
+		return null;
+	}
+	
+	public static void main(String[] args) throws IOException {
 		OkTool ok=new OkTool();
-		ok.formData.put("a", "e");
+		/*ok.formData.put("a", "e");
 		ok.formData.put("b", "f");
 		ok.formData.put("c", "g");
-		ok.formData.put("d", "h");
-		ObjectMapper ob=new ObjectMapper();
+		ok.formData.put("d", "h");*/
 		
+		System.out.println(ok.addFormData("date", "20180922").url("http://api.goseek.cn/Tools/holiday").get());
+		ObjectMapper ob=new ObjectMapper();
 	}
 	
 }
