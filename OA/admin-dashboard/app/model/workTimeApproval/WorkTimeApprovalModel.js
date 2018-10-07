@@ -1,8 +1,8 @@
-Ext.define('Admin.model.workTime.WorkTimeModel', {
+Ext.define('Admin.model.workTimeApproval.WorkTimeApprovalModel', {
     extend: 'Admin.model.Base',
-    requires: [
-		'Ext.data.proxy.Rest'
-	],
+//    requires: [
+//		'Ext.data.proxy.Rest'
+//	],
     fields: [
     	{type: 'int',name: 'id'},
 	    {type: 'string',name: 'employeeid'},
@@ -13,7 +13,13 @@ Ext.define('Admin.model.workTime.WorkTimeModel', {
 	    {type:'int',name:'status'}
 	],
 	proxy: {
-		type: 'rest',
-		url: 'http://localhost:8080/workTime',
+		type: 'ajax',
+		url: 'http://localhost:8080/workTime/approval',
+		reader:{
+	    	type:'json',
+	    	rootProperty:'content',
+			totalProperty:'totalElements'
+	    },
+		simpleSortMode: true
 	}
 });

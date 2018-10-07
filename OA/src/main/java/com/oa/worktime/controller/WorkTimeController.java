@@ -1,9 +1,13 @@
 package com.oa.worktime.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,10 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.oa.common.beans.BeanUtils;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.ExtjsPageRequest;
+import com.oa.common.web.SessionUtil;
 import com.oa.department.entity.Department;
 import com.oa.department.service.IDepartmentService;
 import com.oa.employee.entity.Employee;
 import com.oa.employee.service.IEmployeeService;
+import com.oa.leave.entity.LeaveDTO;
 import com.oa.worktime.entity.WorkTime;
 import com.oa.worktime.entity.WorkTimeDTO;
 import com.oa.worktime.entity.WorkTimeQueryDTO;
@@ -50,6 +56,27 @@ public class WorkTimeController {
 		return workTimeService.findAllInDto(WorkTimeQueryDTO.getWhereClause(worktimeQueryDto), extjsPageRequest.getPageable());
 	}
 	
+	@GetMapping(value="approval")
+	public Page<WorkTimeDTO> findworkTimeByLeaderId(WorkTimeQueryDTO worktimeQueryDto,HttpSession session,ExtjsPageRequest extjsPageRequest){
+		
+		Page<WorkTimeDTO> page;
+		//获得当前用户ID
+		//String applicantId = SessionUtil.getUserName(session);
+		String applicantId="user1";
+		//if(applicantId!=null) {
+			worktimeQueryDto.setEmployeeleader(applicantId);
+			worktimeQueryDto.setStatus(2);
+			page = workTimeService.findAllInDto(WorkTimeQueryDTO.getWhereClause(worktimeQueryDto), extjsPageRequest.getPageable());
+		//}else {
+			//page = new PageImpl<WorkTimeDTO>(new ArrayList<WorkTimeDTO>(),extjsPageRequest.getPageable(),0);
+		//}
+		return page;
+	}
+	
+	
+	
+	
+	//发出申请,状态设置为0,表示该表为待审核状态
 	@PostMapping
 	public ExtAjaxResponse save(@RequestBody WorkTimeDTO workTimeDTO) 
 	{
@@ -120,17 +147,33 @@ public class WorkTimeController {
 		}
 		
 	}
-//	
-//	@GetMapping(value="/searchDeparName")
-//	public ExtAjaxResponse searchDeparName()
-//	{
-//		try {
-//			
-//			return departmentService
-//			return new ExtAjaxResponse(true,"查询成功");
-//		} catch (Exception e) {
-//			return new ExtAjaxResponse(false,"查询失败");
-//		}
-//		
-//	}
+	@PostMapping(value="startApproval")
+	public ExtAjaxResponse startApproval(@RequestParam(name="id")Integer id,@RequestParam(name="status")Integer status) {
+		String msg1="";
+		String msg2="";
+		if(status==2) {
+			msg1="等待审批";
+			msg2="提交申请错误";
+		}else if(status==3) {
+			msg1="审批通过";
+			msg2="审批出错";
+		}else if(status==4) {
+			msg1="驳回申请";
+			msg2="驳回申请错误";
+		}
+		try {
+			if(id!=null) {
+				WorkTime workTime=workTimeService.findById(id);
+				workTime.setStatus(status);//2是待审核状态,4是驳回状态,3是审核通过
+				workTimeService.save(workTime);
+			}
+			
+			return new ExtAjaxResponse(true,msg1);
+		} catch (Exception e) {
+			
+			return new ExtAjaxResponse(false,msg2);
+		}
+	}
+	
+	
 }

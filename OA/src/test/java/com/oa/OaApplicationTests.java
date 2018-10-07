@@ -1,5 +1,6 @@
 package com.oa;
 
+import java.io.IOException;
 import java.util.Date;
 
 import org.dom4j.IllegalAddException;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.oa.common.holiday.HolidayQuery;
+import com.oa.common.okhttp.OkTool;
 import com.oa.department.entity.Department;
 import com.oa.department.repository.DepartmentRepository;
 import com.oa.department.service.DepartmentService;
@@ -24,6 +27,9 @@ public class OaApplicationTests {
 	EmployeeService employeeService;
 	@Autowired
 	IDepartmentService departmentService;
+	
+	@Autowired
+	HolidayQuery holidayQuery;
 	@Test
 	public void test() {
 		for (int i = 1; i < 10; i++) {
@@ -41,5 +47,12 @@ public class OaApplicationTests {
 			employeeService.save(employee);
 		}
 	}
-
+	@Test
+	public void testholidayQu() throws IOException {
+		//System.out.println(holidayQuery.queryByApi("20180922"));
+		//System.out.println(holidayQuery.queryByApi("20180922"));
+		//System.out.println(holidayQuery.queryByApi("20180922"));
+		String []strings= {"20180920","20180921","20180922","20180923"};
+		System.out.println(holidayQuery.queryByApi(strings));
+	}
 }

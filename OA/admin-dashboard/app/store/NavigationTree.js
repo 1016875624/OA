@@ -73,6 +73,11 @@
                viewType: 'workTimeCenterPanel',
                leaf: true
            },{
+               text: '审批工时',
+               iconCls: 'x-fa fa-address-card',
+               viewType: 'workTimeApprovalCenterPanel',
+               leaf: true
+           },{
                text: '题库',
                iconCls: 'x-fa fa-address-card',
                viewType: 'questionCenterPanel',

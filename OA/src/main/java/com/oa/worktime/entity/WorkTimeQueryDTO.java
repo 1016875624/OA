@@ -29,6 +29,10 @@ public class WorkTimeQueryDTO {
 	
 	private Employee employee;
 	
+	private String employeeName;
+	
+	private String employeeleader;//上级ID
+	
 	private String departmentName;
 	
 	private String departmentid;
@@ -65,9 +69,9 @@ public class WorkTimeQueryDTO {
 					predicate.add(criteriaBuilder.like(root.get("employee").get("id").as(String.class),
 							"%"+workTimeQueryDTO.getEmployeeid()+"%"));
 				}
-				if(StringUtil.isNotBlank(workTimeQueryDTO.getDepartmentName())) {
+				if(StringUtil.isNotBlank(workTimeQueryDTO.getEmployeeName())) {
 					predicate.add(criteriaBuilder.like(root.get("employee").get("name").as(String.class),
-							"%"+workTimeQueryDTO.getDepartmentName()+"%"));
+							"%"+workTimeQueryDTO.getEmployeeName()+"%"));
 				}
 				if (null!=workTimeQueryDTO.getDate()) {
 					predicate.add(criteriaBuilder.greaterThanOrEqualTo(root.get("date").as(Date.class),
@@ -97,13 +101,18 @@ public class WorkTimeQueryDTO {
 					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),workTimeQueryDTO.getStatus()));
 				}
 				else {
-					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),0));
+					predicate.add(criteriaBuilder.notEqual(root.get("status").as(Integer.class),1));
 				}
 				
 				if (StringUtils.isNotBlank(workTimeQueryDTO.getDepartmentid())) {
 					predicate.add(criteriaBuilder.like(
 							root.get("employee").get("department").get("id").as(String.class),
 							"%"+workTimeQueryDTO.getDepartmentid()+"%"));
+				}
+				if(StringUtils.isNotBlank(workTimeQueryDTO.getEmployeeleader())) {
+					predicate.add(criteriaBuilder.like(
+							root.get("employee").get("leader").get("id").as(String.class), 
+							"%"+workTimeQueryDTO.getEmployeeleader()+"%"));
 				}
 				
 				

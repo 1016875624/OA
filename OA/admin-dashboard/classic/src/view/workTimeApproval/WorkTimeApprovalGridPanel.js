@@ -1,6 +1,6 @@
-Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
+Ext.define('Admin.view.workTimeApproval.WorkTimeApprovalGridPanel', {
     extend: 'Ext.panel.Panel',
-    xtype: 'workTimeGridPanel',
+    xtype: 'workTimeApprovalGridPanel',
     requires: [
     	//'Admin.view.AdvancedVType',
         'Ext.grid.Panel',
@@ -15,9 +15,9 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
     items: [{
             xtype: 'gridpanel',
             cls: 'user-grid',
-            title: 'workTimeGrid Results',
+            title: 'workTimeApprovalGrid Results',
             //routeId: 'user',
-            bind: '{workTimeLists}',
+            bind: '{workTimeApprovalLists}',
             scrollable: false,
             selModel: {type: 'checkboxmodel'},
             columns: [
@@ -29,22 +29,15 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
 				{xtype: 'datecolumn',cls: 'content-column',width: 200,dataIndex: 'date',text: '日期',formatter: 'date("Y/m/d")'},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'status',text: '状态',flex: 1,
 					renderer:function(val){
-						if(val=='0'){
-							return '<span style="color:blue;">待申请</span>';
-						}else if(val=='2'){
+						if(val=='2'){
 							return '<span style="color:orange;">待审批</span>';
-						}else if(val=='3'){
-							return '<span style="color:red;">审批通过</span>';
-						}else if(val=='4'){
-							return '<span style="color:red;">审批不通过</span>';
 						}
 					}
 				},
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: '操作',tooltip: 'edit ',flex: 1,
                     items: [
-                        {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'openEditWindow',tooltip: '修改申请'},
-                        {xtype: 'button',iconCls: 'x-fa fa-close'	,handler: 'deleteOneRow',tooltip:'取消申请'},
-                        {xtype: 'button',iconCls: 'x-fa fa-star'	,handler: 'starWorktimeProcess',tooltip: '发起申请'}
+                        {xtype: 'button', iconCls: 'x-fa fa-pencil' ,reference:"passId",handler: 'passApproval',tooltip: '通过'},
+                        {xtype: 'button',iconCls: 'x-fa fa-close'	,reference:"failId",handler: 'backApproval',tooltip:'驳回'}
                     ]
                 }
             ],
@@ -57,8 +50,6 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
 				    data: [
 				      	{ name: '员工编号', value: 'employeeid' },
 						{ name: '日期'   , value:'date'},
-						{ name: '部门'   , value:'departmentName'},
-						{ name: '状态'   , value:'status'}
 				    ]
 				}),
 	            displayField: 'name',
@@ -80,25 +71,6 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
             	emptyText: '输入员工编号',
             	hidden:true,
             	hideLabel: true
-		    }, '-',{
-		    	xtype:"combobox",
-		    	name:"status",
-		    	store:Ext.create('Ext.data.Store',{
-		    		fields:["name","value"],
-		    		data:[{name:"待申请",value:"0"},{name:"待审核",value:"2"},{name:"审核通过",value:"3"},{name:"审核不通过",value:"4"}]
-		    	}),
-		    	displayField:"name",
-		    	valueField:"value",
-		    	reference:"statusCombo",
-		    	emptyText: '请选择状态',
-		    	editable: false,
-		    	hidden:true,
-		    	queryMode:'local',
-		    },'-',{
-		    	xtype:"departmentcombobox",
-		    	reference:'departmentBox',
-		    	name:'departmentid',
-		    	hidden:true,
 		    },
 		    '-',{
 				xtype: 'datefield',
@@ -146,7 +118,7 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
                 dock: 'bottom',
                 //itemId: 'userPaginationToolbar',
                 displayInfo: true,
-                bind: '{workTimeLists}'
+                bind: '{workTimeApprovalLists}'
             }],
             listeners: {
 				selectionchange: function(selModel, selections){

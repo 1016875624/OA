@@ -1,11 +1,8 @@
-Ext.define('Admin.view.workTime.WorkTimeViewController', {
+Ext.define('Admin.view.workTimeApproval.WorkTimeApprovalViewController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.workTimeViewController',
+    alias: 'controller.workTimeApprovalViewController',
     /********************************************** Controller View *****************************************************/
-    /*Add*/
-	openAddWindow:function(toolbar, rowIndex, colIndex){
-		toolbar.up('panel').up('container').add(Ext.widget('workTimeAddWindow')).show();
-	},
+   
     /*Edit*/
 	openEditWindow:function(grid, rowIndex, colIndex){
          var record = grid.getStore().getAt(rowIndex);
@@ -40,27 +37,8 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		
 	},
 	/********************************************** Submit / Ajax / Rest *****************************************************/
-	/*Add Submit*/	
-	submitAddForm:function(btn){
-		var win    = btn.up('window');
-		var form = win.down('form');
-		var record = Ext.create('Admin.model.workTime.WorkTimeModel');
-		var values  =form.getValues();//获取form数据
-		record.set(values);
-		record.save();
-		Ext.data.StoreManager.lookup('workTimeGridStroe').load();
-		win.close();
-	},
-	/*Edit Submit*/	
-	submitEditForm:function(btn){
-		var win    = btn.up('window');
-		var store = Ext.data.StoreManager.lookup('workTimeGridStroe');
-		var values  = win.down('form').getValues();//获取form数据
-		var record = store.getById(values.id);//获取id获取store中的数据
-		record.set(values);//rest put 
-		//store.load();
-		win.close();
-	},
+	
+	
 		
 	/*Quick Search*/	
 	quickSearch:function(btn){
@@ -201,15 +179,36 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
     },
     
     /*Star worktime Process*/	
-    starWorktimeProcess:function(grid, rowIndex, colIndex){
+    passApproval:function(grid, rowIndex, colIndex){
 		var record = grid.getStore().getAt(rowIndex);
-		if(record.data.status=="0"){
+		Ext.Ajax.request({ 
+			url : 'http://localhost:8080/workTime/startApproval', 
+			method : 'post', 
+			params : {
+				id :record.get("id"),
+				status:"3"
+			}, 
+			success: function(response, options) {
+				var json = Ext.util.JSON.decode(response.responseText);
+				if(json.success){
+					Ext.Msg.alert('操作成功', json.msg, function() {
+					grid.getStore().reload();
+					
+				});
+				}else{
+					Ext.Msg.alert('操作失败', json.msg);
+				}
+			}
+		});
+    },
+		backApproval:function(grid, rowIndex, colIndex){
+			var record = grid.getStore().getAt(rowIndex);
 			Ext.Ajax.request({ 
 				url : 'http://localhost:8080/workTime/startApproval', 
 				method : 'post', 
 				params : {
 					id :record.get("id"),
-					status:"2"
+					status:"4"
 				}, 
 				success: function(response, options) {
 					var json = Ext.util.JSON.decode(response.responseText);
@@ -223,9 +222,6 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 					}
 				}
 			});
-		}else {
-			Ext.Msg.alert("提示","已经提交过申请");
-		}
 		
 	},	
 	/*Check*/	
