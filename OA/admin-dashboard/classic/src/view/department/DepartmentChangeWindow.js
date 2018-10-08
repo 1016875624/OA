@@ -16,12 +16,7 @@ Ext.define('Admin.view.department.DepartmentChangeWindow', {
 	width: 600,
     height: 500,
     layout: 'column',
-    //bodyPadding: 5,
-//    defaults: {
-//        bodyPadding: 15
-//    },
-    //width: 600,
-    //layout: 'column',
+
     viewModel: true,
 
     bodyStyle: "background: transparent",
@@ -34,16 +29,10 @@ Ext.define('Admin.view.department.DepartmentChangeWindow', {
     
 	items:  [
 				{	
-				/*width: 200,
-		        title: '员工部门',
-				xtype:"departmentcombobox",
-		    	reference:'departmentBox',
-		    	name:'departmentid',
-				html: '<p>这里显示部门人员.</p>'
-		        margin: "10 0 0 5",*/
-				//columnWidth: 0.5,
-				xtype: 'layout-center',
-				layout: 'center',
+
+				//xtype: 'layout-center',
+				//layout: 'column',
+				//layout: 'center',
 		        frame: true,
 		        title: '当前部门人员',
 		        icon: null,
@@ -92,7 +81,7 @@ Ext.define('Admin.view.department.DepartmentChangeWindow', {
 	
 	buttons:['->',{
 		id:'departmentWindowSave',
-		text:'save',
+		text:'Save',
 		handler:function(){
 			this.up('window').close();
 		}},{
