@@ -112,14 +112,13 @@ public class LeaveService implements ILeaveService {
 	}
 
 	public void sendMail(Leave leave) {
-		//String userName = leave.getEmployee().getName();
+		String userName = leave.getEmployee().getName();
 		//String receiver = leave.getEmployee().getLeader().getEmail();
-		String receiver = "499859073@qq.com";
-		String startTime = "2018/9/28 15:46:33";
-		String endTime = "2018/10/28 15:46:33";
-		String reason = "弟弟原因";
-		String leaveType = "A";
-		String userName = "卢弟弟";
+		String receiver = leave.getEmployee().getLeader().getEmail();
+		Date startTime = leave.getEndTime();
+		Date endTime = leave.getStartTime();
+		String reason = leave.getReason();
+		String leaveType = leave.getLeaveType();
 		String subject = "请假审批表";
 		String leaveJWT = createToken(leave.getId());
 		String lianjie = "http://localhost:8080/leave/approvalByEmail?id=" + leaveJWT;
