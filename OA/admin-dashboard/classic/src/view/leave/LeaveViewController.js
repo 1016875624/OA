@@ -99,6 +99,7 @@
 			Ext.MessageBox.confirm('提示', '确定要进行删除操作吗？',function(btn, text){
 				if(btn=='yes'){
 					store.remove(record);
+					grid.getStore().reload();
 				}
 			}, this);
 		}else{
