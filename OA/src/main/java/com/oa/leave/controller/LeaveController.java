@@ -60,8 +60,8 @@ public class LeaveController {
     }
 	
 	//修改，状态设置为0,表示该表为待申请状态
-	@PutMapping("update")
-    public @ResponseBody ExtAjaxResponse update(@RequestParam(name="id") Long id,@RequestBody Leave leave) {
+	@PutMapping(value="{id}")
+    public @ResponseBody ExtAjaxResponse update(@PathVariable("id") Long id,@RequestBody Leave leave) {
     	try {
     		Leave entity = leaveService.findOne(id);
     		leave.setStatus(0);
@@ -192,10 +192,12 @@ public class LeaveController {
     public Page<LeaveDTO> findLeaveByApplicantId(LeaveQueryDTO leaveQueryDTO,HttpSession session,ExtjsPageRequest pageable) 
 	{
 		Page<LeaveDTO> page;
-		String applicantId = SessionUtil.getUserName(session);
+		String applicantId = (String) session.getAttribute("userId");
+		System.out.println(applicantId);
 		if(applicantId!=null) {
 			leaveQueryDTO.setEmployeeId(applicantId);
 			page = leaveService.findAllInDto(LeaveQueryDTO.getWhereClause(leaveQueryDTO), pageable.getPageable());
+			System.out.println(LeaveQueryDTO.getWhereClause(leaveQueryDTO));
 		}else {
 			page = new PageImpl<LeaveDTO>(new ArrayList<LeaveDTO>(),pageable.getPageable(),0);
 		}

@@ -32,7 +32,7 @@
             readOnly: true
         },{
 			xtype: 'textfield',
-			name: 'userId',
+			name: 'employeeName',
 			fieldLabel: '请假人',
 			//value:loginUser,
 			allowBlank: false

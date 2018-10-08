@@ -106,9 +106,9 @@ public class LeaveService implements ILeaveService {
 		List<Leave> leaves= page.getContent();
 		List<LeaveDTO> leaveDTOs=new ArrayList<>();
 		for (Leave leave : leaves) {
-			leaveDTOs.add(entityToDto(leave));
+			leaveDTOs.add(LeaveDTO.entityToDTO(leave));
 		}
-		return new PageImpl<>(leaveDTOs, pageable, leaveDTOs.size());
+		return new PageImpl<>(leaveDTOs, pageable, page.getTotalElements());
 	}
 
 	public void sendMail(Leave leave) {

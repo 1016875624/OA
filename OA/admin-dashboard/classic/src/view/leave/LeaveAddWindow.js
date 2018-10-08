@@ -26,18 +26,12 @@
             readOnly: true
         },{
             xtype: 'textfield',
-            fieldLabel: 'processStatus',
-            name:'processStatus',
-            value:'NEW',
+            fieldLabel: 'status',
+            name:'status',
+            value:'0',
             hidden: true,
             readOnly: true
         },{
-			xtype: 'textfield',
-			name: 'userId',
-			fieldLabel: '请假人',
-			//value:loginUser,
-			allowBlank: false
-		},{
 			xtype: 'combobox',
 			name: 'leaveType',
 			fieldLabel: '请假类型',

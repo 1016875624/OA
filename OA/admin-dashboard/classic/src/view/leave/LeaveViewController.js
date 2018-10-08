@@ -11,12 +11,12 @@
 		//获取选中数据的字段值：console.log(record.get('id')); 或者 console.log(record.data.id);
 		
 		if (record ) {
-			if(record.data.processStatus=="NEW"){
+			if(record.data.status=="0"){
 				var win = grid.up('container').add(Ext.widget('leaveEditWindow'));
 				win.show();
 				win.down('form').getForm().loadRecord(record);
 			}else{
-				Ext.Msg.alert('提示', "只可以修改'新建'状态的信息！");
+				Ext.Msg.alert('提示', "只可以修改'待申请'状态的信息！");
 			}
 		}
 	},
