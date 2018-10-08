@@ -39,7 +39,6 @@
 		            }
 				},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'email',text: '邮箱',flex: 1},
-				//{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'status',text: '在职状态',flex: 1},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'leaderName',text: '上级领导',flex: 1},
 				{xtype: 'datecolumn',cls: 'content-column',width: 200,dataIndex: 'entryTime',text: '入职时间',formatter: 'date("Y/m/d")'},
                 {xtype: 'actioncolumn',cls: 'content-column', width: 160,text: '操作',tooltip: 'edit ',

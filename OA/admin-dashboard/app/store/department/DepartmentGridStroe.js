@@ -14,19 +14,19 @@ Ext.define('Admin.store.department.DepartmentGridStroe', {
 	        "orderDate": "2018/09/09 17:50:20"
     	}]
     },*/
-	autoLoad: 'true',
+/*	autoLoad: 'true',
 	autoSync:'true',
 	remoteSort: true,
 	pageSize: 10,
 	sorters: {
 		direction: 'DESC',
 		property: 'id'
-	}
+	}*/
 	
-    /*proxy: {
+    proxy: {
         type: 'rest',
 		//url:"/order",
-        url:'http://localhost:8080/order',
+        url:'http://localhost:8080/department',
 		//url: '~api/search/users'	//mvc url  xxx.json
 	    reader:{
 	    	type:'json',
@@ -36,9 +36,8 @@ Ext.define('Admin.store.department.DepartmentGridStroe', {
 		simpleSortMode: true
     },
 	fields: [
-	    {type: 'int',name: 'id'},
-	    {type: 'date',name: 'orderDate',dateFormat:'Y/m/d H:i:s'},
-	    {type: 'string',name: 'orderNo'}
+	    {type: 'string',name: 'id'},
+	    {type: 'string',name: 'name'}
 	],
     autoLoad: 'true',
 	autoSync:'true',
@@ -47,5 +46,5 @@ Ext.define('Admin.store.department.DepartmentGridStroe', {
 	sorters: {
 		direction: 'DESC',
 		property: 'id'
-	},*/
+	},
 });
