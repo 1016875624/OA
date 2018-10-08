@@ -27,9 +27,8 @@
 	/*combobox选中后控制对应输入（文本框和日期框）框显示隐藏*/
 	searchComboboxSelectChuang:function(combo,record,index){
 		//alert(record.data.name);
-		/*
 		var searchField = this.lookupReference('searchFieldName').getValue();
-		if(searchField==='createTime'){
+		if(searchField==='leaveTime'){
 			this.lookupReference('searchFieldValue').hide();
 			this.lookupReference('searchDataFieldValue').show();
 			this.lookupReference('searchDataFieldValue2').show();
@@ -37,7 +36,7 @@
 			this.lookupReference('searchFieldValue').show();
 			this.lookupReference('searchDataFieldValue').hide();
 			this.lookupReference('searchDataFieldValue2').hide();
-		}*/
+		}
 	},
 	/********************************************** Submit / Ajax / Rest *****************************************************/
 	/*Add Submit*/	
@@ -66,6 +65,7 @@
 		var searchField = this.lookupReference('searchFieldName').getValue();
 		var searchDataFieldValue = this.lookupReference('searchDataFieldValue').getValue();
 		var searchDataFieldValue2 = this.lookupReference('searchDataFieldValue2').getValue();
+		var searchFieldValue = this.lookupReference('searchFieldValue').getValue();
 
 		var store =	btn.up('gridpanel').getStore();
 		//var store = Ext.getCmp('userGridPanel').getStore();// Ext.getCmp(）需要在LeavePanel设置id属性
@@ -76,6 +76,11 @@
 				endTime:Ext.util.Format.date(searchDataFieldValue2, 'Y/m/d H:i:s')
 			});
 		}
+		else if(searchField==='status'){
+			Ext.apply(store.proxy.extraParams,{
+				status:searchFieldValue,
+			});
+		}
 		store.load({params:{start:0, limit:20, page:1}});
 	},
 	submitSearchForm:function(btn){
@@ -83,8 +88,9 @@
 		var win = btn.up('window');
 		var form = win.down('form');
 		var values  = form.getValues();
-		Ext.apply(store.proxy.extraParams, {startTime:"",endTime:""});
+		Ext.apply(store.proxy.extraParams, {status:"",startTime:"",endTime:""});
 		Ext.apply(store.proxy.extraParams,{
+			status:values.status,
 			startTime:Ext.util.Format.date(values.startTime, 'Y/m/d H:i:s'),
 			endTime:Ext.util.Format.date(values.endTime, 'Y/m/d H:i:s')
 		});
