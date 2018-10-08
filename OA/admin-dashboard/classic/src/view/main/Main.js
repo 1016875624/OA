@@ -49,13 +49,20 @@
                     id:'loginUserName',
                     cls: 'top-user-name'
                 },{
-                    xtype: 'image',
+                    /*xtype: 'image',
                     cls: 'header-right-profile-image',
                     id:'loginUserImage',
                     height: 35,
                     width: 35,
                     alt:'current user image',
-                    src: 'resources/images/user-profile/2.png'
+                    src: 'resources/images/user-profile/2.png'*/
+                	xtype : "button", 
+                	cls: 'header-right-profile-image',
+                    width : 35,  
+                    height : 35,  
+                    iconCls : 'guestManage',  
+                    ref : 'guestManage',  
+                    handler: 'onClickGridUploadButton'
                 },{
                     iconCls:'x-fa fa-sign-out',
                     ui: 'header',
