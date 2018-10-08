@@ -76,7 +76,7 @@
 		                    }
 		                    return 'x-fa fa-ban';
 		                },
-		                handler: 'cancelLeaveProcess'
+		                handler: 'endLeaveProcess'
 		            }
 				]
 			}

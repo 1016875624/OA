@@ -141,14 +141,13 @@ public class LeaveController {
 
 	
 	//销假,将状态变回3,表示该表为已销假状态
-	@PutMapping("/endleave")
-    public @ResponseBody ExtAjaxResponse endleave(@RequestParam(name="id") Long id,@RequestBody Leave leave) {
+	@PostMapping("/endleave")
+    public @ResponseBody ExtAjaxResponse endleave(@RequestParam(name="id") Long id) {
     	try {
-    		Leave entity = leaveService.findOne(id);
+    		Leave leave = leaveService.findOne(id);
     		leave.setStatus(3);
-			if(entity!=null) {
-				BeanUtils.copyProperties(leave, entity);//使用自定义的BeanUtils
-				leaveService.save(entity);
+			if(leave!=null) {
+				leaveService.save(leave);
 			}
     		return new ExtAjaxResponse(true,"销假成功!");
 	    } catch (Exception e) {

@@ -102,7 +102,7 @@
 				}
 			}, this);
 		}else{
-			Ext.Msg.alert('提示', "只可以删除'新建'状态的信息！");
+			Ext.Msg.alert('提示', "只可以删除'待申请'状态的信息！");
 		}
 	},
 	/*Delete More Rows*/	
@@ -115,7 +115,7 @@
 					var rows = selModel.getSelection();
 					var selectIds = []; //要删除的id
 					Ext.each(rows, function (row) {
-						if(row.data.processStatus=="NEW"){
+						if(row.data.status=="0"){
 							selectIds.push(row.data.id);
 						}
 					});
@@ -164,11 +164,25 @@
 			}
 		});
 	},	
-	/*Cancel Leave Process*/	
-	cancelLeaveProcess:function(grid, rowIndex, colIndex){
-		Ext.Msg.alert("Title","Cancel Leave Process");
-		//先打开销假窗口
-		//填写真开始时间和离开时间
-		//传数据
+	/*End Leave Process*/	
+	endLeaveProcess:function(grid, rowIndex, colIndex){
+		var record = grid.getStore().getAt(rowIndex);
+		Ext.Ajax.request({
+			url : '/leave/endleave',
+			method : 'post', 
+			params : {
+				id :record.get("id")
+			}, 
+			success: function(response, options) {
+				var json = Ext.util.JSON.decode(response.responseText);
+				if(json.success){
+					Ext.Msg.alert('操作成功', json.msg, function() {
+					grid.getStore().reload();
+				});
+				}else{
+					Ext.Msg.alert('操作失败', json.msg);
+				}
+			}
+		});
 	}
 });
