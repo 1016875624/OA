@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.oa.common.holiday.HolidayQuery;
-import com.oa.common.okhttp.OkTool;
+//import com.oa.common.holiday.HolidayQuery;
+//import com.oa.common.okhttp.OkTool;
 import com.oa.department.entity.Department;
 import com.oa.department.repository.DepartmentRepository;
 import com.oa.department.service.DepartmentService;
@@ -29,7 +29,7 @@ public class OaApplicationTests {
 	IDepartmentService departmentService;
 	
 	@Autowired
-	HolidayQuery holidayQuery;
+	//HolidayQuery holidayQuery;
 	@Test
 	public void test() {
 		for (int i = 1; i < 10; i++) {
@@ -53,6 +53,6 @@ public class OaApplicationTests {
 		//System.out.println(holidayQuery.queryByApi("20180922"));
 		//System.out.println(holidayQuery.queryByApi("20180922"));
 		String []strings= {"20180920","20180921","20180922","20180923"};
-		System.out.println(holidayQuery.queryByApi(strings));
+		//System.out.println(holidayQuery.queryByApi(strings));
 	}
 }

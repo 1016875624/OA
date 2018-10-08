@@ -60,8 +60,8 @@ public class LeaveController {
     }
 	
 	//修改，状态设置为0,表示该表为待申请状态
-	@PutMapping("update")
-    public @ResponseBody ExtAjaxResponse update(@RequestParam(name="id") Long id,@RequestBody Leave leave) {
+	@PutMapping(value="{id}")
+    public @ResponseBody ExtAjaxResponse update(@PathVariable("id") Long id,@RequestBody Leave leave) {
     	try {
     		Leave entity = leaveService.findOne(id);
     		leave.setStatus(0);
@@ -141,14 +141,13 @@ public class LeaveController {
 
 	
 	//销假,将状态变回3,表示该表为已销假状态
-	@PutMapping("/endleave")
-    public @ResponseBody ExtAjaxResponse endleave(@RequestParam(name="id") Long id,@RequestBody Leave leave) {
+	@PostMapping("/endleave")
+    public @ResponseBody ExtAjaxResponse endleave(@RequestParam(name="id") Long id) {
     	try {
-    		Leave entity = leaveService.findOne(id);
+    		Leave leave = leaveService.findOne(id);
     		leave.setStatus(3);
-			if(entity!=null) {
-				BeanUtils.copyProperties(leave, entity);//使用自定义的BeanUtils
-				leaveService.save(entity);
+			if(leave!=null) {
+				leaveService.save(leave);
 			}
     		return new ExtAjaxResponse(true,"销假成功!");
 	    } catch (Exception e) {
@@ -192,10 +191,12 @@ public class LeaveController {
     public Page<LeaveDTO> findLeaveByApplicantId(LeaveQueryDTO leaveQueryDTO,HttpSession session,ExtjsPageRequest pageable) 
 	{
 		Page<LeaveDTO> page;
-		String applicantId = SessionUtil.getUserName(session);
+		String applicantId = (String) session.getAttribute("userId");
+		System.out.println(applicantId);
 		if(applicantId!=null) {
 			leaveQueryDTO.setEmployeeId(applicantId);
 			page = leaveService.findAllInDto(LeaveQueryDTO.getWhereClause(leaveQueryDTO), pageable.getPageable());
+			System.out.println(LeaveQueryDTO.getWhereClause(leaveQueryDTO));
 		}else {
 			page = new PageImpl<LeaveDTO>(new ArrayList<LeaveDTO>(),pageable.getPageable(),0);
 		}
