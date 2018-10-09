@@ -140,14 +140,20 @@ public class LeaveService implements ILeaveService {
 		Date endTime = leave.getStartTime();
 		String reason = leave.getReason();
 		String leaveType = leave.getLeaveType();
+		String leaveType2 = "";
 		String subject = "请假审批表";
 		String leaveJWT = createToken(leave.getId());
 		String lianjie = "http://localhost:8080/leave/approvalByEmail?id=" + leaveJWT;
-		if(leaveType == "A") {
-			leaveType = "带薪假期";
+		if(leaveType.equals("A")) {
+			leaveType2 = "带薪假期";
+		}else if(leaveType.equals("B")) {
+			leaveType2 = "无薪假期";
+		}else if(leaveType.equals("C")) {
+			leaveType2 = "病假";
 		}
+		System.out.println(leaveType2);
 		String message = "<div style='height: 500px; width: 540px; margin: 0 auto; background-color: #C1D9F3; padding: 20px 38px 0; border-radius: 8px;'><p>尊敬的领导，您好:</p>\r\n" + 
-				 "<p>&emsp;&emsp;"+ userName +"员工将于"+ startTime +"至"+ endTime +"由于"+ reason +"的原因，向您请"+ leaveType +"。</p>\r\n" + 
+				 "<p>&emsp;&emsp;"+ userName +"员工将于"+ startTime +"至"+ endTime +"由于"+ reason +"的原因，向您请"+ leaveType2 +"。</p>\r\n" + 
 				 "<p>&emsp;&emsp;请单击以下链接进行员工请假审批：</p>\r\n" + 
 				 "&emsp;&emsp;<a href = '"+ lianjie +"'>"+ lianjie +"</a>\r\n" + 
 				 "<p>&emsp;&emsp;本邮件为系统自动发送，不受理回复（本邮件的有效链接为24小时）</p></div>";
