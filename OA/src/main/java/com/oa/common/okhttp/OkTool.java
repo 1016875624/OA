@@ -166,15 +166,15 @@ public class OkTool {
 		return null;
 	}
 	
-	public static void main(String[] args) throws IOException {
+	/*public static void main(String[] args) throws IOException {
 		OkTool ok=new OkTool();
-		/*ok.formData.put("a", "e");
+		ok.formData.put("a", "e");
 		ok.formData.put("b", "f");
 		ok.formData.put("c", "g");
-		ok.formData.put("d", "h");*/
+		ok.formData.put("d", "h");
 		
 		System.out.println(ok.addFormData("date", "20180922").url("http://api.goseek.cn/Tools/holiday").get());
 		ObjectMapper ob=new ObjectMapper();
-	}
+	}*/
 	
 }

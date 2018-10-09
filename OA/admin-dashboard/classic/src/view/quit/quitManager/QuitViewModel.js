@@ -1,4 +1,4 @@
-Ext.define('Admin.view.quit.QuitViewModel', {
+Ext.define('Admin.view.quit.quitManager.QuitViewModel', {
     extend: 'Ext.app.ViewModel',
     alias: 'viewmodel.quitViewModel',
 

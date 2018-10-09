@@ -1,4 +1,4 @@
-﻿Ext.define('Admin.view.quit.Quit', {
+﻿Ext.define('Admin.view.quit.quitManager.Quit', {
     extend: 'Ext.container.Container',
     xtype: 'quit',
     //requires: [],

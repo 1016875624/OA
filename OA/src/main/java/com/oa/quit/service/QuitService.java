@@ -1,7 +1,9 @@
 package com.oa.quit.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +16,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.oa.common.beans.BeanUtils;
+import com.oa.common.date.utils.DateUtils;
 import com.oa.quit.entity.Quit;
 import com.oa.quit.entity.QuitDTO;
 import com.oa.quit.repository.QuitRepository;
@@ -152,6 +156,39 @@ public class QuitService implements IQuitService {
 			quitDTOs.add(QuitDTO.entityToDTO(quit));
 		}
 		return new PageImpl<>(quitDTOs, pageable, qPage.getTotalElements());
+	}
+
+	@Override
+	public void update(Quit quit) {
+		Quit entity=quitRepository.findById(quit.getId()).get();
+		/*if (quit.getApplyDate()!=null) {
+			entity.setApplyDate(quit.getApplyDate());
+		}
+		if (quit.getEmployee()!=null) {
+			entity.setEmployee(quit.getEmployee());
+		}
+		if (quit.getQuitDate()!=null) {
+			entity.setQuitDate(quit.getQuitDate());
+		}
+		if (quit.getReason()!=null) {
+			entity.setReason(quit.getReason());
+		}
+		if (quit.getStatus()!=null) {
+			entity.setStatus(quit.getStatus());
+		}*/
+		BeanUtils.copyProperties(quit, entity);
+		
+	}
+
+	@Override
+	public void approvalPass(Integer[] ids) {
+		Date date=DateUtils.toDate(LocalDateTime.now().plusDays(3));
+		quitRepository.approvalPass(date, ids); 
+	}
+
+	@Override
+	public void approvalNoPass(Integer[] ids) {
+		quitRepository.approvalNoPass(ids);
 	}
 
 }

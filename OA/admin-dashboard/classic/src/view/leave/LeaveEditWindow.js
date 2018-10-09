@@ -25,9 +25,9 @@
             readOnly: true
         },{
             xtype: 'textfield',
-            fieldLabel: 'processStatus',
-            name:'processStatus',
-            value:'NEW',
+            fieldLabel: 'status',
+            name:'status',
+            value:'0',
             hidden: true,
             readOnly: true
         },{

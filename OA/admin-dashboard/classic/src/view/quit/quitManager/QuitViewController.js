@@ -1,5 +1,5 @@
 var quit=Ext.ComponentQuery.query("quit");
-Ext.define('Admin.view.quit.QuitViewController', {
+Ext.define('Admin.view.quit.quitManager.QuitViewController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.quitViewController',
     
@@ -58,6 +58,37 @@ Ext.define('Admin.view.quit.QuitViewController', {
 			
 		});
 	},
+    tbarClickApplyQuitBtn:function(btn){
+        var win=Ext.widget('quitWindow');
+        win.setTitle('申请离职');
+        btn.up('gridpanel').up('container').add(win);
+        var containner=btn.up('gridpanel').up('container');
+        var grid=btn.up('gridpanel');
+        var form1=win.down('form').getForm();
+        form1.findField("employeeid").setHidden(true);
+        form1.findField("status").setHidden(true);
+        form1.findField("quitDate").setHidden(true);
+        //form1.findField("id").setHidden(true);
+        win.down('button[text=save]').setHandler(function(){
+            Ext.Ajax.request({
+                url: 'http://localhost:8080/quit/applyQuit',
+
+                success: function(response, opts) {
+                    var obj = Ext.decode(response.responseText);
+                    console.dir(obj);
+                    grid.getStore().load();
+                },
+
+                failure: function(response, opts) {
+                    console.log('server-side failure with status code ' + response.status);
+                },
+                params:form1.getValues(),
+				method:'post',
+            });
+            win.close();
+
+        });
+	},
 	
 	
 	
@@ -99,6 +130,62 @@ Ext.define('Admin.view.quit.QuitViewController', {
 		
 		console.log(Ext.ClassManager.getName(Ext.get('userWindowSave')));
 	},
+    gridApproval:function(grid, rowIndex, colIndex){
+		var rec=grid.getStore().getAt(rowIndex);
+		var win=Ext.widget('quitApprovalWindow');
+		grid.up('container').add(win);
+		win.show();
+		console.log(Ext.ClassManager.getName(rec));
+		console.log(rec);
+		console.log(rec.data);
+		console.log(rec.data.id);
+		console.log(Ext.ClassManager.getName(rec.get('name')));
+
+		win.down('form').loadRecord(rec);
+		var store = Ext.data.StoreManager.lookup('quitGridStroe');
+		console.log(Ext.ClassManager.getName(win.down('button')));
+		win.down('button[text=通过]').setHandler(function(){
+			var values  = win.down('form').getValues();//获取form数据
+			values.status=1;
+            Ext.Ajax.request({
+                url: 'http://localhost:8080/quit/approval',
+				method:"post",
+				params:values,
+                success: function(response, opts) {
+                    var obj = Ext.decode(response.responseText);
+                    console.dir(obj);
+                    store.load();
+                },
+
+                failure: function(response, opts) {
+                    console.log('server-side failure with status code ' + response.status);
+                }
+            });
+            win.close();
+		});
+
+        win.down('button[text=驳回]').setHandler(function(){
+            var values  = win.down('form').getValues();//获取form数据
+            values.status=2;
+            Ext.Ajax.request({
+                url: 'http://localhost:8080/quit/approval',
+                method:"post",
+                params:values,
+                success: function(response, opts) {
+                    var obj = Ext.decode(response.responseText);
+                    console.dir(obj);
+                    store.load();
+                },
+
+                failure: function(response, opts) {
+                    console.log('server-side failure with status code ' + response.status);
+                }
+            });
+            win.close();
+        });
+
+	},
+
 	/*userClickDeleteMore:function(btn){
 		var grid= btn.up('gridpanel');
 		console.log(btn);
@@ -302,7 +389,129 @@ Ext.define('Admin.view.quit.QuitViewController', {
 		//box.getStore().load();
 		console.log(newValue);
 	},
-	
+
+
+    gridPass:function(grid, rowIndex, colIndex){
+        var rec=grid.getStore().getAt(rowIndex);
+        var store = Ext.data.StoreManager.lookup('quitGridStroe');
+        console.log(rec);
+        console.log(rec.data);
+        values=rec.data;
+        values.status=1;
+        values.quitDate=Ext.util.Format.date(values.quitDate,"Y/m/d H:i:s");
+        delete values.quitDate;
+        delete values.applyDate;
+        Ext.Ajax.request({
+            url: 'http://localhost:8080/quit/approvalPass',
+            //url: 'http://localhost:8080/quit',
+            method:"post",
+            params:values,
+            success: function(response, opts) {
+                var obj = Ext.decode(response.responseText);
+                console.dir(obj);
+                var store1 = Ext.data.StoreManager.lookup('quitGridStroe');
+                store1.load();
+			},
+
+            failure: function(response, opts) {
+                console.log('server-side failure with status code ' + response.status);
+            }
+        });
+    },
+    gridNoPass:function(grid, rowIndex, colIndex){
+        var rec=grid.getStore().getAt(rowIndex);
+        var store = Ext.data.StoreManager.lookup('quitGridStroe');
+        console.log(rec);
+        console.log(rec.data);
+        values=rec.data;
+        values.status=2;
+        values.quitDate=Ext.util.Format.date(values.quitDate,"Y/m/d H:i:s");
+        delete values.quitDate;
+        delete values.applyDate;
+        Ext.Ajax.request({
+            url: 'http://localhost:8080/quit/approvalNoPass',
+            //url: 'http://localhost:8080/quit',
+            method:"post",
+            params:values,
+            success: function(response, opts) {
+                var obj = Ext.decode(response.responseText);
+                console.dir(obj);
+                var store1 = Ext.data.StoreManager.lookup('quitGridStroe');
+                store1.load();
+            },
+
+            failure: function(response, opts) {
+                console.log('server-side failure with status code ' + response.status);
+            }
+        });
+    },
+    tbarClickPassBtn:function(btn){
+        var grid= btn.up('gridpanel');
+
+        var selects= grid.getSelection();
+        var store=grid.getStore();
+        console.log(selects);
+
+        var ids=new Array();
+        Ext.Array.each(selects,function(val, index, countriesItSelf){
+            console.log(val);
+            console.log(val.data);
+            console.log(val.data.id);
+            ids.push(val.get("id"));
+        });
+        console.log(ids);
+        Ext.Ajax.request({
+            url: 'http://localhost:8080/quit/approvalPassMore',
+            method:'post',
+            params:{id:ids},
+            //jsonData:{id:ids},
+            //jsonData:"id:["+ids+"]",
+            //jsonData:"id=["+ids+"]",
+            success: function(response, opts) {
+                //var obj = Ext.decode(response.responseText);
+                //console.dir(obj);
+                store.load();
+            },
+
+            failure: function(response, opts) {
+                console.log('server-side failure with status code ' + response.status);
+            }
+        });
+    },
+
+    tbarClickNoPassBtn:function(btn){
+        var grid= btn.up('gridpanel');
+
+        var selects= grid.getSelection();
+        var store=grid.getStore();
+        console.log(selects);
+
+        var ids=new Array();
+        Ext.Array.each(selects,function(val, index, countriesItSelf){
+            console.log(val);
+            console.log(val.data);
+            console.log(val.data.id);
+            ids.push(val.get("id"));
+        });
+        console.log(ids);
+        Ext.Ajax.request({
+            url: 'http://localhost:8080/quit/approvalNoPassMore',
+            method:'post',
+            params:{id:ids},
+            //jsonData:{id:ids},
+            //jsonData:"id:["+ids+"]",
+            //jsonData:"id=["+ids+"]",
+            success: function(response, opts) {
+                //var obj = Ext.decode(response.responseText);
+                //console.dir(obj);
+                store.load();
+            },
+
+            failure: function(response, opts) {
+                console.log('server-side failure with status code ' + response.status);
+            }
+        });
+    },
 	test:function(){
 		Ext.Msg.alert("test","test");
 	},
