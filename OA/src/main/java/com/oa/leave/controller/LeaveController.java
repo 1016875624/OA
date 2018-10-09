@@ -1,6 +1,8 @@
 package com.oa.leave.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,8 +50,12 @@ public class LeaveController {
     		String applicantId = SessionUtil.getUserName(session);
     		Optional<Employee> employee = employeeService.findById(applicantId);
     		if(applicantId!=null) {
+    			SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    			String time= sdf.format( new Date());
+    			Date date=sdf.parse(time); 
     			leave.setEmployee(employee.orElse(null));
     			leave.setStatus(0);
+    			leave.setApplyTime(date);
         		leaveService.save(leave);
     		}
     		return new ExtAjaxResponse(true,"保存成功!");
@@ -207,12 +213,18 @@ public class LeaveController {
     public Page<LeaveDTO> findLeaveByLeaderId(LeaveQueryDTO leaveQueryDTO,HttpSession session,ExtjsPageRequest pageable) 
 	{
 		Page<LeaveDTO> page;
+		LeaveQueryDTO leaveQueryDTO2 = new LeaveQueryDTO();
+		LeaveQueryDTO leaveQueryDTO3 = new LeaveQueryDTO();
 		//获得当前用户ID
 		String applicantId = (String) session.getAttribute("userId");
 		if(applicantId!=null) {
 			leaveQueryDTO.setLeaderId(applicantId);
 			leaveQueryDTO.setStatus(1);
-			page = leaveService.findAllInDto(LeaveQueryDTO.getWhereClause(leaveQueryDTO), pageable.getPageable());
+			leaveQueryDTO2.setLeaderId(applicantId);
+			leaveQueryDTO2.setStatus(2);
+			leaveQueryDTO3.setLeaderId(applicantId);
+			leaveQueryDTO3.setStatus(3);
+			page = leaveService.findAllApprovalInDto(LeaveQueryDTO.getWhereClause(leaveQueryDTO), LeaveQueryDTO.getWhereClause(leaveQueryDTO2), LeaveQueryDTO.getWhereClause(leaveQueryDTO3), pageable.getPageable());
 		}else {
 			page = new PageImpl<LeaveDTO>(new ArrayList<LeaveDTO>(),pageable.getPageable(),0);
 		}

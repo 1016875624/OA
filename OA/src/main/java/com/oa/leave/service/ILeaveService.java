@@ -21,6 +21,7 @@ public interface ILeaveService {
 	
 	public Page<Leave> findAll(Specification<Leave> spec, Pageable pageable);
 	Page<LeaveDTO> findAllInDto(@Nullable Specification<Leave> spec, Pageable pageable);
+	public Page<LeaveDTO> findAllApprovalInDto(Specification<Leave> spec1,Specification<Leave> spec2,Specification<Leave> spec3, Pageable pageable);
 	public void sendMail(Leave leave);
 	
 	public String createToken(Long id);

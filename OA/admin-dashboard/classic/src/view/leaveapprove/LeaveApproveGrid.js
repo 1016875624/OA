@@ -13,7 +13,7 @@
 				handler: 'onClickLeaveApproveCompleteWindowButton'	//taskDefinitionKey 动态表单
 			},{
 				xtype: 'button',
-				iconCls: 'x-fa fa-object-group',
+				iconCls: 'x-fa fa-close',
 				tooltip: '驳回',
 				handler: 'onClickRejectWindowButton'	//流程跟踪
 			},{
@@ -36,14 +36,12 @@
 		,{header: 'id' 			,dataIndex: 'id',width: 60,sortable: true	,hidden:true}
 		,{header: '状态',dataIndex: 'status',width: 80,sortable: true,
             renderer: function(val) {
-		            if (val =='-1') {
-			            return '<span style="color:green;">已删除</span>';
-			        } else if (val =='0') {
+		            if (val =='0') {
 			            return '<span style="color:blue;">待申请</span>';
-			        } else if (val =='1') {
+			        }else if (val =='1') {
 			            return '<span style="color:orange;">待审批</span>';
 			        }else if (val =='2'){
-			        	return '<span style="color:red;">审批通过</span>';
+			        	return '<span style="color:green;">审批通过</span>';
 			        }else if (val =='3'){
 			        	return '<span style="color:red;">已销假</span>';
 			        }

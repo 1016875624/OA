@@ -12,7 +12,7 @@
 		
 		if (record ) {
 			if(record.data.status=="0"){
-				var win = grid.up('container').add(Ext.widget('LeaveApproveWindow'));
+				var win = grid.up('container').add(Ext.widget('leaveEditWindow'));
 				win.show();
 				win.down('form').getForm().loadRecord(record);
 			}else{
@@ -69,7 +69,7 @@
 
 		var store =	btn.up('gridpanel').getStore();
 		//var store = Ext.getCmp('userGridPanel').getStore();// Ext.getCmp(）需要在LeavePanel设置id属性
-		Ext.apply(store.proxy.extraParams, {startTime:"",endTime:""});
+		Ext.apply(store.proxy.extraParams, {status:"",startTime:"",endTime:""});
 		if(searchField==='leaveTime'){
 			Ext.apply(store.proxy.extraParams,{
 				startTime:Ext.util.Format.date(searchDataFieldValue, 'Y/m/d H:i:s'),
@@ -101,15 +101,14 @@
 	deleteOneRow:function(grid, rowIndex, colIndex){
 		var store = grid.getStore();
 		var record = store.getAt(rowIndex);
-		if(record.data.status=="0"){
+		if(record.data.status=="0"||record.data.status=="3"){
 			Ext.MessageBox.confirm('提示', '确定要进行删除操作吗？',function(btn, text){
 				if(btn=='yes'){
 					store.remove(record);
-					grid.getStore().reload();
 				}
 			}, this);
 		}else{
-			Ext.Msg.alert('提示', "只可以删除'待申请'状态的信息！");
+			Ext.Msg.alert('提示', "只可以删除'待申请'或'已销假'状态的信息！");
 		}
 	},
 	/*Delete More Rows*/	
@@ -122,7 +121,7 @@
 					var rows = selModel.getSelection();
 					var selectIds = []; //要删除的id
 					Ext.each(rows, function (row) {
-						if(row.data.status=="0"){
+						if(row.data.status=="0"||row.data.status=="3"){
 							selectIds.push(row.data.id);
 						}
 					});

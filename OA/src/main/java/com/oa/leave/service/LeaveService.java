@@ -52,9 +52,9 @@ public class LeaveService implements ILeaveService {
 	//根据ID删除,状态设置为-1,表示该表为删除状态
 	public void delete(Long id) {
 		Leave leave = leaveRepository.findById(id).get();
-		if(leave != null){
-			leave.setStatus(-1);
-			leaveRepository.save(leave);
+		if(leave!=null){
+			leave.setEmployee(null);
+			leaveRepository.delete(leave);
 		}
 	}
 
@@ -64,8 +64,8 @@ public class LeaveService implements ILeaveService {
 		
 		List<Leave> leaves = (List<Leave>) leaveRepository.findAllById(idLists);
 		for (Leave leave : leaves) {
-			leave.setStatus(-1);
-			leaveRepository.save(leave);
+			leave.setEmployee(null);
+			leaveRepository.delete(leave);
 		}
 	}
 	
@@ -106,6 +106,27 @@ public class LeaveService implements ILeaveService {
 		List<Leave> leaves= page.getContent();
 		List<LeaveDTO> leaveDTOs=new ArrayList<>();
 		for (Leave leave : leaves) {
+			leaveDTOs.add(LeaveDTO.entityToDTO(leave));
+		}
+		return new PageImpl<>(leaveDTOs, pageable, page.getTotalElements());
+	}
+	
+	//将需要查询的entity类封装到dto
+	public Page<LeaveDTO> findAllApprovalInDto(Specification<Leave> spec1,Specification<Leave> spec2,Specification<Leave> spec3, Pageable pageable) {
+		Page<Leave> page=findAll(spec1, pageable);
+		List<Leave> leaves= page.getContent();
+		Page<Leave> page2=findAll(spec2, pageable);
+		List<Leave> leaves2= page2.getContent();
+		Page<Leave> page3=findAll(spec3, pageable);
+		List<Leave> leaves3= page3.getContent();
+		List<LeaveDTO> leaveDTOs=new ArrayList<>();
+		for (Leave leave : leaves) {
+			leaveDTOs.add(LeaveDTO.entityToDTO(leave));
+		}
+		for (Leave leave : leaves2) {
+			leaveDTOs.add(LeaveDTO.entityToDTO(leave));
+		}
+		for (Leave leave : leaves3) {
 			leaveDTOs.add(LeaveDTO.entityToDTO(leave));
 		}
 		return new PageImpl<>(leaveDTOs, pageable, page.getTotalElements());
