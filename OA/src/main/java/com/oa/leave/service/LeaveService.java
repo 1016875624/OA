@@ -151,7 +151,7 @@ public class LeaveService implements ILeaveService {
 		String sId = String.valueOf(id);
 		Date iatDate = new Date();
         Calendar nowTime = Calendar.getInstance();
-        nowTime.add(Calendar.MINUTE,100);
+        nowTime.add(Calendar.MINUTE,1440);
         Date expiresDate = nowTime.getTime();
  
         Map<String,Object> map = new HashMap<String,Object>();

@@ -109,7 +109,7 @@
 			store:Ext.create("Ext.data.Store", {
 				fields: ["name", "value"],
 				data: [{ name: '所有', value: '' }
-						,{ name: '待申请', value: '-1' }
+						,{ name: '已删除', value: '-1' }
 						,{ name: '待申请', value: '0' }
 						,{ name: '待审批', value: '1' }
 						,{ name: '审批通过', value: '2' }
