@@ -76,7 +76,7 @@
 		                    }
 		                    return 'x-fa fa-ban';
 		                },
-		                handler: 'cancelLeaveProcess'
+		                handler: 'endLeaveProcess'
 		            }
 				]
 			}
@@ -87,7 +87,9 @@
 			hideLabel: true,
 			store:Ext.create("Ext.data.Store", {
 				fields: ["name", "value"],
-				data: [{ name: '请假时间', value: 'leaveTime' }]
+				data: [{ name: '请假时间', value: 'leaveTime' }
+						,{ name: '状态', value: 'status' }
+				]
 			}),
 			displayField: 'name',
 			valueField:'value',
@@ -101,6 +103,30 @@
 				select: 'searchComboboxSelectChuang'
 			}
 		}, '-',{
+			xtype: 'combobox',
+			hideLabel: true,
+			hidden: true,
+			store:Ext.create("Ext.data.Store", {
+				fields: ["name", "value"],
+				data: [{ name: '所有', value: '' }
+						,{ name: '已删除', value: '-1' }
+						,{ name: '待申请', value: '0' }
+						,{ name: '待审批', value: '1' }
+						,{ name: '审批通过', value: '2' }
+						,{ name: '已销假', value: '3' }
+				]
+			}),
+			displayField: 'name',
+			valueField:'value',
+			value:'',
+			reference:'searchFieldValue',
+			editable: false,
+			queryMode: 'local',
+			triggerAction: 'all',
+			width: 135,
+			fieldLabel: 'status',
+			name: 'status'
+		},'-',{
 			xtype: 'datefield',
 			hideLabel: true,
 			//hidden:true,

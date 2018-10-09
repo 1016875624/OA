@@ -2,8 +2,12 @@ package com.oa.leave.entity;
 
 import java.util.Date;
 
+import org.springframework.beans.BeanUtils;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.Data;
+@Data
 public class LeaveDTO {
 	/**------------业务数据--------------**/
 	/*请假*/
@@ -46,6 +50,16 @@ public class LeaveDTO {
 	}
     
     
+	public static LeaveDTO entityToDTO(Leave leave) {
+		LeaveDTO leaveDTO=new LeaveDTO();
+		BeanUtils.copyProperties(leave, leaveDTO);
+		if (leave.getEmployee()!=null) {
+			leaveDTO.setEmployeeId(leave.getEmployee().getId());
+			leaveDTO.setEmployeeName(leave.getEmployee().getName());
+		}
+		return leaveDTO;
+	}
+	
     
 //    /**------------流程数据--------------**/
 //    /*任务*/

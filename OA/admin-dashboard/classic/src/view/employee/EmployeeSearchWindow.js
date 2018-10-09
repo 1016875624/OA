@@ -1,6 +1,7 @@
 ﻿Ext.define('Admin.view.employee.EmployeeSearchWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.employeeSearchWindow',
+    autoShow: true,
     height: 300,
     minHeight: 300,
     minWidth: 300,

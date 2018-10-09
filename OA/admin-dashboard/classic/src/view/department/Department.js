@@ -10,5 +10,4 @@
     	
     layout: 'fit',
     items: [{xtype:'departmentPanel'}]
-    //html:'订单管理模块'
 })

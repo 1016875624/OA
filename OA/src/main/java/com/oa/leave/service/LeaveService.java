@@ -106,20 +106,19 @@ public class LeaveService implements ILeaveService {
 		List<Leave> leaves= page.getContent();
 		List<LeaveDTO> leaveDTOs=new ArrayList<>();
 		for (Leave leave : leaves) {
-			leaveDTOs.add(entityToDto(leave));
+			leaveDTOs.add(LeaveDTO.entityToDTO(leave));
 		}
-		return new PageImpl<>(leaveDTOs, pageable, leaveDTOs.size());
+		return new PageImpl<>(leaveDTOs, pageable, page.getTotalElements());
 	}
 
 	public void sendMail(Leave leave) {
-		//String userName = leave.getEmployee().getName();
+		String userName = leave.getEmployee().getName();
 		//String receiver = leave.getEmployee().getLeader().getEmail();
-		String receiver = "499859073@qq.com";
-		String startTime = "2018/9/28 15:46:33";
-		String endTime = "2018/10/28 15:46:33";
-		String reason = "弟弟原因";
-		String leaveType = "A";
-		String userName = "卢弟弟";
+		String receiver = leave.getEmployee().getLeader().getEmail();
+		Date startTime = leave.getEndTime();
+		Date endTime = leave.getStartTime();
+		String reason = leave.getReason();
+		String leaveType = leave.getLeaveType();
 		String subject = "请假审批表";
 		String leaveJWT = createToken(leave.getId());
 		String lianjie = "http://localhost:8080/leave/approvalByEmail?id=" + leaveJWT;
@@ -152,7 +151,7 @@ public class LeaveService implements ILeaveService {
 		String sId = String.valueOf(id);
 		Date iatDate = new Date();
         Calendar nowTime = Calendar.getInstance();
-        nowTime.add(Calendar.MINUTE,100);
+        nowTime.add(Calendar.MINUTE,1440);
         Date expiresDate = nowTime.getTime();
  
         Map<String,Object> map = new HashMap<String,Object>();

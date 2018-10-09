@@ -2,7 +2,7 @@ Ext.define('Admin.view.employee.EmployeeEditWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.employeeEditWindow',
     autoShow: true,
-    height: 450,
+    height: 600,
     minHeight: 100,
     minWidth: 300,
     width: 500,
@@ -23,12 +23,31 @@ Ext.define('Admin.view.employee.EmployeeEditWindow', {
 				xtype: 'textfield',
 				fieldLabel: '员工编号',
 				name:'id'
-			}, {
+			}, 
+			/*{
+				items:[
+					{
+						xtype:'box',
+						fieldLabel: '查看头像',
+						name: 'profile_pic',
+							renderer: function(value) {
+								return "<img src='resources/images/user-profile/2.png" + value + "' alt='Profile Pic' '>";
+							}
+					},
+					{
+						xtype:'button',
+						text: '修改头像',
+				        tooltip: '点击上传头像',
+				        iconCls:'fa fa-upload',
+				        //handler: 'onClickProcessDefinitionGridUploadButton'	
+				        handler: 'onClickEmployeeGridUploadButton'
+					}]
+			},*/
+			{
 				xtype: 'textfield',
 				fieldLabel: '员工姓名',
 				name:'name'
 			}, {
-				
 				fieldLabel: '员工部门',
 				xtype:"departmentcombobox",
 		    	reference:'departmentBox',
