@@ -1,6 +1,7 @@
 Ext.define('Admin.view.employee.EmployeeAddWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.employeeAddWindow',
+    autoShow: true,
     height: 500,
     minHeight: 100,
     minWidth: 300,
@@ -8,8 +9,7 @@ Ext.define('Admin.view.employee.EmployeeAddWindow', {
     scrollable: true,
     title: 'Add employee Window',
     closable: true,
-    constrain: true,
-    
+    constrain: true,  
     defaultFocus: 'textfield',
     modal:true,
     layout: 'fit',

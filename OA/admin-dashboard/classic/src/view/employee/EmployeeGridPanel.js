@@ -22,7 +22,13 @@
             selModel: {type: 'checkboxmodel'},
             columns: [
                 //{xtype: 'gridcolumn',width: 40,dataIndex: 'id',text: 'Key',hidden:true},
+            	
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'id',text: '员工编号',flex: 1},
+                {xtype: 'gridcolumn',width: 75,dataIndex: 'profile_pic',text: '用户',
+                    renderer: function(value) {
+                        return "<img src='resources/images/user-profile/1.jpg" + "' alt='Profile Pic' height='20px' width='20px'>";
+                    }
+                },
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'name',text: '员工姓名',flex: 1},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'departmentName',text: '所属部门',width: 70,flex: 1},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'position',text: '职位',flex: 1},
