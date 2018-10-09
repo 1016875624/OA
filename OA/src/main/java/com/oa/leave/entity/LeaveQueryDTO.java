@@ -114,7 +114,11 @@ public class LeaveQueryDTO
 							leaveQueryDTO.getEndTime()));
 				}
 				if (leaveQueryDTO.getStatus()!=null) {
-					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),leaveQueryDTO.getStatus()));
+					//predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),leaveQueryDTO.getStatus()));
+					predicate.add(criteriaBuilder.notEqual(root.get("status").as(Integer.class),0));
+					predicate.add(criteriaBuilder.notEqual(root.get("status").as(Integer.class),-1));
+				}else {
+					predicate.add(criteriaBuilder.notEqual(root.get("status").as(Integer.class),-1));
 				}
 				
 				Predicate[] pre = new Predicate[predicate.size()];

@@ -53,8 +53,8 @@ public class LeaveService implements ILeaveService {
 	public void delete(Long id) {
 		Leave leave = leaveRepository.findById(id).get();
 		if(leave!=null){
-			leave.setEmployee(null);
-			leaveRepository.delete(leave);
+			leave.setStatus(-1);
+			leaveRepository.save(leave);
 		}
 	}
 
@@ -64,8 +64,8 @@ public class LeaveService implements ILeaveService {
 		
 		List<Leave> leaves = (List<Leave>) leaveRepository.findAllById(idLists);
 		for (Leave leave : leaves) {
-			leave.setEmployee(null);
-			leaveRepository.delete(leave);
+			leave.setStatus(-1);
+			leaveRepository.save(leave);
 		}
 	}
 	
