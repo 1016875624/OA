@@ -85,8 +85,22 @@
            },{
                text: '离职',
                iconCls: 'x-fa fa-address-card',
-               viewType: 'quit',
-               leaf: true
+               //viewType: 'quit',
+               //leaf: true
+                children:[
+                    {
+                        text: '离职管理',
+                        iconCls: 'x-fa fa-address-card',
+                        viewType: 'quit',
+                        leaf: true
+                    },
+                    {
+                        text:'离职审批',
+                        iconCls: 'x-fa fa-address-card',
+                        viewType: 'quitApproval',
+                        leaf: true
+                    }
+                ]
            }
             ,{
                 text: '薪资',

@@ -1,6 +1,6 @@
-Ext.define('Admin.view.quit.QuitPanel', {
+Ext.define('Admin.view.quit.quitApproval.QuitApprovalPanel', {
     extend: 'Ext.panel.Panel',
-    xtype: 'quitPanel',
+    xtype: 'quitApprovalPanel',
 
     requires: [
         'Ext.grid.Panel',
@@ -8,8 +8,6 @@ Ext.define('Admin.view.quit.QuitPanel', {
 		'Ext.form.field.ComboBox',
         'Ext.grid.column.Date'
     ],
-    //controller: 'searchresults',
-   // viewModel: {type: 'orderViewModel'},
     layout: 'fit',
 	
 	
@@ -30,17 +28,48 @@ Ext.define('Admin.view.quit.QuitPanel', {
                 {xtype: 'datecolumn', cls: 'content-column',width:150, dataIndex: 'applyDate',text: '申请时间',format:'Y/m/d H:i:s'},
                 {xtype: 'datecolumn', cls: 'content-column',width:150,dataIndex: 'quitDate',text: '离职时间',format:'Y/m/d H:i:s'},
                 
-                {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'reason',text: '离职时间'},
-                {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'status',text: '状态'},
+                {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'reason',text: '离职原因时间'},
+                {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'status',text: '状态',renderer:function (val) {
+                        if (val==0){
+                            return"申请中";
+                        }
+                        else if (val==1){
+                            return"申请成功";
+                        }
+                        else if (val==2){
+                            return "驳回申请";
+                        }
+                        else if (val==-1){
+                            return "删除";
+                        }
+                        else if (val<0) {
+                            return "被删除"
+                        }
+
+                    }},
                 //{xtype: 'datecolumn',cls: 'content-column',width: 200,dataIndex: 'orderDate',text: 'orderDate',formatter: 'date("Y/m/d H:i:s")'},
                 
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,dataIndex: 'bool',text: 'Actions',tooltip: 'edit ',flex:1,
                     items: [
-                        {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'gridModify'},
-                        {xtype: 'button',iconCls: 'x-fa fa-close'	,handler: 'gridDelete'},
-                        //{xtype: 'button',iconCls: 'x-fa fa-ban'	 	,handler: 'gridDisable'}
+                        {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'gridApproval'},
+                        {xtype: 'button', iconCls: 'x-fa fa-check' ,handler: 'gridPass',tooltip:'通过'},
+                        {xtype: 'button',iconCls: 'x-fa fa-reply'	,handler: 'gridNoPass',tooltip:'驳回'},
                     ]
-                }
+                },
+				/*{
+					xtype:"gridcolumn",
+                    renderer:function () {
+						return "<button>btn</button>"
+                    }
+					xtype:"gridcolumn",
+                    renderer:function(){
+					    return  [
+                            {xtype:"button",text:"驳回"},
+                            {xtype:"button",text:"通过"}
+                        ]
+                    }
+
+				}*/
 				
             ],
 			// 监听grid事件：
@@ -115,103 +144,13 @@ Ext.define('Admin.view.quit.QuitPanel', {
 				format:"Y/m/d H:i:s",
 				hidden:true
 			},
-			/*{
-				xtype: 'combobox',
-				hideLable:true,
-				reference:'searchComboboxField',
-				store:Ext.create("Ext.data.Store", {
-					fields: ["id", "name"],
-					// data: [
-					// 	  { name: 'id', value: 'id' },
-					// 	{ name: '部门名称', value: 'name' }
-					// ]
-					proxy: {
-						type: 'ajax',
-						//url:"/order",
-						url:'http://localhost:8080/department/simpleget',
-						//url: '~api/search/users'	//mvc url  xxx.json
-						reader:{
-							type:'json',
-							//rootProperty:'content',
-							//totalProperty:'totalElements'
-						},
-						//simpleSortMode: true
-					}
-					,
-					autoLoad: 'true',
-					autoSync:'true',
-				}),
-				//label:'查询类型',
-				displayField:'name',
-				valueField:'id',
-				//value:'id',
-				//value:'订单编号',
-				editable:false,
-				queryMode: 'local',
-				triggerAction: 'all',
-
-				emptyText: 'Select a state...',
-				width: 135,
-				listeners:{
-					//change:'tbarSelectChange'
-				},
-				hidden:true
-			},*/
             {
                 xtype:"departmentcombobox",
                 hidden:true,
                 reference:'searchComboboxField',
             },
 
-			/*'-',{
-				xtype:'datefield',
-				name:'orderPanelSearchDateField',
-				reference:'searchDateFieldValue',
-				formatter: 'date("Y/m/d H:i:s")',
-				hidden:true
-			},*/
-			
-			/*{
-				xtype: 'combobox',
-				hideLable:true,
-				reference:'test',
-				store:Ext.create("Ext.data.Store", {
-				    fields: ["id", "name"],
-//				    data: [
-//				      	{ name: 'id', value: 'id' },
-//						{ name: '部门名称', value: 'name' }
-//				    ]
-				   	proxy: {
-				        type: 'ajax',
-						//url:"/order",
-				        url:'http://localhost:8080/quit/simpleget',
-						//url: '~api/search/users'	//mvc url  xxx.json
-					    reader:{
-					    	type:'json',
-					    	//rootProperty:'content',
-							//totalProperty:'totalElements'
-					    },
-						//simpleSortMode: true
-				    }
-				   	,
-				   	autoLoad: 'true',
-					autoSync:'true',
-				}),
-				//label:'查询类型',
-				displayField:'name',
-				valueField:'id',
-				value:'id',
-				//value:'订单编号',
-				editable:false,
-				queryMode: 'local',
-				triggerAction: 'all',
-				
-				emptyText: 'Select a state...',
-				width: 135,
-				listeners:{
-					change:'tbarSelectChange'
-				}
-			},*/
+
 			
 			'-',{
 		        text: 'Search',
@@ -224,17 +163,17 @@ Ext.define('Admin.view.quit.QuitPanel', {
 			},'->',
 			{
 				xtype: 'button',
-				text : 'Add',
+				text : '通过审批',
 				tooltip: 'Add a new row',
-		        iconCls: 'fa fa-plus',
-				handler:'tbarClickAddBtn'
-			},'-',{
+				iconCls: 'fa fa-plus',
+				handler:'tbarClickPassBtn'
+			},'-',
+			{
 				xtype: 'button',
-				text : 'Removes',
-				iconCls:'fa fa-trash',
-		        disabled: true,
-				itemId:'removeBtn',
-				handler:'tbarClickDeleteMore'
+				text : '驳回申请',
+				tooltip: '申请离职',
+		        iconCls: 'fa fa-plus',
+				handler:'tbarClickNoPassBtn'
 			},
 			],
         }]
