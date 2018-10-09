@@ -2,6 +2,7 @@ package com.oa.worktime.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -200,6 +201,11 @@ public class WorkTimeService implements IWorkTimeService {
 	public List<WorkTime> findWorkTimes(String id) {
 		
 		return workTimeRepository.findWorkTimes(id);
+	}
+
+	@Override
+	public WorkTime findWorkTime(Date date) {
+		return workTimeRepository.findWorkTime(date);
 	}
 	
 	

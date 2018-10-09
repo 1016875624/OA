@@ -51,6 +51,7 @@ public class WorkTimeQueryDTO {
 	
 	private Integer hour;
 	private Integer status;
+	private Integer ifholiday;
 	@SuppressWarnings({ "serial"})
 	public static Specification<WorkTime> getWhereClause(final WorkTimeQueryDTO workTimeQueryDTO) {
 		if (workTimeQueryDTO.getEmployeeid()!=null&&!"".equals(workTimeQueryDTO.getEmployeeid().trim())) {
@@ -74,7 +75,7 @@ public class WorkTimeQueryDTO {
 							"%"+workTimeQueryDTO.getEmployeeName()+"%"));
 				}
 				if (null!=workTimeQueryDTO.getDate()) {
-					predicate.add(criteriaBuilder.greaterThanOrEqualTo(root.get("date").as(Date.class),
+					predicate.add(criteriaBuilder.equal(root.get("date").as(Date.class),
 							workTimeQueryDTO.getDate()));
 				}
 				if(null!=workTimeQueryDTO.getStartDate()) {

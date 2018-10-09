@@ -165,12 +165,12 @@ Ext.define('Admin.view.question.QuestionAddWindow', {
 								touchChange.down("#foranswerC").setDisabled(true).setHidden(true);
 								touchChange.down("#foranswerD").setDisabled(true).setHidden(true);
 								touchChange.down("#foranswerA").setDisabled(true);
-								touchChange.down("#realAn").setValue("A");
+								touchChange.down("#realAn").setValue(touchChange.down("#answersAid").getValue());
 								console.log(touchChange.down("#realAn").getValue());
 							}else if(touchChange.down("#timu").getValue()=="1"){
 								touchChange.down("#foranswerA").setText("答案");
 								touchChange.down("#foranswerA").setDisabled(true);
-								touchChange.down("#realA").setValue("A");
+								touchChange.down("#realA").setValue(touchChange.down("#answersAid").getValue());
 							}
 								
 							
@@ -192,12 +192,12 @@ Ext.define('Admin.view.question.QuestionAddWindow', {
 								touchChange.down("#foranswerC").setDisabled(true).setHidden(true);
 								touchChange.down("#foranswerD").setDisabled(true).setHidden(true);
 								touchChange.down("#foranswerB").setDisabled(true);
-								touchChange.down("#realAn").setValue("B");
+								touchChange.down("#realAn").setValue(touchChange.down("#answersBid").getValue());
 								console.log(touchChange.down("#realAn").getValue());
 							}else if(touchChange.down("#timu").getValue()=="1"){
 								touchChange.down("#foranswerB").setText("答案");
 								touchChange.down("#foranswerB").setDisabled(true);
-								touchChange.down("#realB").setValue("B");
+								touchChange.down("#realB").setValue(touchChange.down("#answersBid").getValue());
 							}
 						}
 					}]
@@ -217,12 +217,12 @@ Ext.define('Admin.view.question.QuestionAddWindow', {
 								touchChange.down("#foranswerA").setDisabled(true).setHidden(true);
 								touchChange.down("#foranswerD").setDisabled(true).setHidden(true);
 								touchChange.down("#foranswerC").setDisabled(true);
-								touchChange.down("#realAn").setValue("C");
+								touchChange.down("#realAn").setValue(touchChange.down("#answersCid").getValue());
 								console.log(touchChange.down("#realBn").getValue());
 							}else if(touchChange.down("#timu").getValue()=="1"){
 								touchChange.down("#foranswerC").setText("答案");
 								touchChange.down("#foranswerC").setDisabled(true);
-								touchChange.down("#realC").setValue("C");
+								touchChange.down("#realC").setValue(touchChange.down("#answersCid").getValue());
 							}
 						}
 					}]
@@ -242,12 +242,12 @@ Ext.define('Admin.view.question.QuestionAddWindow', {
 								touchChange.down("#foranswerA").setDisabled(true).setHidden(true);
 								touchChange.down("#foranswerC").setDisabled(true).setHidden(true);
 								touchChange.down("#foranswerD").setDisabled(true);
-								touchChange.down("#realAn").setValue("D");
+								touchChange.down("#realAn").setValue(touchChange.down("#answersDid").getValue());
 								console.log(touchChange.down("#realBn").getValue());
 							}else if(touchChange.down("#timu").getValue()=="1"){
 								touchChange.down("#foranswerD").setText("答案");
 								touchChange.down("#foranswerD").setDisabled(true);
-								touchChange.down("#realD").setValue("D");
+								touchChange.down("#realD").setValue(touchChange.down("#answersDid").getValue());
 							}
 						}
 					}]

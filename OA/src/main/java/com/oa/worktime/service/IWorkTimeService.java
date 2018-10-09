@@ -1,5 +1,6 @@
 package com.oa.worktime.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,5 +64,6 @@ public interface IWorkTimeService {
 	void deleteAllById(Integer[]ids);
 	
 	List<WorkTime> findWorkTimes(String id);
+	public WorkTime findWorkTime(Date date); 
 }
 

@@ -1,5 +1,6 @@
 package com.oa.worktime.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,7 @@ import com.oa.worktime.entity.WorkTime;
 public interface WorkTimeRepository extends JpaRepository<WorkTime, Integer>,JpaSpecificationExecutor<WorkTime>{
 	@Query("FROM WorkTime wt where wt.employee.department.id=?1")
 	public List<WorkTime> findWorkTimes(String id);
+	
+	@Query("FROM WorkTime wt where wt.date=?1")
+	public WorkTime findWorkTime(Date date);
 }
