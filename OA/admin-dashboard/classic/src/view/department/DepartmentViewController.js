@@ -38,32 +38,23 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		
 		win.down('button[text=save]').setHandler(this.highLevelSearch);
 	},
-	tbarClickAddBtn:function(btn){
-		var win=Ext.widget('departmentWindow');
-		win.setTitle('添加数据');
-		btn.up('gridpanel').up('container').add(win);
-		var containner=btn.up('gridpanel').up('container');
-		var idField=win.getComponent("department_form_id");
-		var ifield=Ext.getCmp("department_form_id");
-		console.log(Ext.ClassManager.getName(ifield));
-		ifield.setHidden(false);
-		//win.down('datefield').format='Y/m/d H:i:s';
-		var grid=btn.up('gridpanel');
-		var form1=win.down('form').getForm();
-		win.down('button[text=save]').setHandler(function(){
-			//Ext.Msg.alert("Add","you click the button named save");
-			var record = Ext.create('Admin.model.department.DepartmentModel');
-			var values  =form1.getValues();//获取form数据
-			console.log(values);
-           	record.set(values);
-			console.log(record);
-            record.save();
-			win.close();
-			grid.getStore().load();
-			
-		});
-	},
 	
+	
+	/*增加部门功能*/
+	openAddWindow:function(toolbar, rowIndex, colIndex){
+		toolbar.up('panel').up('container').add(Ext.widget('departmentAddWindow')).show();
+	},
+	/*Add Submit*/	
+	submitAddForm:function(btn){
+		var win    = btn.up('window');
+		var form = win.down('form');
+		var record = Ext.create('Admin.model.department.DepartmentModel');
+		var values  =form.getValues();//获取form数据
+		record.set(values);
+		record.save();
+		Ext.data.StoreManager.lookup('departmentGridStroe').load();
+		win.close();
+	},
 	
 	
 	
@@ -105,32 +96,16 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		console.log(Ext.ClassManager.getName(Ext.get('userWindowSave')));
 	},
 	
-	//部门人员管理
-	gridChange:function(grid, rowIndex, colIndex){
-		var rec=grid.getStore().getAt(rowIndex);
-		var win=Ext.widget('departmentChangeWindow');
-		grid.up('container').add(win);
+	//部门人员管理和交换
+	gridChange:function(grid, rowIndex, colIndex){		
+		var rec = grid.getStore().getAt(rowIndex);
+		var win = Ext.widget('departmentChangeWindow');
+		//win.setHtml(rec.data.employeesName);
+		win.down("form").getForm().loadRecord(rec);
 		win.show();
-		console.log(Ext.ClassManager.getName(rec));
-		console.log(rec);
-		console.log(rec.data);
-		console.log(rec.data.id);
-		console.log(Ext.ClassManager.getName(rec.get('name')));
-		win.down('form').loadRecord(rec);
-		var store = Ext.data.StoreManager.lookup('departmentGridStroe');
-		console.log(Ext.ClassManager.getName(win.down('button')));
-		win.down('button[text=save]').setHandler(function(){
-			var values  = win.down('form').getValues();//获取form数据
-        	var record = store.getById(values.id);//获取id获取store中的数据
-        	record.set(values);
-			
-			win.close();
-			store.load();
-			
-		});
-		
-		console.log(Ext.ClassManager.getName(Ext.get('userWindowSave')));
+		console.log(Ext.ClassManager.getName(win.down("form")));
 	},
+	
 	tbarClickDeleteMore:function(btn){
 		var grid= btn.up('gridpanel');
 		console.log(btn);
@@ -210,46 +185,42 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		
 		win.show();
 	},
+	
+	
+	/*Quick Search*/	
 	quickSearch:function(btn){
-		var field=this.lookupReference('searchFieldName');
-		var value=this.lookupReference('searchFieldValue');
-		//var value1=this.lookupReference('searchDateFieldValue');
-		var grid=btn.up('gridpanel');
-		var store=grid.getStore();
-		var model=store.getModel();
-		//loadData
-		/*Ext.Ajax.request({
-			url: 'http://localhost:8080/order?page=3&limit=15',
-
-			success: function(response, opts) {
-				//console.log(response);
-				var obj = Ext.decode(response.responseText);
-				console.dir(obj);
-				//store.loadData(obj);
-				//store.loadPage(obj);
-				//model.loadData(obj);
-				store.loadRawData(obj)
-			},
-			failure: function(response, opts) {
-				console.log('server-side failure with status code ' + response.status);
-			}
-		});*/
-		//Ext.apply(store.proxy.extraParams, {orderNumber:"",createTimeStart:"",createTimeEnd:""});
-		//Ext.apply(store.proxy.extraParams, {orderNo:"",startDate:"",endDate:""});
-		//Ext.apply(store.proxy.extraParams, {});
+		var store =	btn.up('gridpanel').getStore();
 		Ext.apply(store.proxy.extraParams, {id:"",name:""});
-		if(field.getValue()==='id'){
-			Ext.apply(store.proxy.extraParams, {id:value.getValue()});
+		var searchField = this.lookupReference('searchFieldName').getValue();
+		
+		var searchValue = this.lookupReference('searchFieldValue').getValue();
+		var searchComboValue = this.lookupReference('departmentBox').getValue();
+		
+		if(searchField==='id'){
+			Ext.apply(store.proxy.extraParams, {id:searchValue});
 		}
-		if(field.getValue()==='name'){
-			Ext.apply(store.proxy.extraParams,{name:value.getValue()});
+		if(searchField==='name'){
+			Ext.apply(store.proxy.extraParams, {id:searchComboValue});
 		}
-		//store.load({params:{start:0, limit:20, page:1}});
-		store.load();
-		//Ext.Msg.alert("field",field.getValue());
-		//Ext.Msg.alert("field",field.getValue());
-		//Ext.Msg.alert("value",value.getValue());
+		store.load({params:{start:0, limit:20, page:1}});
 	},
+	tbarSelectChange:function(box,newValue,oldValue,eOpts){
+		console.log("12356");
+		var searchValue = this.lookupReference('searchFieldValue');
+		var searchComboValue = this.lookupReference('departmentBox');
+		if(newValue=="id"){
+			searchComboValue.setHidden(true);
+			searchValue.setHidden(false);
+		}
+		else if(newValue=="name"){
+			searchComboValue.setHidden(false);
+			searchValue.setHidden(true);
+		}else{
+			searchComboValue.setHidden(true);
+			searchValue.setHidden(true);
+		}
+	},
+	
 	highLevelSearch:function(btn){
 		//win.down('datefield').format='Y/m/d H:i:s';
 		var store = Ext.data.StoreManager.lookup('departmentGridStroe');
@@ -267,20 +238,16 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		store.load();
 		win.close();
 	},
-	tbarSelectChange:function(box, newValue, oldValue, eOpts){
-		
-		/*if(newValue=="id"){
-			this.lookupReference('searchFieldValue').show();
-			this.lookupReference('searchDateFieldValue').hide();
-		}else{
-			
-			this.lookupReference('searchFieldValue').hide();
-			
-			this.lookupReference('searchDateFieldValue').show();
-		}*/
-		//box.getStore().load();
-		console.log(newValue);
+	
+	/*查看部门人员*/	
+	gridCheck:function(grid, rowIndex, colIndex){
+		var rec = grid.getStore().getAt(rowIndex);
+		console.log(rec);
+		var win = Ext.widget('departmentCheckWindow');
+		win.setHtml(rec.data.employeesName);
+		win.show();
 	},
+	
 	
 	test:function(){
 		Ext.Msg.alert("test","test");

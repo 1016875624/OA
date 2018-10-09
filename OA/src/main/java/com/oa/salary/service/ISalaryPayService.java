@@ -62,5 +62,14 @@ public interface ISalaryPayService {
 	void update(SalaryPayDTO salaryPayDTO);
 	
 	Page<SalaryPayDTO> findAllInDTO(@Nullable Specification<SalaryPay> spec, Pageable pageable);
+	
+	/**
+	* <p>方法名称: countMoney</p>
+	* <p>描述：计算工资</p>
+	* @param id 工资表的id
+	* @return Double 实际可得的工资
+	* 返回类型
+	*/
+	Double countSalary(Integer id);
 }
 

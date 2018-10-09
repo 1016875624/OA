@@ -7,7 +7,7 @@ package com.oa;
  */
 public class SendEmail
 {
-    public static void main(String [] args)
+   /* public static void main(String [] args)
     {    
     	 Mail mail = new Mail();  
          mail.setHost("smtp.qq.com"); 			//设置邮件服务器,如果不用QQ邮箱的,自己找找看相关的  
@@ -24,5 +24,5 @@ public class SendEmail
 		} else {
 			 System.out.println("发送失败");
 		} 
-    }
+    }*/
 }

@@ -11,25 +11,24 @@
 		//获取选中数据的字段值：console.log(record.get('id')); 或者 console.log(record.data.id);
 		
 		if (record ) {
-			if(record.data.processStatus=="NEW"){
+			if(record.data.status=="0"){
 				var win = grid.up('container').add(Ext.widget('leaveEditWindow'));
 				win.show();
 				win.down('form').getForm().loadRecord(record);
 			}else{
-				Ext.Msg.alert('提示', "只可以修改'新建'状态的信息！");
+				Ext.Msg.alert('提示', "只可以修改'待申请'状态的信息！");
 			}
 		}
 	},
-	/*Search More*/	
+	/*Search More*/
 	openSearchWindow:function(toolbar, rowIndex, colIndex){
 		toolbar.up('panel').up('container').add(Ext.widget('leaveSearchWindow')).show();
 	},
 	/*combobox选中后控制对应输入（文本框和日期框）框显示隐藏*/
 	searchComboboxSelectChuang:function(combo,record,index){
 		//alert(record.data.name);
-		/*
 		var searchField = this.lookupReference('searchFieldName').getValue();
-		if(searchField==='createTime'){
+		if(searchField==='leaveTime'){
 			this.lookupReference('searchFieldValue').hide();
 			this.lookupReference('searchDataFieldValue').show();
 			this.lookupReference('searchDataFieldValue2').show();
@@ -37,7 +36,7 @@
 			this.lookupReference('searchFieldValue').show();
 			this.lookupReference('searchDataFieldValue').hide();
 			this.lookupReference('searchDataFieldValue2').hide();
-		}*/
+		}
 	},
 	/********************************************** Submit / Ajax / Rest *****************************************************/
 	/*Add Submit*/	
@@ -66,14 +65,20 @@
 		var searchField = this.lookupReference('searchFieldName').getValue();
 		var searchDataFieldValue = this.lookupReference('searchDataFieldValue').getValue();
 		var searchDataFieldValue2 = this.lookupReference('searchDataFieldValue2').getValue();
+		var searchFieldValue = this.lookupReference('searchFieldValue').getValue();
 
 		var store =	btn.up('gridpanel').getStore();
 		//var store = Ext.getCmp('userGridPanel').getStore();// Ext.getCmp(）需要在LeavePanel设置id属性
-		Ext.apply(store.proxy.extraParams, {startTime:"",endTime:""});
+		Ext.apply(store.proxy.extraParams, {status:"",startTime:"",endTime:""});
 		if(searchField==='leaveTime'){
 			Ext.apply(store.proxy.extraParams,{
 				startTime:Ext.util.Format.date(searchDataFieldValue, 'Y/m/d H:i:s'),
 				endTime:Ext.util.Format.date(searchDataFieldValue2, 'Y/m/d H:i:s')
+			});
+		}
+		else if(searchField==='status'){
+			Ext.apply(store.proxy.extraParams,{
+				status:searchFieldValue,
 			});
 		}
 		store.load({params:{start:0, limit:20, page:1}});
@@ -83,8 +88,9 @@
 		var win = btn.up('window');
 		var form = win.down('form');
 		var values  = form.getValues();
-		Ext.apply(store.proxy.extraParams, {startTime:"",endTime:""});
+		Ext.apply(store.proxy.extraParams, {status:"",startTime:"",endTime:""});
 		Ext.apply(store.proxy.extraParams,{
+			status:values.status,
 			startTime:Ext.util.Format.date(values.startTime, 'Y/m/d H:i:s'),
 			endTime:Ext.util.Format.date(values.endTime, 'Y/m/d H:i:s')
 		});
@@ -95,14 +101,14 @@
 	deleteOneRow:function(grid, rowIndex, colIndex){
 		var store = grid.getStore();
 		var record = store.getAt(rowIndex);
-		if(record.data.status=="0"){
+		if(record.data.status=="0"||record.data.status=="3"){
 			Ext.MessageBox.confirm('提示', '确定要进行删除操作吗？',function(btn, text){
 				if(btn=='yes'){
 					store.remove(record);
 				}
 			}, this);
 		}else{
-			Ext.Msg.alert('提示', "只可以删除'新建'状态的信息！");
+			Ext.Msg.alert('提示', "只可以删除'待申请'或'已销假'状态的信息！");
 		}
 	},
 	/*Delete More Rows*/	
@@ -115,7 +121,7 @@
 					var rows = selModel.getSelection();
 					var selectIds = []; //要删除的id
 					Ext.each(rows, function (row) {
-						if(row.data.processStatus=="NEW"){
+						if(row.data.status=="0"||row.data.status=="3"){
 							selectIds.push(row.data.id);
 						}
 					});
@@ -164,11 +170,25 @@
 			}
 		});
 	},	
-	/*Cancel Leave Process*/	
-	cancelLeaveProcess:function(grid, rowIndex, colIndex){
-		Ext.Msg.alert("Title","Cancel Leave Process");
-		//先打开销假窗口
-		//填写真开始时间和离开时间
-		//传数据
+	/*End Leave Process*/	
+	endLeaveProcess:function(grid, rowIndex, colIndex){
+		var record = grid.getStore().getAt(rowIndex);
+		Ext.Ajax.request({
+			url : '/leave/endleave',
+			method : 'post', 
+			params : {
+				id :record.get("id")
+			}, 
+			success: function(response, options) {
+				var json = Ext.util.JSON.decode(response.responseText);
+				if(json.success){
+					Ext.Msg.alert('操作成功', json.msg, function() {
+					grid.getStore().reload();
+				});
+				}else{
+					Ext.Msg.alert('操作失败', json.msg);
+				}
+			}
+		});
 	}
 });

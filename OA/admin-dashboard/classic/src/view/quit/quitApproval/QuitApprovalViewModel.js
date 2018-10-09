@@ -1,6 +1,6 @@
-Ext.define('Admin.view.department.DepartmentViewModel', {
+Ext.define('Admin.view.quit.quitApproval.QuitApprovalViewModel', {
     extend: 'Ext.app.ViewModel',
-    alias: 'viewmodel.departmentViewModel',
+    alias: 'viewmodel.quitApprovalViewModel',
 
     requires: [
         'Ext.data.Store',
@@ -13,7 +13,7 @@ Ext.define('Admin.view.department.DepartmentViewModel', {
     ],
 
     stores: {
-		departmentLists: {type: 'departmentGridStroe'},
-		departmentList:{type:'departmentLoadStroe'}
+		quitLists: {type: 'quitGridStroe'},
+		departmentList:{type:'departmentLoadStroe'},
     }
 });

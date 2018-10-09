@@ -52,7 +52,7 @@ public class LeaveService implements ILeaveService {
 	//根据ID删除,状态设置为-1,表示该表为删除状态
 	public void delete(Long id) {
 		Leave leave = leaveRepository.findById(id).get();
-		if(leave != null){
+		if(leave!=null){
 			leave.setStatus(-1);
 			leaveRepository.save(leave);
 		}
@@ -106,28 +106,54 @@ public class LeaveService implements ILeaveService {
 		List<Leave> leaves= page.getContent();
 		List<LeaveDTO> leaveDTOs=new ArrayList<>();
 		for (Leave leave : leaves) {
-			leaveDTOs.add(entityToDto(leave));
+			leaveDTOs.add(LeaveDTO.entityToDTO(leave));
 		}
-		return new PageImpl<>(leaveDTOs, pageable, leaveDTOs.size());
+		return new PageImpl<>(leaveDTOs, pageable, page.getTotalElements());
+	}
+	
+	//将需要查询的entity类封装到dto
+	public Page<LeaveDTO> findAllApprovalInDto(Specification<Leave> spec1,Specification<Leave> spec2,Specification<Leave> spec3, Pageable pageable) {
+		Page<Leave> page=findAll(spec1, pageable);
+		List<Leave> leaves= page.getContent();
+		Page<Leave> page2=findAll(spec2, pageable);
+		List<Leave> leaves2= page2.getContent();
+		Page<Leave> page3=findAll(spec3, pageable);
+		List<Leave> leaves3= page3.getContent();
+		List<LeaveDTO> leaveDTOs=new ArrayList<>();
+		for (Leave leave : leaves) {
+			leaveDTOs.add(LeaveDTO.entityToDTO(leave));
+		}
+		for (Leave leave : leaves2) {
+			leaveDTOs.add(LeaveDTO.entityToDTO(leave));
+		}
+		for (Leave leave : leaves3) {
+			leaveDTOs.add(LeaveDTO.entityToDTO(leave));
+		}
+		return new PageImpl<>(leaveDTOs, pageable, page.getTotalElements());
 	}
 
 	public void sendMail(Leave leave) {
-		//String userName = leave.getEmployee().getName();
+		String userName = leave.getEmployee().getName();
 		//String receiver = leave.getEmployee().getLeader().getEmail();
-		String receiver = "499859073@qq.com";
-		String startTime = "2018/9/28 15:46:33";
-		String endTime = "2018/10/28 15:46:33";
-		String reason = "弟弟原因";
-		String leaveType = "A";
-		String userName = "卢弟弟";
+		String receiver = leave.getEmployee().getLeader().getEmail();
+		Date startTime = leave.getEndTime();
+		Date endTime = leave.getStartTime();
+		String reason = leave.getReason();
+		String leaveType = leave.getLeaveType();
+		String leaveType2 = "";
 		String subject = "请假审批表";
 		String leaveJWT = createToken(leave.getId());
 		String lianjie = "http://localhost:8080/leave/approvalByEmail?id=" + leaveJWT;
-		if(leaveType == "A") {
-			leaveType = "带薪假期";
+		if(leaveType.equals("A")) {
+			leaveType2 = "带薪假期";
+		}else if(leaveType.equals("B")) {
+			leaveType2 = "无薪假期";
+		}else if(leaveType.equals("C")) {
+			leaveType2 = "病假";
 		}
+		System.out.println(leaveType2);
 		String message = "<div style='height: 500px; width: 540px; margin: 0 auto; background-color: #C1D9F3; padding: 20px 38px 0; border-radius: 8px;'><p>尊敬的领导，您好:</p>\r\n" + 
-				 "<p>&emsp;&emsp;"+ userName +"员工将于"+ startTime +"至"+ endTime +"由于"+ reason +"的原因，向您请"+ leaveType +"。</p>\r\n" + 
+				 "<p>&emsp;&emsp;"+ userName +"员工将于"+ startTime +"至"+ endTime +"由于"+ reason +"的原因，向您请"+ leaveType2 +"。</p>\r\n" + 
 				 "<p>&emsp;&emsp;请单击以下链接进行员工请假审批：</p>\r\n" + 
 				 "&emsp;&emsp;<a href = '"+ lianjie +"'>"+ lianjie +"</a>\r\n" + 
 				 "<p>&emsp;&emsp;本邮件为系统自动发送，不受理回复（本邮件的有效链接为24小时）</p></div>";
@@ -152,7 +178,7 @@ public class LeaveService implements ILeaveService {
 		String sId = String.valueOf(id);
 		Date iatDate = new Date();
         Calendar nowTime = Calendar.getInstance();
-        nowTime.add(Calendar.MINUTE,100);
+        nowTime.add(Calendar.MINUTE,1440);
         Date expiresDate = nowTime.getTime();
  
         Map<String,Object> map = new HashMap<String,Object>();

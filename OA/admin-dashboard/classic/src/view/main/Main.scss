@@ -179,6 +179,12 @@ $treelist-nav-ui: (
     border: 1px solid #ccc;
 }
 
+.guestManage{     
+	background-image: url('../resources/images/user-profile/2_.png') !important;  
+	height: 35px !important;   
+	width: 35px !important; 
+}
+
 //UI Styles for buttons
 @include extjs-button-small-ui(
     $ui: 'soft-blue',

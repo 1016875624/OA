@@ -1,6 +1,8 @@
 package com.oa.leave.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,8 +50,12 @@ public class LeaveController {
     		String applicantId = SessionUtil.getUserName(session);
     		Optional<Employee> employee = employeeService.findById(applicantId);
     		if(applicantId!=null) {
+    			SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    			String time= sdf.format( new Date());
+    			Date date=sdf.parse(time); 
     			leave.setEmployee(employee.orElse(null));
     			leave.setStatus(0);
+    			leave.setApplyTime(date);
         		leaveService.save(leave);
     		}
     		return new ExtAjaxResponse(true,"保存成功!");
@@ -60,8 +66,8 @@ public class LeaveController {
     }
 	
 	//修改，状态设置为0,表示该表为待申请状态
-	@PutMapping("update")
-    public @ResponseBody ExtAjaxResponse update(@RequestParam(name="id") Long id,@RequestBody Leave leave) {
+	@PutMapping(value="{id}")
+    public @ResponseBody ExtAjaxResponse update(@PathVariable("id") Long id,@RequestBody Leave leave) {
     	try {
     		Leave entity = leaveService.findOne(id);
     		leave.setStatus(0);
@@ -123,13 +129,13 @@ public class LeaveController {
 	}
 	
 	//驳回,将状态变回0,表示该表为待申请状态
-	@PutMapping("/reject")
-	public ExtAjaxResponse reject(@RequestParam(name="id") Long id, @RequestBody Leave leave) {
+	@PostMapping("/reject")
+	public ExtAjaxResponse reject(@RequestParam(name="id") Long id, @RequestParam(name="reason") String reason) {
 		try {
     		Leave entity = leaveService.findOne(id);
-    		leave.setStatus(0);
 			if(entity!=null) {
-				BeanUtils.copyProperties(leave, entity);//使用自定义的BeanUtils
+				entity.setStatus(0);
+				entity.setReason(reason);
 				leaveService.save(entity);
 			}
     		return new ExtAjaxResponse(true,"驳回成功!");
@@ -141,14 +147,13 @@ public class LeaveController {
 
 	
 	//销假,将状态变回3,表示该表为已销假状态
-	@PutMapping("/endleave")
-    public @ResponseBody ExtAjaxResponse endleave(@RequestParam(name="id") Long id,@RequestBody Leave leave) {
+	@PostMapping("/endleave")
+    public @ResponseBody ExtAjaxResponse endleave(@RequestParam(name="id") Long id) {
     	try {
-    		Leave entity = leaveService.findOne(id);
+    		Leave leave = leaveService.findOne(id);
     		leave.setStatus(3);
-			if(entity!=null) {
-				BeanUtils.copyProperties(leave, entity);//使用自定义的BeanUtils
-				leaveService.save(entity);
+			if(leave!=null) {
+				leaveService.save(leave);
 			}
     		return new ExtAjaxResponse(true,"销假成功!");
 	    } catch (Exception e) {
@@ -192,10 +197,11 @@ public class LeaveController {
     public Page<LeaveDTO> findLeaveByApplicantId(LeaveQueryDTO leaveQueryDTO,HttpSession session,ExtjsPageRequest pageable) 
 	{
 		Page<LeaveDTO> page;
-		String applicantId = SessionUtil.getUserName(session);
+		String applicantId = (String) session.getAttribute("userId");
 		if(applicantId!=null) {
 			leaveQueryDTO.setEmployeeId(applicantId);
 			page = leaveService.findAllInDto(LeaveQueryDTO.getWhereClause(leaveQueryDTO), pageable.getPageable());
+			System.out.println(LeaveQueryDTO.getWhereClause(leaveQueryDTO));
 		}else {
 			page = new PageImpl<LeaveDTO>(new ArrayList<LeaveDTO>(),pageable.getPageable(),0);
 		}
@@ -207,11 +213,17 @@ public class LeaveController {
     public Page<LeaveDTO> findLeaveByLeaderId(LeaveQueryDTO leaveQueryDTO,HttpSession session,ExtjsPageRequest pageable) 
 	{
 		Page<LeaveDTO> page;
+//		LeaveQueryDTO leaveQueryDTO2 = new LeaveQueryDTO();
+//		LeaveQueryDTO leaveQueryDTO3 = new LeaveQueryDTO();
 		//获得当前用户ID
-		String applicantId = SessionUtil.getUserName(session);
+		String applicantId = (String) session.getAttribute("userId");
 		if(applicantId!=null) {
 			leaveQueryDTO.setLeaderId(applicantId);
 			leaveQueryDTO.setStatus(1);
+//			leaveQueryDTO2.setLeaderId(applicantId);
+//			leaveQueryDTO2.setStatus(2);
+//			leaveQueryDTO3.setLeaderId(applicantId);
+//			leaveQueryDTO3.setStatus(3);
 			page = leaveService.findAllInDto(LeaveQueryDTO.getWhereClause(leaveQueryDTO), pageable.getPageable());
 		}else {
 			page = new PageImpl<LeaveDTO>(new ArrayList<LeaveDTO>(),pageable.getPageable(),0);

@@ -183,6 +183,7 @@
 		console.log(Ext.ClassManager.getName(win.down("form")));
 	},
     
+	//发送邮件
     sendEmail:function(grid, rowIndex, colIndex){
     	var win = Ext.widget('employeeEmailWindow');
 		win.show();

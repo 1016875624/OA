@@ -21,14 +21,12 @@
 			 {header: 'id',dataIndex:'id',width: 60,sortable: true,hidden:true}
 			,{header: '状态',dataIndex: 'status',width: 120,sortable: true,
 	            renderer: function(val) {
-		            if (val =='-1') {
-			            return '<span style="color:green;">已删除</span>';
-			        } else if (val =='0') {
+		            if (val =='0') {
 			            return '<span style="color:blue;">待申请</span>';
-			        } else if (val =='1') {
+			        }else if (val =='1') {
 			            return '<span style="color:orange;">待审批</span>';
 			        }else if (val =='2'){
-			        	return '<span style="color:red;">审批通过</span>';
+			        	return '<span style="color:green;">审批通过</span>';
 			        }else if (val =='3'){
 			        	return '<span style="color:red;">已销假</span>';
 			        }
@@ -70,13 +68,8 @@
 		                handler: 'starLeaveProcess'
 		            },{
 		                xtype: 'button',iconCls: 'x-fa fa-ban',tooltip: '销假',
-		                getClass: function(v, meta, rec) {
-		                    if (rec.get('status')!=2) {
-		                        return 'x-hidden';
-		                    }
-		                    return 'x-fa fa-ban';
-		                },
-		                handler: 'cancelLeaveProcess'
+		                hidden:true,
+		                handler: 'endLeaveProcess'
 		            }
 				]
 			}
@@ -87,7 +80,9 @@
 			hideLabel: true,
 			store:Ext.create("Ext.data.Store", {
 				fields: ["name", "value"],
-				data: [{ name: '请假时间', value: 'leaveTime' }]
+				data: [{ name: '请假时间', value: 'leaveTime' }
+						,{ name: '状态', value: 'status' }
+				]
 			}),
 			displayField: 'name',
 			valueField:'value',
@@ -101,6 +96,29 @@
 				select: 'searchComboboxSelectChuang'
 			}
 		}, '-',{
+			xtype: 'combobox',
+			hideLabel: true,
+			hidden: true,
+			store:Ext.create("Ext.data.Store", {
+				fields: ["name", "value"],
+				data: [{ name: '所有', value: '' }
+						,{ name: '待申请', value: '0' }
+						,{ name: '待审批', value: '1' }
+						,{ name: '审批通过', value: '2' }
+						,{ name: '已销假', value: '3' }
+				]
+			}),
+			displayField: 'name',
+			valueField:'value',
+			value:'',
+			reference:'searchFieldValue',
+			editable: false,
+			queryMode: 'local',
+			triggerAction: 'all',
+			width: 135,
+			fieldLabel: 'status',
+			name: 'status'
+		},'-',{
 			xtype: 'datefield',
 			hideLabel: true,
 			//hidden:true,

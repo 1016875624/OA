@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.convert.ThreeTenBackPortConverters.LocalDateTimeToJsr310LocalDateTimeConverter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -18,9 +19,12 @@ import org.springframework.util.StringUtils;
 
 import com.oa.employee.entity.Employee;
 import com.oa.employee.service.IEmployeeService;
+import com.oa.salary.entity.Salary;
 import com.oa.salary.entity.SalaryPay;
 import com.oa.salary.entity.SalaryPayDTO;
 import com.oa.salary.repository.SalaryPayRepository;
+import com.oa.worktime.service.IWorkTimeService;
+import com.oa.worktime.service.WorkTimeService;
 
 @Service
 @Transactional
@@ -29,7 +33,11 @@ public class SalaryPayService implements ISalaryPayService {
 	private SalaryPayRepository salaryPayRepository;
 	@Autowired
 	private IEmployeeService employeeService;
-
+	@Autowired
+	private IWorkTimeService workTimeService;
+	@Autowired
+	private ISalaryService salaryService;
+	
 	@Override
 	public SalaryPay save(SalaryPay entity) {
 		return salaryPayRepository.save(entity);
@@ -191,7 +199,7 @@ public class SalaryPayService implements ISalaryPayService {
 	@Override
 	public void update(SalaryPayDTO salaryPayDTO) {
 		SalaryPay salaryPay=new SalaryPay();
-		BeanUtils.copyProperties(salaryPayDTO, salaryPay);
+		com.oa.common.beans.BeanUtils.copyProperties(salaryPayDTO, salaryPay);
 		if (!StringUtils.isEmpty(salaryPayDTO.getEmployeeid())) {
 			Employee emp=employeeService.findById(salaryPayDTO.getEmployeeid()).get();
 			salaryPay.setEmployee(emp);
@@ -208,5 +216,15 @@ public class SalaryPayService implements ISalaryPayService {
 			salaryPayDTOs.add(SalaryPayDTO.entityToDto(salaryPay));
 		}
 		return new PageImpl<>(salaryPayDTOs, pageable, salaryPage.getTotalElements());
+	}
+	//计算公式=基本工资/当月的工作时间 x实际的工时+工作的天数x补贴 +奖金+工龄工资*工龄
+	@Override
+	public Double countSalary(Integer id) {
+		Salary salary=salaryService.findByid(id).get();
+		Double money=0.0;
+		if (salary.getSal()!=null) {
+		}
+		
+		return null;
 	}
 }
