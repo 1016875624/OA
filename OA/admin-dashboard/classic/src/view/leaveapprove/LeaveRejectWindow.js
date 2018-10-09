@@ -1,6 +1,6 @@
-﻿Ext.define('Admin.view.leaveapprove.LeaveApproveWindow', {
+﻿Ext.define('Admin.view.leaveapprove.LeaveRejectWindow', {
     extend: 'Ext.window.Window',
-    alias: 'widget.leaveApproveWindow',
+    alias: 'widget.leaveRejectWindow',
     height: 400,
     minHeight: 350,
     minWidth: 300,
@@ -70,15 +70,14 @@
 			xtype     : 'textareafield',
 			grow      : true,
 			name      : 'reason',
-			fieldLabel: '请假原因',
+			fieldLabel: '驳回原因',
 			anchor    : '100%',
-			readOnly: true
 		}]
     }],
    buttons: ['->',{
         xtype: 'button',
         text: 'Submit',
-        handler: 'submitApproveForm'
+        handler: 'submitRejectForm'
     },{
         xtype: 'button',
         text: 'Close',

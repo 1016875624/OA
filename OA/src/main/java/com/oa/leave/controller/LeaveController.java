@@ -123,13 +123,13 @@ public class LeaveController {
 	}
 	
 	//驳回,将状态变回0,表示该表为待申请状态
-	@PutMapping("/reject")
-	public ExtAjaxResponse reject(@RequestParam(name="id") Long id, @RequestBody Leave leave) {
+	@PostMapping("/reject")
+	public ExtAjaxResponse reject(@RequestParam(name="id") Long id, @RequestParam(name="reason") String reason) {
 		try {
     		Leave entity = leaveService.findOne(id);
-    		leave.setStatus(0);
 			if(entity!=null) {
-				BeanUtils.copyProperties(leave, entity);//使用自定义的BeanUtils
+				entity.setStatus(0);
+				entity.setReason(reason);
 				leaveService.save(entity);
 			}
     		return new ExtAjaxResponse(true,"驳回成功!");
@@ -192,7 +192,6 @@ public class LeaveController {
 	{
 		Page<LeaveDTO> page;
 		String applicantId = (String) session.getAttribute("userId");
-		System.out.println(applicantId);
 		if(applicantId!=null) {
 			leaveQueryDTO.setEmployeeId(applicantId);
 			page = leaveService.findAllInDto(LeaveQueryDTO.getWhereClause(leaveQueryDTO), pageable.getPageable());
@@ -209,7 +208,7 @@ public class LeaveController {
 	{
 		Page<LeaveDTO> page;
 		//获得当前用户ID
-		String applicantId = SessionUtil.getUserName(session);
+		String applicantId = (String) session.getAttribute("userId");
 		if(applicantId!=null) {
 			leaveQueryDTO.setLeaderId(applicantId);
 			leaveQueryDTO.setStatus(1);

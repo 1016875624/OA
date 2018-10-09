@@ -12,7 +12,7 @@
 		
 		if (record ) {
 			if(record.data.status=="0"){
-				var win = grid.up('container').add(Ext.widget('leaveEditWindow'));
+				var win = grid.up('container').add(Ext.widget('LeaveApproveWindow'));
 				win.show();
 				win.down('form').getForm().loadRecord(record);
 			}else{
@@ -20,7 +20,7 @@
 			}
 		}
 	},
-	/*Search More*/	
+	/*Search More*/
 	openSearchWindow:function(toolbar, rowIndex, colIndex){
 		toolbar.up('panel').up('container').add(Ext.widget('leaveSearchWindow')).show();
 	},
