@@ -96,32 +96,16 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		console.log(Ext.ClassManager.getName(Ext.get('userWindowSave')));
 	},
 	
-	//部门人员管理
-	gridChange:function(grid, rowIndex, colIndex){
-		var rec=grid.getStore().getAt(rowIndex);
-		var win=Ext.widget('departmentChangeWindow');
-		grid.up('container').add(win);
+	//部门人员管理和交换
+	gridChange:function(grid, rowIndex, colIndex){		
+		var rec = grid.getStore().getAt(rowIndex);
+		var win = Ext.widget('departmentChangeWindow');
+		//win.setHtml(rec.data.employeesName);
+		win.down("form").getForm().loadRecord(rec);
 		win.show();
-		console.log(Ext.ClassManager.getName(rec));
-		console.log(rec);
-		console.log(rec.data);
-		console.log(rec.data.id);
-		console.log(Ext.ClassManager.getName(rec.get('name')));
-		win.down('form').loadRecord(rec);
-		var store = Ext.data.StoreManager.lookup('departmentGridStroe');
-		console.log(Ext.ClassManager.getName(win.down('button')));
-		win.down('button[text=save]').setHandler(function(){
-			var values  = win.down('form').getValues();//获取form数据
-        	var record = store.getById(values.id);//获取id获取store中的数据
-        	record.set(values);
-			
-			win.close();
-			store.load();
-			
-		});
-		
-		console.log(Ext.ClassManager.getName(Ext.get('userWindowSave')));
+		console.log(Ext.ClassManager.getName(win.down("form")));
 	},
+	
 	tbarClickDeleteMore:function(btn){
 		var grid= btn.up('gridpanel');
 		console.log(btn);
@@ -258,10 +242,10 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 	/*查看部门人员*/	
 	gridCheck:function(grid, rowIndex, colIndex){
 		var rec = grid.getStore().getAt(rowIndex);
+		console.log(rec);
 		var win = Ext.widget('departmentCheckWindow');
+		win.setHtml(rec.data.employeesName);
 		win.show();
-		win.down("form").getForm().loadRecord(rec);
-		console.log(Ext.ClassManager.getName(win.down("form")));
 	},
 	
 	

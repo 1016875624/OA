@@ -48,8 +48,9 @@
                     text: '用户名:Admin',
                     id:'loginUserName',
                     cls: 'top-user-name'
-                },{
-                    /*xtype: 'image',
+                },
+                {
+                   /* xtype: 'image',
                     cls: 'header-right-profile-image',
                     id:'loginUserImage',
                     height: 35,
@@ -59,11 +60,12 @@
                 	xtype : "button", 
                 	cls: 'header-right-profile-image',
                     width : 35,  
-                    height : 35,  
+                    height : 35, 
                     iconCls : 'guestManage',  
                     ref : 'guestManage',  
                     handler: 'onClickGridUploadButton'
-                },{
+                },
+                {
                     iconCls:'x-fa fa-sign-out',
                     ui: 'header',
                     tooltip: 'Logout',

@@ -3,31 +3,10 @@ Ext.define('Admin.store.department.DepartmentGridStroe', {
     alias: 'store.departmentGridStroe',
 	storeId:'departmentGridStroe',
 	model: 'Admin.model.department.DepartmentModel',
-	/*data: {
-		'lists':[{
-	        "id": 1,
-	        "orderNo": "Archie Young",
-	        "orderDate": "2018/09/09 17:51:20"
-	    },{
-	        "id": 2,
-	        "orderNo": "May Williams",
-	        "orderDate": "2018/09/09 17:50:20"
-    	}]
-    },*/
-/*	autoLoad: 'true',
-	autoSync:'true',
-	remoteSort: true,
-	pageSize: 10,
-	sorters: {
-		direction: 'DESC',
-		property: 'id'
-	}*/
 	
     proxy: {
         type: 'rest',
-		//url:"/order",
         url:'http://localhost:8080/department',
-		//url: '~api/search/users'	//mvc url  xxx.json
 	    reader:{
 	    	type:'json',
 	    	rootProperty:'content',

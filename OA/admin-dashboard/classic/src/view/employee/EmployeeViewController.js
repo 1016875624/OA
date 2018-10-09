@@ -183,6 +183,7 @@
 		console.log(Ext.ClassManager.getName(win.down("form")));
 	},
     
+	//发送邮件
     sendEmail:function(grid, rowIndex, colIndex){
     	var win = Ext.widget('employeeEmailWindow');
 		win.show();
@@ -209,28 +210,5 @@
 			searchValue.setHidden(true);
 			searchDataFieldValue.setHidden(true);
 		}
-	},
-	
-	//头像上传功能
-	onClickEmployeeGridUploadButton: function (btn) {
-		btn.up('panel').up('container').add(Ext.widget('employeeUploadWindow')).show();
-    },
-	onClickUploadFormSumbitButton: function (btn) {
-		var form = btn.up('window').down('form');;
-		form.getForm().submit({       
-			//url:'/process-definition',
-			url:'/employee',
-			method : 'POST',
-			waitMsg: '正在上传，请耐心等待....',
-			success: function(form, action){    
-				Ext.Msg.alert('Success', action.result.msg,function(){
-					btn.up('window').close();
-					Ext.data.StoreManager.lookup('employeeStroe').load();
-				});       
-			}, 
-			failure: function(form, action){
-				Ext.Msg.alert('Error', action.result.msg);
-			}
-		});
-    }
+	}
 });
