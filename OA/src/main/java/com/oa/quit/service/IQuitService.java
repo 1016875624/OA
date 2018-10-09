@@ -1,5 +1,6 @@
 package com.oa.quit.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.repository.query.Param;
 import org.springframework.lang.Nullable;
 
 import com.oa.quit.entity.Quit;
@@ -56,7 +58,11 @@ public interface IQuitService {
 	
 	void deleteAllById(Integer[]ids);
 	
+	void update(Quit quit);
 	
 	Page<QuitDTO> findAllInDTO(@Nullable Specification<Quit> spec, Pageable pageable);
+	
+	void approvalPass(Integer[]ids);
+	void approvalNoPass(Integer[]ids);
 }
 

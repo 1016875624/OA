@@ -416,7 +416,186 @@ this.lookupReference("reference");
 formObj.getForm().findField(id/name);
 ```
 
+### ajax的使用
 
+file:///K:/%E8%B5%84%E6%96%99%E5%A4%A7%E5%85%A8/extjsApi%E6%96%87%E6%A1%A3/extjs/6.6.0/modern/Ext.data.Connection.html#method-request
+
+```js
+Ext.Ajax.request({
+    url: 'http://localhost:8080/quit/deleteMore',
+    method:'post',
+    params:{id:ids},
+     success: function(response, opts) {
+         var obj = Ext.decode(response.responseText);
+         console.dir(obj);
+     },
+
+     failure: function(response, opts) {
+         console.log('server-side failure with status code ' + response.status);
+     }
+ });
+```
+
+ajax常用的参数
+
+### PARAMETERS
+
+
+
+`options` :  Object
+
+An object which may contain the following properties:
+
+(The options object may also contain any other property which might be needed to perform postprocessing in a callback because it is passed to callback functions.)
+
+`url` :  [String](String.html) / [Function](Function.html)
+
+The URL to which to send the request, or a function to call which returns a URL string. The scope of the function is specified by the `scope` option. Defaults to the configured `url`.
+
+`async` :  [Boolean](Boolean.html)
+
+`true` if this request should run asynchronously. Setting this to `false` should generally be avoided, since it will cause the UI to be blocked, the user won't be able to interact with the browser until the request completes. Defaults to `true`.
+
+`params `:  [Object](Object.html) / [String](String.html) / [Function](Function.html)
+
+An object containing properties which are used as parameters to the request, a url encoded string or a function to call to get either. The scope of the function is specified by the `scope` option.
+
+method :  [String](String.html)
+
+The HTTP method to use for the request. Defaults to the configured method, or if no method was configured, "GET" if no parameters are being sent, and "POST" if parameters are being sent. Note that the method name is case-sensitive and should be all caps.
+
+`callback` :  [Function](Function.html)
+
+The function to be called upon receipt of the HTTP response. The callback is called regardless of success or failure and is passed the following parameters:
+
+options :  Object
+
+The parameter to the request call.
+
+success :  Boolean
+
+True if the request succeeded.
+
+response :  Object
+
+The XMLHttpRequest object containing the response data. See [www.w3.org/TR/XMLHttpRequest/](http://www.w3.org/TR/XMLHttpRequest/) for details about accessing elements of the response.
+
+`success` :  [Function](Function.html)
+
+The function to be called upon success of the request. The callback is passed the following parameters:
+
+response :  Object
+
+The XMLHttpRequest object containing the response data.
+
+options :  Object
+
+The parameter to the request call.
+
+`failure` :  [Function](Function.html)
+
+The function to be called upon failure of the request. The callback is passed the following parameters:
+
+response :  Object
+
+The XMLHttpRequest object containing the response data.
+
+options :  Object
+
+The parameter to the request call.
+
+scope :  [Object](Object.html)
+
+The scope in which to execute the callbacks: The "this" object for the callback function. If the `url`, or `params` options were specified as functions from which to draw values, then this also serves as the scope for those function calls. Defaults to the browser window.
+
+`timeout` :  [Number](Number.html)
+
+The timeout in milliseconds to be used for this request. Defaults to 30000 milliseconds (30 seconds).
+
+When a request fails due to timeout the XMLHttpRequest response object will contain:
+
+```javascript
+timedout: true
+```
+
+form :  [Ext.dom.Element](Ext.dom.Element.html) / HTMLElement / [String](String.html)
+
+The `<form>` Element or the id of the `<form>` to pull parameters from.
+
+isUpload :  [Boolean](Boolean.html)
+
+**Only meaningful when used with the form option.**
+
+True if the form object is a file upload (will be set automatically if the form was configured with **enctype** `"multipart/form-data"`).
+
+File uploads are not performed using normal "Ajax" techniques, that is they are **not** performed using XMLHttpRequests. Instead the form is submitted in the standard manner with the DOM `&lt;form&gt;` element temporarily modified to have its [target](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/target) set to refer to a dynamically generated, hidden `&lt;iframe&gt;` which is inserted into the document but removed after the return data has been gathered.
+
+The server response is parsed by the browser to create the document for the IFRAME. If the server is using JSON to send the return object, then the[Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) header must be set to "text/html" in order to tell the browser to insert the text unchanged into the document body.
+
+The response text is retrieved from the document, and a fake XMLHttpRequest object is created containing a `responseText` property in order to conform to the requirements of event handlers and callbacks.
+
+Be aware that file upload packets are sent with the content type [multipart/form](https://tools.ietf.org/html/rfc7233#section-4.1) and some server technologies (notably JEE) may require some custom processing in order to retrieve parameter names and parameter values from the packet content.
+
+- [target](http://www.w3.org/TR/REC-html40/present/frames.html#adef-target)
+- [Content-Type](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17)
+- [multipart/form](http://www.faqs.org/rfcs/rfc2388.html)
+
+headers :  [Object](Object.html)
+
+Request headers to set for the request. The XHR will attempt to set an appropriate Content-Type based on the params/data passed to the request. To prevent this, setting the Content-Type header to `null` or `undefined` will not attempt to set any Content-Type and it will be left to the browser.
+
+xmlData :  [Object](Object.html)
+
+XML document to use for the post. Note: This will be used instead of params for the post data. Any params will be appended to the URL.
+
+jsonData :  [Object](Object.html) / [String](String.html)
+
+JSON data to use as the post. Note: This will be used instead of params for the post data. Any params will be appended to the URL.
+
+rawData :  [String](String.html)
+
+A raw string to use as the post. Note: This will be used instead of params for the post data. Any params will be appended to the URL.
+
+binaryData :  [Array](Array.html)
+
+An array of bytes to submit in binary form. Any params will be appended to the URL. If binaryData is present, you must set [binary](Ext.data.Connection.html#cfg-binary) to `true` and options.method to `POST`.
+
+disableCaching :  [Boolean](Boolean.html)
+
+True to add a unique cache-buster param to GET requests.
+
+withCredentials :  [Boolean](Boolean.html)
+
+True to add the withCredentials property to the XHR object
+
+username :  [String](String.html)
+
+The username to pass when using `withCredentials`.
+
+password :  [String](String.html)
+
+The password to pass when using `withCredentials`.
+
+binary :  [Boolean](Boolean.html)
+
+True if the response should be treated as binary data. If true, the binary data will be accessible as a "responseBytes" property on the response object.
+
+### extjs时间格式化
+
+```js
+Ext.util.Format.date(日期控件.getValue(), 'Y-m-d');
+```
+
+
+
+### js 删除json中的某个字段
+
+```js
+删除json下指定的元素 
+var obj = {‘id’:1, ‘name’:2}; 
+delete obj.id; 
+delete obj[id]; 
+```
 
 
 

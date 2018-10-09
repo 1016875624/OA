@@ -1,4 +1,4 @@
-Ext.define('Admin.view.quit.QuitWindow', {
+Ext.define('Admin.view.quit.quitManager.QuitWindow', {
     extend:'Ext.window.Window',
     //alias:'widget.orderWindow',
 	
@@ -31,6 +31,7 @@ Ext.define('Admin.view.quit.QuitWindow', {
             {fieldLabel: '申请日期', name: 'applyDate',xtype:"datefield",format: 'Y/m/d H:i:s'},
             {fieldLabel: '离职原因', name: 'reason'},
             {fieldLabel: '离职日期', name: 'quitDate',xtype:"datefield",format: 'Y/m/d H:i:s'},
+            {fieldLabel: '状态', name: 'status',xtype:'numberfield',allowDecimals:false},
 		],
 		
 		

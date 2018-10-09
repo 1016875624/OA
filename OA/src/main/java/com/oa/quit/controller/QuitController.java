@@ -1,5 +1,9 @@
 package com.oa.quit.controller;
 
+import java.time.LocalDateTime;
+
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oa.common.beans.BeanUtils;
+import com.oa.common.date.utils.DateUtils;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.ExtjsPageRequest;
 import com.oa.employee.entity.Employee;
@@ -60,7 +65,8 @@ public class QuitController {
 	}
 	
 	@PutMapping(value="{id}")
-    public ExtAjaxResponse update(@PathVariable("id") Integer id,QuitDTO quitDTO) {
+    public ExtAjaxResponse update(@PathVariable("id") Integer id,@RequestBody QuitDTO quitDTO) {
+		System.out.println(quitDTO);
     	try {
     		Quit entity =new Quit();
 			BeanUtils.copyProperties(quitDTO, entity);//使用自定义的BeanUtils
@@ -70,7 +76,7 @@ public class QuitController {
 				employee.setId(quitDTO.getEmployeeid());
 				entity.setEmployee(employee);
 			}
-			quitService.save(entity);
+			quitService.update(entity);
     		return new ExtAjaxResponse(true,"更新成功!");
 	    } catch (Exception e) {
 	    	e.printStackTrace();
@@ -93,6 +99,83 @@ public class QuitController {
 			return new ExtAjaxResponse(true,"删除成功");
 		} catch (Exception e) {
 			return new ExtAjaxResponse(false,"删除失败");
+		}
+	}
+	
+	@RequestMapping("/applyQuit")
+	public ExtAjaxResponse applyQuit(Quit quit,HttpSession session) {
+		String userid=(String)session.getAttribute("userId");
+		if (userid==null) {
+			userid="user1";
+		}
+		
+		try {
+			Employee employee=new Employee();
+			employee.setId(userid);
+			quit.setEmployee(employee);
+			quit.setStatus(0);
+			quitService.save(quit);
+			return new ExtAjaxResponse(true,"申请成功");
+		} catch (Exception e) {
+			return new ExtAjaxResponse(false,"申请失败");
+		}
+	}
+	@RequestMapping("/approval")
+	public ExtAjaxResponse approval(Quit quit) {
+		try {
+			Quit entity = quitService.findById(quit.getId());
+			BeanUtils.copyProperties(quit, entity);
+			quitService.save(entity);
+			return new ExtAjaxResponse(true,"申请成功");
+		} catch (Exception e) {
+			return new ExtAjaxResponse(false,"申请失败");
+		}
+	}
+	
+	@RequestMapping("/approvalPass")
+	public ExtAjaxResponse approvalPass(Quit quit) {
+		try {
+			Quit entity = quitService.findById(quit.getId());
+			BeanUtils.copyProperties(quit, entity);
+			LocalDateTime ldt=LocalDateTime.now();
+			ldt=ldt.plusDays(3);
+			entity.setQuitDate(DateUtils.toDate(ldt));
+			quitService.save(entity);
+			return new ExtAjaxResponse(true,"申请成功");
+		} catch (Exception e) {
+			return new ExtAjaxResponse(false,"申请失败");
+		}
+	}
+	
+	@RequestMapping("/approvalPassMore")
+	public ExtAjaxResponse approvalPassMore(Integer[] id) {
+		try {
+			quitService.approvalPass(id);
+			return new ExtAjaxResponse(true,"操作成功");
+		} catch (Exception e) {
+			return new ExtAjaxResponse(false,"申请失败");
+		}
+	}
+	
+	@RequestMapping("/approvalNoPassMore")
+	public ExtAjaxResponse approvalNoPassMore(Integer[] id) {
+		try {
+			quitService.approvalNoPass(id);
+			return new ExtAjaxResponse(true,"操作成功");
+		} catch (Exception e) {
+			return new ExtAjaxResponse(false,"申请失败");
+		}
+	}
+	
+	@RequestMapping("/approvalNoPass")
+	public ExtAjaxResponse approvalNoPass(Quit quit) {
+		try {
+			Quit entity = quitService.findById(quit.getId());
+			BeanUtils.copyProperties(quit, entity);
+			quitService.save(entity);
+			return new ExtAjaxResponse(true,"申请成功");
+		} catch (Exception e) {
+			return new ExtAjaxResponse(false,"申请失败");
 		}
 	}
 	

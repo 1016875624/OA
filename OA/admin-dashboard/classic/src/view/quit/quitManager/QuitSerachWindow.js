@@ -1,4 +1,4 @@
-Ext.define('Admin.view.quit.QuitSearchWindow', {
+Ext.define('Admin.view.quit.quitManager.QuitSearchWindow', {
     extend:'Ext.window.Window',
     //alias:'widget.orderWindow',
 	
