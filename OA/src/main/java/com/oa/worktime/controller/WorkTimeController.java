@@ -1,7 +1,12 @@
 package com.oa.worktime.controller;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oa.common.beans.BeanUtils;
+import com.oa.common.checksaveHoliday.Checkandsaveholiday;
+import com.oa.common.holiday.HolidayQuery;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.ExtjsPageRequest;
 import com.oa.common.web.SessionUtil;
@@ -27,9 +34,12 @@ import com.oa.department.service.IDepartmentService;
 import com.oa.employee.entity.Employee;
 import com.oa.employee.service.IEmployeeService;
 import com.oa.leave.entity.LeaveDTO;
+import com.oa.worktime.entity.HolidayTime;
+import com.oa.worktime.entity.HolidayTimeDTO;
 import com.oa.worktime.entity.WorkTime;
 import com.oa.worktime.entity.WorkTimeDTO;
 import com.oa.worktime.entity.WorkTimeQueryDTO;
+import com.oa.worktime.service.IHolidayTimeService;
 import com.oa.worktime.service.IWorkTimeService;
 
 @RestController
@@ -43,6 +53,13 @@ public class WorkTimeController {
 	
 	@Autowired
 	private IDepartmentService departmentService;
+	
+	@Autowired
+	HolidayQuery holidayQuery;
+	
+	@Autowired
+	IHolidayTimeService holidayTimeService;
+	
 	@GetMapping
 	public Page<WorkTimeDTO> getPage(WorkTimeQueryDTO worktimeQueryDto,ExtjsPageRequest extjsPageRequest){
 		/*if(worktimeQueryDto.getDepartmentid()!=null) {
@@ -101,7 +118,39 @@ public class WorkTimeController {
 			return new ExtAjaxResponse(false,"添加失败");
 		}
 	}
-	
+	//添加多条工时
+	@PostMapping(value="savemore")
+	public ExtAjaxResponse savemore(@RequestBody WorkTimeDTO workTimeDTO) throws IOException 
+	{	
+		Employee em= null;
+		try {
+			
+			if (workTimeDTO.getEmployeeid()!=null&&!"".equals(workTimeDTO.getEmployeeid().trim())) {
+				em= new Employee();
+				em.setId(workTimeDTO.getEmployeeid());
+				
+			}
+			
+			HolidayTimeDTO holidayTimeDTO=new HolidayTimeDTO();
+			holidayTimeDTO.setStartDate(workTimeDTO.getStartDate());
+			holidayTimeDTO.setEndDate(workTimeDTO.getEndDate());
+			Checkandsaveholiday checkandsaveholiday=new Checkandsaveholiday();
+			List<HolidayTime> holidayTimes=checkandsaveholiday.checkHoliday(holidayTimeDTO);
+			
+			for (HolidayTime holidayTime : holidayTimes) {
+				WorkTime workTime=new WorkTime();
+				BeanUtils.copyProperties(workTimeDTO, workTime);
+				//if(holidayTime.getIfholiday()==1||)
+				workTime.setIfholiday(holidayTime.getIfholiday());
+				workTime.setStatus(0);
+				workTime.setEmployee(em);
+				workTimeService.save(workTime);
+			}
+			return new ExtAjaxResponse(true,"添加成功");
+		} catch (Exception e) {
+			return new ExtAjaxResponse(false,"添加失败");
+		}
+	}
 	@PutMapping(value="{id}")
     public ExtAjaxResponse update(@PathVariable("id") Integer id,@RequestBody WorkTimeDTO workTimeDTO) {
     	try {

@@ -213,18 +213,18 @@ public class LeaveController {
     public Page<LeaveDTO> findLeaveByLeaderId(LeaveQueryDTO leaveQueryDTO,HttpSession session,ExtjsPageRequest pageable) 
 	{
 		Page<LeaveDTO> page;
-		LeaveQueryDTO leaveQueryDTO2 = new LeaveQueryDTO();
-		LeaveQueryDTO leaveQueryDTO3 = new LeaveQueryDTO();
+//		LeaveQueryDTO leaveQueryDTO2 = new LeaveQueryDTO();
+//		LeaveQueryDTO leaveQueryDTO3 = new LeaveQueryDTO();
 		//获得当前用户ID
 		String applicantId = (String) session.getAttribute("userId");
 		if(applicantId!=null) {
 			leaveQueryDTO.setLeaderId(applicantId);
 			leaveQueryDTO.setStatus(1);
-			leaveQueryDTO2.setLeaderId(applicantId);
-			leaveQueryDTO2.setStatus(2);
-			leaveQueryDTO3.setLeaderId(applicantId);
-			leaveQueryDTO3.setStatus(3);
-			page = leaveService.findAllApprovalInDto(LeaveQueryDTO.getWhereClause(leaveQueryDTO), LeaveQueryDTO.getWhereClause(leaveQueryDTO2), LeaveQueryDTO.getWhereClause(leaveQueryDTO3), pageable.getPageable());
+//			leaveQueryDTO2.setLeaderId(applicantId);
+//			leaveQueryDTO2.setStatus(2);
+//			leaveQueryDTO3.setLeaderId(applicantId);
+//			leaveQueryDTO3.setStatus(3);
+			page = leaveService.findAllInDto(LeaveQueryDTO.getWhereClause(leaveQueryDTO), pageable.getPageable());
 		}else {
 			page = new PageImpl<LeaveDTO>(new ArrayList<LeaveDTO>(),pageable.getPageable(),0);
 		}

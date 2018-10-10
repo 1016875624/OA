@@ -30,11 +30,18 @@ public class WorkTimeDTO {
 	/**
 	* @Fields hour : 当天的上班时间
 	*/
+	@JsonFormat(pattern="yyyy/MM/dd",timezone="GMT+8")
+	@DateTimeFormat(pattern="yyyy/MM/dd")
+	private Date StartDate;
+	
+	@JsonFormat(pattern="yyyy/MM/dd",timezone="GMT+8")
+	@DateTimeFormat(pattern="yyyy/MM/dd")
+	private Date EndDate;
 	private Integer hour;
 	
 	private Integer status;
 	
 	private String departmentName;
 	private String departmentid;
-	
+	private Integer ifholiday;
 }

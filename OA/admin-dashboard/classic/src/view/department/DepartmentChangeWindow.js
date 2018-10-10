@@ -25,7 +25,8 @@ Ext.define('Admin.view.department.DepartmentChangeWindow', {
 				items: [
 						{
 						//layout:'form',
-						columnWidth:.40,
+						//columnWidth:.40,
+						columnWidth: .4,
 						margin: '10 0 0 10',
 				    	items:[
 				    			{
@@ -48,7 +49,8 @@ Ext.define('Admin.view.department.DepartmentChangeWindow', {
 						
 			        	{	
 			        	layout: 'center',
-			        	columnWidth:.10,
+			        	//columnWidth:.10,
+			        	columnWidth: .1,
 			        	buttons:[{
 			        			iconCls: 'fa fa-arrow-left',
 				                handler:function(){}
@@ -57,7 +59,8 @@ Ext.define('Admin.view.department.DepartmentChangeWindow', {
 					    
 					    {	
 			        	layout: 'center',
-			        	columnWidth:.10,
+			        	//columnWidth:.10,
+			        	columnWidth: .1,
 			        	buttons:[{
 			        			iconCls: 'fa fa-arrow-right',
 				                handler:function(){}
@@ -66,7 +69,8 @@ Ext.define('Admin.view.department.DepartmentChangeWindow', {
 					    
 					    {
 				    	//layout:'form',
-						columnWidth:.40,
+						//columnWidth:.40,
+					    columnWidth: .4,
 						margin: '10 10 0 0',
 				    	items:[
 				    			{

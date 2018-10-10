@@ -44,12 +44,12 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 	submitAddForm:function(btn){
 		var win    = btn.up('window');
 		var form = win.down('form');
-		var record = Ext.create('Admin.model.workTime.WorkTimeModel');
+		//var record = Ext.create('Admin.model.workTime.WorkTimeModel');
 		var values  =form.getValues();//获取form数据
-		record.set(values);
-		record.save();
-		Ext.data.StoreManager.lookup('workTimeGridStroe').load();
-		win.close();
+		//record.set(values);
+		//record.save();
+		//Ext.data.StoreManager.lookup('workTimeGridStroe').load();
+		//win.close();
 	},
 	/*Edit Submit*/	
 	submitEditForm:function(btn){

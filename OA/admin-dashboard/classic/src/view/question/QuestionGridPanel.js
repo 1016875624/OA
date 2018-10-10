@@ -36,7 +36,33 @@ Ext.define('Admin.view.question.QuestionViewModel', {
 				},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'textQuestion',text: '题目',flex: 1},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'realanswer',text: '标准答案',flex: 1},
-				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'answers',text: '选择题选项',flex: 1},
+				{xtype: 'widgetcolumn',cls: 'content-column',text: '标准答案',flex: 1,
+					widget:{
+			            align: 'center',
+			            xtype: 'button',
+			            width:100,
+			            text:"点击查看答案",
+			            handler:function(btn){
+			            	console.log(Ext.ClassManager.getName(btn));
+			            	console.log(111);
+			            	var rec = btn.getWidgetRecord();
+			            	//或者bind:'{record.realanswer}'
+			            	var str=rec.get("realanswer")
+			            	console.log(str);
+			            	
+			            	if(rec.get("type")=="0"){
+			            		Ext.Msg.alert("标准答案",str);
+			            	}else if(rec.get("type")=="1"){
+			            		var strs=str.split("&");
+			            		Ext.Msg.alert("标准答案",strs);
+			            	}else if(rec.get("type")=="2"){
+			            		var strs=str.split("$");
+			            		Ext.Msg.alert("标准答案",strs);
+			            	}
+			            }
+			        }
+				},
+				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'answers',text: '选择题选项',flex:1},
 				
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'status',text: '状态',
 					renderer:function(val){
