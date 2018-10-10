@@ -1,174 +1,154 @@
 ﻿Ext.define('Admin.view.leaveapprove.LeaveApproveViewController', {
     extend: Ext.app.ViewController,
     alias: 'controller.leaveApproveViewController',
-    //1.签收任务
-    onClickLeaveApproveClaimButton: function(view, recIndex, cellIndex, item, e, record) {
-        Ext.Ajax.request({
-            url: 'leave/claim/' + record.get('taskId'),
-            method: 'post',
-            success: function(response, options) {
-                var json = Ext.util.JSON.decode(response.responseText);
-                if (json.success) {
-                    Ext.Msg.alert('操作成功', json.msg, function() {
-                        view.getStore().reload();
-                    });
-                } else {
-                    Ext.Msg.alert('操作失败', json.msg);
-                }
-            }
-        });
-    },
-    //2.创建审批表单（并绑定Task id）
-    setCurrentView: function(view, form, title) {
-		var cfg = Ext.apply({
-			xtype: 'leaveApproveWindow',
-			items: [{xtype: form}]
-		},{
-			title: title
-		});
-		var win = Ext.widget(cfg);
-        view.up('panel').up('container').add(win);
-        return win;
-    },
-    onClickLeaveApproveCompleteWindowButton: function(view, recIndex, cellIndex, item, e, record) {
-    	//选中点击的行
-        var taskDefinitionKey = record.get('taskDefinitionKey');
-        if (taskDefinitionKey == 'deptLeaderAudit') {
-            //部门领导审批
-            var win = this.setCurrentView(view,taskDefinitionKey, '部门领导审批');
-            win.down('form').getForm().loadRecord(record);
-        } else if (taskDefinitionKey == 'hrAudit') {
-        	//人事审批
-        	var win = this.setCurrentView(view,taskDefinitionKey,'人事审批表单');
-        	win.down('form').getForm().loadRecord(record);
-        }
-        else if (taskDefinitionKey == 'reportBack') {
-        	//申请人销假
-        	var win = this.setCurrentView(view,taskDefinitionKey,'销假表单');
-        	win.down('form').getForm().loadRecord(record);
-        }
-        else if (taskDefinitionKey == 'modifyApply') {
-        	//申请人调整申请：可以编写到工具类中
-        	var win = this.setCurrentView(view,taskDefinitionKey,'调整申请表单');
-        	win.down('form').getForm().loadRecord(record);
-        }
-    },
-    //3.封装审批表单数据,并以Ajax提交到后台完成任务的流程变量封装对象中。
-	complete: function(url, variables,form){
-		// 转换JSON为字符串
-	    var keys = "", values = "", types = "";
-		if (variables) {
-			Ext.each(variables, function (item) {
-				if (keys != "") {
-					keys += ",";
-					values += ",";
-					types += ",";
-				}
-				keys += item.key;
-				values += item.value;
-				types += item.type;
-            });
+    onClickLeaveApproveCompleteWindowButton: function(grid, rowIndex, colIndex) {
+    	var record = grid.getStore().getAt(rowIndex);
+		//获取选中数据的字段值：console.log(record.get('id')); 或者 console.log(record.data.id);
+		
+		if (record ) {
+			if(record.data.status=="1"){
+				var win = grid.up('container').add(Ext.widget('leaveApproveWindow'));
+				win.show();
+				win.down('form').getForm().loadRecord(record);
+			}else{
+				Ext.Msg.alert('提示', "只可以审批'待审批'状态的信息！");
+			}
 		}
-		Ext.Ajax.request({
-            url: url,
-            method: 'post',
-            params : { 
-			 	keys: keys,
-		        values: values,
-		        types: types
+    },
+	/*submitApproveForm*/	
+	submitApproveForm:function(btn){
+		var win    = btn.up('window');
+		var values  = win.down('form').getValues();//获取form数据
+		Ext.Ajax.request({ 
+			url : '/leave/approval', 
+			method : 'get', 
+			params : {
+				id :values.id
 			}, 
-            success: function(response, options) {
-                var json = Ext.util.JSON.decode(response.responseText);
-                if (json.success) {
-                    Ext.Msg.alert('操作成功', json.msg, function() {
-                    	form.up('window').close();
-                        //grid.getStore().reload();
-                        Ext.data.StoreManager.lookup('leaveApproveStore').load();
-                    });
-                } else {
-                    Ext.Msg.alert('操作失败', json.msg);
-                }
-            }
-        });
+			success: function(response, options) {
+				var json = Ext.util.JSON.decode(response.responseText);
+				if(json.success){
+					Ext.Msg.alert('操作成功', json.msg, function() {
+						Ext.data.StoreManager.lookup('leaveApproveStore').load();
+						win.close();
+				});
+				}else{
+					Ext.Msg.alert('操作失败', json.msg);
+				}
+			}
+		});
 	},
-	//部门经理审批
-    onClickDeptleaderAuditFormSubmitButton: function(btn) {
-    	var form = btn.up('form');
-    	var values = form.getValues();
-    	var url = 'leave/complete/' + values.taskId;
-    	var variables = [{
-			key: 'deptLeaderPass',
-			value: values.deptLeaderPass,//获取表单选择的value
-			type: 'B'
-		},{
-			key: 'deptLeaderBackReason',
-			value: values.deptLeaderBackReason,//获取表单选择的value
-			type: 'S'
-		}];
-        this.complete(url,variables,form);
+	 onClickRejectWindowButton: function(grid, rowIndex, colIndex) {
+    	var record = grid.getStore().getAt(rowIndex);
+		//获取选中数据的字段值：console.log(record.get('id')); 或者 console.log(record.data.id);
+		
+		if (record) {
+			if(record.data.status=="1"){
+				var win = grid.up('container').add(Ext.widget('leaveRejectWindow'));
+				win.show();
+				win.down('form').getForm().loadRecord(record);
+			}else{
+				Ext.Msg.alert('提示', "只可以驳回'待审批'状态的信息！");
+			}
+		}
     },
-    //人事文员审批
-    onClickHrAuditFormSubmitButton: function(btn) {
-        var form = btn.up('form');
-    	var values = form.getValues();
-    	var url = 'leave/complete/' + values.taskId;
-    	var variables = [{
-			key: 'hrPass',
-			value: values.hrPass,//获取表单选择的value
-			type: 'B'
-		},{
-			key: 'hrBackReason',
-			value: values.hrBackReason,//获取表单选择的value
-			type: 'S'
-		}];
-        this.complete(url,variables,form);
-    },
-    //销假
-    onClickReportBackFormSubmitButton: function(btn) {
-    	var form = btn.up('form');
-     	var values = form.getValues();
-     	var url = 'leave/complete/' + values.taskId;
-     	var variables = [{
- 			key: 'realityStartTime',
- 			value: values.realityStartTime,//获取表单选择的value
- 			type: 'D'
- 		},{
- 			key: 'realityEndTime',
- 			value: values.realityEndTime,//获取表单选择的value
- 			type: 'D'
- 		}];
-        this.complete(url,variables,form);
-    },
-    //调整申请
-    onClickModifyApplyFormSubmitButton: function(btn) {
-        var form = btn.up('form');
-    	var values = form.getValues();
-    	var url = 'leave/complete/' + values.taskId;
-    	var variables = [{
-			key: 'reApply',
-			value: values.reApply,//获取表单选择的value
-			type: 'B'
-		},{
-			key: 'leaveType',
-			value: values.leaveType,//获取表单选择的value
-			type: 'S'
-		},{
-			key: 'startTime',
-			value: values.startTime,//获取表单选择的value
-			type: 'D'
-		},{
-			key: 'endTime',
-			value: values.endTime,//获取表单选择的value
-			type: 'D'
-		},{
-			key: 'reason',
-			value: values.reason,//获取表单选择的value
-			type: 'S'
-		}];
-        this.complete(url,variables,form);
-    },
-    //流程跟踪
-    onClickGraphTraceButton : function(btn) {
-        alert("on Click Add Button!");
-    }
+	submitRejectForm:function(btn){
+		var win    = btn.up('window');
+		var values  = win.down('form').getValues();//获取form数据
+		Ext.Ajax.request({ 
+			url : '/leave/reject', 
+			method : 'post',
+			params : {
+				id :values.id,
+				reason:values.reason
+			}, 
+			success: function(response, options) {
+				var json = Ext.util.JSON.decode(response.responseText);
+				if(json.success){
+					Ext.Msg.alert('操作成功', json.msg, function() {
+						Ext.data.StoreManager.lookup('leaveApproveStore').load();
+						win.close();
+				});
+				}else{
+					Ext.Msg.alert('操作失败', json.msg);
+				}
+			}
+		});
+	},
+	/*End Leave Process*/	
+	endLeaveProcess:function(grid, rowIndex, colIndex){
+		var record = grid.getStore().getAt(rowIndex);
+		Ext.Ajax.request({
+			url : '/leave/endleave',
+			method : 'post', 
+			params : {
+				id :record.get("id")
+			}, 
+			success: function(response, options) {
+				var json = Ext.util.JSON.decode(response.responseText);
+				if(json.success){
+					Ext.Msg.alert('操作成功', json.msg, function() {
+					grid.getStore().reload();
+				});
+				}else{
+					Ext.Msg.alert('操作失败', json.msg);
+				}
+			}
+		});
+	},
+	/*combobox选中后控制对应输入（文本框和日期框）框显示隐藏*/
+	searchComboboxSelectChuang:function(combo,record,index){
+		//alert(record.data.name);
+		var searchField = this.lookupReference('searchFieldName').getValue();
+		if(searchField==='leaveTime'){
+			this.lookupReference('searchFieldValue').hide();
+			this.lookupReference('searchDataFieldValue').show();
+			this.lookupReference('searchDataFieldValue2').show();
+		}else{
+			this.lookupReference('searchFieldValue').show();
+			this.lookupReference('searchDataFieldValue').hide();
+			this.lookupReference('searchDataFieldValue2').hide();
+		}
+	},
+	/*Quick Search*/	
+	quickSearch:function(btn){
+		var searchField = this.lookupReference('searchFieldName').getValue();
+		var searchDataFieldValue = this.lookupReference('searchDataFieldValue').getValue();
+		var searchDataFieldValue2 = this.lookupReference('searchDataFieldValue2').getValue();
+		var searchFieldValue = this.lookupReference('searchFieldValue').getValue();
+
+		var store =	btn.up('gridpanel').getStore();
+		//var store = Ext.getCmp('userGridPanel').getStore();// Ext.getCmp(）需要在LeavePanel设置id属性
+		Ext.apply(store.proxy.extraParams, {startTime:"",endTime:""});
+		if(searchField==='leaveTime'){
+			Ext.apply(store.proxy.extraParams,{
+				startTime:Ext.util.Format.date(searchDataFieldValue, 'Y/m/d H:i:s'),
+				endTime:Ext.util.Format.date(searchDataFieldValue2, 'Y/m/d H:i:s')
+			});
+		}
+		else if(searchField==='status'){
+			Ext.apply(store.proxy.extraParams,{
+				status:searchFieldValue,
+			});
+		}
+		store.load({params:{start:0, limit:20, page:1}});
+	},
+	/*Search More*/
+	openSearchWindow:function(toolbar, rowIndex, colIndex){
+		toolbar.up('panel').up('container').add(Ext.widget('leaveSearchWindow')).show();
+	},
+	submitSearchForm:function(btn){
+		var store =	Ext.data.StoreManager.lookup('leaveApproveStore');
+		var win = btn.up('window');
+		var form = win.down('form');
+		var values  = form.getValues();
+		Ext.apply(store.proxy.extraParams, {status:"",startTime:"",endTime:""});
+		Ext.apply(store.proxy.extraParams,{
+			status:values.status,
+			startTime:Ext.util.Format.date(values.startTime, 'Y/m/d H:i:s'),
+			endTime:Ext.util.Format.date(values.endTime, 'Y/m/d H:i:s')
+		});
+		store.load({params:{start:0, limit:20, page:1}});
+		win.close();
+	}
 });

@@ -49,9 +49,20 @@ Ext.define('Admin.view.workTime.WorkTimeAddWindow', {
         }, {
             xtype: 'datefield',
             editable: false,
-            fieldLabel: '日期',
-            name:'date',
-            format: 'Y/m/d'
+            fieldLabel: '日期起始',
+            format: 'Y/m/d',
+            reference:'startofdate',
+            emptyText: '起始时间',
+            name: 'from_date'
+            
+        },{
+        	xtype: 'datefield',
+			editable:false,
+			format: 'Y/m/d',
+			reference:'endofdate',
+			fieldLabel: '日期末端',
+			emptyText: '末时间',
+			name: 'end_date'
         }]
     }],
 	buttons: ['->',{

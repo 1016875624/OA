@@ -5,16 +5,21 @@
     model: 'Admin.model.leaveapprove.LeaveApproveModel',
     //pageSize: 25,
     proxy: {
-        type: 'ajax',
-        url: 'leave/tasks', 			//需要修改
-        reader : new Ext.data.JsonReader({  
-            type : 'json',  
-            rootProperty  : 'content',
-            totalProperty : 'totalElements'
-        })
-        ,simpleSortMode: true
+        type: 'rest',
+        url: 'leave/approvalTable',			//需要修改
+        reader:{
+			type:'json',
+			rootProperty:'content',//对应后台返回的结果集名称
+			totalProperty: 'totalElements'//分页需要知道总记录数
+		},
+		writer: {
+			type: 'json'
+		},
+		simpleSortMode: true
     },
     remoteSort: true,
+	autoSync: true,
+	pageSize: 15,
     sorters: [{ property: 'id',direction: 'desc'}],
     autoLoad: true
 });	

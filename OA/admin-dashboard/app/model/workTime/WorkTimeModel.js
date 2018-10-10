@@ -10,7 +10,8 @@ Ext.define('Admin.model.workTime.WorkTimeModel', {
 		{type: 'string',name: 'departmentName'},
 		{type: 'int',name: 'hour'},
 	    {type: 'date', name: 'date', dateFormat:'Y/m/d'},
-	    {type:'int',name:'status'}
+	    {type:'int',name:'status'},
+	    {type:'int',name:'ifholiday'}
 	],
 	proxy: {
 		type: 'rest',

@@ -26,6 +26,17 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'employeeName',text: '员工姓名',flex: 1},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'departmentName',text: '部门',flex: 1},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'hour',text: '当天的上班时间 (单位：H)',flex: 1},
+				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'ifholiday',text: '工作/节假日',flex: 1,
+					renderer:function(val){
+						if(val=='0'){
+							return '<span>工作日</span>';
+						}else if(val=='1'){
+							return '<span style="color:orange">法定休息日</span>';
+						}else if(val=='2'){
+							return '<span style="color:orange">节假日</span>';
+						}
+					}
+				},
 				{xtype: 'datecolumn',cls: 'content-column',width: 200,dataIndex: 'date',text: '日期',formatter: 'date("Y/m/d")'},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'status',text: '状态',flex: 1,
 					renderer:function(val){

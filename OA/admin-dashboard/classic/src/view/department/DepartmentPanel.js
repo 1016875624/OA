@@ -29,7 +29,7 @@ Ext.define('Admin.view.department.DepartmentPanel', {
             columns: [
                 {xtype: 'gridcolumn',width: 40,dataIndex: 'id',text: 'id',hidden:true},
                 {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'name',text: '部门名称',flex: 1},
-                {xtype: 'gridcolumn',dataIndex: 'name',text: '部门人员',flex: 1,hidden:false},
+                {xtype: 'gridcolumn',dataIndex: 'employeesids',text: '部门人员',flex: 1,hidden:false},
                 {xtype: 'actioncolumn',cls: 'content-column', width: 160,text: 'Actions',tooltip: 'edit ',
                     items: [
                         {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'gridModify'},
@@ -41,36 +41,7 @@ Ext.define('Admin.view.department.DepartmentPanel', {
                 }
 				
             ],
-            /*
-            // 监听grid事件：
-			listeners: {
-				selectionchange: function(view , records,selection,eOpts) {
-					if(records[0]) {    // 加载进form表单中；
-						this.up('form').getForm().loadRecord(records[0]);
-					}
-					console.log(view);
-					console.log(records);
-					console.log(selection);
-					console.log(eOpts);
-					//Ext.Msg.alert("title","content");
-					if(records[0]){
-						this.up('form').getForm().loadRecord(records[0]);
-					}
-					//showWindow(records[0]);
-					Ext.m_data=records[0];
-					
-					this.down('#userRemoveBtn').setDisabled(records.length === 0);
-				}
-			},
-			selModel: {type: 'checkboxmodel',checkOnly: true},
-            dockedItems: [{
-                xtype: 'pagingtoolbar',
-                dock: 'bottom',
-                itemId: 'paginationToolbar',
-                displayInfo: true,
-                bind: '{departmentLists}'
-            }],
-            */
+            
             tbar: [{
 	            xtype: 'combobox',
 	            reference:'searchFieldName',

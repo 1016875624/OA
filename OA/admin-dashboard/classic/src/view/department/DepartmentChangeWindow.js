@@ -7,77 +7,91 @@ Ext.define('Admin.view.department.DepartmentChangeWindow', {
         'Ext.toolbar.Paging',
 		'Ext.form.field.ComboBox',
 		'Ext.layout.container.Column',
-        'Ext.grid.column.Date'
+        'Ext.grid.column.Date',
+        'Ext.layout.container.Center'
     ],
 	xtype:'departmentChangeWindow',
 	autoShow:true,
-//	modal:true,
 	title:'部门人员管理',
 	width: 600,
     height: 500,
-    layout: 'column',
+    buttonAlign:'center',
+    //labelAlign:'right',
+    frame:true,
 
-    viewModel: true,
-
-    bodyStyle: "background: transparent",
-
-    defaults: {
-        bodyPadding: 10,
-        height: 300,
-        scrollable: true
-    },
-    
 	items:  [
 				{	
-
-				//xtype: 'layout-center',
-				//layout: 'column',
-				//layout: 'center',
-		        frame: true,
-		        title: '当前部门人员',
-		        icon: null,
-		        height: 400,
-		        //glyph: 117,
+		        layout:'column',
 				items: [
-					{
-			        width: 200,
-			        title: '这里显示部门人员',
-					xtype:"departmentcombobox",
-			    	reference:'departmentBox',
-			    	name:'departmentid'
-		        	}, 
-		        	{
-		            xtype: 'displayfield',
-		            html: '<p>这里显示部门人员.</p>'
-		        	}] 
-		    },
-		    {	
-		    	width: 80
-		        //title: 'Width = 0.7',
-		        //columnWidth: 0.2,
-		        //html: '<p>This is some longer content.</p><p>This is some longer content.</p><p>This is some longer content.</p><p>This is some longer content.</p><p>This is some longer content.</p><p>This is some longer content.</p>'
-		    },
-		    {
-		        //title: 'Width = 150px',
-		    	frame: true,
-		        title: '其他部门人员',
-		        icon: null,
-		        height: 400,
-		        //glyph: 117,
-				items: [
-					{
-			        width: 200,
-			        title: '这里显示部门人员',
-					xtype:"departmentcombobox",
-			    	reference:'departmentBox',
-			    	name:'departmentid'
-		        	}, 
-		        	{
-		            xtype: 'displayfield',
-		            html: '<p>这里显示部门人员.</p>'
-		        	}] 
-		    }
-		    ],
+						{
+						//layout:'form',
+						//columnWidth:.40,
+						columnWidth: .4,
+						margin: '10 0 0 10',
+				    	items:[
+				    			{
+								xtype:"departmentcombobox",
+						    	reference:'departmentBox',
+						    	name:'departmentid'
+				    			},
+				    			{
+			    				xtype: 'gridpanel',
+			    	            bind: '{employeeLists}',
+			    	            scrollable: false,
+			    	            selModel: {type: 'checkboxmodel'},
+			    	            handler: 'quickSearch1',
+			    	            columns: [
+			    	            	{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'employeesids',text: '员工编号',flex: 1},
+			    	            	{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'employeesName',text: '员工姓名',flex: 1}
+			    	            ]
+			    	            }]
+						},
+						
+			        	{	
+			        	layout: 'center',
+			        	//columnWidth:.10,
+			        	columnWidth: .1,
+			        	buttons:[{
+			        			iconCls: 'fa fa-arrow-left',
+				                handler:function(){}
+				                }]
+					    },
+					    
+					    {	
+			        	layout: 'center',
+			        	//columnWidth:.10,
+			        	columnWidth: .1,
+			        	buttons:[{
+			        			iconCls: 'fa fa-arrow-right',
+				                handler:function(){}
+				                }]
+					    },
+					    
+					    {
+				    	//layout:'form',
+						//columnWidth:.40,
+					    columnWidth: .4,
+						margin: '10 10 0 0',
+				    	items:[
+				    			{
+								xtype:"departmentcombobox",
+						    	reference:'departmentBox',
+						    	name:'departmentid'
+				    			},
+				    			{
+			    				xtype: 'gridpanel',
+			    	            bind: '{employeeLists}',
+			    	            scrollable: false,
+			    	            selModel: {type: 'checkboxmodel'},
+			    	            columns: [
+			    	            	{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'employeesids',text: '员工编号',flex: 1},
+			    	            	{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'employeesName',text: '员工姓名',flex: 1}
+			    	            ]
+			    	            }]
+				        }
+					    ]
+		}
+	    ],
 	
 	buttons:['->',{
 		id:'departmentWindowSave',

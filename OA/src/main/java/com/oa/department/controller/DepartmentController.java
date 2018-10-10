@@ -38,9 +38,9 @@ public class DepartmentController {
 	private IDepartmentService departmentService;
 	
 	@GetMapping
-	public Page<DepartmentSimpleDTO> getPage(DepartmentQueryDTO departmentQueryDTO,ExtjsPageRequest extjsPageRequest){
-		//return departmentService.findAllInDTO(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
-		return departmentService.findAllInSimpleDTO(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
+	public Page<DepartmentDTO> getPage(DepartmentQueryDTO departmentQueryDTO,ExtjsPageRequest extjsPageRequest){
+		return departmentService.findAllInDTO(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
+		//return departmentService.findAllInSimpleDTO(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
 	}
 	
 	/*

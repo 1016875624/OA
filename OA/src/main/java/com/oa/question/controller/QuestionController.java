@@ -40,31 +40,83 @@ public class QuestionController {
 	public ExtAjaxResponse save(@RequestBody QuestionDTO questionDTO) 
 	{
 		System.out.println("right here");
-		String str="";
+		String strSingle="";
+		String strMoreChoic="";
+		String strFills="";
+		String oneAnswers="";
 		try {
 			if(questionDTO.getType()==0) {
-				
+				if(questionDTO.getAnswersA()!=null&&!"".equals(questionDTO.getAnswersA())) {
+					oneAnswers+=questionDTO.getAnswersA()+"&";
+				}
+				if(questionDTO.getAnswersB()!=null&&!"".equals(questionDTO.getAnswersB())) {
+					oneAnswers+=questionDTO.getAnswersB()+"&";
+				}
+				if(questionDTO.getAnswersC()!=null&&!"".equals(questionDTO.getAnswersC())) {
+					oneAnswers+=questionDTO.getAnswersC()+"&";
+				}
+				if(questionDTO.getAnswersD()!=null&&!"".equals(questionDTO.getAnswersD())) {
+					oneAnswers+=questionDTO.getAnswersD()+"&";
+				}
+				oneAnswers=oneAnswers.substring(0, oneAnswers.length()-1);
+				oneAnswers=oneAnswers.trim();
+				System.out.println("show the result: "+oneAnswers);
+				questionDTO.setAnswers(oneAnswers);
 			}else if(questionDTO.getType()==1) {
+				//拼接多选题标准答案成一个字符串
 				if(questionDTO.getRealanswerA()!=null&&!"".equals(questionDTO.getRealanswerA().trim())) {
-					str+=questionDTO.getRealanswerA()+"&";
+					strSingle+=questionDTO.getRealanswerA()+"&";
 				}
 				if(questionDTO.getRealanswerB()!=null&&!"".equals(questionDTO.getRealanswerB().trim())) {
-					str+=questionDTO.getRealanswerB()+"&";
+					strSingle+=questionDTO.getRealanswerB()+"&";
 				}
 				if(questionDTO.getRealanswerC()!=null&&!"".equals(questionDTO.getRealanswerC().trim())) {
-					str+=questionDTO.getRealanswerC()+"&";
+					strSingle+=questionDTO.getRealanswerC()+"&";
 				}
 				if(questionDTO.getRealanswerD()!=null&&!"".equals(questionDTO.getRealanswerD().trim())) {
-					str+=questionDTO.getRealanswerD()+"&";
+					strSingle+=questionDTO.getRealanswerD()+"&";
 				}
-				str=str.substring(0, str.length()-1);
-				str=str.trim();
-				//str = str.ToString().RTrim('&');删除一些字符
-				System.out.println("show the result: "+str);
-				questionDTO.setRealanswer(str);
-				
+				strSingle=strSingle.substring(0, strSingle.length()-1);
+				strSingle=strSingle.trim();
+				//str = str.ToString().RTrim('&');//删除一些字符
+				System.out.println("show the result: "+strSingle);
+				questionDTO.setRealanswer(strSingle);
+				//拼接多选题选项成一个字符串
+				if(questionDTO.getAnswersA()!=null&&!"".equals(questionDTO.getAnswersA())) {
+					strMoreChoic+=questionDTO.getAnswersA()+"&";
+				}
+				if(questionDTO.getAnswersB()!=null&&!"".equals(questionDTO.getAnswersB())) {
+					strMoreChoic+=questionDTO.getAnswersB()+"&";
+				}
+				if(questionDTO.getAnswersC()!=null&&!"".equals(questionDTO.getAnswersC())) {
+					strMoreChoic+=questionDTO.getAnswersC()+"&";
+				}
+				if(questionDTO.getAnswersD()!=null&&!"".equals(questionDTO.getAnswersD())) {
+					strMoreChoic+=questionDTO.getAnswersD()+"&";
+				}
+				strMoreChoic=strMoreChoic.substring(0, strMoreChoic.length()-1);
+				strMoreChoic=strMoreChoic.trim();
+				System.out.println("show the result: "+strMoreChoic);
+				questionDTO.setAnswers(strMoreChoic);
 			}else if(questionDTO.getType()==2) {
-				
+				System.out.println("saaaaaaa");
+				System.out.println(questionDTO.getRealanswer1());
+				if(questionDTO.getRealanswer1()!=null&&!"".equals(questionDTO.getRealanswer1())) {
+					strFills+=questionDTO.getRealanswer1()+"$";
+				}
+				if(questionDTO.getRealanswer2()!=null&&!"".equals(questionDTO.getRealanswer2())) {
+					strFills+=questionDTO.getRealanswer2()+"$";
+				}
+				if(questionDTO.getRealanswer3()!=null&&!"".equals(questionDTO.getRealanswer3())) {
+					strFills+=questionDTO.getRealanswer3()+"$";
+				}
+				if(questionDTO.getRealanswer4()!=null&&!"".equals(questionDTO.getRealanswer4())) {
+					strFills+=questionDTO.getRealanswer4()+"$";
+				}
+				strFills=strFills.substring(0, strFills.length()-1);
+				strFills=strFills.trim();
+				System.out.println("show the result: "+strFills);
+				questionDTO.setRealanswer(strFills);
 			}
 			Question question=new Question();
 			BeanUtils.copyProperties(questionDTO, question);
