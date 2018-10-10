@@ -26,26 +26,24 @@ Ext.define('Admin.view.department.DepartmentChangeWindow', {
 						{
 						//layout:'form',
 						columnWidth:.40,
-						margin: '10 10 0 0',
-				    	/*items:[
+						margin: '10 0 0 10',
+				    	items:[
 				    			{
-				    			displayField: '当前部门人员'
+								xtype:"departmentcombobox",
+						    	reference:'departmentBox',
+						    	name:'departmentid'
 				    			},
 				    			{
 			    				xtype: 'gridpanel',
 			    	            bind: '{employeeLists}',
 			    	            scrollable: false,
 			    	            selModel: {type: 'checkboxmodel'},
+			    	            handler: 'quickSearch1',
 			    	            columns: [
 			    	            	{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'employeesids',text: '员工编号',flex: 1},
 			    	            	{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'employeesName',text: '员工姓名',flex: 1}
 			    	            ]
-			    	            }]*/
-						xtype: 'form',
-						items: [
-								{name: 'employeesids',fieldLabel: '员工编号'},
-								{name: 'employeesName',fieldLabel: '员工姓名'}
-								]
+			    	            }]
 						},
 						
 			        	{	
