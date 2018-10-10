@@ -60,6 +60,8 @@ public abstract class DateUtils {
 		return toDate(localDateTime);
 	}
 	
-	
+	public static Date getToday() {
+		return toDate(LocalDate.now());
+	}
 	
 }

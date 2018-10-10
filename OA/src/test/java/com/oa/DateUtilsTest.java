@@ -1,6 +1,8 @@
 package com.oa;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -43,5 +45,19 @@ public class DateUtilsTest {
 	@Test
 	public void dateEnd() {
 		System.out.println(DateUtils.getToDayEnd(new Date()));
+	}
+	@Test
+	public void filePath() {
+		System.out.println(this.getClass().getClassLoader().getResource(""));
+		File directory = new File("");// 参数为空
+        String courseFile;
+		try {
+			courseFile = directory.getCanonicalPath();
+			System.out.println(courseFile);
+			System.out.println(directory.getAbsolutePath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println();
 	}
 }

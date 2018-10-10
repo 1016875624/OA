@@ -51,7 +51,7 @@ Ext.define('Admin.view.quit.quitApproval.QuitApprovalPanel', {
                 
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,dataIndex: 'bool',text: 'Actions',tooltip: 'edit ',flex:1,
                     items: [
-                        {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'gridApproval'},
+                        {xtype: 'button', iconCls: 'x-fa fa-pencil',cls:'test' ,handler: 'gridApproval'},
                         {xtype: 'button', iconCls: 'x-fa fa-check' ,handler: 'gridPass',tooltip:'通过'},
                         {xtype: 'button',iconCls: 'x-fa fa-reply'	,handler: 'gridNoPass',tooltip:'驳回'},
                     ]

@@ -1,0 +1,47 @@
+/*.pencil{
+	background-color: deepskyblue;
+}*/
+/*.fa-pencil{
+  background-color: deepskyblue;
+}*/
+
+.quit-grid .x-fa {
+  height: 20px;
+  width: 20px;
+  background: $grid-item-edit-btn-color;
+  line-height: 20px;
+  float: left;
+  margin-right: 10px;
+
+  &:before {
+    display: block;
+    line-height: 20px;
+    text-align: center;
+  }
+
+  &.fa-close{
+    background-color: $grid-item-close-btn-color;
+    color: $lightest-color;
+  }
+
+  &.fa-ban{
+    background-color: $grid-item-ban-btn-color;
+    color: $lightest-color;
+  }
+
+  &.fa-pencil{
+    background-color: deepskyblue;
+  }
+
+  &.x-action-col-icon{
+    font-size: 13px !important;
+  }
+}
+
+.panel{
+  //width: 300px;
+  background-color: palevioletred;
+}
+.quit-grid{
+  //background-color: palevioletred;
+}
