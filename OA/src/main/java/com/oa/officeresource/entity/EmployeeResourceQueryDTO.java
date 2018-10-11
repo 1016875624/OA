@@ -41,7 +41,7 @@ public class EmployeeResourceQueryDTO {
 				}
 				if (null!=employeeResourceQueryDTO.getResourceName()) {
 					predicate.add(criteriaBuilder.like(root.get("resourceName").as(String.class),
-							employeeResourceQueryDTO.getResourceName()));
+							"%"+employeeResourceQueryDTO.getResourceName()+"%"));
 				}
 				if (null!=employeeResourceQueryDTO.getRecentChangeTime()) {
 					predicate.add(criteriaBuilder.greaterThanOrEqualTo(root.get("recentChangeTime").as(Date.class),
