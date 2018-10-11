@@ -1,5 +1,7 @@
 package com.oa.common.tool.mail;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.mail.internet.MimeMessage;
 
 import org.apache.logging.log4j.message.ReusableMessage;
@@ -39,12 +41,15 @@ public class MailAspect {
 	* @param msg
 	* @return Object 返回类型
 	*/
-	@Around(" sendMsg() && me(msg) ")
+	//@Around(" sendMsg() && me(msg) ")
 	public Object aroundSendMsg(ProceedingJoinPoint pjp,MimeMessage msg) {
 		if (mailData.getHost().equals("smtpdm.aliyun.com")) {
 			if (mailQueryService.isMaxTimes()) {
 				MailData2 mailData2=new MailData2();
 				BeanUtils.copyProperties(mailData2, mailData);
+				mailData.setSession(null);
+				mailData.setTransport(null);
+				mailData.setSession(null);
 				/*MimeMessage message=new MimeMessage(mailData.getSession());
 				BeanUtils.copyProperties(msg, message);
 				mailData.sendMsg(message);*/
@@ -62,15 +67,33 @@ public class MailAspect {
 	@Pointcut("execution(* com.oa.common.tool.mail.MailMsgSingle.sendMsg(..) )")
 	public void singlesendMsg() {}
 	
-	@Before("singlesendMsg()")
-	public void name() {
+	@Around("singlesendMsg()")
+	public void beforeSend(ProceedingJoinPoint pjp) {
+		System.out.println("jinlali");
 		if (mailData.getHost().equals("smtpdm.aliyun.com")) {
 			if (mailQueryService.isMaxTimes()) {
+				while (!mailData.getMsglists().isEmpty()) {
+					try {
+						TimeUnit.SECONDS.sleep(3);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				MailData2 mailData2=new MailData2();
 				BeanUtils.copyProperties(mailData2, mailData);
+				System.out.println("----------------------------");
 				System.out.println(mailData);
 				mailData.setSession(null);
+				mailData.setTransport(null);
+				mailData.setSession(null);
+				
 			}
+		}
+		
+		try {
+			pjp.proceed();
+		} catch (Throwable e) {
+			e.printStackTrace();
 		}
 	}
 	

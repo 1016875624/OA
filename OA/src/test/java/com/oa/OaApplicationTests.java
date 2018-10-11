@@ -125,4 +125,20 @@ public class OaApplicationTests {
 		}
 
 	}
+	@Test
+	public void testMonth() {
+		
+		try {
+			Map<String, String> maps = holidayTimeService.checkMapMonth("2018/02");
+			System.out.println(maps);
+			System.out.println(maps.size());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }

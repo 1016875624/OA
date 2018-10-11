@@ -98,7 +98,7 @@ Ext.define('Admin.view.quit.quitManager.QuitViewController', {
 		//grid.setStyle('background-color', 'red');
 		//grid.setStyle({"background-color":"red"});
         //grid.setStyle({"width":"300px"});
-        console.log(grid.getStyle());
+        //console.log(grid.getStyle());
         var rec=grid.getStore().getAt(rowIndex);
 		var win=Ext.widget('quitWindow');
 		grid.up('container').add(win);

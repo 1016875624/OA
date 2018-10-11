@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -26,7 +27,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="worktime")
+@Table(name="worktime",uniqueConstraints= {@UniqueConstraint(columnNames= {"employee_ID_","date"})})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
