@@ -49,7 +49,269 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		//record.set(values);
 		//record.save();
 		//Ext.data.StoreManager.lookup('workTimeGridStroe').load();
-		//win.close();
+		console.log("222222"+btn.up('window').up('container'));
+		win.close();
+		win.destroy();
+//		Ext.Ajax.request({ 
+//			url : 'http://localhost:8080/workTime/savemore', 
+//			method : 'post', 
+//			params : {
+//				StartDate:values.StartDate,
+//				EndDate:values.EndDate,
+//				employeeid:values.employeeid,
+//				hour:values.hour
+//			}, 
+//			success: function(response,options) {
+//				//console.log(response.responseText);
+//				//var arr=Ext.decode(response.responseText);
+//				var arr=response.responseText;
+//				console.log("1111"+arr);
+//				//Ext.data.StoreManager.lookup("holidayGridStroe").setData(arr);
+//				
+//				Ext.data.StoreManager.lookup("holidayGridStroe").loadData(arr,true);
+//				console.log("000"+Ext.data.StoreManager.lookup("holidayGridStroe").getData());
+//			}
+//		});
+		var store=Ext.data.StoreManager.lookup("holidayGridStroe");
+		//Ext.apply(store.proxy.extraParams, {employeeid:"",StartDate:"",EndDate:"",hour:""});
+		Ext.apply(store.proxy.extraParams, {
+			employeeid:values.employeeid,
+			StartDate:values.StartDate,
+			EndDate:values.EndDate,
+			hour:values.hour
+		});
+		store.load({params:{start:0, limit:20, page:1}});
+		
+		console.log(Ext.ClassManager.getName(store.getData()));
+		console.log(store.getData());
+		//store.setData();
+		//Ext.data.StoreManager.lookup("holidayGridStroe").load();
+		var gridTest = new Ext.grid.GridPanel({
+		    region: 'north',
+		    //id:"contactsGrid",
+		    plugins: {
+		        cellediting: {
+		            clicksToEdit: 1
+		        }
+		    },
+		    //bind: '{workTimes}',
+		    store:store,
+		    border: false,
+		    columns: [
+                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'employeeid',text: '员工编号',flex: 1},
+				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'employeeName',text: '员工姓名',flex: 1},
+				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'departmentName',text: '部门',flex: 1},
+				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'hour',text: '当天的上班时间 (单位：H)',flex: 1,
+					editor: {
+			            allowBlank: false
+			        }
+				},
+				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'ifholiday',text: '工作/节假日',flex: 1,
+					
+					renderer:function(val){
+						if(val=='0'){
+							return '<span>工作日</span>';
+						}else if(val=='1'){
+							return '<span style="color:orange">周六日</span>';
+						}else if(val=='2'){
+							return '<span style="color:orange">节假日</span>';
+						}
+					}
+				},
+				{xtype: 'datecolumn',cls: 'content-column',dataIndex: 'date',text: '日期',formatter: 'date("Y/m/d")',flex:1},
+				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'status',text: '状态',flex: 1,
+					renderer:function(val){
+						if(val=='0'){
+							return '<span style="color:blue;">待申请</span>';
+						}else if(val=='2'){
+							return '<span style="color:orange;">待审批</span>';
+						}else if(val=='3'){
+							return '<span style="color:red;">审批通过</span>';
+						}else if(val=='4'){
+							return '<span style="color:red;">审批不通过</span>';
+						}
+					}
+				},
+//                {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: '操作',tooltip: 'edit ',flex: 1,
+//                    items: [
+//                        {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'openEditWindow',tooltip: '修改申请'},
+//                        {xtype: 'button',iconCls: 'x-fa fa-close'	,handler: 'deleteOneRow',tooltip:'取消申请'},
+//                        {xtype: 'button',iconCls: 'x-fa fa-star'	,handler: 'starWorktimeProcess',tooltip: '发起申请'}
+//                    ]
+//                }
+            ],
+            listeners:{
+            	cellclick:function(grid, td, cellIndex, record, tr, rowIndex, e, eOpts ){
+            		var rows=grid.getStore().getAt(rowIndex).get("ifholiday");
+            		console.log(rows);
+            		if(rows=="1"||rows=="2"){
+            			//console.log("00");
+            			return false;//代表事件不生效
+            		}
+            		console.log(td);
+            		console.log(record);
+            		console.log(cellIndex);
+            		console.log(record);
+            		console.log(tr);
+            		console.log(rowIndex);
+            		console.log(e);
+            		console.log(eOpts);
+            	},
+            	afterenderer:function(grid){
+            		console.log("111");
+            		var store=grid.getStore();
+            		var columns=grid.getColumns();
+            		var records=store.getData().getSource();
+            		Ext.Array.each(records, function(rec, index, recordsItSelf) {
+            		    console.log(rec);
+            			//console.log(name);
+            		});
+            	},
+            	/*added:function(grid){
+            		/*console.log("111");
+            		var store=grid.getStore();
+            		var columns=grid.getColumns();
+            		var records=store.getData().getSource();
+            		var data=store.getData();
+            		//var items=data.getItems();
+            		console.log(store);
+            		console.log(columns);
+            		console.log(records);
+            		console.log(data);
+            		data.each(function(items,index,len){
+            			console.log(items);
+            		});
+            		console.log(data);
+            		for(i=0;i<data.length;i++){
+            			var temp=data.getAt(i);
+            			console.log(temp);
+            		}*/
+            		/*Ext.Array.each(items, function(rec, index, recordsItSelf) {
+            		    console.log(rec);
+            		    //console.log(store.getData());
+            			//console.log(name);
+            		});
+            	},
+            	afterlayoutanimation:function(grid){
+            		console.log("111");
+            		var store=grid.getStore();
+            		var columns=grid.getColumns();
+            		var records=store.getData().getSource();
+            		Ext.Array.each(records, function(rec, index, recordsItSelf) {
+            		    console.log(rec);
+            			//console.log(name);
+            		});
+            	}*/
+            },
+            dockedItems: [{
+                xtype: 'pagingtoolbar',
+                dock: 'bottom',
+                displayInfo: true,
+                
+            }],
+		    width: 800,
+		    height: 500,
+		    frame: true
+		});
+		//store.setListeners(update:function(this, record, operation, modifiedFieldNames, details, eOpts))
+		
+//		store.setListeners({load:function(store,records){
+//			console.log("111");
+//			var grid=gridTest;
+//    		var store=grid.getStore();
+//    		var columns=grid.getColumns();
+//    		var records=store.getData().getSource();
+//    		var data=store.getData();
+//    		//var items=data.getItems();
+//    		console.log(store);
+//    		console.log(columns);
+//    		console.log(records);
+//    		console.log(data);
+//    		data.each(function(items,index,len){
+//    			console.log(items);
+//    		});
+//    		console.log(data);
+//    		for(i=0;i<data.length;i++){
+//    			var temp=data.getAt(i);
+//    			console.log(temp);
+//    		}
+//		}});
+		console.log(gridTest.getStore());
+		console.log(gridTest.getStore().getData());
+		var winChooseGoods = new Ext.Window({
+			xtype:"gridTestWindow",
+		    title: '工时:(根据自己实际情况填写工时)',
+		    layout: 'border',
+		    width: 800,
+		    height: 500,
+		    closeAction: 'hide',
+		    plain: true,
+		    items: [gridTest],
+		    buttons: [{
+		        text: '确定',
+		        handler: function (btn) {
+		        	var listRecord = new Array();
+//		        	var conGrid = Ext.getCmp('contactsGrid');
+//		        	var conStore=conGrid.getStore();
+//		        	
+//		        	conGrid.getStore().each(function(record){ 
+//		        		var value = record.get('ifholiday'); 
+//		        	});
+		        	var record=store.getAt(1);
+		        	//var data=record.getData();
+		        	console.log(record);
+		        	console.log(record.getData());
+		        	console.log(Ext.ClassManager.getName(record));
+		        	//delete data.id;
+		        	var records = []; 
+		        	store.each(function(r){ 
+		        		var temp=r.copy().getData();
+		        		temp.date=Ext.util.Format.date(temp.date,'Y/m/d')
+		        		delete temp.id;
+		        		//temp.id=null;
+		        		records.push(temp); 
+		        	}); 
+		        	Ext.Ajax.request({ 
+						url : 'http://localhost:8080/workTime/forApproval', 
+						method : 'post', 
+						/*params : {
+							records:records
+						}, */
+						jsonData:records,
+						success: function(response, options) {
+							var json = Ext.util.JSON.decode(response.responseText);
+							if(json.success){
+								Ext.Msg.alert('操作成功', json.msg, function() {
+								Ext.data.StoreManager.lookup("workTimeGridStroe").load();
+								winChooseGoods.close();
+								winChooseGoods.destroy();
+							});
+							}else{
+								Ext.Msg.alert('操作失败', json.msg);
+							}
+						}
+					});
+		        	/*for(var i=0;i<store2.getCount();i++){
+		        		var record=store2.getAt(i);
+		        		delete record.getData().id;
+		        		listRecord.push(record);
+		        	}*/
+		        	
+		        	/*for(i=0;i<records.length;i++){
+		        		delete records[i].id;
+		        	}*/
+		        	console.log(records);
+		        }
+		    }, {
+		        text: '取消',
+		        tabIndex: 12,
+		        handler: function () {
+		            winChooseGoods.close();
+		            winChooseGoods.destroy();
+		        }
+		    }]
+		}).show();
+		//btn.up("window").up("container").add(Ext.widget("gridTestWindow")).show();
 	},
 	/*Edit Submit*/	
 	submitEditForm:function(btn){

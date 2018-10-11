@@ -64,6 +64,9 @@ public interface IWorkTimeService {
 	void deleteAllById(Integer[]ids);
 	
 	List<WorkTime> findWorkTimes(String id);
+	
 	public WorkTime findWorkTime(Date date); 
+	
+	public WorkTime checkIfWorkTime(String employeeid,Date date);
 }
 

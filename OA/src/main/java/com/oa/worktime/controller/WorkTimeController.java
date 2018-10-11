@@ -33,7 +33,9 @@ import com.oa.department.entity.Department;
 import com.oa.department.service.IDepartmentService;
 import com.oa.employee.entity.Employee;
 import com.oa.employee.service.IEmployeeService;
+import com.oa.leave.entity.Leave;
 import com.oa.leave.entity.LeaveDTO;
+import com.oa.leave.repository.LeaveRepository;
 import com.oa.worktime.entity.HolidayTime;
 import com.oa.worktime.entity.HolidayTimeDTO;
 import com.oa.worktime.entity.WorkTime;
@@ -60,6 +62,8 @@ public class WorkTimeController {
 	@Autowired
 	IHolidayTimeService holidayTimeService;
 	
+	@Autowired
+	LeaveRepository leaveRepository;
 	@GetMapping
 	public Page<WorkTimeDTO> getPage(WorkTimeQueryDTO worktimeQueryDto,ExtjsPageRequest extjsPageRequest){
 		/*if(worktimeQueryDto.getDepartmentid()!=null) {
@@ -73,7 +77,7 @@ public class WorkTimeController {
 		return workTimeService.findAllInDto(WorkTimeQueryDTO.getWhereClause(worktimeQueryDto), extjsPageRequest.getPageable());
 	}
 	
-	@GetMapping(value="approval")
+	@GetMapping(value="/approval")
 	public Page<WorkTimeDTO> findworkTimeByLeaderId(WorkTimeQueryDTO worktimeQueryDto,HttpSession session,ExtjsPageRequest extjsPageRequest){
 		
 		Page<WorkTimeDTO> page;
@@ -119,36 +123,116 @@ public class WorkTimeController {
 		}
 	}
 	//添加多条工时
-	@PostMapping(value="savemore")
-	public ExtAjaxResponse savemore(@RequestBody WorkTimeDTO workTimeDTO) throws IOException 
+	@RequestMapping(value="/savemore")
+	public List<WorkTimeDTO> savemore(WorkTimeDTO workTimeDTO) throws IOException 
 	{	
-		Employee em= null;
 		try {
-			
-			if (workTimeDTO.getEmployeeid()!=null&&!"".equals(workTimeDTO.getEmployeeid().trim())) {
-				em= new Employee();
-				em.setId(workTimeDTO.getEmployeeid());
+			Employee employee=employeeService.findById(workTimeDTO.getEmployeeid()).orElse(null);
+			//查出时间范围内的节假日，周六日，工作日
+			List<HolidayTime> holidayTimes=holidayTimeService.checkDateHoliday(workTimeDTO.getStartDate(),workTimeDTO.getEndDate());
+			//查出请假时段在填报工时时间重叠的
+			List<Leave> leaves=leaveRepository.findLeaveTime(workTimeDTO.getEmployeeid(), workTimeDTO.getStartDate(),workTimeDTO.getEndDate());
+			for (Leave leave : leaves) {
+				//请假开始时间在填报工时开始时间和结束时间范围内
+				if(leave.getStartTime().getTime()>=workTimeDTO.getStartDate().getTime()
+						&&leave.getStartTime().getTime()<=workTimeDTO.getEndDate().getTime()) {
+					//请假结束时间在填报工时结束时间之后
+					if(leave.getEndTime().getTime()>=workTimeDTO.getEndDate().getTime()) {
+						Date d1=leave.getStartTime();
+						Date d2=workTimeDTO.getEndDate();
+						
+					}//请假结束时间在填报工时结束时间之前
+					else if(leave.getEndTime().getTime()<=workTimeDTO.getEndDate().getTime()) {
+						Date d1=leave.getStartTime();
+						Date d2=leave.getEndTime();
+						
+					}
+				}//请假开始时间在填报工时开始时间之前
+				else if(leave.getStartTime().getTime()<workTimeDTO.getStartDate().getTime()) {
+					//请假结束时间在填报工时时间范围中间
+					if(leave.getEndTime().getTime()>=workTimeDTO.getStartDate().getTime()&&leave.getEndTime().getTime()<=workTimeDTO.getEndDate().getTime()) {
+						Date d1=workTimeDTO.getStartDate();
+						Date d2=leave.getEndTime();
+						
+					}//请假结束时间在填报工时结束时间之前
+					else if(leave.getEndTime().getTime()<=workTimeDTO.getStartDate().getTime()) {
+						
+						
+					}//请假结束时间在填报工时结束时间之后
+					else if(leave.getEndTime().getTime()>workTimeDTO.getEndDate().getTime()) {
+						Date d1=workTimeDTO.getStartDate();
+						Date d2=workTimeDTO.getEndDate();
+						
+					}
+				}//请假开始时间在填报工时结束之后
+				else if(leave.getStartTime().getTime()>workTimeDTO.getEndDate().getTime()) {
+					
+					
+				}
 				
 			}
-			
-			HolidayTimeDTO holidayTimeDTO=new HolidayTimeDTO();
-			holidayTimeDTO.setStartDate(workTimeDTO.getStartDate());
-			holidayTimeDTO.setEndDate(workTimeDTO.getEndDate());
-			Checkandsaveholiday checkandsaveholiday=new Checkandsaveholiday();
-			List<HolidayTime> holidayTimes=checkandsaveholiday.checkHoliday(holidayTimeDTO);
-			
+			List<WorkTimeDTO> workTimeDTOs=new ArrayList<>();
 			for (HolidayTime holidayTime : holidayTimes) {
-				WorkTime workTime=new WorkTime();
-				BeanUtils.copyProperties(workTimeDTO, workTime);
-				//if(holidayTime.getIfholiday()==1||)
-				workTime.setIfholiday(holidayTime.getIfholiday());
-				workTime.setStatus(0);
-				workTime.setEmployee(em);
-				workTimeService.save(workTime);
+				
+				WorkTimeDTO workTimedto=new WorkTimeDTO();
+				//判断是否存在工时
+				WorkTime workTime=workTimeService.checkIfWorkTime(workTimeDTO.getEmployeeid(), holidayTime.getDate());
+				if(workTime==null) {
+					if(holidayTime.getIfholiday()==1||holidayTime.getIfholiday()==2) {//如果是周六日或者节假日
+						workTimedto.setEmployeeid(employee.getId());
+						workTimedto.setEmployeeName(employee.getName());
+						workTimedto.setDepartmentName(employee.getDepartment().getName());
+						workTimedto.setDate(holidayTime.getDate());
+						workTimedto.setIfholiday(holidayTime.getIfholiday());
+						workTimedto.setHour(0);
+						workTimedto.setStatus(0);
+						workTimeDTOs.add(workTimedto);
+					}else if(holidayTime.getIfholiday()==0) {
+						
+						workTimedto.setEmployeeid(employee.getId());
+						workTimedto.setEmployeeName(employee.getName());
+						workTimedto.setDepartmentName(employee.getDepartment().getName());
+						workTimedto.setDate(holidayTime.getDate());
+						workTimedto.setIfholiday(holidayTime.getIfholiday());
+						workTimedto.setHour(workTimeDTO.getHour());
+						workTimedto.setStatus(0);
+						workTimeDTOs.add(workTimedto);
+					}
+				}
+				
 			}
-			return new ExtAjaxResponse(true,"添加成功");
+			return workTimeDTOs;
 		} catch (Exception e) {
-			return new ExtAjaxResponse(false,"添加失败");
+			return null;
+		}
+	}
+	
+	@RequestMapping(value="/forApproval")
+	public ExtAjaxResponse forApproval(@RequestBody WorkTimeDTO []workTimeDTOs) {
+		try {
+			Employee em=null;
+			boolean flag=false;
+			for (WorkTimeDTO workTimeDTO : workTimeDTOs) {
+				WorkTime workTime=new WorkTime();
+				em=new Employee();
+				em.setId(workTimeDTO.getEmployeeid());
+				//workTimeService.findById(id);
+				BeanUtils.copyProperties(workTimeDTO, workTime);
+				workTime.setStatus(2);
+				workTime.setEmployee(em);
+				try {
+					workTimeService.save(workTime);
+				}catch (Exception e) {
+					flag=true;
+				}
+				
+			}
+			if(flag) {
+				return new ExtAjaxResponse(true,"有部分提交失败");
+			}
+			return new ExtAjaxResponse(true,"提交成功!");
+		} catch (Exception e) {
+			return new ExtAjaxResponse(false,"错误出错!");
 		}
 	}
 	@PutMapping(value="{id}")
@@ -196,7 +280,7 @@ public class WorkTimeController {
 		}
 		
 	}
-	@PostMapping(value="startApproval")
+	@PostMapping(value="/startApproval")
 	public ExtAjaxResponse startApproval(@RequestParam(name="id")Integer id,@RequestParam(name="status")Integer status) {
 		String msg1="";
 		String msg2="";

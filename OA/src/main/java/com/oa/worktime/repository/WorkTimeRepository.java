@@ -19,4 +19,7 @@ public interface WorkTimeRepository extends JpaRepository<WorkTime, Integer>,Jpa
 	
 	@Query("FROM WorkTime wt where wt.date=?1")
 	public WorkTime findWorkTime(Date date);
+	
+	@Query("FROM WorkTime wt where wt.employee.id=?1 and wt.date=?2")
+	public WorkTime checkIfWorkTime(String employeeid,Date date);
 }

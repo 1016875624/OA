@@ -31,4 +31,8 @@ public interface IHolidayTimeService {
     public Map<String, String> checkMapHoliday(Date startTime,Date endTime);
     
     public Map<String, String> checkMapHoiday(String startTime,String endTime)throws ParseException, IOException  ;
+    
+    public Map<String,String> checkMapMonth(String monthTime)throws ParseException,IOException;
+    
+    public Map<String, String>checkMapMonth(Date monthTime)throws IOException;
 }

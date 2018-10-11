@@ -19,16 +19,12 @@ Ext.define('Admin.view.workTime.WorkTimeAddWindow', {
         layout: 'form',
         padding: '10px',
         ariaLabel: 'Enter your WorkTime',
-        items: [{
-            xtype: 'textfield',
-            fieldLabel: 'id',
-            name:'id',
-            hidden: true,
-            readOnly: true
-        },{
+        items: [
+        {
             xtype: 'textfield',
             fieldLabel: '员工编号',
-            name:'employeeid'
+            name:'employeeid',
+            value:'2'
         },{
             xtype: 'combobox',
             fieldLabel: '当天上班时间(单位：H)',
@@ -36,16 +32,14 @@ Ext.define('Admin.view.workTime.WorkTimeAddWindow', {
             store:Ext.create('Ext.data.Store',{
             	fields:["name"],
             	data:[{"name":"0"},{"name":"1"},{"name":"2"},{"name":"3"},{"name":"4"},{"name":"5"},{"name":"6"},{"name":"7"},
-            		{"name":"8"},{"name":"9"},{"name":"10"},{"name":"11"},{"name":"12"},{"name":"13"},{"name":"14"},{"name":"15"},
-            		{"name":"16"},{"name":"17"},{"name":"18"},{"name":"19"},{"name":"20"},{"name":"21"},{"name":"22"},{"name":"23"},
-            		{"name":"24"}
+            		{"name":"8"}
             		]
             }),
             editable: false,
             queryMode:'local',
             displayField:'name',
-            valueField:'name'
-            
+            valueField:'name',
+            value:'2'
         }, {
             xtype: 'datefield',
             editable: false,
@@ -53,8 +47,8 @@ Ext.define('Admin.view.workTime.WorkTimeAddWindow', {
             format: 'Y/m/d',
             reference:'startofdate',
             emptyText: '起始时间',
-            name: 'from_date'
-            
+            name: 'StartDate',
+            value:"2018/10/01"
         },{
         	xtype: 'datefield',
 			editable:false,
@@ -62,7 +56,8 @@ Ext.define('Admin.view.workTime.WorkTimeAddWindow', {
 			reference:'endofdate',
 			fieldLabel: '日期末端',
 			emptyText: '末时间',
-			name: 'end_date'
+			name: 'EndDate',
+			value:"2018/10/31"
         }]
     }],
 	buttons: ['->',{

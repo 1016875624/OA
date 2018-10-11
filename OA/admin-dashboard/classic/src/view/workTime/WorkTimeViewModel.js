@@ -1,7 +1,7 @@
 Ext.define('Admin.view.workTime.WorkTimeViewModel', {
     extend: 'Ext.app.ViewModel',
     alias: 'viewmodel.workTimeViewModel',
-
+    
     requires: [
         'Ext.data.Store',
         'Ext.data.proxy.Memory',
@@ -15,5 +15,6 @@ Ext.define('Admin.view.workTime.WorkTimeViewModel', {
     stores: {
     	workTimeLists: {type: 'workTimeGridStroe'},
 		departmentList:{type:'departmentLoadStroe'},
+		workTimes:{type:'holidayGridStroe'}
     }
 });
