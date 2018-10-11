@@ -31,12 +31,14 @@ public class mailToolsTests {
 	
 	@Autowired
 	MailMsgSingle msg;
+	@Autowired
+	MailMsgSingle msg1;
 	@Test
 	public void name() throws MessagingException, IOException, InterruptedException {
-		msg.setContetnText("this is a test msg ,please don't repely to me").setSubject("hello").setToMail("1016875624@qq.com").addAttachFile("F:\\Mail.war").sendMsg();
-		TimeUnit.SECONDS.sleep(30);
-		msg.setContetnText("this is a test msg ,please don't repely to me").setSubject("hello").setToMail("1016875624@qq.com").addAttachFile("F:\\Mail.war").sendMsg();
-		
+		msg.setContetnText("this is a test msg ,please don't repely to me").setSubject("hello").setToMail("1016875624@qq.com").sendMsg();
+		TimeUnit.SECONDS.sleep(2);
+		msg1.setContetnText("this is a test msg ,please don't repely to me").setSubject("hello").setToMail("1016875624@qq.com").sendMsg();
+//		msg.setContetnText("this is a test msg ,please don't repely to me").setSubject("hello").setToMail("1016875624@qq.com").addAttachFile("F:\\Mail.war").sendMsg();
 		
 		TimeUnit.SECONDS.sleep(1000);
 	}

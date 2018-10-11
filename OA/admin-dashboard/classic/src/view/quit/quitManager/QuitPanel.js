@@ -25,9 +25,9 @@ Ext.define('Admin.view.quit.quitManager.QuitPanel', {
             bind: '{quitLists}',
             scrollable: false,
             columns: [
-                {xtype: 'gridcolumn', dataIndex: 'id', text: 'id', hidden: true,},
-                {xtype: 'gridcolumn', cls: 'content-column', dataIndex: 'employeeName', text: '员工姓名'},
-                {xtype: 'gridcolumn', cls: 'content-column', dataIndex: 'departmentName', text: '部门'},
+                {xtype: 'gridcolumn', dataIndex: 'id', text: 'id', hidden: true,flex: 1},
+                {xtype: 'gridcolumn', cls: 'content-column', dataIndex: 'employeeName', text: '员工姓名',flex: 1},
+                {xtype: 'gridcolumn', cls: 'content-column', dataIndex: 'departmentName', text: '部门',flex: 1},
 
                 {
                     xtype: 'datecolumn',
@@ -35,7 +35,8 @@ Ext.define('Admin.view.quit.quitManager.QuitPanel', {
                     width: 150,
                     dataIndex: 'applyDate',
                     text: '申请时间',
-                    format: 'Y/m/d H:i:s'
+                    format: 'Y/m/d H:i:s',
+                    flex: 1,
                 },
                 {
                     xtype: 'datecolumn',
@@ -43,7 +44,8 @@ Ext.define('Admin.view.quit.quitManager.QuitPanel', {
                     width: 150,
                     dataIndex: 'quitDate',
                     text: '离职时间',
-                    format: 'Y/m/d H:i:s'
+                    format: 'Y/m/d H:i:s',
+                    flex: 1,
                 },
 
                 {xtype: 'gridcolumn', cls: 'content-column', dataIndex: 'reason', text: '离职原因时间'},
@@ -52,6 +54,7 @@ Ext.define('Admin.view.quit.quitManager.QuitPanel', {
                     cls: 'content-column',
                     dataIndex: 'status',
                     text: '状态',
+                    flex: 1,
                     renderer: function (val) {
                         if (val == 0) {
                             return "申请中";

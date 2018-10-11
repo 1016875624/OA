@@ -1,18 +1,23 @@
 package com.oa.common.tool.mail;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.mail.Authenticator;
+import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.springframework.beans.factory.annotation.Value;
 
@@ -45,8 +50,58 @@ public class MailData {
 	@Value("${mail.ssl:false}")
 	private Boolean ssl=false;
 	
-	private ExecutorService executorService=Executors.newSingleThreadExecutor();
+	//private ExecutorService executorService=Executors.newSingleThreadExecutor();
 	
+	private List<MimeMessage>msglists=new ArrayList<>();
+	
+	private boolean stop=false;
+	
+	
+	private Runnable sendTask=()->{
+		while(!stop) {
+			if(msglists.isEmpty()) {
+				try {
+					Thread.sleep(1000*60*60*24);
+				} catch (InterruptedException e) {
+					if (stop) {
+						return ;
+					}
+					//e.printStackTrace();
+				}
+			}
+			else {
+				synchronized (msglists) {
+					MimeMessage msg=msglists.get(0);
+					System.out.println("this");
+					System.out.println(this);
+					try {
+						getTransport().send(msg);
+					} catch (MessagingException e) {
+						/*session=null;
+						transport=null;
+						MimeMessage message=new MimeMessage(getSession());
+						System.out.println(this);
+						try {
+							message.setContent((MimeMultipart)msg.getContent());
+							message.setFrom(getFrom());
+							message.setSubject(msg.getSubject(), "utf-8");
+							message.setRecipients(RecipientType.TO, msg.getAllRecipients());
+							getTransport().send(message);
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}*/
+						e.printStackTrace();
+						msglists.remove(0);
+						continue;
+					}
+					msglists.remove(0);
+					transport=null;
+				}
+			}
+		}
+	};
+	
+	private Thread sendTaskThread=new Thread(sendTask, "发送邮件线程");
 
 	private Session session = null;
 	private Transport transport = null;
@@ -100,7 +155,7 @@ public class MailData {
 			return transport;
 		}
 		transport=getSession().getTransport();
-		transport.connect(username, password);
+		transport.connect(host,username, password);
 		return transport;
 	}
 	
@@ -109,7 +164,7 @@ public class MailData {
 			return transport;
 		}
 		transport=session.getTransport();
-		transport.connect(username, password);
+		transport.connect(host,username, password);
 		return transport;
 	}
 	
@@ -121,12 +176,17 @@ public class MailData {
 				e.printStackTrace();
 			}
 		});*/
-		try {
+		//executorService.execute(sendTask);
+		/*try {
 			getTransport().send(msg);
 		} catch (MessagingException e) {
 			e.printStackTrace();
+		}*/
+		synchronized (msglists) {
+			msglists.add(msg);
+			sendTaskThread.interrupt();
+			transport=null;
 		}
-		transport=null;
 	}
 	
 	public InternetAddress getFrom() throws UnsupportedEncodingException {

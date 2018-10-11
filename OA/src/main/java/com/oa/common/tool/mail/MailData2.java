@@ -29,7 +29,7 @@ public class MailData2 {
 	private String username="a_later@163.com";
 	private String password="EmailPassword0";
 	private String mail="a_later@163.com";
-	//private String name="办公自动化邮件提醒";
+	private String name="办公自动化邮件提醒";
 	private Boolean ssl=true;
 	
 }

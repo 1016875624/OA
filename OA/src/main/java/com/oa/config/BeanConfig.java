@@ -22,7 +22,9 @@ public class BeanConfig {
 	
 	@Bean
 	public MailData mailData() {
-		return new MailData();
+		MailData mailData=new MailData();
+		mailData.getSendTaskThread().start();
+		return mailData;
 	}
 	@Bean
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
