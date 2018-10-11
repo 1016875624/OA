@@ -37,7 +37,7 @@ public class QuitAspect {
 	
 	@Around("getPage() && ar(quitQueryDTO,extjsPageRequest)")
 	public Object name(ProceedingJoinPoint jp,QuitQueryDTO quitQueryDTO,ExtjsPageRequest extjsPageRequest) {
-		System.out.println("进来了");
+		//System.out.println("进来了");
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
 		HttpServletResponse response = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getResponse();
 		//ServletContext context = ContextLoader.getCurrentWebApplicationContext().getServletContext();

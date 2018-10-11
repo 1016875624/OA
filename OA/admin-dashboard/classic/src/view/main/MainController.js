@@ -182,22 +182,7 @@
 		var form=btn.up("window").down("form").getForm();
 		console.log(Ext.ClassManager.getName(form));
 		console.log(form.getValues());
-		/*Ext.Ajax.request({		
-			//被用来向服务器发起请求默认的url		
-			url : "http://localhost:8080/uploadImageController/fileupload",		
-			//请求时发送后台的参数,既可以是Json对象，也可以直接使用“name = value”形式的字符串		
-			params : form.getValues(),		
-			//请求时使用的默认的http方法		
-			method : "post",		
-			//请求成功时回调函数		
-			success : function() {		
-				Ext.Msg.alert('提示', "上传成功！");
-				},		
-			//请求失败时回调函数	
-			failure : function() {		
-				Ext.Msg.alert('提示', "上传失败！");	
-				}	
-			});*/
+		
 		form.submit({
 				type:'ajax',
 				method:"post",
@@ -216,7 +201,6 @@
 					
 				},
 				failure: function(resp){ 
-					
 					console.log(resp);
 					console.log(resp.responseText);
 					msg=Ext.decode(resp.responseText);
@@ -228,5 +212,21 @@
 					}
 				} 
 		});
+		/*Ext.Ajax.request({		
+		//被用来向服务器发起请求默认的url		
+		url : "http://localhost:8080/uploadImageController/fileupload",		
+		//请求时发送后台的参数,既可以是Json对象，也可以直接使用“name = value”形式的字符串		
+		params : form.getValues(),		
+		//请求时使用的默认的http方法		
+		method : "post",		
+		//请求成功时回调函数		
+		success : function() {		
+			Ext.Msg.alert('提示', "上传成功！");
+			},		
+		//请求失败时回调函数	
+		failure : function() {		
+			Ext.Msg.alert('提示', "上传失败！");	
+			}	
+		});*/
     }
 });

@@ -248,6 +248,14 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		win.show();
 	},
 	
+	/*自动加载部门成员信息*/	
+	quickSearch1:function(btn){
+		var store =	btn.up('gridpanel').getStore();
+		Ext.apply(store.proxy.extraParams, {name:""});
+		var searchComboValue = this.lookupReference('departmentBox').getValue();
+		Ext.apply(store.proxy.extraParams, {id:searchComboValue});
+		store.load({params:{start:0, limit:20, page:1}});
+	},
 	
 	test:function(){
 		Ext.Msg.alert("test","test");

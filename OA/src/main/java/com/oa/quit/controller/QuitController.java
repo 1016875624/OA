@@ -153,7 +153,7 @@ public class QuitController {
 			quitService.approvalPass(id);
 			return new ExtAjaxResponse(true,"操作成功");
 		} catch (Exception e) {
-			return new ExtAjaxResponse(false,"申请失败");
+			return new ExtAjaxResponse(false,"操作失败");
 		}
 	}
 	
@@ -163,7 +163,7 @@ public class QuitController {
 			quitService.approvalNoPass(id);
 			return new ExtAjaxResponse(true,"操作成功");
 		} catch (Exception e) {
-			return new ExtAjaxResponse(false,"申请失败");
+			return new ExtAjaxResponse(false,"操作失败");
 		}
 	}
 	
@@ -173,9 +173,9 @@ public class QuitController {
 			Quit entity = quitService.findById(quit.getId());
 			BeanUtils.copyProperties(quit, entity);
 			quitService.save(entity);
-			return new ExtAjaxResponse(true,"申请成功");
+			return new ExtAjaxResponse(true,"操作成功");
 		} catch (Exception e) {
-			return new ExtAjaxResponse(false,"申请失败");
+			return new ExtAjaxResponse(false,"操作失败");
 		}
 	}
 	
