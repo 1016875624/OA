@@ -188,15 +188,21 @@
 				method:"post",
 				url:"http://localhost:8080/uploadImageController/fileupload",
 				waitMsg: '正在提交数据...',
-				success: function(resp){
-					console.log(resp.responseText);
-					msg=Ext.decode(resp.responseText);
-					if(msg.success){
-						Ext.Msg.alert('成功','上传成功.'); 
-					}
-					else{
-						Ext.Msg.alert('失败', '上传失败.'); 
-					}
+				success: function(form,action){
+					console.log(form);
+					console.log(action);
+					console.log(action.result.msg);
+					
+					json = action.result;
+				    if (json.success) {
+				      Ext.Msg.alert('成功', '上传成功.');
+				      var headButton = Ext.getCmp('head_Button');
+				      console.log(json.msg);
+				      var path = 'url(/images/employee/' + json.msg + ')';
+				      headButton.setStyle({'background-image':path});
+				    } else {
+				      Ext.Msg.alert('失败', '上传失败.');
+				    }
 					
 					
 				},

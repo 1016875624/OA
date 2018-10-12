@@ -69,7 +69,23 @@ public class EmployeeController {
 	public Page<EmployeeDTO> getPage(EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
 		return employeeService.findAllInDto(EmployeeQueryDTO.getWhereClause(employeeQueryDTO), extjsPageRequest.getPageable());
 	}
-
+	
+	
+	//多选更新
+	@RequestMapping(value="/changeDepartment")
+	public ExtAjaxResponse changeDepartment(@RequestBody EmployeeDTO[] employeeDTOs) {
+		try {
+			for (EmployeeDTO employeeDTO : employeeDTOs) {
+				Employee employee=employeeDTO.DtoToentity(employeeDTO);
+				employeeService.save(employee);
+			}
+			return new ExtAjaxResponse(true,"交换成功!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ExtAjaxResponse(true,"交换失败!");
+		}
+	}
+	
 	
 	//根据id删除
 	@DeleteMapping(value="{id}")

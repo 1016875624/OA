@@ -28,14 +28,12 @@ Ext.define('Admin.view.department.DepartmentSearchWindow', {
 		items:[
 			{fieldLabel: 'id', name: 'id'},
 			{fieldLabel: 'name', name: 'name'}
-			/*{xtype:'datefield',format: 'Y/m/d H:i:s',fieldLabel: 'startDate', name: 'startDate'}
-			,{xtype:'datefield',fieldLabel: 'endDate', name: 'endDate',format: 'Y/m/d H:i:s'},*/
 		],
 	
 		}],
 	
 	buttons:['->',{
-		text:'save',
+		text:'Go',
 		handler:function(){
 			this.up('window').close();
 		}},{

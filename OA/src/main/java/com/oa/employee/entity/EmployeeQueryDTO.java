@@ -21,16 +21,11 @@ import lombok.ToString;
 @ToString
 @Data
 public class EmployeeQueryDTO {
+	//定义前端需要查找的三个条件的属性
 	private String id;
-
-	//private String name;
-	private Department department;
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private Date entryTime;
-	
 	private String departmentid;
-
-
 
 	@SuppressWarnings({ "serial" })
 	public static Specification<Employee> getWhereClause(final EmployeeQueryDTO employeeQueryDTO) {

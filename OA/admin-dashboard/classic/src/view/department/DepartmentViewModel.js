@@ -13,7 +13,9 @@ Ext.define('Admin.view.department.DepartmentViewModel', {
     ],
 
     stores: {
-		departmentLists: {type: 'departmentGridStroe'},
+    	employeesList: {type: 'loadingGridStroe'},
+    	oemployeesList: {type: 'oLoadingGridStroe'},
+    	departmentLists: {type: 'departmentGridStroe'},
 		departmentList:{type:'departmentLoadStroe'}
     }
 });

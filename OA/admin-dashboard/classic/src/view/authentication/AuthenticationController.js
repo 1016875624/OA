@@ -11,7 +11,7 @@
 	onLoginButton: function(btn){
     	var me = this;
         Ext.Ajax.request({
-            url: 'login',
+            url: '/login',
             method: 'post',
             params: {
                 userId: btn.up("form").getForm().findField("userid").getValue(),
@@ -23,6 +23,10 @@
 	            if(json.success){
 	            	me.redirectTo('dashboard', true);
 	            	Ext.getCmp('loginUserId').setText(json.map.userId);
+	            	var headButton=Ext.getCmp('head_Button');
+	            	console.log(json.msg);
+	            	var path="url(/employee/"+json.map.msg+")";
+	            	headButton.setStyle({"background-image":path});
 	            	//Ext.getCmp('loginUserImage').getEl().dom.src = json.map.loginUserImage;
 		        }else{
 		        	Ext.Msg.alert('登录失败', json.msg);
