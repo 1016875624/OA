@@ -10,11 +10,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.oa.officeresource.entity.EmployeeResource;
 import com.oa.officeresource.entity.EmployeeResourceDTO;
 import com.oa.officeresource.repository.EmployeeResourceRepository;
 
+@Service
+@Transactional
 public class EmployeeResourceService implements IEmployeeResourceService {
 
 	@Autowired
@@ -43,10 +47,12 @@ public class EmployeeResourceService implements IEmployeeResourceService {
 		}
 	}
 
+	@Transactional(readOnly = true)
 	public EmployeeResource findOne(Long id) {
 		return employeeResourceRepository.findById(id).get();
 	}
 
+	@Transactional(readOnly = true)
 	public Page<EmployeeResource> findAll(Specification<EmployeeResource> spec, Pageable pageable) {
 		return employeeResourceRepository.findAll(spec, pageable);
 	}
@@ -62,6 +68,7 @@ public class EmployeeResourceService implements IEmployeeResourceService {
 		return employeeResourceDTO;
 	}
 
+	@Transactional(readOnly = true)
 	public Page<EmployeeResourceDTO> findAllInDto(Specification<EmployeeResource> spec, Pageable pageable) {
 		Page<EmployeeResource> page=findAll(spec, pageable);
 		List<EmployeeResource> employeeResources= page.getContent();
@@ -72,6 +79,7 @@ public class EmployeeResourceService implements IEmployeeResourceService {
 		return new PageImpl<>(employeeResourceDTOs, pageable, page.getTotalElements());
 	}
 
+	@Transactional(readOnly = true)
 	public EmployeeResource findEmployeeResource(String employeeId, String resourceName) {
 		return employeeResourceRepository.findEmployeeResource(employeeId, resourceName);
 	}
