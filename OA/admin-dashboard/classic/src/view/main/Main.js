@@ -48,6 +48,9 @@
                     text: '用户名:Admin',
                     id:'loginUserName',
                     cls: 'top-user-name'
+                    /*listeners:{
+    					change:''
+    				}*/
                 },
                 {
                    /* xtype: 'image',
@@ -61,6 +64,8 @@
                 	cls: 'header-right-profile-image',
                     width : 35,  
                     height : 35, 
+                    reference:"headButton",
+                    id:"head_Button",
                     iconCls : 'guestManage',  
                     ref : 'guestManage',  
                     handler: 'onClickGridUploadButton'

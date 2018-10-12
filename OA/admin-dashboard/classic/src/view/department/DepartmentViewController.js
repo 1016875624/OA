@@ -3,47 +3,11 @@ Ext.define('Admin.view.department.DepartmentViewController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.departmentViewController',
     
-	onEditButton:function(grid, rowIndex, colIndex){
-		//获取本列的数据
-		var rec = grid.getStore().getAt(rowIndex);
-        Ext.Msg.alert('Title', rec.get('fullname'));
-	},
-	gridDelete:function(grid, rowIndex, colIndex){
-		//Ext.Msg.alert("Title","Click Delete Button");
-		Ext.MessageBox.confirm('提示', '确定要进行删除操作吗？数据将无法还原！',
-  			function(btn, text){
-            	if(btn=='yes'){
-            		var store = grid.getStore();
-					var record = store.getAt(rowIndex);
-					store.remove(record);//DELETE//http://localhost:8081/order/112
-					//store.sync();
-				}
-        	}
-        , this);
-	
-	},
-	gridDisable:function(grid, rowIndex, colIndex){
-		Ext.Msg.alert("Title","Click Disable Button");
-	},
-	
-	/**********头部事件*********/
-	openSearchWindow:function(btn){
-		var win=Ext.widget('departmentSearchWindow');
-		//win.setTitle('高级查询');
-		btn.up('gridpanel').up('container').add(win);
-		//win.show();
-		/*win.down('button[text=save]').setHandler(function(){
-			Ext.Msg.alert("search","you click the button named save");
-		});*/
-		
-		win.down('button[text=save]').setHandler(this.highLevelSearch);
-	},
-	
-	
-	/*增加部门功能*/
+	/*Add Window*/
 	openAddWindow:function(toolbar, rowIndex, colIndex){
 		toolbar.up('panel').up('container').add(Ext.widget('departmentAddWindow')).show();
 	},
+	
 	/*Add Submit*/	
 	submitAddForm:function(btn){
 		var win    = btn.up('window');
@@ -55,10 +19,23 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		Ext.data.StoreManager.lookup('departmentGridStroe').load();
 		win.close();
 	},
+    
+	/*删除一行*/
+	gridDelete:function(grid, rowIndex, colIndex){
+		//Ext.Msg.alert("Title","Click Delete Button");
+		Ext.MessageBox.confirm('提示', '确定要进行删除操作吗？数据将无法还原！',
+  			function(btn, text){
+            	if(btn=='yes'){
+            		var store = grid.getStore();
+					var record = store.getAt(rowIndex);
+					store.remove(record);//DELETE//http://localhost:8081/order/112
+					//store.sync();
+				}
+        	}
+		, this);
+	},	
 	
-	
-	
-	
+	/*Edit*/
 	gridModify:function(grid, rowIndex, colIndex){
 		var rec=grid.getStore().getAt(rowIndex);
 		var win=Ext.widget('departmentEditWindow');
@@ -69,43 +46,163 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		console.log(rec.data);
 		console.log(rec.data.id);
 		console.log(Ext.ClassManager.getName(rec.get('name')));
-		//console.log(Ext.ClassManager.getName(win));
-		//console.log(Ext.ClassManager.getName(win.down('form')));
-		//console.log(Ext.ClassManager.getName(win.down('form')));
-		//console.log(Ext.typeOf(win.down('form')));
-		//win.down('datefield').format='Y/m/d H:i:s';
 		win.down('form').loadRecord(rec);
-		//console.log(Ext.ClassManager.getName(Ext.getCmp('userWindowSave')));
-		/*Ext.getCmp('userWindowSave').setHandler(function(){
-			Ext.Msg.alert("","you click the button named save");
-		});*/
 		var store = Ext.data.StoreManager.lookup('departmentGridStroe');
 		console.log(Ext.ClassManager.getName(win.down('button')));
 		win.down('button[text=save]').setHandler(function(){
-			//Ext.Msg.alert("tips","you click the button named save");
 			var values  = win.down('form').getValues();//获取form数据
         	var record = store.getById(values.id);//获取id获取store中的数据
         	record.set(values);
-			//rec.data.orderDate.format='Y/m/d H:i:s';
-			
 			win.close();
 			store.load();
 			
 		});
-		
 		console.log(Ext.ClassManager.getName(Ext.get('userWindowSave')));
 	},
 	
-	//部门人员管理和交换
-	gridChange:function(grid, rowIndex, colIndex){		
-		var rec = grid.getStore().getAt(rowIndex);
-		var win = Ext.widget('departmentChangeWindow');
-		//win.setHtml(rec.data.employeesName);
-		win.down("form").getForm().loadRecord(rec);
-		win.show();
+	/*部门人员管理和交换窗口*/	
+	gridChange:function(grid, rowIndex, colIndex){	
+		var win = grid.up('container').add(Ext.widget('departmentChangeWindow'));//打开窗口
+		
+		var defaultBox = this.lookupReference('dpartmentBox');
+		var oDefaultBox = this.lookupReference('oDpartmentBox');
+
+		
+		var rec = grid.getStore().getAt(rowIndex);//获取Store记录
+		var store=Ext.data.StoreManager.lookup('loadingGridStroe');//获取Store数据
+		var departid=rec.get("id");//从记录中获取id
+		Ext.apply(store.proxy.extraParams, {departmentid:departid});//与后台DTO里面的字段交互
+		
+		var rec = grid.getStore().getAt(rowIndex);//获取Store记录
+		var store=Ext.data.StoreManager.lookup('oLoadingGridStroe');//获取Store数据
+		var departid=rec.get("id");//从记录中获取id
+		Ext.apply(store.proxy.extraParams, {departmentid:departid});//与后台DTO里面的字段交互
+		var storeL=defaultBox.getStore();
+		var storeR=oDefaultBox.getStore();
+		
+		store.load();//刷新
+		
 		console.log(Ext.ClassManager.getName(win.down("form")));
+		
+		storeL.load();
+		storeR.load();
+		
+		defaultBox.setValue(departid);
+		//oDefaultBox.setValue(departid);
+		
+		console.log(defaultBox.getValue());
+		console.log(oDefaultBox.getValue());
 	},
 	
+	/*点击原部门选择监听事件*/
+	departmentSelectChange:function(box,newValue,oldValue,eOpts){
+		console.log("12356");
+		var store=Ext.data.StoreManager.lookup('loadingGridStroe');//获取Store数据
+		var departid=newValue;//从newValue中获取id
+		Ext.apply(store.proxy.extraParams, {departmentid:departid});//与后台DTO里面的字段交互
+		store.load();
+	},
+	
+	/*点击其他部门选择监听事件*/
+	oDepartmentSelectChange:function(box,newValue,oldValue,eOpts){
+		console.log("12356");
+		var store=Ext.data.StoreManager.lookup('oLoadingGridStroe');//获取Store数据
+		var departid=newValue;//从newValue中获取id
+		Ext.apply(store.proxy.extraParams, {departmentid:departid});//与后台DTO里面的字段交互
+		store.load();
+	},
+	
+	/*Right Push*/
+	rightPush:function(btn){
+		var departmentGird = this.lookupReference('loadingPanel');
+		var oDepartmentGird = this.lookupReference('oLoadingPanel');
+		var dpartment = this.lookupReference('dpartmentBox');
+		var oDpartment = this.lookupReference('oDpartmentBox');
+		var lselects=departmentGird.getSelection();
+		var rselects=oDepartmentGird.getSelection();
+		var lArray=new Array();
+		var rArray=new Array();
+		for(i=0;i<lselects.length;i++){
+			var temp=lselects[i].getData();
+			temp.departmentid=oDpartment.getValue();
+			lArray.push(temp);
+		};
+		for(j=0;j<rselects.length;j++){
+			var temp=rselects[j].getData();
+			temp.departmentid=dpartment.getValue();
+			rArray.push(temp);
+		};
+		for(i=0;i<lArray.length;i++){
+			var temp=lArray[i];
+			rArray.push(temp);
+		};
+		
+		console.log(lArray);
+		console.log(rArray);
+		Ext.Ajax.request({		
+		url: 'http://localhost:8080/employee/changeDepartment',
+		method:'post',
+		jsonData:rArray,
+		success: function(response, opts) {
+			departmentGird.getStore().load();
+			oDepartmentGird.getStore().load();
+		},
+		failure: function(response, opts) {
+			console.log('server-side failure with status code ' + response.status);
+		}
+		});
+		
+		console.log(lselects);
+		console.log(rselects);
+		console.log(Ext.ClassManager.getName(lselects));
+		console.log(Ext.ClassManager.getName(rselects));
+	},
+	
+	/*Left Pull*/
+	leftPull:function(btn){
+		var departmentGird = this.lookupReference('loadingPanel');
+		var oDepartmentGird = this.lookupReference('oLoadingPanel');
+		var dpartment = this.lookupReference('dpartmentBox');
+		var oDpartment = this.lookupReference('oDpartmentBox');
+		var lselects=departmentGird.getSelection();
+		var rselects=oDepartmentGird.getSelection();
+		var lArray=new Array();
+		var rArray=new Array();
+		for(i=0;i<lselects.length;i++){
+			var temp=lselects[i].getData();
+			temp.departmentid=oDpartment.getValue();
+			lArray.push(temp);
+		};
+		for(j=0;j<rselects.length;j++){
+			var temp=rselects[j].getData();
+			temp.departmentid=dpartment.getValue();
+			rArray.push(temp);
+		};
+		for(i=0;i<rArray.length;i++){
+			var temp=rArray[i];
+			lArray.push(temp);
+		};
+		console.log(lArray);
+		console.log(rArray);
+		Ext.Ajax.request({		
+		url: 'http://localhost:8080/employee/changeDepartment',
+		method:'post',
+		jsonData:lArray,
+		success: function(response, opts) {
+			departmentGird.getStore().load();
+			oDepartmentGird.getStore().load();
+		},
+		failure: function(response, opts) {
+			console.log('server-side failure with status code ' + response.status);
+		}
+		});
+		console.log(lselects);
+		console.log(rselects);
+		console.log(Ext.ClassManager.getName(lselects));
+		console.log(Ext.ClassManager.getName(rselects));
+	},
+	
+	/*Delete More*/
 	tbarClickDeleteMore:function(btn){
 		var grid= btn.up('gridpanel');
 		console.log(btn);
@@ -129,14 +226,13 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 			success: function(response, opts) {
 				store.load();
 			},
-
 			failure: function(response, opts) {
 				console.log('server-side failure with status code ' + response.status);
 			}
 		 });
 	},
 	
-	showWindow:function(grid, rowIndex, colIndex){
+	/*showWindow:function(grid, rowIndex, colIndex){
 		var rec=grid.getStore().getAt(rowIndex);
 		Ext.Msg.alert('Title', grid);
 		Ext.Msg.alert('Title', rowIndex);
@@ -184,7 +280,7 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		});
 		
 		win.show();
-	},
+	},*/
 	
 	
 	/*Quick Search*/	
@@ -204,6 +300,7 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		}
 		store.load({params:{start:0, limit:20, page:1}});
 	},
+	/*点击监听事件*/
 	tbarSelectChange:function(box,newValue,oldValue,eOpts){
 		console.log("12356");
 		var searchValue = this.lookupReference('searchFieldValue');
@@ -221,6 +318,12 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		}
 	},
 	
+	/*高级查询*/
+	openSearchWindow:function(btn){
+		var win=Ext.widget('departmentSearchWindow');
+		btn.up('gridpanel').up('container').add(win);		
+		win.down('button[text=Go]').setHandler(this.highLevelSearch);
+	},
 	highLevelSearch:function(btn){
 		//win.down('datefield').format='Y/m/d H:i:s';
 		var store = Ext.data.StoreManager.lookup('departmentGridStroe');
@@ -248,23 +351,6 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		win.show();
 	},
 	
-	/*自动加载部门成员信息*/	
-	quickSearch1:function(btn){
-		var store =	btn.up('gridpanel').getStore();
-		Ext.apply(store.proxy.extraParams, {name:""});
-		var searchComboValue = this.lookupReference('departmentBox').getValue();
-		Ext.apply(store.proxy.extraParams, {id:searchComboValue});
-		store.load({params:{start:0, limit:20, page:1}});
-	},
-	
-	test:function(){
-		Ext.Msg.alert("test","test");
-	},
 	init:function(){
-		/*this.control({
-			'gridpanel button': {
-				click:this.test
-			}
-		});*/
 	}
 });
