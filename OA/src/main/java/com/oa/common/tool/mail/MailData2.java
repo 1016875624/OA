@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MailData2 {
-	private String host="smtp.163.com";
+	/*private String host="smtp.163.com";
 	private String port="465";
 	private String protocol = "smtp";
 	private Boolean auth = true;
@@ -30,6 +30,18 @@ public class MailData2 {
 	private String password="EmailPassword0";
 	private String mail="a_later@163.com";
 	private String name="办公自动化邮件提醒";
-	private Boolean ssl=true;
+	private Boolean ssl=true;*/
+	
+	
+	private String host="smtp.163.com";
+	private String port="465";
+	private String protocol = "smtp";
+	private Boolean auth = true;
+	private Boolean debug = true;
+	private String username="m13538624594@163.com";
+	private String password="qqqaaazzz111";
+	private String mail="m13538624594@163.com";
+	private String name="办公自动化邮件提醒";
+	
 	
 }
