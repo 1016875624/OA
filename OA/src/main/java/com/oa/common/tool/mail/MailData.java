@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -52,7 +53,7 @@ public class MailData {
 	
 	//private ExecutorService executorService=Executors.newSingleThreadExecutor();
 	
-	private List<MimeMessage>msglists=new ArrayList<>();
+	private List<MimeMessage>msglists=new CopyOnWriteArrayList<>();
 	
 	private boolean stop=false;
 	
