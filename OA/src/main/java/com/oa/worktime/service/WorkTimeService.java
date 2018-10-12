@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,8 +22,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.oa.common.beans.BeanUtils;
+import com.oa.common.date.utils.DateUtils;
+import com.oa.employee.entity.Employee;
 import com.oa.employee.service.EmployeeService;
 import com.oa.employee.service.IEmployeeService;
+import com.oa.leave.entity.Leave;
+import com.oa.leave.repository.LeaveRepository;
 import com.oa.worktime.entity.HolidayTime;
 import com.oa.worktime.entity.WorkTime;
 import com.oa.worktime.entity.WorkTimeDTO;
@@ -38,6 +44,8 @@ public class WorkTimeService implements IWorkTimeService {
 	private IEmployeeService employeeService;
 	@Autowired
 	private IHolidayTimeService holidayTimeService;
+	@Autowired
+	LeaveRepository leaveRepository;
 	@Override
 	public WorkTime save(WorkTime entity) {
 		// TODO Auto-generated method stub
@@ -364,6 +372,107 @@ public class WorkTimeService implements IWorkTimeService {
 			}
 		}
 		return hourover;
+	}
+	//填报工时
+	@Override
+	public List<WorkTimeDTO> savemore(WorkTimeDTO workTimeDTO) throws IOException {
+		Employee employee=employeeService.findById(workTimeDTO.getEmployeeid()).orElse(null);
+		//查出时间范围内的节假日，周六日，工作日
+		System.out.println("11"+workTimeDTO.getEndDate());
+		List<HolidayTime> holidayTimes=holidayTimeService.checkDateHoliday(workTimeDTO.getStartDate(),workTimeDTO.getEndDate());
+		//查出请假时段在填报工时时间重叠的
+		List<Leave> leaves=leaveRepository.findLeaveTime(workTimeDTO.getEmployeeid(), workTimeDTO.getStartDate(),workTimeDTO.getEndDate());
+		Set<Date> dates=new HashSet<>();
+		for (Leave leave : leaves) {
+			//请假开始时间在填报工时开始时间和结束时间范围内
+			if(leave.getStartTime().getTime()>=workTimeDTO.getStartDate().getTime()
+					&&leave.getStartTime().getTime()<=workTimeDTO.getEndDate().getTime()) {
+				//请假结束时间在填报工时结束时间之后
+				if(leave.getEndTime().getTime()>=workTimeDTO.getEndDate().getTime()) {
+					Date d1=leave.getStartTime();
+					Date d2=workTimeDTO.getEndDate();
+					dates.addAll(DateUtils.getDays(d1, d2));
+					
+				}//请假结束时间在填报工时结束时间之前
+				else if(leave.getEndTime().getTime()<=workTimeDTO.getEndDate().getTime()) {
+					Date d1=leave.getStartTime();
+					Date d2=leave.getEndTime();
+					dates.addAll(DateUtils.getDays(d1, d2));
+				}
+			}//请假开始时间在填报工时开始时间之前
+			else if(leave.getStartTime().getTime()<workTimeDTO.getStartDate().getTime()) {
+				//请假结束时间在填报工时时间范围中间
+				if(leave.getEndTime().getTime()>=workTimeDTO.getStartDate().getTime()&&leave.getEndTime().getTime()<=workTimeDTO.getEndDate().getTime()) {
+					Date d1=workTimeDTO.getStartDate();
+					Date d2=leave.getEndTime();
+					dates.addAll(DateUtils.getDays(d1, d2));
+				}//请假结束时间在填报工时结束时间之前
+				else if(leave.getEndTime().getTime()<=workTimeDTO.getStartDate().getTime()) {
+					
+					
+				}//请假结束时间在填报工时结束时间之后
+				else if(leave.getEndTime().getTime()>workTimeDTO.getEndDate().getTime()) {
+					Date d1=workTimeDTO.getStartDate();
+					Date d2=workTimeDTO.getEndDate();
+					dates.addAll(DateUtils.getDays(d1, d2));
+				}
+			}//请假开始时间在填报工时结束之后
+			else if(leave.getStartTime().getTime()>workTimeDTO.getEndDate().getTime()) {
+				
+				
+			}
+			
+		}
+		List<WorkTimeDTO> workTimeDTOs=new ArrayList<>();
+		
+		for (HolidayTime holidayTime : holidayTimes) {
+			
+			WorkTimeDTO workTimedto=new WorkTimeDTO();
+			//判断是否存在工时
+			WorkTime workTime=workTimeRepository.checkIfWorkTime(workTimeDTO.getEmployeeid(), holidayTime.getDate());
+			if(workTime==null) {
+				if(holidayTime.getIfholiday()==1||holidayTime.getIfholiday()==2) {//如果是周六日或者节假日
+					workTimedto.setEmployeeid(employee.getId());
+					workTimedto.setEmployeeName(employee.getName());
+					workTimedto.setDepartmentName(employee.getDepartment().getName());
+					workTimedto.setDate(holidayTime.getDate());
+					workTimedto.setIfholiday(holidayTime.getIfholiday());
+					workTimedto.setHour(0);
+					workTimedto.setStatus(0);
+					workTimeDTOs.add(workTimedto);
+				}else if(holidayTime.getIfholiday()==0) {
+					
+					workTimedto.setEmployeeid(employee.getId());
+					workTimedto.setEmployeeName(employee.getName());
+					workTimedto.setDepartmentName(employee.getDepartment().getName());
+					workTimedto.setDate(holidayTime.getDate());
+					workTimedto.setIfholiday(holidayTime.getIfholiday());
+					workTimedto.setHour(workTimeDTO.getHour());
+					workTimedto.setStatus(0);
+					workTimeDTOs.add(workTimedto);
+				}
+			}
+			
+		}
+		while(!dates.isEmpty()) {
+			Date date=null;
+			for (Date date1 : dates) {
+				for (WorkTimeDTO workTimeDTO2 : workTimeDTOs) {
+					if(workTimeDTO2.getDate().equals(date1)) {
+						workTimeDTO2.setIfholiday(3);
+						workTimeDTO2.setHour(0);
+						date=date1;
+						break;
+					}
+				}
+				if(date!=null) {
+					break;
+				}
+			}
+			dates.remove(date);
+			date=null;
+		}
+		return workTimeDTOs;
 	}
 	
 }

@@ -92,6 +92,6 @@ public interface IWorkTimeService {
 	
 	public Integer workOvertime(String em1,String d1,String d2) throws ParseException;
 	
-	
+	public List<WorkTimeDTO> savemore(WorkTimeDTO workTimeDTO)throws IOException ;
 }
 
