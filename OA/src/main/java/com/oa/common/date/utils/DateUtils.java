@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public abstract class DateUtils {
 	
@@ -60,6 +62,19 @@ public abstract class DateUtils {
 		return toDate(localDateTime);
 	}
 	
+	public static Date getToday() {
+		return toDate(LocalDate.now());
+	}
 	
+	public static Set<Date> getDays(Date start,Date end) {
+		Set<Date>dates=new HashSet<>();
+		LocalDate startLD=toLocalDate(start);
+		LocalDate endLD=toLocalDate(end);
+		while (startLD.compareTo(endLD)<0) {
+			dates.add(toDate(startLD));
+			startLD=startLD.plusDays(1);
+		}
+		return dates;
+	}
 	
 }

@@ -597,7 +597,74 @@ delete obj.id;
 delete obj[id]; 
 ```
 
+### extjs 修改css的内容
 
+很多时候我们要通过js进行修改某些元素的显示效果，例如头像的显示，点击后元素改变显示效果等
+
+这里都是通过一个方法进行去修改一个这个元素的某个css的属性
+
+```js
+//元素 .setStyle({}),就可以进行修改css属性了
+grid.setStyle({"background-color":"red"});
+```
+
+
+
+### extjs 改变背景
+
+使用属性 bodyStyle
+
+```js
+bodyStyle: {
+    background: '#ffc',
+    padding: '10px'
+}
+```
+
+当然也可以使用style属性
+
+```js
+style: {
+    'border-left': '1px solid red'
+}
+```
+
+### extjs也可以进行数据绑定
+
+数据绑定的相关内容
+
+https://blog.csdn.net/sushengmiyan/article/details/38612721
+
+```js
+viewModel: {
+            type: "binding-two-way-formulas",
+            data: {
+                title: "我是标题",
+                x: 1,
+                birthDate: new Date(1992, 0, 17)
+            }
+        }
+原文：https://blog.csdn.net/qq_20282263/article/details/54583704?utm_source=copy 
+```
+
+在viewModel中定义了data的数据就可以进行数据绑定
+
+
+
+## java中的使用
+
+### 获取项目路径
+
+```java
+File directory = new File("");
+System.out.println(directory.getAbsolutePath());
+```
+
+### 获取运行时候的路径
+
+```java
+System.out.println(this.getClass().getClassLoader().getResource(""));
+```
 
 
 

@@ -31,7 +31,7 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
 						if(val=='0'){
 							return '<span>工作日</span>';
 						}else if(val=='1'){
-							return '<span style="color:orange">法定休息日</span>';
+							return '<span style="color:orange">周六日</span>';
 						}else if(val=='2'){
 							return '<span style="color:orange">节假日</span>';
 						}

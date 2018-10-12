@@ -1,24 +1,36 @@
 package com.oa.config;
 
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.SocketAddress;
-import java.net.Proxy.Type;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Scope;
 
 import com.oa.common.okhttp.OkTool;
+import com.oa.common.tool.mail.MailData;
+import com.oa.common.tool.mail.MailMsgSingle;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
 @Configuration
+//@PropertySource({"classpath:mail.properties"})
+@PropertySource({"classpath:alissl.mail.properties"})
 public class BeanConfig {
 
 	
+	@Bean
+	public MailData mailData() {
+		MailData mailData=new MailData();
+		mailData.getSendTaskThread().start();
+		return mailData;
+	}
+	@Bean
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public MailMsgSingle mailMsgSingle() {
+		return new MailMsgSingle();
+	}
 	@Bean
 	public OkHttpClient.Builder clientBuilder() {
 		OkHttpClient.Builder builder=new OkHttpClient.Builder();

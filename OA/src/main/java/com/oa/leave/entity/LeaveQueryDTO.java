@@ -13,13 +13,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.oa.employee.entity.Employee;
 
+import lombok.Data;
+
+@Data
 public class LeaveQueryDTO 
 {
 	private String employeeId;
 	
 	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")  
 	private Date startTime;
-   
 
 	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")  
 	private Date endTime;
@@ -28,68 +30,16 @@ public class LeaveQueryDTO
 
 	private Integer status;
 	
+	private Integer status2;
+	
+	private Integer status3;
+	
 	private Employee employee;
 	
-	public void setEmployeeId(String employeeId) {
-		this.employeeId = employeeId;
-	}
-
-	public String getEmployeeId() {
-		return employeeId;
-	}
-
-	public Date getStartTime() {
-		return startTime;
-	}
-	
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
-
-	public Date getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
-
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	
-	public String getLeaderId() {
-		return leaderId;
-	}
-
-	public void setLeaderId(String leaderId) {
-		this.leaderId = leaderId;
-	}
-
-	public Employee getEmployee() {
-		return employee;
-	}
-
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
-	}
 
 	@SuppressWarnings({ "serial"})
 	public static Specification<Leave> getWhereClause(final LeaveQueryDTO leaveQueryDTO) {
-//		if (leaveQueryDTO.getEmployeeId()!=null&&!"".equals(leaveQueryDTO.getEmployeeId().trim())) {
-//			Employee employee=new Employee();
-//			employee.setId(leaveQueryDTO.getEmployeeId());
-//			leaveQueryDTO.setEmployee(employee);
-//		}
-//		if (leaveQueryDTO.getLeaderId()!=null&&!"".equals(leaveQueryDTO.getLeaderId().trim())) {
-//			Employee employee=new Employee();
-//			employee.setLeader(leaveQueryDTO.getLeaderId());
-//			leaveQueryDTO.setEmployee(employee);
-//		}
+		
 		return new Specification<Leave>() {
 			@Override
 			public Predicate toPredicate(Root<Leave> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -115,8 +65,16 @@ public class LeaveQueryDTO
 				}
 				if (leaveQueryDTO.getStatus()!=null) {
 					//predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),leaveQueryDTO.getStatus()));
-					predicate.add(criteriaBuilder.notEqual(root.get("status").as(Integer.class),0));
-					predicate.add(criteriaBuilder.notEqual(root.get("status").as(Integer.class),-1));
+					if(leaveQueryDTO.getStatus2()!=null&&leaveQueryDTO.getStatus3()!=null) {
+						System.out.println(1);
+						predicate.add(criteriaBuilder.or(criteriaBuilder.equal(root.get("status").as(Integer.class),leaveQueryDTO.getStatus()),
+								criteriaBuilder.equal(root.get("status").as(Integer.class),leaveQueryDTO.getStatus2()),
+								criteriaBuilder.equal(root.get("status").as(Integer.class),leaveQueryDTO.getStatus3())
+								));
+					}
+					else {
+						predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),leaveQueryDTO.getStatus()));
+					}
 				}else {
 					predicate.add(criteriaBuilder.notEqual(root.get("status").as(Integer.class),-1));
 				}

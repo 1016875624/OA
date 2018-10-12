@@ -207,6 +207,11 @@ public class WorkTimeService implements IWorkTimeService {
 	public WorkTime findWorkTime(Date date) {
 		return workTimeRepository.findWorkTime(date);
 	}
+
+	@Override
+	public WorkTime checkIfWorkTime(String employeeid, Date date) {
+		return workTimeRepository.checkIfWorkTime(employeeid, date);
+	}
 	
 	
 }
