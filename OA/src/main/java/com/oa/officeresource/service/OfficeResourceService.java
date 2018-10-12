@@ -53,9 +53,9 @@ public class OfficeResourceService implements IOfficeResourceService {
 		return officeResourceRepository.findById(id).get();
 	}
 
-	public int grabResourceNum() {
+	public int grabResourceNum(int num) {
 		  Random rand = new Random();
-          int gRN = rand.nextInt(10)+1;
+          int gRN = rand.nextInt(num)+1;
           return gRN;
 	}
 

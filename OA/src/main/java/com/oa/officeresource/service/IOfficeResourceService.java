@@ -14,7 +14,7 @@ public interface IOfficeResourceService {
 	public void deleteAll(Long[] ids);
 	public OfficeResource findOne(Long id);
 	
-	public int grabResourceNum();
+	public int grabResourceNum(int num);
 	
 	public Page<OfficeResource> findAll(Specification<OfficeResource> spec, Pageable pageable);
 	
