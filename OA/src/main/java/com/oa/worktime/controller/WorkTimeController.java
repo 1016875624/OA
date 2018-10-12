@@ -5,8 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.oa.common.beans.BeanUtils;
 import com.oa.common.checksaveHoliday.Checkandsaveholiday;
+import com.oa.common.date.utils.DateUtils;
 import com.oa.common.holiday.HolidayQuery;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.ExtjsPageRequest;
@@ -33,7 +36,9 @@ import com.oa.department.entity.Department;
 import com.oa.department.service.IDepartmentService;
 import com.oa.employee.entity.Employee;
 import com.oa.employee.service.IEmployeeService;
+import com.oa.leave.entity.Leave;
 import com.oa.leave.entity.LeaveDTO;
+import com.oa.leave.repository.LeaveRepository;
 import com.oa.worktime.entity.HolidayTime;
 import com.oa.worktime.entity.HolidayTimeDTO;
 import com.oa.worktime.entity.WorkTime;
@@ -60,6 +65,8 @@ public class WorkTimeController {
 	@Autowired
 	IHolidayTimeService holidayTimeService;
 	
+	@Autowired
+	LeaveRepository leaveRepository;
 	@GetMapping
 	public Page<WorkTimeDTO> getPage(WorkTimeQueryDTO worktimeQueryDto,ExtjsPageRequest extjsPageRequest){
 		/*if(worktimeQueryDto.getDepartmentid()!=null) {
@@ -73,7 +80,7 @@ public class WorkTimeController {
 		return workTimeService.findAllInDto(WorkTimeQueryDTO.getWhereClause(worktimeQueryDto), extjsPageRequest.getPageable());
 	}
 	
-	@GetMapping(value="approval")
+	@GetMapping(value="/approval")
 	public Page<WorkTimeDTO> findworkTimeByLeaderId(WorkTimeQueryDTO worktimeQueryDto,HttpSession session,ExtjsPageRequest extjsPageRequest){
 		
 		Page<WorkTimeDTO> page;
@@ -119,36 +126,42 @@ public class WorkTimeController {
 		}
 	}
 	//添加多条工时
-	@PostMapping(value="savemore")
-	public ExtAjaxResponse savemore(@RequestBody WorkTimeDTO workTimeDTO) throws IOException 
+	@RequestMapping(value="/savemore")
+	public List<WorkTimeDTO> savemore(WorkTimeDTO workTimeDTO)  
 	{	
-		Employee em= null;
 		try {
-			
-			if (workTimeDTO.getEmployeeid()!=null&&!"".equals(workTimeDTO.getEmployeeid().trim())) {
-				em= new Employee();
+			return workTimeService.savemore(workTimeDTO);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	@RequestMapping(value="/forApproval")
+	public ExtAjaxResponse forApproval(@RequestBody WorkTimeDTO []workTimeDTOs) {
+		try {
+			Employee em=null;
+			boolean flag=false;
+			for (WorkTimeDTO workTimeDTO : workTimeDTOs) {
+				WorkTime workTime=new WorkTime();
+				em=new Employee();
 				em.setId(workTimeDTO.getEmployeeid());
+				//workTimeService.findById(id);
+				BeanUtils.copyProperties(workTimeDTO, workTime);
+				workTime.setStatus(2);
+				workTime.setEmployee(em);
+				try {
+					workTimeService.save(workTime);
+				}catch (Exception e) {
+					flag=true;
+				}
 				
 			}
-			
-			HolidayTimeDTO holidayTimeDTO=new HolidayTimeDTO();
-			holidayTimeDTO.setStartDate(workTimeDTO.getStartDate());
-			holidayTimeDTO.setEndDate(workTimeDTO.getEndDate());
-			Checkandsaveholiday checkandsaveholiday=new Checkandsaveholiday();
-			List<HolidayTime> holidayTimes=checkandsaveholiday.checkHoliday(holidayTimeDTO);
-			
-			for (HolidayTime holidayTime : holidayTimes) {
-				WorkTime workTime=new WorkTime();
-				BeanUtils.copyProperties(workTimeDTO, workTime);
-				//if(holidayTime.getIfholiday()==1||)
-				workTime.setIfholiday(holidayTime.getIfholiday());
-				workTime.setStatus(0);
-				workTime.setEmployee(em);
-				workTimeService.save(workTime);
+			if(flag) {
+				return new ExtAjaxResponse(true,"有部分提交失败");
 			}
-			return new ExtAjaxResponse(true,"添加成功");
+			return new ExtAjaxResponse(true,"提交成功!");
 		} catch (Exception e) {
-			return new ExtAjaxResponse(false,"添加失败");
+			return new ExtAjaxResponse(false,"错误出错!");
 		}
 	}
 	@PutMapping(value="{id}")
@@ -196,7 +209,7 @@ public class WorkTimeController {
 		}
 		
 	}
-	@PostMapping(value="startApproval")
+	@PostMapping(value="/startApproval")
 	public ExtAjaxResponse startApproval(@RequestParam(name="id")Integer id,@RequestParam(name="status")Integer status) {
 		String msg1="";
 		String msg2="";

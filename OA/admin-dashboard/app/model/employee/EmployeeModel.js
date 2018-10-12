@@ -15,7 +15,7 @@ Ext.define('Admin.model.employee.EmployeeModel', {
 	    {type: 'date', name: 'entryTime', dateFormat:'Y/m/d H:i:s'}
 	],
 	proxy: {
-		type: 'rest',
+		type: 'rest', //类型为依赖
 		url: 'http://localhost:8080/employee',
 	}
 });

@@ -19,6 +19,8 @@ import org.springframework.web.bind.support.SessionAttributeStore;
 
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.SessionUtil;
+import com.oa.employee.entity.Employee;
+import com.oa.employee.service.EmployeeService;
 
 
 @RestController
@@ -27,6 +29,8 @@ public class LoginController {
     @Autowired
     private IdentityService identityService;
     
+    @Autowired
+    private EmployeeService employeeService;
     /**
      * 权限管理
      **/
@@ -53,7 +57,7 @@ public class LoginController {
 		}
         boolean checkPassword = identityService.checkPassword(userId, password);
         if (checkPassword) {
-            // 查看用户是否存在
+            // 保存用户信息
             User user = identityService.createUserQuery().userId(userId).singleResult();
             SessionUtil.setUser(session, user);
 	  
@@ -68,9 +72,10 @@ public class LoginController {
             }
             SessionUtil.setGroupIds(session, ArrayUtils.toString(groupIds));//"groupIds"  : "admin,hrManager"
             */
+            Employee employee = employeeService.findById(userId).orElse(null);         
             Map<String,String> map=new HashMap<String, String>();
             map.put("userId", userId);
-            map.put("msg", "登录成功!");
+            map.put("msg", employee.getPicture());
             //map.put("loginUserImage", "imgUrl");
             session.setAttribute("userId", userId);
             return new ExtAjaxResponse(true,map);

@@ -47,13 +47,15 @@ public class OfficeResourceQueryDTO {
 				}
 				if (null!=officeResourceQueryDTO.getResourceName()) {
 					predicate.add(criteriaBuilder.like(root.get("resourceName").as(String.class),
-							officeResourceQueryDTO.getResourceName()));
+							"%"+officeResourceQueryDTO.getResourceName()+"%"));
 				}
 				if (officeResourceQueryDTO.getRemark()!=null) {
 					predicate.add(criteriaBuilder.equal(root.get("remark").as(Integer.class),officeResourceQueryDTO.getRemark()));
 				}
 				if (officeResourceQueryDTO.getStatus()!=null) {
 					predicate.add(criteriaBuilder.equal(root.get("status").as(Integer.class),officeResourceQueryDTO.getStatus()));
+				}else {
+					predicate.add(criteriaBuilder.notEqual(root.get("status").as(Integer.class),-1));
 				}
 				Predicate[] pre = new Predicate[predicate.size()];
 				return query.where(predicate.toArray(pre)).getRestriction();

@@ -10,88 +10,97 @@ Ext.define('Admin.view.department.DepartmentChangeWindow', {
         'Ext.grid.column.Date',
         'Ext.layout.container.Center'
     ],
+    viewModel: {type: 'departmentViewModel'},
 	xtype:'departmentChangeWindow',
 	autoShow:true,
 	title:'部门人员管理',
-	width: 600,
-    height: 500,
+	width: 700,
+    height: 550,
     buttonAlign:'center',
     //labelAlign:'right',
     frame:true,
 
-	items:  [
-				{	
-		        layout:'column',
-				items: [
-						{
-						//layout:'form',
-						//columnWidth:.40,
-						columnWidth: .4,
-						margin: '10 0 0 10',
-				    	items:[
-				    			{
-								xtype:"departmentcombobox",
-						    	reference:'departmentBox',
-						    	name:'departmentid'
-				    			},
-				    			{
-			    				xtype: 'gridpanel',
-			    	            bind: '{employeeLists}',
-			    	            scrollable: false,
-			    	            selModel: {type: 'checkboxmodel'},
-			    	            handler: 'quickSearch1',
-			    	            columns: [
-			    	            	{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'employeesids',text: '员工编号',flex: 1},
-			    	            	{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'employeesName',text: '员工姓名',flex: 1}
-			    	            ]
-			    	            }]
-						},
-						
-			        	{	
-			        	layout: 'center',
-			        	//columnWidth:.10,
-			        	columnWidth: .1,
-			        	buttons:[{
-			        			iconCls: 'fa fa-arrow-left',
-				                handler:function(){}
-				                }]
-					    },
-					    
-					    {	
-			        	layout: 'center',
-			        	//columnWidth:.10,
-			        	columnWidth: .1,
-			        	buttons:[{
-			        			iconCls: 'fa fa-arrow-right',
-				                handler:function(){}
-				                }]
-					    },
-					    
-					    {
-				    	//layout:'form',
-						//columnWidth:.40,
-					    columnWidth: .4,
-						margin: '10 10 0 0',
-				    	items:[
-				    			{
-								xtype:"departmentcombobox",
-						    	reference:'departmentBox',
-						    	name:'departmentid'
-				    			},
-				    			{
-			    				xtype: 'gridpanel',
-			    	            bind: '{employeeLists}',
-			    	            scrollable: false,
-			    	            selModel: {type: 'checkboxmodel'},
-			    	            columns: [
-			    	            	{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'employeesids',text: '员工编号',flex: 1},
-			    	            	{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'employeesName',text: '员工姓名',flex: 1}
-			    	            ]
-			    	            }]
-				        }
-					    ]
-		}
-	    ],
+	items:  [{	
+	        layout:'column',
+			items: [{
+					columnWidth: .4,
+					margin: '10 0 0 10',
+			    	items:[{
+							xtype:"departmentcombobox",//调用部门列表下拉框
+					    	reference:'dpartmentBox',
+					    	name:'departmentid',
+					    	listeners: {
+										change:'departmentSelectChange'//监听部门选择事件
+									   },
+					    	
+			    			},{
+		    				xtype: 'gridpanel',//显示面板
+		    				reference:'loadingPanel',//
+		    	            bind: '{employeesList}',//绑定员工信息
+		    	            scrollable: true,//可下拉
+		    	            selModel: {type: 'checkboxmodel'},//多选框
+		    	            columns: [
+		    	            	{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'id',text: '员工编号',flex: 1},
+		    	            	{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'name',text: '员工姓名',flex: 1}
+		    	            ]
+		    	            },{
+		    	            dockedItems: [{
+		    	                xtype: 'pagingtoolbar',
+		    	                dock: 'bottom',
+		    	                displayInfo: true,
+		    	                bind: '{employeesList}'//分页工具绑定员工信息
+		    	            }]
+		    	        }]
+					},
+					
+		        	{	
+		        	layout: 'center',
+		        	columnWidth: .1,
+		        	buttons:[{
+		        			iconCls: 'fa fa-arrow-left',
+		        			handler:'leftPull'
+			                }]
+				    },
+				    
+				    {	
+		        	layout: 'center',
+		        	columnWidth: .1,
+		        	buttons:[{
+		        			iconCls: 'fa fa-arrow-right',
+		        			handler:'rightPush'
+			                }]
+				    },
+				    
+				    {
+					columnWidth: .4,
+					margin: '10 0 0 10',
+			    	items:[{
+							xtype:"departmentcombobox",//调用部门列表下拉框
+					    	reference:'oDpartmentBox',
+					    	name:'departmentid',
+					    	listeners: {
+										change:'oDepartmentSelectChange'//监听部门选择事件
+									   }
+			    			},{
+		    				xtype: 'gridpanel',//显示面板
+		    				reference:'oLoadingPanel',
+		    	            bind: '{oemployeesList}',//绑定员工信息
+		    	            scrollable: true,//可下拉
+		    	            selModel: {type: 'checkboxmodel'},//多选框
+		    	            columns: [
+		    	            	{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'id',text: '员工编号',flex: 1},
+		    	            	{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'name',text: '员工姓名',flex: 1}
+		    	            ]
+		    	            },{
+		    	            dockedItems: [{
+		    	                xtype: 'pagingtoolbar',
+		    	                dock: 'bottom',
+		    	                displayInfo: true,
+		    	                bind: '{oemployeesList}'//分页工具绑定员工信息
+		    	            }]
+		    	        }]
+				}]
+		}],
 	
 	buttons:['->',{
 		id:'departmentWindowSave',

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.internal.LoadingCache;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,14 +44,6 @@ public class DepartmentController {
 		//return departmentService.findAllInSimpleDTO(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
 	}
 	
-	/*
-	 * 
-	@GetMapping
-	public Page<DepartmentDTO> getPage(DepartmentQueryDTO departmentQueryDTO,ExtjsPageRequest extjsPageRequest){
-		return departmentService.findAllInDTO(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
-		//return departmentService.findAllInSimpleDTO(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
-	}
-	*/
 	
 	@PostMapping
 	public ExtAjaxResponse save(@RequestBody DepartmentDTO departmentDTO) 
@@ -66,6 +59,7 @@ public class DepartmentController {
 		}
 	}
 	
+	//根据id更新
 	@PutMapping(value="{id}")
     public ExtAjaxResponse update(@PathVariable("id") String id,@RequestBody DepartmentDTO departmentDTO) {
     	try {
@@ -78,7 +72,21 @@ public class DepartmentController {
 	        return new ExtAjaxResponse(false,"更新失败!");
 	    }
     }
-	
+	/*
+	//多选更新
+	@PutMapping(value="{ids}")
+	public ExtAjaxResponse Loading(@PathVariable("ids") List<String> ids,@RequestBody DepartmentDTO departmentDTO) {
+		try {
+			Department entity = null;
+			entity=DepartmentDTO.DtoToEntity(departmentDTO);
+			departmentService.update(entity);
+			return new ExtAjaxResponse(true,"更新成功!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ExtAjaxResponse(true,"更新成功!");
+		}
+	}
+	*/
 	@DeleteMapping(value="/{id}")
 	public ExtAjaxResponse delete(@PathVariable String id) {
 		try {

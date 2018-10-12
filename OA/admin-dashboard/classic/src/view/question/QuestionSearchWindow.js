@@ -9,6 +9,7 @@
     title: 'Search More Window',
     closable: true,
     constrain: true,
+    autoShow: true,
     defaultFocus: 'textfield',
     modal:true,
     layout: 'fit',

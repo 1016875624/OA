@@ -1,5 +1,7 @@
 package com.oa.worktime.service;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -64,6 +66,32 @@ public interface IWorkTimeService {
 	void deleteAllById(Integer[]ids);
 	
 	List<WorkTime> findWorkTimes(String id);
+	
 	public WorkTime findWorkTime(Date date); 
+	
+	public WorkTime checkIfWorkTime(String employeeid,Date date);
+	
+	public List<WorkTime> attendence(String em1,Integer if1,Date d1,Date d2);
+	
+	
+	//计算出勤率
+	public double attendance(String em1,String monthTime) throws ParseException, IOException;
+	
+	public double attendance(String em1,Date d1) throws ParseException, IOException;
+	
+	public double attendance(String em1,Date d1,Date d2) throws ParseException, IOException;
+	
+	public double attendance(String em1,String d1,String d2) throws ParseException, IOException;
+	
+	//计算加班时间
+	public Integer workOvertime(String em1,String monthTime) throws ParseException;
+	
+	public Integer workOvertime(String em1,Date d1) throws ParseException;
+	
+	public Integer workOvertime(String em1,Date d1,Date d2) throws ParseException;
+	
+	public Integer workOvertime(String em1,String d1,String d2) throws ParseException;
+	
+	public List<WorkTimeDTO> savemore(WorkTimeDTO workTimeDTO)throws IOException ;
 }
 

@@ -14,7 +14,7 @@ public class EmployeeResourceDTO {
     private Date recentChangeTime;
     
     //剩余数量
-    private String count;
+    private int count;
     
     //资源名称
     private String resourceName;
@@ -31,4 +31,5 @@ public class EmployeeResourceDTO {
     
     private String employeeId;
    	private String employeeName;
+   	private String employeePosition;
 }

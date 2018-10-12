@@ -7,12 +7,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.oa.common.date.utils.DateUtils;
 import com.oa.common.holiday.HolidayQuery;
 import com.oa.worktime.entity.HolidayTime;
 import com.oa.worktime.repository.HolidayTimeRepository;
@@ -88,6 +91,7 @@ public class HolidayTimeService implements IHolidayTimeService {
 			cStart.add(Calendar.DAY_OF_MONTH, 1);
 			 dateList.add(cStart.getTime());
 		}
+		dateList.add(endTime);
 		HolidayTime holidayTime=new HolidayTime();
 		List<HolidayTime> holidayTimes=new ArrayList<HolidayTime>();
 		for (Date date : dateList) {
@@ -97,10 +101,6 @@ public class HolidayTimeService implements IHolidayTimeService {
 				String datestr=sdf.format(date); 
 				datestr=datestr.replace("/", "");
 				Map<String, String> map=holidayQuery.queryByApi(datestr);
-				System.out.println(map);
-				System.out.println(date);
-				System.out.println(datestr);
-				System.out.println(map.get(datestr));
 				int ifholiday=Integer.parseInt(map.get(datestr));
 				holidayTimenull.setDate(date);
 				holidayTimenull.setIfholiday(ifholiday);
@@ -130,7 +130,7 @@ public class HolidayTimeService implements IHolidayTimeService {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		Date startDate = sdf.parse(startTime);
 		Date endDate=sdf.parse(endTime);//String转Date
-			
+		
 		return commonHoliday(startDate, endDate);
 	}
 	public Map<String, String> commonHoliday(Date startTime, Date endTime) throws IOException{
@@ -153,10 +153,6 @@ public class HolidayTimeService implements IHolidayTimeService {
 				String datestr=sdf.format(date); 
 				datestr=datestr.replace("/", "");
 				Map<String, String> map=holidayQuery.queryByApi(datestr);
-				System.out.println(map);
-				System.out.println(date);
-				System.out.println(datestr);
-				System.out.println(map.get(datestr));
 				int ifholiday=Integer.parseInt(map.get(datestr));
 				holidayTimenull.setDate(date);
 				holidayTimenull.setIfholiday(ifholiday);
@@ -173,4 +169,30 @@ public class HolidayTimeService implements IHolidayTimeService {
 		return maps;
 		 
 	}
+	//根据月份查工作日
+	@Override
+	public Map<String, String> checkMapMonth(String monthTime) throws ParseException, IOException {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM");
+		SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy/MM/dd");
+		Date date=sdf.parse(monthTime);
+		Calendar c=Calendar.getInstance();
+		c.setTime(date);
+		c.add(Calendar.MONTH, 1);
+		c.add(Calendar.DAY_OF_MONTH, -1);
+		Date lastDay=c.getTime();
+		return commonHoliday(date, lastDay);
+	}
+
+	@Override
+	public Map<String, String> checkMapMonth(Date monthTime) throws IOException {
+		Calendar c=Calendar.getInstance();
+		c.setTime(monthTime);
+		c.add(Calendar.MONTH, 1);
+		c.add(Calendar.DAY_OF_MONTH, -1);
+		Date lastDay=c.getTime();
+		
+		return commonHoliday(monthTime, lastDay);
+	}
+	
 }

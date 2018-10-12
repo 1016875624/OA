@@ -27,6 +27,8 @@ import com.oa.employee.entity.Employee;
 import com.oa.employee.service.EmployeeService;
 import com.oa.worktime.entity.HolidayTime;
 import com.oa.worktime.service.IHolidayTimeService;
+import com.oa.worktime.service.IWorkTimeService;
+import com.oa.worktime.service.WorkTimeService;
 
 
 @RunWith(SpringRunner.class)
@@ -41,7 +43,8 @@ public class OaApplicationTests {
 	HolidayQuery holidayQuery;
 	@Autowired
 	IHolidayTimeService holidayTimeService;
-	
+	@Autowired
+	IWorkTimeService workTimeService;
 	@Test
 	public void test() {
 		for (int i = 1; i < 10; i++) {
@@ -124,5 +127,67 @@ public class OaApplicationTests {
 			e.printStackTrace();
 		}
 
+	}
+	@Test
+	public void testMonth() {
+		
+		try {
+			Map<String, String> maps = holidayTimeService.checkMapMonth("2018/02");
+			System.out.println(maps);
+			System.out.println(maps.size());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@Test
+	public void testWo() {
+		try {
+			double a=workTimeService.attendance("user2", "2018/10");
+			System.out.println("the attendence is: "+a);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Test 
+	public void testDmo(){
+		try {
+			int a=workTimeService.workOvertime("2", "2018/10");
+			System.out.println("the workOverTime is :"+a);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Test 
+	public void testovetime(){
+		try {
+			int a=workTimeService.workOvertime("2", "2018/10/01","2018/10/31");
+			System.out.println("the workOverTime time is :"+a);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void testAttence() {
+		try {
+			double a=workTimeService.attendance("2", "2018/10/01","2018/10/31");
+			System.out.println("the worktime time is :"+a);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

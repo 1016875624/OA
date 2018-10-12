@@ -21,8 +21,6 @@
             scrollable: false,
             selModel: {type: 'checkboxmodel'},
             columns: [
-                //{xtype: 'gridcolumn',width: 40,dataIndex: 'id',text: 'Key',hidden:true},
-            	
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'id',text: '员工编号',flex: 1},
                 {xtype: 'gridcolumn',width: 75,dataIndex: 'profile_pic',text: '用户',
                     renderer: function(value) {
@@ -49,10 +47,10 @@
 				{xtype: 'datecolumn',cls: 'content-column',width: 200,dataIndex: 'entryTime',text: '入职时间',formatter: 'date("Y/m/d")'},
                 {xtype: 'actioncolumn',cls: 'content-column', width: 160,text: '操作',tooltip: 'edit ',
                     items: [
-                        {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'openEditWindow'},
-                        {xtype: 'button',iconCls: 'x-fa fa-close'	,handler: 'deleteOneRow'},
-                        {xtype: 'button',iconCls: 'x-fa fa-eye'	 	,handler: 'onCheckButton'},
-                        {xtype: 'button',iconCls: 'x-fa fa-paper-plane',handler: 'sendEmail'}
+                        {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'openEditWindow',tooltip:'编辑'},
+                        {xtype: 'button',iconCls: 'x-fa fa-close'	,handler: 'deleteOneRow',tooltip:'删除'},
+                        {xtype: 'button',iconCls: 'x-fa fa-eye'	 	,handler: 'onCheckButton',tooltip:'查看'},
+                        {xtype: 'button',iconCls: 'x-fa fa-paper-plane',handler: 'sendEmail',tooltip:'发送邮件'}
                     ]
                 }
             ],

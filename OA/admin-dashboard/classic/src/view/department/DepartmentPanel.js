@@ -29,13 +29,14 @@ Ext.define('Admin.view.department.DepartmentPanel', {
             columns: [
                 {xtype: 'gridcolumn',width: 40,dataIndex: 'id',text: 'id',hidden:true},
                 {xtype: 'gridcolumn', cls: 'content-column',dataIndex: 'name',text: '部门名称',flex: 1},
-                {xtype: 'gridcolumn',dataIndex: 'employeesids',text: '部门人员',flex: 1,hidden:false},
-                {xtype: 'actioncolumn',cls: 'content-column', width: 160,text: 'Actions',tooltip: 'edit ',
+                {xtype: 'gridcolumn',dataIndex: 'employeesids',text: '部门人员编号',flex: 1,hidden:true},
+                {xtype: 'gridcolumn',dataIndex: 'employeesName',text: '部门人员姓名',flex: 1,hidden:true},
+                {xtype: 'actioncolumn',cls: 'content-column', width: 160,text: 'Actions',
                     items: [
-                        {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'gridModify'},
-                        {xtype: 'button',iconCls: 'x-fa fa-close'	,handler: 'gridDelete'},
-                        {xtype: 'button',iconCls: 'x-fa fa-eye'	,handler: 'gridCheck'},
-                        {xtype: 'button',iconCls: 'x-fa fa-exchange'	 	,handler: 'gridChange'}
+                        {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'gridModify',tooltip:'编辑'},
+                        {xtype: 'button',iconCls: 'x-fa fa-close'	,handler: 'gridDelete',tooltip:'删除'},
+                        {xtype: 'button',iconCls: 'x-fa fa-eye'	,handler: 'gridCheck',tooltip:'查看'},
+                        {xtype: 'button',iconCls: 'x-fa fa-exchange'	 	,handler: 'gridChange',tooltip:'人员管理'}
                         
                     ]
                 }
