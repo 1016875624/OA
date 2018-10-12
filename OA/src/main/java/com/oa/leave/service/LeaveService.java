@@ -100,6 +100,7 @@ public class LeaveService implements ILeaveService {
 	}
 	
 	//将查询的entity类封装到dto
+	@Transactional(readOnly = true)
 	public Page<LeaveDTO> findAllInDto(Specification<Leave> spec, Pageable pageable) {
 		Page<Leave> page=findAll(spec, pageable);
 		List<Leave> leaves= page.getContent();

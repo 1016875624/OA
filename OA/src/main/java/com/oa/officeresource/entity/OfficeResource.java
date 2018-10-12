@@ -43,7 +43,7 @@ public class OfficeResource implements Serializable{
     private Date applyTime;
     
     //剩余数量
-    private String leftCount;
+    private int leftCount;
     
     //资源名称
     private String resourceName;
@@ -54,7 +54,7 @@ public class OfficeResource implements Serializable{
     private Integer remark;
     
     /**
-	 * @Fields status : 0表示待发出,1表示可抢,2表示已抢完,3表示可抽取,4表示已抽完,5表示删除
+	 * @Fields status : 0表示待发出,1表示可抢,2表示已抢完,3表示可抽取,4表示已抽完,-1表示删除
 	 */
     private Integer status;
    
