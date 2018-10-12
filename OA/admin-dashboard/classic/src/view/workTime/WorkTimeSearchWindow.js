@@ -8,6 +8,7 @@ Ext.define('Admin.view.workTime.WorkTimeSearchWindow', {
     scrollable: true,
     title: 'Search More Window',
     closable: true,
+    autoShow: true,
     constrain: true,
     defaultFocus: 'textfield',
     modal:true,

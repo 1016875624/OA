@@ -5,8 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.oa.common.beans.BeanUtils;
 import com.oa.common.checksaveHoliday.Checkandsaveholiday;
+import com.oa.common.date.utils.DateUtils;
 import com.oa.common.holiday.HolidayQuery;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.ExtjsPageRequest;
@@ -129,9 +132,11 @@ public class WorkTimeController {
 		try {
 			Employee employee=employeeService.findById(workTimeDTO.getEmployeeid()).orElse(null);
 			//查出时间范围内的节假日，周六日，工作日
+			System.out.println("11"+workTimeDTO.getEndDate());
 			List<HolidayTime> holidayTimes=holidayTimeService.checkDateHoliday(workTimeDTO.getStartDate(),workTimeDTO.getEndDate());
 			//查出请假时段在填报工时时间重叠的
 			List<Leave> leaves=leaveRepository.findLeaveTime(workTimeDTO.getEmployeeid(), workTimeDTO.getStartDate(),workTimeDTO.getEndDate());
+			Set<Date> dates=new HashSet<>();
 			for (Leave leave : leaves) {
 				//请假开始时间在填报工时开始时间和结束时间范围内
 				if(leave.getStartTime().getTime()>=workTimeDTO.getStartDate().getTime()
@@ -140,12 +145,13 @@ public class WorkTimeController {
 					if(leave.getEndTime().getTime()>=workTimeDTO.getEndDate().getTime()) {
 						Date d1=leave.getStartTime();
 						Date d2=workTimeDTO.getEndDate();
+						dates.addAll(DateUtils.getDays(d1, d2));
 						
 					}//请假结束时间在填报工时结束时间之前
 					else if(leave.getEndTime().getTime()<=workTimeDTO.getEndDate().getTime()) {
 						Date d1=leave.getStartTime();
 						Date d2=leave.getEndTime();
-						
+						dates.addAll(DateUtils.getDays(d1, d2));
 					}
 				}//请假开始时间在填报工时开始时间之前
 				else if(leave.getStartTime().getTime()<workTimeDTO.getStartDate().getTime()) {
@@ -153,7 +159,7 @@ public class WorkTimeController {
 					if(leave.getEndTime().getTime()>=workTimeDTO.getStartDate().getTime()&&leave.getEndTime().getTime()<=workTimeDTO.getEndDate().getTime()) {
 						Date d1=workTimeDTO.getStartDate();
 						Date d2=leave.getEndTime();
-						
+						dates.addAll(DateUtils.getDays(d1, d2));
 					}//请假结束时间在填报工时结束时间之前
 					else if(leave.getEndTime().getTime()<=workTimeDTO.getStartDate().getTime()) {
 						
@@ -162,7 +168,7 @@ public class WorkTimeController {
 					else if(leave.getEndTime().getTime()>workTimeDTO.getEndDate().getTime()) {
 						Date d1=workTimeDTO.getStartDate();
 						Date d2=workTimeDTO.getEndDate();
-						
+						dates.addAll(DateUtils.getDays(d1, d2));
 					}
 				}//请假开始时间在填报工时结束之后
 				else if(leave.getStartTime().getTime()>workTimeDTO.getEndDate().getTime()) {
@@ -172,6 +178,7 @@ public class WorkTimeController {
 				
 			}
 			List<WorkTimeDTO> workTimeDTOs=new ArrayList<>();
+			
 			for (HolidayTime holidayTime : holidayTimes) {
 				
 				WorkTimeDTO workTimedto=new WorkTimeDTO();
@@ -200,6 +207,24 @@ public class WorkTimeController {
 					}
 				}
 				
+			}
+			while(!dates.isEmpty()) {
+				Date date=null;
+				for (Date date1 : dates) {
+					for (WorkTimeDTO workTimeDTO2 : workTimeDTOs) {
+						if(workTimeDTO2.getDate().equals(date1)) {
+							workTimeDTO2.setIfholiday(3);
+							workTimeDTO2.setHour(0);
+							date=date1;
+							break;
+						}
+					}
+					if(date!=null) {
+						break;
+					}
+				}
+				dates.remove(date);
+				date=null;
 			}
 			return workTimeDTOs;
 		} catch (Exception e) {

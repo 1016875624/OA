@@ -34,6 +34,8 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
 							return '<span style="color:orange">周六日</span>';
 						}else if(val=='2'){
 							return '<span style="color:orange">节假日</span>';
+						}else if(val=='3'){
+							return '<span style="color:red">请假</span>';
 						}
 					}
 				},
@@ -136,11 +138,13 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
 		        iconCls: 'fa fa-search',
 		        handler: 'quickSearch'
 		    }, '-',{
+		    	xtype: 'button',
 		        text: 'Search More',
 		        iconCls: 'fa fa-search-plus',
 		        handler: 'openSearchWindow'	
 			}, '->',{
-		        text: 'Add',
+				xtype: 'button',
+		        text: '添加工时',
 		        tooltip: 'Add a new row',
 		        iconCls: 'fa fa-plus',
 		        handler: 'openAddWindow'	

@@ -10,7 +10,7 @@ Ext.define('Admin.view.workTime.WorkTimeAddWindow', {
     title: 'Add workTime Window',
     closable: true,
     constrain: true,
-    
+    autoShow: true,
     defaultFocus: 'textfield',
     modal:true,
     layout: 'fit',
