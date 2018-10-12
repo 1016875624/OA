@@ -38,10 +38,58 @@
 	sorters: {
 		direction: 'DESC',property: 'id'
 	},
-//	listeners:{
-//		update:function(stores, record, operation, modifiedFieldNames, details, eOpts){
-//			return false;
-//		}
-//	}
+	listeners:{
+		update:function(store, record, operation, modifiedFieldNames, details, eOpts){
+//			if(record.getAt("hour")>10||record.getAt("hour<0")){
+//				Ext.Msg.alert("提示！","工作时间修改范围为1-10小时");
+//			}
+			console.log(record);
+			console.log(modifiedFieldNames);
+			console.log(details);
+			if(record.getData().hour>10||record.getData().hour<0){
+				
+				//record.getData().hour=details.item.modified.hour;
+				//delete record.getData().hour;
+				//console.log(record.getData().hour);
+				//record.getData().hour=details.item.modified.hour;
+				//console.log(details.item.modified.hour);
+				var array=new Array();			//声明一个数组
+				store.each(function(r){   		//遍历store
+					if(r.getData().id==record.getData().id){		//判断如果是那条被改变的数据
+						r.getData().hour=details.item.modified.hour;
+						console.log(r.getData().hour);
+						console.log(r.getData());
+						
+						var temp=r.copy().getData();
+						delete temp.hour;
+						temp.hour=details.item.modified.hour;
+						console.log(temp);
+						console.log(temp.hour);
+						array.push(temp);
+					}
+					else{				//如果不是那条被改变的数据
+						array.push(r.copy().getData());
+					}
+				});
+				
+				store.setData(array);
+				
+				console.log(record.getData().hour);
+				Ext.Msg.alert("提示！","工作时间修改范围为1-10小时");
+				return false;
+			}
+			var array=new Array();
+			store.each(function(r){
+				array.push(r.copy().getData());
+			});
+			
+			store.setData(array);
+			//Ext.Msg.alert("提示！","工作时间修改范围为1-10   aaa小时");
+			//return false;
+		},
+		/*datachanged:function(){
+			Ext.Msg.alert("提示！","请按回车保存修改");
+		}*/
+	}
 	
 });

@@ -75,21 +75,85 @@ public interface IWorkTimeService {
 	
 	
 	//计算出勤率
+	/**
+	 * 计算某个员工一个月的出勤率
+	 * @param em1 ：员工ID
+	 * @param monthTime :yyyy/MM 月份 
+	 * @return 
+	 * @throws ParseException
+	 * @throws IOException
+	 */
 	public double attendance(String em1,String monthTime) throws ParseException, IOException;
 	
+	/**
+	 * 计算某个员工一个月的出勤率
+	 * @param em1 ：员工ID
+	 * @param d1 ：yyyy/MM 月份
+	 * @return
+	 * @throws ParseException
+	 * @throws IOException
+	 */
 	public double attendance(String em1,Date d1) throws ParseException, IOException;
 	
+	/**
+	 * 计算某个员工一个月的出勤率
+	 * @param em1 :员工ID
+	 * @param d1 :开始时间
+	 * @param d2  :结束时间 
+	 * @return
+	 * @throws ParseException
+	 * @throws IOException
+	 */
 	public double attendance(String em1,Date d1,Date d2) throws ParseException, IOException;
 	
+	/**
+	 * 计算某个员工一个月的出勤率
+	 * @param em1 :员工ID
+	 * @param d1 ：开始时间
+	 * @param d2 ::结束时间 
+	 * @return
+	 * @throws ParseException
+	 * @throws IOException
+	 */
 	public double attendance(String em1,String d1,String d2) throws ParseException, IOException;
 	
 	//计算加班时间
+	/**
+	 * 计算某个员工一个月的加班时间
+	 * @param em1 ：员工ID
+	 * @param monthTime : yyyy/MM 月份 
+	 * @return
+	 * @throws ParseException
+	 */
 	public Integer workOvertime(String em1,String monthTime) throws ParseException;
 	
+	/**
+	 * 计算某个员工一个月的加班时间
+	 * @param em1 员工ID
+	 * @param d1 ：yyyy/MM 月份 
+	 * @return
+	 * @throws ParseException
+	 */
 	public Integer workOvertime(String em1,Date d1) throws ParseException;
 	
+	/**
+	 * 计算某个员工一个月的加班时间
+	 * @param em1 ：员工ID
+	 * @param d1 ：开始时间
+	 * @param d2 ：结束时间
+	 * @return
+	 * @throws ParseException
+	 */
 	public Integer workOvertime(String em1,Date d1,Date d2) throws ParseException;
 	
+	/**
+	 * 计算某个员工一个月的加班时间
+	 * @param em1 ：员工ID
+	 * @param d1 :开始时间
+	 * @param d2 ：结束时间
+	 * @return
+	 * @throws ParseException
+	 */
 	public Integer workOvertime(String em1,String d1,String d2) throws ParseException;
 	
 	public List<WorkTimeDTO> savemore(WorkTimeDTO workTimeDTO)throws IOException ;
