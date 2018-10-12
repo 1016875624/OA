@@ -1,7 +1,11 @@
 package com.oa.worktime.service;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.oa.common.beans.BeanUtils;
 import com.oa.employee.service.EmployeeService;
 import com.oa.employee.service.IEmployeeService;
+import com.oa.worktime.entity.HolidayTime;
 import com.oa.worktime.entity.WorkTime;
 import com.oa.worktime.entity.WorkTimeDTO;
 import com.oa.worktime.repository.WorkTimeRepository;
@@ -31,7 +36,8 @@ public class WorkTimeService implements IWorkTimeService {
 	private WorkTimeRepository workTimeRepository;
 	@Autowired
 	private IEmployeeService employeeService;
-	
+	@Autowired
+	private IHolidayTimeService holidayTimeService;
 	@Override
 	public WorkTime save(WorkTime entity) {
 		// TODO Auto-generated method stub
@@ -213,5 +219,151 @@ public class WorkTimeService implements IWorkTimeService {
 		return workTimeRepository.checkIfWorkTime(employeeid, date);
 	}
 	
+	//统计一个月公司所有员工的出勤率
+	@Override
+	public List<WorkTime> attendence(String em1,Integer if1, Date d1, Date d2) {
+		return workTimeRepository.attendence(em1,if1, d1, d2);
+	}
+	
+	
+	public double commonAttence(String em1,Integer if1, Date d1, Date d2) throws IOException {
+		List<WorkTime> wts=workTimeRepository.attendence(em1,0, d1, d2);
+		List<HolidayTime> holidayTimes=holidayTimeService.checkDateHoliday(d1, d2);
+		System.out.println(wts.size());
+		System.out.println(holidayTimes);
+		int hocount=0;
+		for (HolidayTime holidayTime : holidayTimes) {
+			if(holidayTime.getIfholiday()==0) {
+				hocount++;
+			}
+		}
+		System.out.println(hocount);
+		int allHour=hocount*8;
+		System.out.println("每个月的工时： "+allHour);
+		int workhour=0;
+		for (WorkTime workTime : wts) {
+			if(workTime.getIfholiday()==0) {
+				workhour+=workTime.getHour();
+			}
+		}
+		System.out.println("员工一个月的工作时间： "+workhour);
+		double attence=(1.0*workhour/allHour);
+		return attence;
+		//Set<Date> dates=new HashSet<>();
+		//dates.addAll(DateUtils.getDays(date, lastDay));
+	}
+	
+	@Override
+	public double attendance(String em1,String monthTime) throws ParseException, IOException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM");
+		Date date=sdf.parse(monthTime);//一个月的第一天
+		Calendar c=Calendar.getInstance();
+		c.setTime(date);
+		c.add(Calendar.MONTH, 1);
+		c.add(Calendar.DAY_OF_MONTH, -1);
+		Date lastDay=c.getTime();//一个月的最后一天
+		return commonAttence(em1, 0, date, lastDay);
+		
+	}
+	@Override
+	public double attendance(String em1, Date d1) throws ParseException, IOException {
+		// TODO Auto-generated method stub
+		Date date=d1;//一个月的第一天
+		Calendar c=Calendar.getInstance();
+		c.setTime(date);
+		c.add(Calendar.MONTH, 1);
+		c.add(Calendar.DAY_OF_MONTH, -1);
+		Date lastDay=c.getTime();//一个月的最后一天
+		return commonAttence(em1, 0, date, lastDay);
+	}
+
+	@Override
+	public double attendance(String em1, Date d1, Date d2) throws ParseException, IOException {
+		// TODO Auto-generated method stub
+		return commonAttence(em1, 0, d1, d2);
+	}
+
+	@Override
+	public double attendance(String em1, String d1, String d2) throws ParseException, IOException {
+		// TODO Auto-generated method stub
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		Date date=sdf.parse(d1);//一个月的第一天
+		Date lastDay=sdf.parse(d2);//一个月的最后一天
+		return commonAttence(em1, 0, date, lastDay);
+	}
+
+	@Override
+	public Integer workOvertime(String em1, Date d1) throws ParseException {
+		// TODO Auto-generated method stub
+		Date date=d1;//一个月的第一天
+		Calendar c=Calendar.getInstance();
+		c.setTime(date);
+		c.add(Calendar.MONTH, 1);
+		c.add(Calendar.DAY_OF_MONTH, -1);
+		Date lastDay=c.getTime();
+		List<WorkTime> wts=workTimeRepository.attendence(em1,0, date, lastDay);
+		int hourover=0;
+		int difference=0;
+		for (WorkTime workTime : wts) {
+			if(workTime.getHour()>8) {
+				difference=workTime.getHour()-8;
+				hourover+=difference;
+			}
+		}
+		return hourover;
+	}
+
+	@Override
+	public Integer workOvertime(String em1, Date d1, Date d2) throws ParseException {
+		// TODO Auto-generated method stub
+		List<WorkTime> wts=workTimeRepository.attendence(em1,0, d1, d2);
+		int hourover=0;
+		int difference=0;
+		for (WorkTime workTime : wts) {
+			if(workTime.getHour()>8) {
+				difference=workTime.getHour()-8;
+				hourover+=difference;
+			}
+		}
+		return hourover;
+	}
+
+	@Override
+	public Integer workOvertime(String em1, String d1, String d2) throws ParseException {
+		// TODO Auto-generated method stub
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		Date date=sdf.parse(d1);
+		Date lastDay=sdf.parse(d2);
+		List<WorkTime> wts=workTimeRepository.attendence(em1,0, date, lastDay);
+		int hourover=0;
+		int difference=0;
+		for (WorkTime workTime : wts) {
+			if(workTime.getHour()>8) {
+				difference=workTime.getHour()-8;
+				hourover+=difference;
+			}
+		}
+		return hourover;
+	}
+	@Override
+	public Integer workOvertime(String em1,String monthTime) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM");
+		Date date=sdf.parse(monthTime);//一个月的第一天
+		Calendar c=Calendar.getInstance();
+		c.setTime(date);
+		c.add(Calendar.MONTH, 1);
+		c.add(Calendar.DAY_OF_MONTH, -1);
+		Date lastDay=c.getTime();//一个月的最后一天
+		List<WorkTime> wts=workTimeRepository.attendence(em1,0, date, lastDay);
+		int hourover=0;
+		int difference=0;
+		for (WorkTime workTime : wts) {
+			if(workTime.getHour()>8) {
+				difference=workTime.getHour()-8;
+				hourover+=difference;
+			}
+		}
+		return hourover;
+	}
 	
 }
