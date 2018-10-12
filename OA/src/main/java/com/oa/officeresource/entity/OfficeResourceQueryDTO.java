@@ -47,7 +47,7 @@ public class OfficeResourceQueryDTO {
 				}
 				if (null!=officeResourceQueryDTO.getResourceName()) {
 					predicate.add(criteriaBuilder.like(root.get("resourceName").as(String.class),
-							officeResourceQueryDTO.getResourceName()));
+							"%"+officeResourceQueryDTO.getResourceName()+"%"));
 				}
 				if (officeResourceQueryDTO.getRemark()!=null) {
 					predicate.add(criteriaBuilder.equal(root.get("remark").as(Integer.class),officeResourceQueryDTO.getRemark()));

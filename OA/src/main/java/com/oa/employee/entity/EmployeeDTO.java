@@ -3,10 +3,13 @@ package com.oa.employee.entity;
 
 import java.util.Date;
 
+import javax.swing.text.AbstractDocument.LeafElement;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.util.concurrent.ListenableFutureAdapter;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.oa.common.beans.BeanUtils;
 import com.oa.department.entity.Department;
 
 import lombok.AllArgsConstructor;
@@ -63,4 +66,35 @@ public class EmployeeDTO {
 	*/
 	private String leaderid;
 	private String leaderName;
+	
+	public static EmployeeDTO entityToDto(Employee employee) {
+		EmployeeDTO employeeDTO=new EmployeeDTO();
+		BeanUtils.copyProperties(employee, employeeDTO);
+		if (employee.getDepartment()!=null) {
+			employeeDTO.setDepartmentName(employee.getDepartment().getName());
+			employeeDTO.setDepartmentid(employee.getDepartment().getId());
+		}
+		if (employee.getLeader()!=null) {
+			employeeDTO.setLeaderid(employee.getLeader().getId());
+			employeeDTO.setLeaderName(employee.getLeader().getName());
+		}
+		return employeeDTO;
+	}
+	
+	public static Employee DtoToentity(EmployeeDTO employeeDTO ) {
+		Employee employee = new Employee();
+		BeanUtils.copyProperties(employeeDTO, employee);
+		if (employeeDTO.getDepartmentid()!=null) {
+			Department department = new Department();
+			department.setId(employeeDTO.getDepartmentid());
+			employee.setDepartment(department);
+		}
+		if (employeeDTO.getLeaderid()!=null) {
+			Employee leader = new Employee();
+			leader.setId(employeeDTO.getLeaderid());
+			employee.setLeader(leader);
+		}
+		return employee;
+	}
+	
 }
