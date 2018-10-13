@@ -74,6 +74,9 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 //				console.log("000"+Ext.data.StoreManager.lookup("holidayGridStroe").getData());
 //			}
 //		});
+		//begin = setInterval("Ext.TaskMgr.start(函数)",10000); //定时器
+		//Ext.toast('Data saved');
+		Ext.toast("已经过滤掉填报过的工时了", "提示", "t", "fa fa-pencil");
 		var store=Ext.data.StoreManager.lookup("holidayGridStroe");
 		//Ext.apply(store.proxy.extraParams, {employeeid:"",StartDate:"",EndDate:"",hour:""});
 		Ext.apply(store.proxy.extraParams, {

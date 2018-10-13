@@ -190,4 +190,18 @@ public class OaApplicationTests {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void testDay() {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM");
+			Date date=sdf.parse("2018/10");
+			int days=workTimeService.workDay("user2", date);
+			System.out.println("the worktime day is :"+days);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }
