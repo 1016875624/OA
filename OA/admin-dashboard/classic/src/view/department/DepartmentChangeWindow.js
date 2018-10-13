@@ -8,21 +8,25 @@ Ext.define('Admin.view.department.DepartmentChangeWindow', {
 		'Ext.form.field.ComboBox',
 		'Ext.layout.container.Column',
         'Ext.grid.column.Date',
+        'Ext.layout.container.Anchor',
+        'Ext.layout.container.Border',
+        'Ext.layout.container.HBox',
         'Ext.layout.container.Center'
     ],
     viewModel: {type: 'departmentViewModel'},
 	xtype:'departmentChangeWindow',
 	autoShow:true,
 	title:'部门人员管理',
-	width: 700,
+	width: 960,
     height: 550,
-    buttonAlign:'center',
+    //buttonAlign:'center',
     //labelAlign:'right',
-    frame:true,
+    //frame:true,
 
 	items:  [{	
 	        layout:'column',
 			items: [{
+					//anchor:'40%',
 					columnWidth: .4,
 					margin: '10 0 0 10',
 			    	items:[{
@@ -52,26 +56,33 @@ Ext.define('Admin.view.department.DepartmentChangeWindow', {
 		    	            }]
 		    	        }]
 					},
-					
-		        	{	
-		        	layout: 'center',
-		        	columnWidth: .1,
-		        	buttons:[{
-		        			iconCls: 'fa fa-arrow-left',
-		        			handler:'leftPull'
-			                }]
-				    },
-				    
-				    {	
-		        	layout: 'center',
-		        	columnWidth: .1,
-		        	buttons:[{
-		        			iconCls: 'fa fa-arrow-right',
-		        			handler:'rightPush'
-			                }]
-				    },
-				    
+					{
+					columnWidth: .2,
+					margin: '200 0 0 10',
+					layout:'column',
+					items:	[
+							{	
+							width:90,
+							
+			                frame: true,
+				        	buttons:[{
+				        			iconCls: 'fa fa-arrow-left',
+				        			handler:'leftPull'
+					                }]
+						    },
+						    {
+					    	width:90,
+							//margin:"200 0 0 0",
+							frame: true,
+				        	buttons:[{
+				        			iconCls: 'fa fa-arrow-right',
+				        			handler:'rightPush'
+					                }]
+						    }
+							]
+					},
 				    {
+				    //anchor:'40% 80%',
 					columnWidth: .4,
 					margin: '10 0 0 10',
 			    	items:[{

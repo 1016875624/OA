@@ -10,6 +10,7 @@ Ext.define('Admin.model.employee.EmployeeModel', {
 		{type: 'string',name: 'email'},
 		{type: 'string',name: 'position'},
 		{type: 'int',name: 'state'},
+		{type: 'string',name: 'picture'},
 		{type: 'string',name: 'leaderName'},
 		{type: 'string',name: 'departmentid'},
 	    {type: 'date', name: 'entryTime', dateFormat:'Y/m/d H:i:s'}
