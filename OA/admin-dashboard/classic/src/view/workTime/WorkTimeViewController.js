@@ -106,7 +106,12 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'hour',text: '当天的上班时间 (单位：H)',flex: 1,
 					editor: {
 			            allowBlank: false
-			        }
+			        },
+//			        listeners:{
+//			        	focusleave:function(gridcolumn, event, eOpts ){
+//			        		
+//			        	}
+//			        }
 				},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'ifholiday',text: '工作/节假日',flex: 1,
 					
@@ -166,6 +171,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
             		console.log(e);
             		console.log(eOpts);
             	},
+            	
             	/*afterenderer:function(grid){
             		console.log("111");
             		var store=grid.getStore();
@@ -245,6 +251,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 //    			console.log(temp);
 //    		}
 //		}});
+		
 		console.log(gridTest.getStore());
 		console.log(gridTest.getStore().getData());
 		var winChooseGoods = new Ext.Window({
