@@ -174,6 +174,12 @@
         });
     },
     
+    //用户名改变
+    /*nameTextChange: function(){
+    	var changeText = this.lookupReference('nameChange');
+    	var newName = changeText.get
+    }*/
+    
     //头像上传功能
 	onClickGridUploadButton: function (btn) {
 		btn.up('container').add(Ext.widget('uploadWindow')).show();
@@ -198,8 +204,10 @@
 				      Ext.Msg.alert('成功', '上传成功.');
 				      var headButton = Ext.getCmp('head_Button');
 				      console.log(json.msg);
-				      var path = 'url(/images/employee/' + json.msg + ')';
-				      headButton.setStyle({'background-image':path});
+				      var path = '/images/employee/' + json.msg;
+				      //var path = '"/images/employee/' + json.msg + '"';
+				      headButton.setIcon(path);
+				      console.log(path);
 				    } else {
 				      Ext.Msg.alert('失败', '上传失败.');
 				    }
@@ -234,5 +242,11 @@
 			Ext.Msg.alert('提示', "上传失败！");	
 			}	
 		});*/
+    },
+    init:function(){
+    	/*console.log("init");
+    	var headButton = Ext.getCmp('head_Button');
+	    var path = 'http://localhost:8080/images/employee/1.jpg';
+	    headButton.setIcon(path);*/
     }
 });

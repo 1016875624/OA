@@ -22,6 +22,7 @@ import com.oa.employee.service.IEmployeeService;
 import com.oa.salary.entity.Salary;
 import com.oa.salary.entity.SalaryPay;
 import com.oa.salary.entity.SalaryPayDTO;
+import com.oa.salary.repository.ISalaryRepository;
 import com.oa.salary.repository.SalaryPayRepository;
 import com.oa.worktime.service.IWorkTimeService;
 import com.oa.worktime.service.WorkTimeService;
@@ -35,8 +36,9 @@ public class SalaryPayService implements ISalaryPayService {
 	private IEmployeeService employeeService;
 	@Autowired
 	private IWorkTimeService workTimeService;
+	
 	@Autowired
-	private ISalaryService salaryService;
+	ISalaryRepository SalaryRepository;
 	
 	@Override
 	public SalaryPay save(SalaryPay entity) {
@@ -220,7 +222,10 @@ public class SalaryPayService implements ISalaryPayService {
 	//计算公式=基本工资/当月的工作时间 x实际的工时+工作的天数x补贴 +奖金+工龄工资*工龄
 	@Override
 	public Double countSalary(Integer id) {
-		Salary salary=salaryService.findByid(id).get();
+		Salary salary=SalaryRepository.findById(id).orElse(null);
+		if (salary==null) {
+			return 0.0;
+		}
 		Double money=0.0;
 		if (salary.getSal()!=null) {
 		}

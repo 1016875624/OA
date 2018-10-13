@@ -62,7 +62,7 @@ public class Employee {
 	@DateTimeFormat(pattern="yyyy/MM/dd")
 	private Date entryTime;
 	
-	@Column(name="PICTURE_ID_")
+	@Column(name="PICTURE_NAME_")
 	private String picture;
 	
 	/**

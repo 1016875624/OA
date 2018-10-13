@@ -44,22 +44,18 @@
                 },
                 '->',
                 {
+                	//用户名称
                     xtype: 'tbtext',
                     text: '用户名:Admin',
                     id:'loginUserName',
-                    cls: 'top-user-name'
-                    /*listeners:{
-    					change:''
-    				}*/
+                    cls: 'top-user-name',
+                    reference: 'nameChange',
+                    listeners:{
+    					change:'nameTextChange'
+    				}
                 },
                 {
-                   /* xtype: 'image',
-                    cls: 'header-right-profile-image',
-                    id:'loginUserImage',
-                    height: 35,
-                    width: 35,
-                    alt:'current user image',
-                    src: 'resources/images/user-profile/2.png'*/
+                	//用户头像
                 	xtype : "button", 
                 	cls: 'header-right-profile-image',
                     width : 35,  
@@ -67,7 +63,6 @@
                     reference:"headButton",
                     id:"head_Button",
                     iconCls : 'guestManage',  
-                    ref : 'guestManage',  
                     handler: 'onClickGridUploadButton'
                 },
                 {

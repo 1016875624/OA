@@ -61,6 +61,7 @@ public class EmployeeDTO {
 	*/ 
 	private Integer status;
 	
+	
 	/**
 	* @Fields leader : 上级
 	*/
