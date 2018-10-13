@@ -476,7 +476,7 @@ public class WorkTimeService implements IWorkTimeService {
 	}
 
 	@Override
-	public Integer workDay(String employee, String monthTime) throws ParseException {
+	public Integer workDay(String employeeid, String monthTime) throws ParseException {
 		// TODO Auto-generated method stub
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM");
 		Date date=sdf.parse(monthTime);//一个月的第一天
@@ -485,34 +485,34 @@ public class WorkTimeService implements IWorkTimeService {
 		c.add(Calendar.MONTH, 1);
 		c.add(Calendar.DAY_OF_MONTH, -1);
 		Date lastDay=c.getTime();//一个月的最后一天
-		List<WorkTime> workTimes=workTimeRepository.workDay(employee, date, lastDay);
+		List<WorkTime> workTimes=workTimeRepository.workDay(employeeid, date, lastDay);
 		return workTimes.size();
 	}
 
 	@Override
-	public Integer workDay(String employee, Date monthTime) {
+	public Integer workDay(String employeeid, Date monthTime) {
 		Date date=monthTime;//一个月的第一天
 		Calendar c=Calendar.getInstance();
 		c.setTime(date);
 		c.add(Calendar.MONTH, 1);
 		c.add(Calendar.DAY_OF_MONTH, -1);
 		Date lastDay=c.getTime();//一个月的最后一天
-		List<WorkTime> workTimes=workTimeRepository.workDay(employee, date, lastDay);
+		List<WorkTime> workTimes=workTimeRepository.workDay(employeeid, date, lastDay);
 		return workTimes.size();
 	}
 
 	@Override
-	public Integer workDay(String employee, Date d1, Date d2) {
-		List<WorkTime> workTimes=workTimeRepository.workDay(employee, d1, d2);
+	public Integer workDay(String employeeid, Date d1, Date d2) {
+		List<WorkTime> workTimes=workTimeRepository.workDay(employeeid, d1, d2);
 		return workTimes.size();
 	}
 
 	@Override
-	public Integer workDay(String employee, String d1, String d2) throws ParseException {
+	public Integer workDay(String employeeid, String d1, String d2) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		Date date=sdf.parse(d1);
 		Date lastDay=sdf.parse(d2);
-		List<WorkTime> workTimes=workTimeRepository.workDay(employee, date, lastDay);
+		List<WorkTime> workTimes=workTimeRepository.workDay(employeeid, date, lastDay);
 		return workTimes.size();
 	}
 
