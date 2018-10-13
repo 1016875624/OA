@@ -47,6 +47,25 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		var form = win.down('form');
 		//var record = Ext.create('Admin.model.workTime.WorkTimeModel');
 		var values  =form.getValues();//获取form数据
+		console.log(values);
+		if(values.employeeid=="")
+		{
+			Ext.toast("员工编号不能为空");
+			return false;
+		}
+		if(values.hour=="")
+		{
+			Ext.toast("工时不能为空");
+			return false;
+		}
+		if(values.StartDate==""){
+			Ext.toast("开始时间不能为空");
+			return false;
+		}
+		if(values.EndDate==""){
+			Ext.toast("结束时间不能为空");
+			return false;
+		}
 		//record.set(values);
 		//record.save();
 		//Ext.data.StoreManager.lookup('workTimeGridStroe').load();

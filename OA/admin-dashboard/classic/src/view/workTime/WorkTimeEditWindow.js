@@ -1,4 +1,3 @@
-
 Ext.define('Admin.view.workTime.WorkTimeEditWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.workTimeEditWindow',

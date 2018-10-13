@@ -24,7 +24,8 @@ Ext.define('Admin.view.workTime.WorkTimeAddWindow', {
             xtype: 'textfield',
             fieldLabel: '员工编号',
             name:'employeeid',
-            value:'user3'
+            //value:'user3',
+            allowBlank:false
         },{
             xtype: 'combobox',
             fieldLabel: '当天上班时间(单位：H)',
@@ -35,11 +36,12 @@ Ext.define('Admin.view.workTime.WorkTimeAddWindow', {
             		{"name":"8"},{"name":"9"},{"name":"10"}
             		]
             }),
+            allowBlank:false,
             editable: false,
             queryMode:'local',
             displayField:'name',
             valueField:'name',
-            value:'2'
+           // value:'2'
         }, {
             xtype: 'datefield',
             editable: false,
@@ -48,7 +50,8 @@ Ext.define('Admin.view.workTime.WorkTimeAddWindow', {
             reference:'startofdate',
             emptyText: '起始时间',
             name: 'StartDate',
-            value:"2018/10/01"
+            //value:"2018/10/01",
+            allowBlank:false
         },{
         	xtype: 'datefield',
 			editable:false,
@@ -57,7 +60,8 @@ Ext.define('Admin.view.workTime.WorkTimeAddWindow', {
 			fieldLabel: '日期末端',
 			emptyText: '末时间',
 			name: 'EndDate',
-			value:"2018/10/31"
+			//value:"2018/10/31",
+			allowBlank:false
         }]
     }],
 	buttons: ['->',{
