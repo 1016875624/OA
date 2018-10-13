@@ -35,11 +35,11 @@ public class mailToolsTests {
 	MailMsgSingle msg1;
 	@Test
 	public void name() throws MessagingException, IOException, InterruptedException {
-		msg.setContetnText("this is a test msg ,please don't repely to me").setSubject("hello").setToMail("1016875624@qq.com").sendMsg();
+		msg.setContetnText("你好，好久不见了，最近过的好吗，我有好多的东西要给你啊啊啊啊！").setSubject("你好").setToMail("1016875624@qq.com").sendMsg();
 		TimeUnit.SECONDS.sleep(2);
-		msg1.setContetnText("this is a test msg ,please don't repely to me").setSubject("hello").setToMail("1016875624@qq.com").sendMsg();
+		//msg.setContetnText("this is a test msg ,please don't repely to me").setSubject("hello").setToMail("1016875624@qq.com").sendMsg();
 //		msg.setContetnText("this is a test msg ,please don't repely to me").setSubject("hello").setToMail("1016875624@qq.com").addAttachFile("F:\\Mail.war").sendMsg();
-		
+		//msg.setContetnText("").setSubject("").addAttachFile("").addAttachFile("").setToMail("").setToName("").sendMsg();
 		TimeUnit.SECONDS.sleep(1000);
 	}
 }

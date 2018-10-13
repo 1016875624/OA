@@ -9,6 +9,7 @@ Ext.define('Admin.view.question.QuestionEditWindow', {
     scrollable: true,
     title: 'Edit question Window',
     closable: true,
+    autoShow: true,
     constrain: true,
     defaultFocus: 'textfield',
     modal:true,

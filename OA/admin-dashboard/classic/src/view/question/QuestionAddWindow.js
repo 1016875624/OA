@@ -11,7 +11,7 @@ Ext.define('Admin.view.question.QuestionAddWindow', {
 	title : 'Add question Window',
 	closable : true,
 	constrain : true,
-
+	autoShow: true,
 	defaultFocus : 'textfield',
 	modal : true,
 	// layout : 'fit',

@@ -37,7 +37,7 @@ public class EmployeeResource implements Serializable{
     private Date recentChangeTime;
     
     //剩余数量
-    private String count;
+    private int count;
     
     //资源名称
     private String resourceName;

@@ -18,7 +18,7 @@ public class OfficeResourceDTO {
     private Date applyTime;
     
     //剩余数量
-    private String leftCount;
+    private int leftCount;
     
     //资源名称
     private String resourceName;
@@ -33,4 +33,5 @@ public class OfficeResourceDTO {
     
     private String employeeId;
 	private String employeeName;
+	private String employeePosition;
 }

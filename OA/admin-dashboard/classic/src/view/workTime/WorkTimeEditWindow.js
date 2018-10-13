@@ -9,6 +9,7 @@ Ext.define('Admin.view.workTime.WorkTimeEditWindow', {
     scrollable: true,
     title: 'Edit workTime Window',
     closable: true,
+    autoShow: true,
     constrain: true,
     defaultFocus: 'textfield',
     modal:true,

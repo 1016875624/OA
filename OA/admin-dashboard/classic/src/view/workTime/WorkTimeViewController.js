@@ -3,8 +3,9 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
     alias: 'controller.workTimeViewController',
     /********************************************** Controller View *****************************************************/
     /*Add*/
-	openAddWindow:function(toolbar, rowIndex, colIndex){
-		toolbar.up('panel').up('container').add(Ext.widget('workTimeAddWindow')).show();
+    //toolbar, rowIndex, colIndex
+	openAddWindow:function(btn){
+		btn.up('gridpanel').up('container').add(Ext.widget('workTimeAddWindow')).show();
 	},
     /*Edit*/
 	openEditWindow:function(grid, rowIndex, colIndex){
@@ -49,7 +50,8 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		//record.set(values);
 		//record.save();
 		//Ext.data.StoreManager.lookup('workTimeGridStroe').load();
-		console.log("222222"+btn.up('window').up('container'));
+		//var container=btn.up("window").up("container");
+		//console.log(btn.up('window').up('container'));
 		win.close();
 		win.destroy();
 //		Ext.Ajax.request({ 
@@ -104,7 +106,12 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'hour',text: '当天的上班时间 (单位：H)',flex: 1,
 					editor: {
 			            allowBlank: false
-			        }
+			        },
+//			        listeners:{
+//			        	focusleave:function(gridcolumn, event, eOpts ){
+//			        		
+//			        	}
+//			        }
 				},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'ifholiday',text: '工作/节假日',flex: 1,
 					
@@ -115,6 +122,8 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 							return '<span style="color:orange">周六日</span>';
 						}else if(val=='2'){
 							return '<span style="color:orange">节假日</span>';
+						}else if(val=='3'){
+							return '<span style="color:red">请假</span>';
 						}
 					}
 				},
@@ -140,11 +149,16 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 //                    ]
 //                }
             ],
+            tbar:[{
+            	xtype:'panel',
+            	html:'<span style="color:blue;">如果已经申请过的工时，会过滤掉，只显示未申请的工时</span><br><span style="color:blue;">员工只能修改是工作日的当天上班时间</span><br><span style="color:blue;">点击要修改的当天上班时间单元格进行修改</span><br><span style="color:blue;">修改完后点击确认提交开始申请</span>',
+            	
+            }],
             listeners:{
             	cellclick:function(grid, td, cellIndex, record, tr, rowIndex, e, eOpts ){
             		var rows=grid.getStore().getAt(rowIndex).get("ifholiday");
             		console.log(rows);
-            		if(rows=="1"||rows=="2"){
+            		if(rows!="0"){
             			//console.log("00");
             			return false;//代表事件不生效
             		}
@@ -157,7 +171,8 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
             		console.log(e);
             		console.log(eOpts);
             	},
-            	afterenderer:function(grid){
+            	
+            	/*afterenderer:function(grid){
             		console.log("111");
             		var store=grid.getStore();
             		var columns=grid.getColumns();
@@ -236,6 +251,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 //    			console.log(temp);
 //    		}
 //		}});
+		
 		console.log(gridTest.getStore());
 		console.log(gridTest.getStore().getData());
 		var winChooseGoods = new Ext.Window({
@@ -244,6 +260,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		    layout: 'border',
 		    width: 800,
 		    height: 500,
+		    modal:true,
 		    closeAction: 'hide',
 		    plain: true,
 		    items: [gridTest],
@@ -312,6 +329,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		    }]
 		}).show();
 		//btn.up("window").up("container").add(Ext.widget("gridTestWindow")).show();
+		//container.add(E).show();
 	},
 	/*Edit Submit*/	
 	submitEditForm:function(btn){
