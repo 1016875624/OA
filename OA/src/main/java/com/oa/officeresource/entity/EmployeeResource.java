@@ -51,6 +51,16 @@ public class EmployeeResource implements Serializable{
 	 * @Fields status : 0表示交易,1表示已拥有
 	 */
     private Integer status;
+    
+    
+    /**
+	 * @Fields remark : 备注,用来存放需要交易的信息
+	 */
+    private String remark;
+    
+    private int loseCount;
+    
+    private String loseResourceName;
    
     @ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     private Employee employee;
