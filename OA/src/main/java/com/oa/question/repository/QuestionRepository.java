@@ -11,6 +11,6 @@ import com.oa.question.entity.Question;
 
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Integer>,JpaSpecificationExecutor<Question>{
-	@Query("select qt.id from Question qt")
-	public List<Integer> findAllId();
+	@Query("select qt.id from Question qt where qt.type=:types")
+	public List<Integer> findAllId(Integer types);
 }

@@ -1,9 +1,13 @@
 package com.oa.question.service;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -156,5 +160,42 @@ public class QuestionService implements IQuestionService {
 		}
 		
 	}
+
+	@Override
+	public List<Integer> findAllId(Integer types) {
+		
+		return questionRepository.findAllId(types);
+	}
+
+	@Override
+	public Set<Integer> randomTestpaper() throws NoSuchAlgorithmException {
+		Set<Integer> lists=new HashSet<>();
+		int singleNum=0,doubleNum=0,fillsNum=0;
+		List<Integer> singlesId=questionRepository.findAllId(0);
+		List<Integer> doublesId=questionRepository.findAllId(1);
+		List<Integer> fillsId=questionRepository.findAllId(2);
+		
+		while(lists.size()<10) {
+			if(singleNum<3) {
+				int number=SecureRandom.getInstanceStrong().nextInt(singlesId.size());
+				lists.add(singlesId.get(number));
+				singleNum++;
+			}
+			if(doubleNum<3) {
+				int number=SecureRandom.getInstanceStrong().nextInt(doublesId.size());
+				lists.add(doublesId.get(number));
+				doubleNum++;
+			}
+			if(fillsNum<4) {
+				int number=SecureRandom.getInstanceStrong().nextInt(fillsId.size());
+				lists.add(fillsId.get(number));
+				fillsNum++;
+			}
+				
+		}
+		return lists;
+	}
+	
+	
 
 }
