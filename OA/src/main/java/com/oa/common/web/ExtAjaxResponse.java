@@ -5,7 +5,10 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import lombok.Data;
+
 @JsonInclude(value=Include.NON_EMPTY)
+@Data
 public class ExtAjaxResponse {
 	private boolean success= true;
 	private String msg= "";
@@ -28,7 +31,7 @@ public class ExtAjaxResponse {
 		this.map = map;
 	}
 	
-	public boolean isSuccess() {
+	/*public boolean isSuccess() {
 		return success;
 	}
 	public String getMsg() {
@@ -37,6 +40,8 @@ public class ExtAjaxResponse {
 
 	public Map<String, String> getMap() {
 		return map;
-	}	
+	}	*/
+	
+	
 	
 }

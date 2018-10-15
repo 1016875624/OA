@@ -22,22 +22,36 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Salary {
+	/**
+	 * @Fields id : 薪资表Id
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID_", length = 64)
 	private Integer id;
-	@Column(name = "SALARYNUMBER_")
-	private String salaryNumber;
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+	/**
+	 * @Fields employee : 员工
+	 */
+	@OneToOne(fetch = FetchType.EAGER)
 	private Employee employee;
-	@Column(name = "SAL_")
+	/**
+	 * @Fields sal : 基本工资
+	 */
 	private Double sal;
-	@Column(name = "BONUS_")
+	/**
+	 * @Fields bonus : 奖金
+	 */
 	private Double bonus;
-	@Column(name = "WORKMONTH_")
+	/**
+	 * @Fields workMonth : 工龄
+	 */
 	private Integer workMonth;
-	@Column(name = "WORKTIMEMONEY_")
+	/**
+	 * @Fields worktimeMoney : 工龄工资
+	 */
 	private Double worktimeMoney;
-	@Column(name = "SUBSIDY_")
+	/**
+	 * @Fields subsidy : 补贴
+	 */
 	private Double subsidy;
 }

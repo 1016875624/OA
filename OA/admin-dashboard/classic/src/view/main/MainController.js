@@ -156,16 +156,16 @@
 				me.setCurrentView('login');
 			});
 		}*/
-    }
-	,logoutButton: function(){
+    },
+    logoutButton: function(){
 		var me = this;
         Ext.Ajax.request({
-            url: 'logout',
+            url: '/logout',
             method: 'post',
             success: function(response, options) {
             	var json = Ext.util.JSON.decode(response.responseText);
 	            if(json.success){
-	            	me.redirectTo('login', true);
+	            	me.redirectTo('/login', true);
 	            	window.location.reload();
 		        }else{
 		        	Ext.Msg.alert('登出失败', json.msg);
@@ -180,10 +180,12 @@
     	var newName = changeText.get
     }*/
     
-    //头像上传功能
-	onClickGridUploadButton: function (btn) {
-		btn.up('container').add(Ext.widget('uploadWindow')).show();
+    /*打开上传窗口*/
+	onClickGridUploadButton: function (e,t,eOpts) {
+		eOpts.up('container').add(Ext.widget('uploadWindow')).show();
+		//Ext.Msg.alert('提示', "上传！");	
     },
+    /*头像上传功能*/
 	onClickUploadFormSumbitButton: function (btn) {
 		var form=btn.up("window").down("form").getForm();
 		console.log(Ext.ClassManager.getName(form));
@@ -248,5 +250,9 @@
     	var headButton = Ext.getCmp('head_Button');
 	    var path = 'http://localhost:8080/images/employee/1.jpg';
 	    headButton.setIcon(path);*/
-    }
+    },
+    /*getWebSocket:function(){
+        websocket = new WebSocket(encodeURI('ws://localhost:8080/Chat/message'));
+        return websocket;
+    }*/
 });
