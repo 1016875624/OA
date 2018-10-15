@@ -72,12 +72,14 @@ public class LoginController {
             }
             SessionUtil.setGroupIds(session, ArrayUtils.toString(groupIds));//"groupIds"  : "admin,hrManager"
             */
-            Employee employee = employeeService.findById(userId).orElse(null);         
+            Employee employee = employeeService.findById(userId).orElse(null); 
+            
             Map<String,String> map=new HashMap<String, String>();
             map.put("userId", userId);
             map.put("msg", employee.getPicture());
             //map.put("loginUserImage", "imgUrl");
             session.setAttribute("userId", userId);
+            session.setAttribute("userPosition", employee.getPosition());
             ExtAjaxResponse e= new ExtAjaxResponse(true,map);
             e.setMsg(employee.getPicture());
             return e;
