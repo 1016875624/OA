@@ -61,6 +61,12 @@
 					}
 				]
 			},{
+				text: '办公资源模块',
+                iconCls: 'x-fa fa-address-card',
+                //rowCls: 'nav-tree-badge nav-tree-badge-new',
+                viewType: 'officeResourceCenterPanel',
+                leaf: true
+			},{
                 text: 'Login',
                 iconCls: 'x-fa fa-check',
                 viewType: 'login',
