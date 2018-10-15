@@ -259,4 +259,32 @@ public class OaApplicationTests {
 		System.out.println(lists);
 		
 	}
+	@Test
+	public void testPaper() throws NoSuchAlgorithmException {
+		Set<Integer> lists=new HashSet<>();
+		int singleNum=0,doubleNum=0,fillsNum=0;
+		List<Integer> singlesId=questionRepository.findAllId(0);
+		List<Integer> doublesId=questionRepository.findAllId(1);
+		List<Integer> fillsId=questionRepository.findAllId(2);
+		
+		while(lists.size()<10) {
+			if(singleNum<3) {
+				int number=SecureRandom.getInstanceStrong().nextInt(singlesId.size());
+				lists.add(singlesId.get(number));
+				singleNum++;
+			}
+			if(doubleNum<3) {
+				int number=SecureRandom.getInstanceStrong().nextInt(doublesId.size());
+				lists.add(doublesId.get(number));
+				doubleNum++;
+			}
+			if(fillsNum<4) {
+				int number=SecureRandom.getInstanceStrong().nextInt(fillsId.size());
+				lists.add(fillsId.get(number));
+				fillsNum++;
+			}
+				
+		}
+		System.out.println("产生的随机id为： "+lists);
+	}
 }
