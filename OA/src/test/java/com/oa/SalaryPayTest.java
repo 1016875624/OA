@@ -53,7 +53,15 @@ public class SalaryPayTest {
 	}
 	
 	@Test
-	public void get() {
+	public void testWorkHour() {
+		System.out.println(salaryPayService.countWorkDaysThisMonth());
+		System.out.println(salaryPayService.countWorkHoursThisMonth());
+		System.out.println(salaryPayService.countEmployeeWorkHourThisMonth("user2"));
 		
+	}
+	@Test
+	@Rollback(false)
+	public void name() {
+		salaryPayService.salaryPaying();
 	}
 }

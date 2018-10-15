@@ -474,5 +474,52 @@ public class WorkTimeService implements IWorkTimeService {
 		}
 		return workTimeDTOs;
 	}
+
+	@Override
+	public Integer workDay(String employeeid, String monthTime) throws ParseException {
+		// TODO Auto-generated method stub
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM");
+		Date date=sdf.parse(monthTime);//一个月的第一天
+		Calendar c=Calendar.getInstance();
+		c.setTime(date);
+		c.add(Calendar.MONTH, 1);
+		c.add(Calendar.DAY_OF_MONTH, -1);
+		Date lastDay=c.getTime();//一个月的最后一天
+		List<WorkTime> workTimes=workTimeRepository.workDay(employeeid, date, lastDay);
+		return workTimes.size();
+	}
+
+	@Override
+	public Integer workDay(String employeeid, Date monthTime) {
+		Date date=monthTime;//一个月的第一天
+		Calendar c=Calendar.getInstance();
+		c.setTime(date);
+		c.add(Calendar.MONTH, 1);
+		c.add(Calendar.DAY_OF_MONTH, -1);
+		Date lastDay=c.getTime();//一个月的最后一天
+		List<WorkTime> workTimes=workTimeRepository.workDay(employeeid, date, lastDay);
+		return workTimes.size();
+	}
+
+	@Override
+	public Integer workDay(String employeeid, Date d1, Date d2) {
+		List<WorkTime> workTimes=workTimeRepository.workDay(employeeid, d1, d2);
+		return workTimes.size();
+	}
+
+	@Override
+	public Integer workDay(String employeeid, String d1, String d2) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		Date date=sdf.parse(d1);
+		Date lastDay=sdf.parse(d2);
+		List<WorkTime> workTimes=workTimeRepository.workDay(employeeid, date, lastDay);
+		return workTimes.size();
+	}
+
+	@Override
+	public List<WorkTime> workDays(String em1, Date d1, Date d2) {
+		// TODO Auto-generated method stub
+		return workTimeRepository.workDay(em1, d1, d2);
+	}
 	
 }

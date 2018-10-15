@@ -3,6 +3,7 @@ package com.oa.officeresource.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -154,7 +155,7 @@ public class OfficeResourceController {
 			int grabResourceNum = officeResourceService.grabResourceNum(10);
 			int tempCount = 0;
 			int tempCount2 = 0;
-			EmployeeResource employeeResource = employeeResourceService.findEmployeeResource(grabId, officeResource.getResourceName());
+			EmployeeResource employeeResource = employeeResourceService.findEmployeeResourceByStatus(grabId, officeResource.getResourceName(), 1);
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			String time= sdf.format( new Date());
 			Date date=sdf.parse(time); 
@@ -217,7 +218,7 @@ public class OfficeResourceController {
 			OfficeResource officeResource = officeResourceService.findOne(id);
 			String grabId = SessionUtil.getUserName(session);
 			int luckyDrawResourceNum = officeResourceService.grabResourceNum(10);
-			EmployeeResource employeeResource = employeeResourceService.findEmployeeResource(grabId, officeResource.getResourceName());
+			EmployeeResource employeeResource = employeeResourceService.findEmployeeResourceByStatus(grabId, officeResource.getResourceName(), 1);
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			String time= sdf.format( new Date());
 			Date date=sdf.parse(time); 
@@ -256,4 +257,38 @@ public class OfficeResourceController {
 	}
 	
 	//分配资源
+	@PostMapping("/allocateResources")
+	public ExtAjaxResponse allocateResources(HttpSession session, @RequestParam(name="resourceName") String resourceName, @RequestParam(name="allocatedNum") int allocatedNum) {
+		try {
+			String assignerId = SessionUtil.getUserName(session);
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			String time= sdf.format( new Date());
+			Date date=sdf.parse(time);
+			int tempCount = 0;
+			List<Employee> employees = employeeResourceService.findEmployeeByLeaderId(assignerId);
+			for(Employee employee : employees) {
+				EmployeeResource employeeResource = employeeResourceService.findEmployeeResourceByStatus(employee.getId(), resourceName, 1);
+				if(employeeResource!=null) {
+					tempCount = employeeResource.getCount() + allocatedNum;
+					employeeResource.setRecentChangeTime(date);
+					employeeResource.setStatus(1);
+					employeeResource.setCount(tempCount);
+					employeeResourceService.save(employeeResource);
+				}else {
+					EmployeeResource newEmployeeResource = new EmployeeResource();
+					tempCount = allocatedNum;
+					newEmployeeResource.setResourceName(resourceName);
+					newEmployeeResource.setRecentChangeTime(date);
+					newEmployeeResource.setStatus(1);
+					newEmployeeResource.setCount(tempCount);
+					newEmployeeResource.setEmployee(employee);
+					employeeResourceService.save(newEmployeeResource);
+				}
+			}
+			return new ExtAjaxResponse(true,"分配资源成功！");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ExtAjaxResponse(false,"分配资源失败！");
+		}
+	}
 }

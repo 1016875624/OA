@@ -157,5 +157,43 @@ public interface IWorkTimeService {
 	public Integer workOvertime(String em1,String d1,String d2) throws ParseException;
 	
 	public List<WorkTimeDTO> savemore(WorkTimeDTO workTimeDTO)throws IOException ;
+	
+	public List<WorkTime> workDays(String em1,Date d1,Date d2);
+	
+	/**
+	 * 计算员工一个月工作天数
+	 * @param employeeid :员工ID
+	 * @param monthTime yyyy/MM 月份 
+	 * @return 返回工作天数
+	 * @throws ParseException
+	 */
+	public Integer workDay(String employeeid,String monthTime) throws ParseException ;
+	
+	/**
+	 * 计算员工一个月工作天数
+	 * @param employee 员工ID
+	 * @param monthTime  yyyy/MM 月份 
+	 * @return	返回工作天数
+	 */
+	public Integer workDay(String employeeid,Date monthTime);
+	
+	/**
+	 * 计算员工一个月工作天数
+	 * @param employeeid  员工ID
+	 * @param d1 开始时间
+	 * @param d2 结束时间
+	 * @return 返回工作天数
+	 */
+	public Integer workDay(String employeeid,Date d1,Date d2);
+	
+	/**
+	 * 计算员工一个月工作天数
+	 * @param employeeid 员工ID
+	 * @param d1 开始时间
+	 * @param d2 结束时间
+	 * @return 返回工作天数
+	 * @throws ParseException
+	 */
+	public Integer workDay(String employeeid,String d1,String d2)throws ParseException;
 }
 

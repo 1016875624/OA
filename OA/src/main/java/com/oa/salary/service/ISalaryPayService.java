@@ -1,11 +1,13 @@
 package com.oa.salary.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.repository.query.Param;
 import org.springframework.lang.Nullable;
 
 import com.oa.salary.entity.SalaryPay;
@@ -14,6 +16,50 @@ import com.oa.salary.entity.SalaryPayDTO;
 
 
 public interface ISalaryPayService {
+	
+	/**
+	* <p>方法名称: countEmployeeWorkHour</p>
+	* <p>描述：计算出员工的时间段的实际工作时间</p>
+	* @param employeeId 员工id
+	* @param start 开始时间
+	* @param end 结束时间
+	* @return Integer 返回类型
+	*/
+	Integer countEmployeeWorkHour(String employeeId,Date start,Date end);
+	
+	Integer countEmployeeWorkHourThisMonth(String employeeId);
+	/**
+	* <p>方法名称: countWorkDays</p>
+	* <p>描述：计算某个时间段的工作日天数</p>
+	* @param start 开始时间
+	* @param end 结束时间
+	* @return Integer 返回类型
+	*/
+	Integer countWorkDays(Date start,Date end);
+	
+	/**
+	* <p>方法名称: countWorkDaysThisMonth</p>
+	* <p>描述：计算本月的工作天数</p>
+	* @return Integer 返回类型
+	*/
+	Integer countWorkDaysThisMonth();
+	
+	/**
+	* <p>方法名称: countWorkHours</p>
+	* <p>描述：计算出法定的工作小时数</p>
+	* @param start 开始时间
+	* @param end 结束时间
+	* @return Integer 返回类型
+	*/
+	Integer countWorkHours(Date start,Date end);
+	/**
+	* <p>方法名称: countWorkHoursThisMonth</p>
+	* <p>描述：计算本月的工作小时数</p>
+	* @return Integer 返回类型
+	*/
+	Integer countWorkHoursThisMonth();
+	
+	
 	public SalaryPay save(SalaryPay entity);
 
 
@@ -71,5 +117,20 @@ public interface ISalaryPayService {
 	* 返回类型
 	*/
 	Double countSalary(Integer id);
+	
+	/**
+	* <p>方法名称: salaryPaying</p>
+	* <p>描述：根据工资表发工资</p>
+	* @param id 工资表的id
+	* void 返回类型
+	*/
+	SalaryPay salaryPaying(Integer id);
+	
+	/**
+	* <p>方法名称: salaryPaying</p>
+	* <p>描述：发放所有员工的工资</p> 
+	* void 返回类型
+	*/
+	void salaryPaying();
 }
 

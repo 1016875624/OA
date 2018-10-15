@@ -1,7 +1,9 @@
 package com.oa.question.service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -56,4 +58,12 @@ public interface IQuestionService {
 	long count(@Nullable Specification<Question> spec);
 	
 	void deleteAllById(Integer[]ids);
+	public List<Integer> findAllId(Integer types);
+	
+	/**
+	 * 随机出三道单选题 三道多选题 四道填空题
+	 * @return	题目的id集合
+	 * @throws NoSuchAlgorithmException
+	 */
+	public Set<Integer> randomTestpaper()throws NoSuchAlgorithmException;
 }

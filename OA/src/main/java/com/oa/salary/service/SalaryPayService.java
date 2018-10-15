@@ -1,7 +1,10 @@
 package com.oa.salary.service;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -11,12 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.convert.ThreeTenBackPortConverters.LocalDateTimeToJsr310LocalDateTimeConverter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.oa.common.date.utils.DateUtils;
 import com.oa.employee.entity.Employee;
 import com.oa.employee.service.IEmployeeService;
 import com.oa.salary.entity.Salary;
@@ -38,7 +44,7 @@ public class SalaryPayService implements ISalaryPayService {
 	private IWorkTimeService workTimeService;
 	
 	@Autowired
-	ISalaryRepository SalaryRepository;
+	private ISalaryRepository salaryRepository;
 	
 	@Override
 	public SalaryPay save(SalaryPay entity) {
@@ -220,16 +226,157 @@ public class SalaryPayService implements ISalaryPayService {
 		return new PageImpl<>(salaryPayDTOs, pageable, salaryPage.getTotalElements());
 	}
 	//计算公式=基本工资/当月的工作时间 x实际的工时+工作的天数x补贴 +奖金+工龄工资*工龄
+	/*工龄=现在时间-入职时间
+
+	奖金以出勤率作为计算
+	
+	出勤率达到80%的拿奖金90%
+	
+	90% 全拿奖金
+	
+	70% 一半奖金
+	
+	60%没有奖金*/
+
 	@Override
 	public Double countSalary(Integer id) {
-		Salary salary=SalaryRepository.findById(id).orElse(null);
+		Salary salary=salaryRepository.findById(id).orElse(null);
 		if (salary==null) {
 			return 0.0;
 		}
-		Double money=0.0;
+		if (salary.getEmployee()==null) {
+			return 0.0;
+		}
+		double money=0.0;
+		double attandence=0.0;
+		
+		Date monthStartDay=DateUtils.getToMonthStart();
+		Date monthEndDay=DateUtils.getToMonthEnd();
+		
+		Integer empWorkDays=salaryPayRepository.countEmployeeWorkDays(salary.getEmployee().getId(), monthStartDay, monthEndDay);
+//		Integer empWorkHour=salaryPayRepository.countEmployeeWorkHour(salary.getEmployee().getId(), monthStartDay, monthEndDay);
+//		Integer workHour=salaryPayRepository.countWorkHours(monthStartDay, monthEndDay);
+//		if (empWorkHour!=null&&workHour!=null) {
+//			attandence=empWorkHour/workHour;
+//		}
+		Double temp=salaryPayRepository.countAttendence(salary.getEmployee().getId(), monthStartDay,monthEndDay);
+		if (temp!=null) {
+			attandence=temp;
+		}
+		//计算工资
 		if (salary.getSal()!=null) {
+			money+=1.0*salary.getSal()*attandence;
+		}
+		//计算补贴
+		if (salary.getSubsidy()!=null) {
+			money+=1.0*salary.getSubsidy()*empWorkDays;
+		}
+		//计算工龄的工资
+		if (salary.getWorktimeMoney()!=null) {
+			if (salary.getWorkMonth()!=null) {
+				money+=1.0*salary.getWorkMonth()*salary.getWorktimeMoney();
+			}
+		}
+		//计算奖金
+		if (salary.getBonus()!=null) {
+			/*90% 全拿奖金
+
+			70% 一半奖金*/
+
+			if (attandence>=0.9) {
+				money+=1.0*salary.getBonus();
+			}
+			else if (attandence>0.7) {
+				money+=1.0*salary.getBonus()*0.5;
+			}
 		}
 		
-		return null;
+		return money;
 	}
+	
+	
+
+	@Override
+	public Integer countEmployeeWorkHour(String employeeId, Date start, Date end) {
+		return salaryPayRepository.countEmployeeWorkHour(employeeId, start, end);
+	}
+
+	@Override
+	public Integer countEmployeeWorkHourThisMonth(String employeeId) {
+		return salaryPayRepository.countEmployeeWorkHour(employeeId, DateUtils.getToMonthStart(), DateUtils.getToMonthEnd());
+	}
+
+	@Override
+	public Integer countWorkDays(Date start, Date end) {
+		return salaryPayRepository.countWorkDays(start, end);
+	}
+
+	@Override
+	public Integer countWorkDaysThisMonth() {
+		return salaryPayRepository.countWorkDays(DateUtils.getToMonthStart(), DateUtils.getToMonthEnd());
+	}
+
+	@Override
+	public Integer countWorkHours(Date start, Date end) {
+		return salaryPayRepository.countWorkHours(start, end);
+	}
+
+	@Override
+	public Integer countWorkHoursThisMonth() {
+		return salaryPayRepository.countWorkHours(DateUtils.getToMonthStart(), DateUtils.getToMonthEnd());
+	}
+
+	@Override
+	public SalaryPay salaryPaying(Integer id) {
+		SalaryPay salaryPay=new SalaryPay();
+		Salary salary=salaryRepository.findById(id).orElse(null);
+		
+		if (salary==null) {
+			return null;
+		}
+		if (salary.getEmployee()==null) {
+			return null;
+		}
+		Date monthStart=DateUtils.getToMonthStart();
+		Date monthEnd=DateUtils.getToMonthEnd();
+		salaryPay.setDate(DateUtils.getToday());
+		salaryPay.setMoney(countSalary(salary.getId()));
+		salaryPay.setAttendRate(salaryPayRepository.countAttendence(salary.getEmployee().getId(), monthStart, monthEnd));
+		salaryPay.setEmployee(salary.getEmployee());
+		salaryPay.setRealWorktime(salaryPayRepository.countEmployeeWorkHour(salary.getEmployee().getId(), monthStart, monthEnd));
+		if (salaryPay.getRealWorktime()==null) {
+			salaryPay.setRealWorktime(0);
+		}
+		if (salaryPay.getWorktime()==null) {
+			salaryPay.setWorktime(0);
+		}
+		salaryPay.setStatus(1);
+		salaryPay.setWorktime(salaryPayRepository.countWorkHours(monthStart, monthEnd));
+		salaryPayRepository.save(salaryPay);
+		return salaryPay;
+	}
+
+	@Override
+	public void salaryPaying() {
+		int page=0;
+		int size=10;
+		
+		
+		long count=salaryRepository.count();
+		while (page*size<count) {
+			Page<Salary> page2=salaryRepository.findAll(PageRequest.of(page, size, Sort.by(Direction.ASC, "id")));
+			List<Salary>salaries=page2.getContent();
+			for (Salary salary : salaries) {
+				salaryPaying(salary.getId());
+			}
+			//没有下一页结束
+			if (!page2.hasNext()) {
+				return;
+			}
+			page++; 
+		}
+		
+	}
+	
+	
 }

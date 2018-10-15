@@ -75,8 +75,8 @@ Ext.define('Admin.view.question.QuestionViewModel', {
 				},
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: '操作',tooltip: 'edit ',flex: 1,
                     items: [
-                        {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'openEditWindow'},
-                        {xtype: 'button',iconCls: 'x-fa fa-close'	,handler: 'deleteOneRow'},
+                        {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'openEditWindow',tooltip:"修改题目"},
+                        {xtype: 'button',iconCls: 'x-fa fa-close'	,handler: 'deleteOneRow',tooltip:"删除题目"},
                         {xtype: 'button',iconCls: 'x-fa fa-eye'	 	,handler: 'onCheckButton'}
                     ]
                 }
@@ -139,7 +139,7 @@ Ext.define('Admin.view.question.QuestionViewModel', {
 		        iconCls: 'fa fa-search-plus',
 		        handler: 'openSearchWindow'	
 			}, '->',{
-		        text: 'Add',
+		        text: '添加题目',
 		        tooltip: 'Add a new row',
 		        iconCls: 'fa fa-plus',
 		        handler: 'openAddWindow'	

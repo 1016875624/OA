@@ -47,6 +47,25 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		var form = win.down('form');
 		//var record = Ext.create('Admin.model.workTime.WorkTimeModel');
 		var values  =form.getValues();//获取form数据
+		console.log(values);
+		if(values.employeeid=="")
+		{
+			Ext.toast("员工编号不能为空");
+			return false;
+		}
+		if(values.hour=="")
+		{
+			Ext.toast("工时不能为空");
+			return false;
+		}
+		if(values.StartDate==""){
+			Ext.toast("开始时间不能为空");
+			return false;
+		}
+		if(values.EndDate==""){
+			Ext.toast("结束时间不能为空");
+			return false;
+		}
 		//record.set(values);
 		//record.save();
 		//Ext.data.StoreManager.lookup('workTimeGridStroe').load();
@@ -74,6 +93,9 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 //				console.log("000"+Ext.data.StoreManager.lookup("holidayGridStroe").getData());
 //			}
 //		});
+		//begin = setInterval("Ext.TaskMgr.start(函数)",10000); //定时器
+		//Ext.toast('Data saved');
+		Ext.toast("已经过滤掉填报过的工时了", "提示", "t", "fa fa-pencil");
 		var store=Ext.data.StoreManager.lookup("holidayGridStroe");
 		//Ext.apply(store.proxy.extraParams, {employeeid:"",StartDate:"",EndDate:"",hour:""});
 		Ext.apply(store.proxy.extraParams, {
