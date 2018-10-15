@@ -233,57 +233,6 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		 });
 	},
 	
-	/*showWindow:function(grid, rowIndex, colIndex){
-		var rec=grid.getStore().getAt(rowIndex);
-		Ext.Msg.alert('Title', grid);
-		Ext.Msg.alert('Title', rowIndex);
-		Ext.Msg.alert('Title', colIndex);
-		console.log(grid);
-		console.log(rowIndex);
-		console.log(colIndex);
-		var win=Ext.create('Ext.window.Window', {
-			title: 'Hello',
-			height: 600,
-			width: 800,
-			layout: 'fit',
-			items: {  // Let's put an empty grid in just to illustrate fit layout
-				xtype: 'panel',
-				//title: 'User Form',
-				height: 550,
-				width: 750,
-				//border: false,
-				items: [
-					{
-						xtype:'textfield',
-						fieldLabel: 'First Name',
-						name: 'fullname',
-						value:Ext.m_data.data['fullname']
-					},
-					{
-						xtype:'textfield',
-						fieldLabel: 'Last Name',
-						name: 'Email',
-						value:Ext.m_data.data['email']
-					},
-					{
-						xtype: 'datefield',
-						fieldLabel: 'joinDate',
-						name: 'joinDate',
-						value:rec.get("joinDate")
-					},
-					{
-						xtype:'textfield',
-						fieldLabel: 'Subscription',
-						name: 'Subscription'
-					}
-				]
-			}
-		});
-		
-		win.show();
-	},*/
-	
-	
 	/*Quick Search*/	
 	quickSearch:function(btn){
 		var store =	btn.up('gridpanel').getStore();

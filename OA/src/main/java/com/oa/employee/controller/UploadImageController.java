@@ -39,6 +39,7 @@ public class UploadImageController {
 		String runtimePath=this.getClass().getClassLoader().getResource("").getPath();
 		runtimePath+="/static/images/employee/";
 		String storePath=projectPath+"\\src\\main\\resources\\static\\images\\employee\\";
+		System.out.println(file.getOriginalFilename());
 		entity.setPicture(file.getOriginalFilename());
 		employeeService.save(entity);
 		//file.getOriginalFilename();

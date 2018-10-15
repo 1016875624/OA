@@ -63,19 +63,19 @@ Ext.define('Admin.view.department.DepartmentChangeWindow', {
 					items:	[
 							{	
 							width:90,
-							
-			                frame: true,
+			                //frame: true,
 				        	buttons:[{
 				        			iconCls: 'fa fa-arrow-left',
+				        			tooltip:'移动部门人员',
 				        			handler:'leftPull'
 					                }]
 						    },
 						    {
 					    	width:90,
-							//margin:"200 0 0 0",
-							frame: true,
+							//frame: true,
 				        	buttons:[{
 				        			iconCls: 'fa fa-arrow-right',
+				        			tooltip:'移动部门人员',
 				        			handler:'rightPush'
 					                }]
 						    }

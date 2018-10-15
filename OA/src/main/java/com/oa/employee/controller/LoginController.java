@@ -78,7 +78,9 @@ public class LoginController {
             map.put("msg", employee.getPicture());
             //map.put("loginUserImage", "imgUrl");
             session.setAttribute("userId", userId);
-            return new ExtAjaxResponse(true,map);
+            ExtAjaxResponse e= new ExtAjaxResponse(true,map);
+            e.setMsg(employee.getPicture());
+            return e;
         } else {
         	return new ExtAjaxResponse(false,"登录失败!帐号或者密码有误!请重新登录!");
         }

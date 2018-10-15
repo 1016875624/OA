@@ -23,7 +23,8 @@ Ext.define('Admin.view.main.UploadWindow', {
         xtype: 'form',
         layout: 'form',
         padding: '10px',
-        items: [{
+        items: [
+        	{
         	xtype: 'filefield',
 	        width: 400,
 	        labelWidth: 80,
@@ -32,11 +33,30 @@ Ext.define('Admin.view.main.UploadWindow', {
 	        fieldLabel: '上传头像:',
 	        labelSeparator: '',
 	        buttonConfig: {
-	            xtype: 'filebutton',
-	            glyph:'',
-	            iconCls: 'x-fa fa-upload',
-	            text: 'Browse'
-	        }
+				            xtype: 'filebutton',
+				            glyph:'',
+				            iconCls: 'x-fa fa-upload',
+				            text: 'Browse'
+				            /*listeners : {
+					            'render' : function() {
+					                Ext.getCmp('upload').on('change',function(field, newValue, oldValue) {
+					                    var file = field.fileInputEl.dom.files.item(0);
+					                    var fileReader = new FileReader('file://'+newValue);
+					                    fileReader.readAsDataURL(file);
+					                    fileReader.onload=function(e){
+					                        Ext.getCmp('imageId').setSrc(e.target.result);
+					                    };
+					                }
+					            }
+			        		},
+	        				{
+				        	xtype: 'image',
+				            id: 'imageId',
+				            src: '/images/employee/' + json.msg,
+				            width: 35,
+				            height: 35	
+	        				}*/
+        	}
 	    }]
     }],
 	buttons: ['->',{

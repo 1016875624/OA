@@ -76,17 +76,16 @@ Ext.define('Admin.view.authentication.Login', {
                     inputType: 'code',
                     name: 'code',
                     bind: '{code}',
-                    allowBlank : false,
-                    triggers: {
+                    allowBlank : false
+                    /*triggers: {
                         glyphed: {
                             cls: 'trigger-glyph-noop auth-password-trigger'
                         }
-                    }
+                    }*/
                 },
 				
 				{
 					items:[{
-							//name:'filename',
 							xtype:'box',
 							width: 225,
 							height: 60,
@@ -95,8 +94,6 @@ Ext.define('Admin.view.authentication.Login', {
 							tag : 'img',
 							src : "/verify/code"	//这里需要根据此条数据传过来的文件名动态拿图片							 
 							}
-							// height: 55,
-							// html:'<img src="/verify/code"/>'
 						},{
 							xtype:'button',
 							height: 60,
@@ -107,18 +104,6 @@ Ext.define('Admin.view.authentication.Login', {
 										}
 						}]
 				},
-				
-				// { 
-					// height: 55,
-					// width: 250,
-					// html:'<img src="/verify/code.action"/>'
-				// },{
-					// xtype:'button',
-					// height: 55,
-					// width: 250, 
-					// text: '看不清，换一张',
-                    // onclick: 'onChangeCode'
-				// },
 				{
                     xtype: 'button',
                     reference: 'loginButton',
