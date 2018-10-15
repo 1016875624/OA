@@ -25,4 +25,7 @@ public interface WorkTimeRepository extends JpaRepository<WorkTime, Integer>,Jpa
 	
 	@Query("FROM WorkTime wt where wt.employee.id=:em1 and wt.ifholiday=:if1 and wt.date between :d1 and:d2")
 	public List<WorkTime> attendence(String em1,Integer if1,Date d1,Date d2);
+	
+	@Query("FROM WorkTime wt where wt.employee.id=:em1 and wt.hour!=0 and wt.date between :d1 and:d2")
+	public List<WorkTime> workDay(String em1,Date d1,Date d2);
 }

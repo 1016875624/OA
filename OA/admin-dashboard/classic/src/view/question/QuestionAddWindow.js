@@ -31,7 +31,8 @@ Ext.define('Admin.view.question.QuestionAddWindow', {
 			grow : true,
 			name : 'textQuestion',
 			fieldLabel : '题目',
-			anchor : '100%'
+			anchor : '100%',
+			allowBlank:false
 		}, {
 			xtype: 'container',
             layout: 'hbox',
@@ -100,6 +101,7 @@ Ext.define('Admin.view.question.QuestionAddWindow', {
 		        				name : 'realanswer' + n,
 		        				id : 'realanswer' + n,
 		        				fieldLabel:"答案"+n,
+		        				allowBlank:false
 		        			});
 		        			var form=btn.up("window").down("form").down("#includeRealanswer");
 		        			form.add(fd);

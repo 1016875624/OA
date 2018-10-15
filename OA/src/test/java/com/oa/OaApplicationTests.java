@@ -1,13 +1,18 @@
 package com.oa;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 import org.dom4j.IllegalAddException;
 import org.junit.Test;
@@ -25,6 +30,8 @@ import com.oa.department.service.DepartmentService;
 import com.oa.department.service.IDepartmentService;
 import com.oa.employee.entity.Employee;
 import com.oa.employee.service.EmployeeService;
+import com.oa.question.entity.Question;
+import com.oa.question.repository.QuestionRepository;
 import com.oa.worktime.entity.HolidayTime;
 import com.oa.worktime.service.IHolidayTimeService;
 import com.oa.worktime.service.IWorkTimeService;
@@ -45,6 +52,8 @@ public class OaApplicationTests {
 	IHolidayTimeService holidayTimeService;
 	@Autowired
 	IWorkTimeService workTimeService;
+	@Autowired
+	QuestionRepository questionRepository;
 	@Test
 	public void test() {
 		for (int i = 1; i < 10; i++) {
@@ -189,5 +198,93 @@ public class OaApplicationTests {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	@Test
+	public void testDay() {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM");
+			Date date=sdf.parse("2018/10");
+			int days=workTimeService.workDay("user2", date);
+			System.out.println("the worktime day is :"+days);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@Test
+	public void testQues() throws NoSuchAlgorithmException {
+		//List<Integer> ids=questionRepository.findAllId();
+		
+		long count=questionRepository.count();
+		int danxuan=0,duoxuan=0,tiankong=0;
+		int max=(int)count;
+		//System.out.println("所有ID为："+ids);
+		//Random rand = new Random();
+		//long x=ids.get();
+		
+		Set<Integer> lists=new HashSet<>();
+		while(lists.size()<10) {
+			int number=SecureRandom.getInstanceStrong().nextInt(max);
+			Question textquestion=questionRepository.findById(number).orElse(null);
+			if(textquestion!=null) {
+				if(textquestion.getType()==0) {
+					if(danxuan<3) {
+						lists.add(textquestion.getId());
+						danxuan++;
+					}else {
+						continue;
+					}
+				}else if(textquestion.getType()==1) {
+					if(duoxuan<3) {
+						lists.add(textquestion.getId());
+						duoxuan++;
+					}else {
+						continue;
+					}
+				}else if(textquestion.getType()==2) {
+					if(tiankong<4) {
+						lists.add(textquestion.getId());
+						tiankong++;
+					}else {
+						lists.add(textquestion.getId());
+						tiankong++;
+						continue;
+					}
+				}
+			}
+		}
+		System.out.println(lists);
+		
+	}
+	@Test
+	public void testPaper() throws NoSuchAlgorithmException {
+		Set<Integer> lists=new HashSet<>();
+		int singleNum=0,doubleNum=0,fillsNum=0;
+		List<Integer> singlesId=questionRepository.findAllId(0);
+		List<Integer> doublesId=questionRepository.findAllId(1);
+		List<Integer> fillsId=questionRepository.findAllId(2);
+		
+		while(lists.size()<10) {
+			if(singleNum<3) {
+				int number=SecureRandom.getInstanceStrong().nextInt(singlesId.size());
+				lists.add(singlesId.get(number));
+				singleNum++;
+			}
+			if(doubleNum<3) {
+				int number=SecureRandom.getInstanceStrong().nextInt(doublesId.size());
+				lists.add(doublesId.get(number));
+				doubleNum++;
+			}
+			if(fillsNum<4) {
+				int number=SecureRandom.getInstanceStrong().nextInt(fillsId.size());
+				lists.add(fillsId.get(number));
+				fillsNum++;
+			}
+				
+		}
+		System.out.println("产生的随机id为： "+lists);
 	}
 }

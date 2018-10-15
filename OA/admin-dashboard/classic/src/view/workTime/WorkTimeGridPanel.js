@@ -145,12 +145,11 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
 			}, '->',{
 				xtype: 'button',
 		        text: '添加工时',
-		        tooltip: 'Add a new row',
 		        iconCls: 'fa fa-plus',
 		        handler: 'openAddWindow'	
 		    },'-',{
 		        text: 'Removes',
-		        tooltip: 'Remove the selected item',
+		        tooltip: '删除所选的多条数据',
 		        iconCls:'fa fa-trash',
 		        itemId: 'workTimeGridPanelRemove',
 		        disabled: true,

@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.oa.employee.entity.Employee;
 import com.oa.officeresource.entity.EmployeeResource;
 import com.oa.officeresource.entity.EmployeeResourceDTO;
 import com.oa.officeresource.repository.EmployeeResourceRepository;
@@ -79,9 +80,19 @@ public class EmployeeResourceService implements IEmployeeResourceService {
 		return new PageImpl<>(employeeResourceDTOs, pageable, page.getTotalElements());
 	}
 
+//	@Transactional(readOnly = true)
+//	public EmployeeResource findEmployeeResource(String employeeId, String resourceName) {
+//		return employeeResourceRepository.findEmployeeResource(employeeId, resourceName);
+//	}
+
 	@Transactional(readOnly = true)
-	public EmployeeResource findEmployeeResource(String employeeId, String resourceName) {
-		return employeeResourceRepository.findEmployeeResource(employeeId, resourceName);
+	public List<Employee> findEmployeeByLeaderId(String employeeId) {
+		return employeeResourceRepository.findEmployeeByLeaderId(employeeId);
+	}
+	
+	@Transactional(readOnly = true)
+	public EmployeeResource findEmployeeResourceByStatus(String employeeId, String resourceName, int status) {
+		return employeeResourceRepository.findEmployeeResourceByStatus(employeeId, resourceName, status);
 	}
 
 }

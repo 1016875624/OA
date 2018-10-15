@@ -11,7 +11,7 @@
          var record = grid.getStore().getAt(rowIndex);
 		//获取选中数据的字段值：console.log(record.get('id')); 或者 console.log(record.data.id);
 		if (record ) {
-			var win = grid.up('questionGridPanel').up('container').up('container').add(Ext.widget('questionEditWindow'));
+			var win = grid.up('panel').up('container').add(Ext.widget('questionEditWindow'));
 			win.show();
 			win.down('form').getForm().loadRecord(record);
 		}
@@ -39,6 +39,14 @@
 		var form = win.down('form');
 		var record = Ext.create('Admin.model.question.QuestionModel');
 		var values  =form.getValues();//获取form数据
+		if(values.textQuestion==""){
+			Ext.toast("题目不能为空");
+			return false;
+		}
+		if(values.type==""){
+			Ext.toast("要选择一个题目类型");
+			return false;
+		}
 		record.set(values);
 		record.save();
 		Ext.data.StoreManager.lookup('questionGridStroe').load();
@@ -53,6 +61,7 @@
 		record.set(values);//rest put 
 		//store.load();
 		win.close();
+		Ext.toast("修改成功");
 	},
 		
 	/*Quick Search*/	
@@ -115,7 +124,7 @@
                         selectIds.push(row.data.id);
                     });
                   	Ext.Ajax.request({ 
-						url : '/question/deletes', 
+						url : 'http://localhost:8080/textquestion/deletes', 
 						method : 'post', 
 						params : { 
 							//ids[] :selectIds

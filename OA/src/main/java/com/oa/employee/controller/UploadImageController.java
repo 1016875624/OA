@@ -29,6 +29,9 @@ public class UploadImageController {
 	@ResponseBody
 	public ExtAjaxResponse name(MultipartFile file,HttpSession session) {
 		String userId=(String)session.getAttribute("userId");
+		if(userId==null) {
+			userId="user1";
+		}
 		Employee entity= employeeService.findById(userId).orElse(null);
 		File temp=new File("");
 		String projectPath=temp.getAbsolutePath();

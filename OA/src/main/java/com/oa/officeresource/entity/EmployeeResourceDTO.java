@@ -29,6 +29,12 @@ public class EmployeeResourceDTO {
 	 */
     private Integer status;
     
+    private String remark;
+    
+    private int loseCount;
+    
+    private String loseResourceName;
+    
     private String employeeId;
    	private String employeeName;
    	private String employeePosition;

@@ -64,7 +64,7 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 	gridChange:function(grid, rowIndex, colIndex){	
 		var win = grid.up('container').add(Ext.widget('departmentChangeWindow'));//打开窗口
 		
-		var defaultBox = this.lookupReference('dpartmentBox');
+		var defaultBox = this.lookupReference('dpartmentBox');//获取对象
 		var oDefaultBox = this.lookupReference('oDpartmentBox');
 
 		
@@ -73,10 +73,11 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		var departid=rec.get("id");//从记录中获取id
 		Ext.apply(store.proxy.extraParams, {departmentid:departid});//与后台DTO里面的字段交互
 		
-		var rec = grid.getStore().getAt(rowIndex);//获取Store记录
+		/*var rec = grid.getStore().getAt(rowIndex);//获取Store记录
 		var store=Ext.data.StoreManager.lookup('oLoadingGridStroe');//获取Store数据
 		var departid=rec.get("id");//从记录中获取id
 		Ext.apply(store.proxy.extraParams, {departmentid:departid});//与后台DTO里面的字段交互
+		 */		
 		var storeL=defaultBox.getStore();
 		var storeR=oDefaultBox.getStore();
 		

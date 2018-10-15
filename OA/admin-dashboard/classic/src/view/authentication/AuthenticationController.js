@@ -23,11 +23,12 @@
 	            if(json.success){
 	            	me.redirectTo('dashboard', true);
 	            	Ext.getCmp('loginUserId').setText(json.map.userId);
-	            	var headButton=Ext.getCmp('head_Button');
-	            	console.log(json.msg);
-	            	var path="url(/employee/"+json.map.msg+")";
-	            	headButton.setStyle({"background-image":path});
-	            	//Ext.getCmp('loginUserImage').getEl().dom.src = json.map.loginUserImage;
+	            	
+	            	var headButton = Ext.getCmp('head_Button');
+			        console.log(json.msg);
+			        var path = '/images/employee/' + json.msg;
+			        headButton.setIcon(path);
+			        console.log(path);
 		        }else{
 		        	Ext.Msg.alert('登录失败', json.msg);
 		        }
