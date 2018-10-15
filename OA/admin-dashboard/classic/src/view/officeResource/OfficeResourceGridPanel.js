@@ -137,7 +137,7 @@
 			store:Ext.create("Ext.data.Store", {
 				fields: ["name", "value"],
 				data: [{ name: '所有', value: '' }
-						,{ name: '待申请', value: '0' }
+						,{ name: '待发起', value: '0' }
 						,{ name: '可抢', value: '1' }
 						,{ name: '可抽奖', value: '3' }
 				]

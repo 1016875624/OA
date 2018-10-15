@@ -30,7 +30,6 @@
 	},
 	/*combobox选中后控制对应输入（文本框和日期框）框显示隐藏*/
 	searchComboboxSelectChuang:function(combo,record,index){
-		console.log(1);
 		//alert(record.data.name);
 		var searchField = this.lookupReference('searchFieldName').getValue();
 		if(searchField==='luckyTime'){
@@ -64,13 +63,14 @@
 	},
 	/*Allocate Submit*/	
 	submitAllocateForm:function(btn){
-		var record = grid.getStore().getAt(rowIndex);
+		var win    = btn.up('window');
+		var values  = win.down('form').getValues();//获取form数据
 		Ext.Ajax.request({
 			url : '/officeResource/allocateResources', 
 			method : 'post', 
 			params : {
-				resourceName :record.get("resourceName"),
-				allocatedNum :record.get("allocatedNum")
+				resourceName :values.resourceName,
+				allocatedNum :values.allocatedNum
 			}, 
 			success: function(response, options) {
 				var json = Ext.util.JSON.decode(response.responseText);
@@ -114,12 +114,12 @@
 		}
 		else if(searchField==='status'){
 			Ext.apply(store.proxy.extraParams,{
-				status:searchFieldValue,
+				status:searchFieldValue
 			});
 		}
 		else if(searchField==='remark'){
 			Ext.apply(store.proxy.extraParams,{
-				remark:searchFieldValue2,
+				remark:searchFieldValue2
 			});
 		}
 		store.load({params:{start:0, limit:20, page:1}});

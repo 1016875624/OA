@@ -10,6 +10,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -17,8 +18,10 @@ import lombok.Data;
 
 @Data
 public class OfficeResourceQueryDTO {
-	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
+	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss") 
     private Date startTime;
+	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss") 
+	private Date endTime;
 	
     private String resourceName;
 	
@@ -44,6 +47,10 @@ public class OfficeResourceQueryDTO {
 				if (null!=officeResourceQueryDTO.getStartTime()) {
 					predicate.add(criteriaBuilder.greaterThanOrEqualTo(root.get("startTime").as(Date.class),
 							officeResourceQueryDTO.getStartTime()));
+				}
+				if (null!=officeResourceQueryDTO.getEndTime()) {
+					predicate.add(criteriaBuilder.lessThanOrEqualTo(root.get("endTime").as(Date.class),
+							officeResourceQueryDTO.getEndTime()));
 				}
 				if (null!=officeResourceQueryDTO.getResourceName()) {
 					predicate.add(criteriaBuilder.like(root.get("resourceName").as(String.class),
