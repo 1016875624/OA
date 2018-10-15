@@ -103,9 +103,15 @@
                 ]
            }
             ,{
-                text: '薪资',
+                text: '薪资发放',
                 iconCls: 'x-fa fa-address-card',
                 viewType: 'salarypay',
+                leaf: true
+            }
+            ,{
+                text: '薪资',
+                iconCls: 'x-fa fa-address-card',
+                viewType: 'salary',
                 leaf: true
             }
         ]
