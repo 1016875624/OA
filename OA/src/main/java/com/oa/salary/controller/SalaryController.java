@@ -86,8 +86,7 @@ public class SalaryController {
 	@PostMapping
 	public ExtAjaxResponse save(@RequestBody SalaryDTO salaryDTO) {
 		try {
-			Salary salary = new Salary();
-			BeanUtils.copyProperties(salaryDTO, salary);
+			Salary salary = SalaryDTO.DtoToEntity(salaryDTO);
 			salaryService.save(salary);
 			return new ExtAjaxResponse(true, "保存成功!");
 		} catch (Exception e) {

@@ -27,7 +27,7 @@ Ext.define('Aria.view.salary.SalaryAddWindow', {
         }, {
             xtype: 'textfield',
             fieldLabel: '员工工号',
-            name:'employeeNumber'
+            name:'employeeid'
         }, {
             xtype: 'textfield',
             fieldLabel: '员工姓名',

@@ -51,7 +51,7 @@ public class SalaryDTO {
 			Employee employee = new Employee();
 			// employee.setId(salaryDTO.getEmployeeNumber());
 			employee.setId(salaryDTO.getEmployeeid());
-			employee.setName(salaryDTO.getEmployeeName());
+			salary.setEmployee(employee);
 		}
 		return salary;
 	}

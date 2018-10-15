@@ -119,7 +119,7 @@
                         selectIds.push(row.data.id);
                     });
                   	Ext.Ajax.request({ 
-						url : '/salary/deletes', 
+						url : 'http://localhost:8080/salary/deletes',
 						method : 'post', 
 						params : { 
 							//ids[] :selectIds
