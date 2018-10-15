@@ -65,5 +65,5 @@ public interface IQuestionService {
 	 * @return	题目的id集合
 	 * @throws NoSuchAlgorithmException
 	 */
-	public Set<Integer> randomTestpaper()throws NoSuchAlgorithmException;
+	public List<Question> randomTestpaper()throws NoSuchAlgorithmException;
 }

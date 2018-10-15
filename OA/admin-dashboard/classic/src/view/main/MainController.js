@@ -268,5 +268,9 @@
     	var headButton = Ext.getCmp('head_Button');
 	    var path = 'http://localhost:8080/images/employee/1.jpg';
 	    headButton.setIcon(path);*/
-    }
+    },
+    /*getWebSocket:function(){
+        websocket = new WebSocket(encodeURI('ws://localhost:8080/Chat/message'));
+        return websocket;
+    }*/
 });

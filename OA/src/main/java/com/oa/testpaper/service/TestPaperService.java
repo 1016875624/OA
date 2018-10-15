@@ -1,7 +1,9 @@
 package com.oa.testpaper.service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +15,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.oa.question.entity.Question;
+import com.oa.question.service.IQuestionService;
 import com.oa.testpaper.entity.TestPaper;
+import com.oa.testpaper.entity.TestPaperDTO;
 import com.oa.testpaper.repository.TestPaperRepository;
 
 @Service
@@ -22,6 +27,8 @@ public class TestPaperService implements ITestPaperService{
 
 	@Autowired
 	TestPaperRepository testPaperRepository;
+	@Autowired
+	IQuestionService questionService;
 	@Override
 	public TestPaper save(TestPaper entity) {
 		// TODO Auto-generated method stub
@@ -147,5 +154,17 @@ public class TestPaperService implements ITestPaperService{
 		// TODO Auto-generated method stub
 		
 	}
-
+	@Override
+	public List<Question> getPaper() throws NoSuchAlgorithmException {
+		List<Question> questions=questionService.randomTestpaper();
+		return questions;
+	}
+	@Override
+	public TestPaperDTO getTest(String employeeid) {
+		TestPaperDTO testPaperDTO=new TestPaperDTO();
+		testPaperDTO.setEmployeeid(employeeid);
+		testPaperDTO.setStartTime(new Date());
+		testPaperDTO.setQuestionList("1.2.3.4.5.6.7.8.9.10.");
+		return testPaperDTO;
+	}
 }

@@ -84,10 +84,23 @@
                viewType: 'workTimeApprovalCenterPanel',
                leaf: true
            },{
-               text: '题库',
+               text: '题库管理',
                iconCls: 'x-fa fa-address-card',
                viewType: 'questionCenterPanel',
-               leaf: true
+               children:[
+                   {
+                       text: '题库',
+                       iconCls: 'x-fa fa-address-card',
+                       viewType: 'questionCenterPanel',
+                       leaf: true
+                   },
+                   {
+                       text:'考试',
+                       iconCls: 'x-fa fa-address-card',
+                       viewType: 'testPaper',
+                       leaf: true
+                   }
+               ]
            },{
                text: '离职',
                iconCls: 'x-fa fa-address-card',
@@ -109,9 +122,15 @@
                 ]
            }
             ,{
-                text: '薪资',
+                text: '薪资发放',
                 iconCls: 'x-fa fa-address-card',
                 viewType: 'salarypay',
+                leaf: true
+            }
+            ,{
+                text: '薪资',
+                iconCls: 'x-fa fa-address-card',
+                viewType: 'salary',
                 leaf: true
             }
         ]
