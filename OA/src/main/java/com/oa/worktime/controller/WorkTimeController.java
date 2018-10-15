@@ -67,6 +67,12 @@ public class WorkTimeController {
 	
 	@Autowired
 	LeaveRepository leaveRepository;
+	/**
+	 * 员工获取各种状态的工时
+	 * @param worktimeQueryDto
+	 * @param extjsPageRequest
+	 * @return
+	 */
 	@GetMapping
 	public Page<WorkTimeDTO> getPage(WorkTimeQueryDTO worktimeQueryDto,ExtjsPageRequest extjsPageRequest){
 		/*if(worktimeQueryDto.getDepartmentid()!=null) {
@@ -80,6 +86,13 @@ public class WorkTimeController {
 		return workTimeService.findAllInDto(WorkTimeQueryDTO.getWhereClause(worktimeQueryDto), extjsPageRequest.getPageable());
 	}
 	
+	/**
+	 * 上级获取下级待审批的工时
+	 * @param worktimeQueryDto
+	 * @param session
+	 * @param extjsPageRequest
+	 * @return
+	 */
 	@GetMapping(value="/approval")
 	public Page<WorkTimeDTO> findworkTimeByLeaderId(WorkTimeQueryDTO worktimeQueryDto,HttpSession session,ExtjsPageRequest extjsPageRequest){
 		
@@ -101,7 +114,7 @@ public class WorkTimeController {
 	
 	
 	//发出申请,状态设置为0,表示该表为待审核状态
-	@PostMapping
+	/*@PostMapping
 	public ExtAjaxResponse save(@RequestBody WorkTimeDTO workTimeDTO) 
 	{
 		System.out.println(workTimeDTO);
@@ -124,8 +137,13 @@ public class WorkTimeController {
 		} catch (Exception e) {
 			return new ExtAjaxResponse(false,"添加失败");
 		}
-	}
-	//添加多条工时
+	}*/
+	
+	/**
+	 * 获取多条未填报的工时
+	 * @param workTimeDTO
+	 * @return
+	 */
 	@RequestMapping(value="/savemore")
 	public List<WorkTimeDTO> savemore(WorkTimeDTO workTimeDTO)  
 	{	
@@ -136,6 +154,11 @@ public class WorkTimeController {
 		}
 	}
 	
+	/**
+	 * 申请工时
+	 * @param workTimeDTOs
+	 * @return
+	 */
 	@RequestMapping(value="/forApproval")
 	public ExtAjaxResponse forApproval(@RequestBody WorkTimeDTO []workTimeDTOs) {
 		try {

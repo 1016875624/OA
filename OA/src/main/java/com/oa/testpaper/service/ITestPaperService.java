@@ -1,5 +1,6 @@
 package com.oa.testpaper.service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -8,7 +9,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.Nullable;
 
+import com.oa.question.entity.Question;
 import com.oa.testpaper.entity.TestPaper;
+import com.oa.testpaper.entity.TestPaperDTO;
 
 
 public interface ITestPaperService {
@@ -54,4 +57,17 @@ public interface ITestPaperService {
 	long count(@Nullable Specification<TestPaper> spec);
 	
 	void deleteAllById(Integer[]ids);
+	/**
+	 * 获取题目内容
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 */
+	public List<Question> getPaper() throws NoSuchAlgorithmException;
+	
+	/**
+	 * 获取试卷表面
+	 * @param employeeid
+	 * @return
+	 */
+	public TestPaperDTO getTest(String employeeid);
 }
