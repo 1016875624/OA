@@ -181,20 +181,13 @@
     }*/
     
     /*打开上传窗口*/
-	onClickGridUpload: function (e, t, eOpts) {
-		e.up('container').add(Ext.widget('uploadWindow')).show();
-		//Ext.Msg.alert('提示', "上传！");	
-		//var win = e.up('container').add(Ext.widget('uploadWindow'));
-		//win.show();
+	onClickGridUpload: function () {
+		Ext.widget('uploadWindow').show();
     },
-    /*预览图片监听*/
-    previewImage: function (surface, ctx, rect) {
-    	//读取
+    /*预览图片*/
+    previewImage: function () {
         console.log('读取照片');
-        //var path = Ext.getCmp('File').getValue()
-        //var url = 'file:///' + path;
-        var path = '/images/employee/' + json.msg;
-        console.log(url);//浏览器安全保护下的虚拟路径
+        var path = '/images/employee/' + "1.jpg";
         Ext.getCmp('File').on('change', function (field, newValue, oldValue) {//上传图片的控件对象,刚刚选择的图片仿真路径，上次选择的图片仿真路径
             console.log(newValue);
             var show = Ext.getCmp('browseImage');
@@ -220,14 +213,12 @@
 					console.log(form);
 					console.log(action);
 					console.log(action.result.msg);
-					
 					json = action.result;
 				    if (json.success) {
 				      Ext.Msg.alert('成功', '上传成功.');
 				      var headButton = Ext.getCmp('head_Button');
 				      console.log(json.msg);
 				      var path = '/images/employee/' + json.msg;
-				      //var path = '"/images/employee/' + json.msg + '"';
 				      headButton.setIcon(path);
 				      console.log(path);
 				    } else {
@@ -246,22 +237,6 @@
 					}
 				} 
 		});
-		/*Ext.Ajax.request({		
-		//被用来向服务器发起请求默认的url		
-		url : "http://localhost:8080/uploadImageController/fileupload",		
-		//请求时发送后台的参数,既可以是Json对象，也可以直接使用“name = value”形式的字符串		
-		params : form.getValues(),		
-		//请求时使用的默认的http方法		
-		method : "post",		
-		//请求成功时回调函数		
-		success : function() {		
-			Ext.Msg.alert('提示', "上传成功！");
-			},		
-		//请求失败时回调函数	
-		failure : function() {		
-			Ext.Msg.alert('提示', "上传失败！");	
-			}	
-		});*/
     },
     init:function(){
     	/*console.log("init");

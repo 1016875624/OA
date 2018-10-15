@@ -8,27 +8,32 @@ Ext.define('Admin.view.main.UploadWindow', {
         'Ext.form.field.File',
         'Ext.form.field.HtmlEditor'
     ],
-    height: 180,
-    minHeight: 100,
-    minWidth: 300,
-    width: 500,
+    height: 400,
+    width: 300,
     scrollable: true,
     title: 'Upload Window',
     closable: true,
     constrain: true,
     defaultFocus: 'textfield',
     modal:true,
-    layout: 'fit',
+    layout: {
+    	align: 'middle',
+    	pack: 'center',
+    	type: 'vbox'
+    },
     items: [{
         xtype: 'form',
-        layout: 'form',
+        layout: {
+        	align: 'middle',
+        	pack: 'center',
+        	type: 'vbox'
+        },
         padding: '10px',
         items: [
         		{
                 id: 'File',
                 name: 'File',
                 inputType: "file",
-                fieldLabel: '上传图片',
                 xtype: 'textfield',
                 anchor: '40%',
                 allowBlank: false,
@@ -36,48 +41,18 @@ Ext.define('Admin.view.main.UploadWindow', {
                     'render': 'previewImage'
                 	}
 	            },
-	            
-	           /* xtype: 'filefield',
-		        width: 400,
-		        labelWidth: 80,
-		        name:'file',
-		        emptyText: 'Select an png/jpg file!', 
-		        fieldLabel: '上传图片:',
-		        labelSeparator: '',
-		        buttonConfig: {
-		            xtype: 'filebutton',
-		            glyph:'',
-		            iconCls: 'x-fa fa-cloud-upload',
-		            text: 'Browse'
-		        }*/
-	            
 	            {
-                xtype: 'box', //或者xtype: 'component',
-                //width: '100%', //图片宽度
-                //height: 200, //图片高度
+                xtype: 'box', 
+                width: 200, //图片宽度
+                height: 200, //图片高度
                 fieldLabel: "预览图片",
                 id: 'browseImage',
                 autoEl: {
                     tag: 'img',    //指定为img标签
-                    src: 'resources/images/user-profile/1.jpg',
+                    src: 'resources/images/user-profile/default.jpg',
                     id: 'imageBrowse'
                 }
             }
-        	/*{
-        	xtype: 'filefield',
-	        width: 400,
-	        labelWidth: 80,
-	        name:'file',
-	        emptyText: 'Select an png/jpg file!', 
-	        fieldLabel: '上传头像:',
-	        labelSeparator: '',
-	        buttonConfig: {
-				            xtype: 'filebutton',
-				            glyph:'',
-				            iconCls: 'x-fa fa-upload',
-				            text: 'Browse'
-        	}
-        	}*/
        ]
     }],
 	buttons: ['->',{

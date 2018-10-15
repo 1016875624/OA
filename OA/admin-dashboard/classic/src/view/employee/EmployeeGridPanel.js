@@ -24,8 +24,6 @@
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'id',text: '员工编号',flex: 1},
                 {xtype: 'gridcolumn',width: 75,dataIndex: 'picture',text: '用户',
                     renderer: function(value) {
-                        //return "<img src='resources/images/user-profile/wechat.jpg" + "' alt='Profile Pic' height='20px' width='20px'>";
-                    	
                     	return "<img src='/images/employee/'" + value + "height='20px' width='20px'>";
                     }
                 },
