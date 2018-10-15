@@ -69,6 +69,59 @@ public abstract class DateUtils {
 		return toDate(LocalDate.now());
 	}
 	
+	/**
+	* <p>方法名称: getToMonth</p>
+	* <p>描述：获取这个月的开始</p>
+	* @return Date 返回类型
+	*/
+	public static Date getToMonthStart() {
+		try {
+			return FastDateFormat.getInstance("yyyy/MM").parse(getToMonthStartStr());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	* <p>方法名称: getToMonthStr</p>
+	* <p>描述：获得这个月的时间 </p>
+	* @return String yyyy/MM
+	* 返回类型
+	*/
+	public static String getToMonthStartStr() {
+		return FastDateFormat.getInstance("yyyy/MM").format(new Date());
+	}
+	
+	/**
+	* <p>方法名称: getToMonthEndStr</p>
+	* <p>描述：获取本月的结束时间</p>
+	* @return String 返回类型
+	*/
+	public static String getToMonthEndStr() {
+		return FastDateFormat.getInstance("yyyy/MM").format(
+				toDate(toLocalDate(getToMonthStart())
+						.plusMonths(1).minusDays(1)));
+	}
+	
+	/**
+	* <p>方法名称: getToMonthEnd</p>
+	* <p>描述：获取本月的结束时间</p>
+	* @return Date 返回类型
+	*/
+	public static Date getToMonthEnd() {
+		//获取一个月的开始时间 然后加1月 减1天
+		return toDate(
+				toLocalDate(getToMonthStart()).plusMonths(1).minusDays(1));
+	}
+	
+	/**
+	* <p>方法名称: getDays</p>
+	* <p>描述：返回 时间段 之间的日期列表</p>
+	* @param start 开始时间
+	* @param end 结束时间
+	* @return Set<Date> 返回类型
+	*/
 	public static Set<Date> getDays(Date start,Date end) {
 		Set<Date>dates=new HashSet<>();
 		LocalDate startLD=toLocalDate(start);
