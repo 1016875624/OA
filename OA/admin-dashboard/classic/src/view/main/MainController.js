@@ -160,13 +160,13 @@
     logoutButton: function(){
 		var me = this;
         Ext.Ajax.request({
-            url: '/logout',
+            url: 'http://localhost:8080/logout',
             method: 'post',
             success: function(response, options) {
             	var json = Ext.util.JSON.decode(response.responseText);
 	            if(json.success){
-	            	me.redirectTo('/login', true);
-	            	window.location.reload();
+	            	me.redirectTo('http://localhost:8080/logout', true);
+	            	window.location.href="http://localhost:8080/#login";
 		        }else{
 		        	Ext.Msg.alert('登出失败', json.msg);
 		        }
@@ -181,16 +181,36 @@
     }*/
     
     /*打开上传窗口*/
-	onClickGridUploadButton: function (e,t,eOpts) {
-		eOpts.up('container').add(Ext.widget('uploadWindow')).show();
+	onClickGridUpload: function (e, t, eOpts) {
+		e.up('container').add(Ext.widget('uploadWindow')).show();
 		//Ext.Msg.alert('提示', "上传！");	
+		//var win = e.up('container').add(Ext.widget('uploadWindow'));
+		//win.show();
+    },
+    /*预览图片监听*/
+    previewImage: function (surface, ctx, rect) {
+    	//读取
+        console.log('读取照片');
+        //var path = Ext.getCmp('File').getValue()
+        //var url = 'file:///' + path;
+        var path = '/images/employee/' + json.msg;
+        console.log(url);//浏览器安全保护下的虚拟路径
+        Ext.getCmp('File').on('change', function (field, newValue, oldValue) {//上传图片的控件对象,刚刚选择的图片仿真路径，上次选择的图片仿真路径
+            console.log(newValue);
+            var show = Ext.getCmp('browseImage');
+            console.log(show);
+            //获取选择文件的路径信息, 将路径绑定到显示图片的box内加载
+            var obj = Ext.getCmp('File').inputEl.dom.files;
+            var imgurl = window.URL.createObjectURL(obj[0]);
+            console.log(imgurl)
+            Ext.getCmp('browseImage').getEl().dom.src = imgurl;
+        }, this);
     },
     /*头像上传功能*/
 	onClickUploadFormSumbitButton: function (btn) {
 		var form=btn.up("window").down("form").getForm();
 		console.log(Ext.ClassManager.getName(form));
 		console.log(form.getValues());
-		
 		form.submit({
 				type:'ajax',
 				method:"post",
@@ -213,8 +233,6 @@
 				    } else {
 				      Ext.Msg.alert('失败', '上传失败.');
 				    }
-					
-					
 				},
 				failure: function(resp){ 
 					console.log(resp);

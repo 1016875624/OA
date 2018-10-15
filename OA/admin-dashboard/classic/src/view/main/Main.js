@@ -56,15 +56,6 @@
                 },
                 {
                 	//用户头像
-                	/*xtype : "button", 
-                	cls: 'header-right-profile-image',
-                    width : 35,  
-                    height : 35, 
-                    reference:"headButton",
-                    id:"head_Button",
-                    iconCls : 'guestManage',  
-                    handler: 'onClickGridUploadButton'*/
-                    	
                 	xtype:'image',
                     id:'head_Button',
                     cls: 'header-right-profile-image',
@@ -77,9 +68,11 @@
                         borderRadius: '50%'//显示圆形图片
                     },
                     listeners:{
+                    	
                     	//监听click事件
                         el:{
-                            click:'onClickGridUploadButton' //imgClick方法写在了controller中，在这里也可以直接替换成function（）{console.log('click')}
+                        	//rander:'onClickGridUpload'
+                            click:'onClickGridUpload' //imgClick方法写在了controller中，在这里也可以直接替换成function（）{console.log('click')}
                         }
                     }         
                 },

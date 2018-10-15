@@ -36,6 +36,21 @@ Ext.define('Admin.view.main.UploadWindow', {
                     'render': 'previewImage'
                 	}
 	            },
+	            
+	           /* xtype: 'filefield',
+		        width: 400,
+		        labelWidth: 80,
+		        name:'file',
+		        emptyText: 'Select an png/jpg file!', 
+		        fieldLabel: '上传图片:',
+		        labelSeparator: '',
+		        buttonConfig: {
+		            xtype: 'filebutton',
+		            glyph:'',
+		            iconCls: 'x-fa fa-cloud-upload',
+		            text: 'Browse'
+		        }*/
+	            
 	            {
                 xtype: 'box', //或者xtype: 'component',
                 //width: '100%', //图片宽度
