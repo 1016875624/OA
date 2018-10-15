@@ -32,6 +32,7 @@ import com.oa.employee.entity.Employee;
 import com.oa.employee.service.EmployeeService;
 import com.oa.question.entity.Question;
 import com.oa.question.repository.QuestionRepository;
+import com.oa.question.service.IQuestionService;
 import com.oa.worktime.entity.HolidayTime;
 import com.oa.worktime.service.IHolidayTimeService;
 import com.oa.worktime.service.IWorkTimeService;
@@ -54,6 +55,8 @@ public class OaApplicationTests {
 	IWorkTimeService workTimeService;
 	@Autowired
 	QuestionRepository questionRepository;
+	@Autowired
+	IQuestionService questionService;
 	@Test
 	public void test() {
 		for (int i = 1; i < 10; i++) {
@@ -260,31 +263,76 @@ public class OaApplicationTests {
 		
 	}
 	@Test
-	public void testPaper() throws NoSuchAlgorithmException {
-		Set<Integer> lists=new HashSet<>();
+	public void getques() {
 		int singleNum=0,doubleNum=0,fillsNum=0;
 		List<Integer> singlesId=questionRepository.findAllId(0);
 		List<Integer> doublesId=questionRepository.findAllId(1);
 		List<Integer> fillsId=questionRepository.findAllId(2);
+		System.out.println(singlesId);
+		System.out.println(doublesId);
+		System.out.println(fillsId);
+	}
+	@Test
+	public void testPaper() throws NoSuchAlgorithmException {
+		List<Integer> lists=new ArrayList<>();
+		int singleNum=0,doubleNum=0,fillsNum=0;
+		List<Integer> singlesId=questionRepository.findAllId(0);
+		List<Integer> doublesId=questionRepository.findAllId(1);
+		List<Integer> fillsId=questionRepository.findAllId(2);
+		List<Integer> ids=new ArrayList<Integer>();//有序的id集合
 		
 		while(lists.size()<10) {
 			if(singleNum<3) {
 				int number=SecureRandom.getInstanceStrong().nextInt(singlesId.size());
-				lists.add(singlesId.get(number));
-				singleNum++;
+				if(!lists.contains(singlesId.get(number))) {
+					lists.add(singlesId.get(number));
+					singleNum++;
+				}
+				
 			}
 			if(doubleNum<3) {
 				int number=SecureRandom.getInstanceStrong().nextInt(doublesId.size());
-				lists.add(doublesId.get(number));
-				doubleNum++;
+				if(!lists.contains(doublesId.get(number))) {
+					lists.add(doublesId.get(number));
+					doubleNum++;
+				}
+				
 			}
 			if(fillsNum<4) {
 				int number=SecureRandom.getInstanceStrong().nextInt(fillsId.size());
-				lists.add(fillsId.get(number));
-				fillsNum++;
+				if(!lists.contains(fillsId.get(number))) {
+					lists.add(fillsId.get(number));
+					fillsNum++;
+				}
+				
 			}
 				
 		}
+//		while(!lists.isEmpty()) {
+//			for (Integer questionid : lists) {
+//				//Question question=new Question();
+//				//question=questionRepository.findById(questionid).orElse(null);
+//				ids.add(questionid);
+//				lists.remove(questionid);
+//			}
+//		}
 		System.out.println("产生的随机id为： "+lists);
+		for(int i=0;i<lists.size();i++) {
+			System.out.println(lists.get(i));
+		}
+	}
+	
+	@Test
+	public void testgetpaper() {
+		try {
+			List<Question> q=questionService.randomTestpaper();
+			System.out.println(q);
+			for (Question question : q) {
+				System.out.println(question);
+			}
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

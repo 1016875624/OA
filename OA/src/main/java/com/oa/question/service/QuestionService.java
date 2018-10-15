@@ -168,32 +168,46 @@ public class QuestionService implements IQuestionService {
 	}
 
 	@Override
-	public Set<Integer> randomTestpaper() throws NoSuchAlgorithmException {
-		Set<Integer> lists=new HashSet<>();
+	public List<Question> randomTestpaper() throws NoSuchAlgorithmException {
+		List<Integer> lists=new ArrayList<Integer>();
 		int singleNum=0,doubleNum=0,fillsNum=0;
 		List<Integer> singlesId=questionRepository.findAllId(0);
 		List<Integer> doublesId=questionRepository.findAllId(1);
 		List<Integer> fillsId=questionRepository.findAllId(2);
-		
+		List<Question> questions=new ArrayList<Question>();
 		while(lists.size()<10) {
 			if(singleNum<3) {
 				int number=SecureRandom.getInstanceStrong().nextInt(singlesId.size());
-				lists.add(singlesId.get(number));
-				singleNum++;
+				if(!lists.contains(singlesId.get(number))) {
+					lists.add(singlesId.get(number));
+					singleNum++;
+				}
+				
 			}
 			if(doubleNum<3) {
 				int number=SecureRandom.getInstanceStrong().nextInt(doublesId.size());
-				lists.add(doublesId.get(number));
-				doubleNum++;
+				if(!lists.contains(doublesId.get(number))) {
+					lists.add(doublesId.get(number));
+					doubleNum++;
+				}
+				
 			}
 			if(fillsNum<4) {
 				int number=SecureRandom.getInstanceStrong().nextInt(fillsId.size());
-				lists.add(fillsId.get(number));
-				fillsNum++;
+				if(!lists.contains(fillsId.get(number))) {
+					lists.add(fillsId.get(number));
+					fillsNum++;
+				}
+				
 			}
 				
 		}
-		return lists;
+		for (Integer questionid : lists) {
+			Question question=new Question();
+			question=questionRepository.findById(questionid).orElse(null);
+			questions.add(question);
+		}
+		return questions;
 	}
 	
 	
