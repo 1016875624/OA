@@ -41,4 +41,9 @@ public class TestPaper {
 	 * status:试卷的状态：0代表正常   1代表删除
 	 */
 	private Integer status;
+	
+	/**
+	 * score:考试人分数
+	 */
+	private Double score;
 }

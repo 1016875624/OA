@@ -3,7 +3,7 @@
     alias: 'controller.employeeViewController',
     /********************************************** Controller View *****************************************************/
     /*Add*/
-	openAddWindow:function(toolbar, rowIndex, colIndex){
+	openAddWindow:function(toolbar,e){
 		toolbar.up('panel').up('container').add(Ext.widget('employeeAddWindow')).show();
 	},
     /*Edit*/
@@ -17,7 +17,7 @@
 		}
 	},
 	/*Search More*/	
-	openSearchWindow:function(toolbar, rowIndex, colIndex){
+	openSearchWindow:function(toolbar, e){
 		toolbar.up('panel').up('container').add(Ext.widget('employeeSearchWindow')).show();
 	},
 	/*combobox选中后控制对应输入（文本框和日期框）框显示隐藏*/

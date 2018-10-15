@@ -53,14 +53,6 @@
     },
 	
 	onChangeCode:  function() {
-			/*Ext.Ajax.request({
-				url: '/verify/code',
-				method: 'get',  
-				success: function(response) {
-            	var o = Ext.getCmp("changeCode").getEl().dom.src="/verify/code?date="+new Date();
-				}				 
-			});*/
-			var o = Ext.getCmp("changeCode").getEl().dom.src="/verify/code?date="+new Date();
-			//Ext.Msg.alert("Title","Click onChangeCode Button");
+		var o = Ext.getCmp("changeCode").getEl().dom.src="/verify/code?date="+new Date();
     },
 });

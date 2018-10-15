@@ -23,7 +23,32 @@ Ext.define('Admin.view.main.UploadWindow', {
         xtype: 'form',
         layout: 'form',
         padding: '10px',
-        items: [{
+        items: [
+        		{
+                id: 'File',
+                name: 'File',
+                inputType: "file",
+                fieldLabel: '上传图片',
+                xtype: 'textfield',
+                anchor: '40%',
+                allowBlank: false,
+                listeners: {
+                    'render': 'previewImage'
+                	}
+	            },
+	            {
+                xtype: 'box', //或者xtype: 'component',
+                //width: '100%', //图片宽度
+                //height: 200, //图片高度
+                fieldLabel: "预览图片",
+                id: 'browseImage',
+                autoEl: {
+                    tag: 'img',    //指定为img标签
+                    src: 'resources/images/user-profile/1.jpg',
+                    id: 'imageBrowse'
+                }
+            }
+        	/*{
         	xtype: 'filefield',
 	        width: 400,
 	        labelWidth: 80,
@@ -32,12 +57,13 @@ Ext.define('Admin.view.main.UploadWindow', {
 	        fieldLabel: '上传头像:',
 	        labelSeparator: '',
 	        buttonConfig: {
-	            xtype: 'filebutton',
-	            glyph:'',
-	            iconCls: 'x-fa fa-upload',
-	            text: 'Browse'
-	        }
-	    }]
+				            xtype: 'filebutton',
+				            glyph:'',
+				            iconCls: 'x-fa fa-upload',
+				            text: 'Browse'
+        	}
+        	}*/
+       ]
     }],
 	buttons: ['->',{
         xtype: 'button',
