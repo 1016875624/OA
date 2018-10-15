@@ -5,7 +5,7 @@
 	model:'Admin.model.officeResource.OfficeResourceModel',
 	proxy: {
 		type: 'rest',
-		url: '/officeResource',
+		url: 'http://localhost:8080/officeResource',
 		reader:{
 			type:'json',
 			rootProperty:'content',//对应后台返回的结果集名称

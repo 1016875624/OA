@@ -2,6 +2,7 @@ package com.oa.officeresource.entity;
 
 import java.util.Date;
 
+import org.springframework.beans.BeanUtils;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -34,4 +35,15 @@ public class OfficeResourceDTO {
     private String employeeId;
 	private String employeeName;
 	private String employeePosition;
+	
+	public static OfficeResourceDTO entityToDTO(OfficeResource officeResource) {
+		OfficeResourceDTO officeResourceDTO=new OfficeResourceDTO();
+		BeanUtils.copyProperties(officeResource, officeResourceDTO);
+		if (officeResource.getEmployee()!=null) {
+			officeResourceDTO.setEmployeeId(officeResource.getEmployee().getId());
+			officeResourceDTO.setEmployeeName(officeResource.getEmployee().getName());
+			officeResourceDTO.setEmployeePosition(officeResource.getEmployee().getPosition());
+		}
+		return officeResourceDTO;
+	}
 }
