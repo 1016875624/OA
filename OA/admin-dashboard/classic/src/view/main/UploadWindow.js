@@ -24,7 +24,31 @@ Ext.define('Admin.view.main.UploadWindow', {
         layout: 'form',
         padding: '10px',
         items: [
-        	{
+        		{
+                id: 'File',
+                name: 'File',
+                inputType: "file",
+                fieldLabel: '上传图片',
+                xtype: 'textfield',
+                anchor: '40%',
+                allowBlank: false,
+                listeners: {
+                    'render': 'previewImage'
+                	}
+	            },
+	            {
+                xtype: 'box', //或者xtype: 'component',
+                //width: '100%', //图片宽度
+                //height: 200, //图片高度
+                fieldLabel: "预览图片",
+                id: 'browseImage',
+                autoEl: {
+                    tag: 'img',    //指定为img标签
+                    src: 'resources/images/user-profile/1.jpg',
+                    id: 'imageBrowse'
+                }
+            }
+        	/*{
         	xtype: 'filefield',
 	        width: 400,
 	        labelWidth: 80,
@@ -37,27 +61,9 @@ Ext.define('Admin.view.main.UploadWindow', {
 				            glyph:'',
 				            iconCls: 'x-fa fa-upload',
 				            text: 'Browse'
-				            /*listeners : {
-					            'render' : function() {
-					                Ext.getCmp('upload').on('change',function(field, newValue, oldValue) {
-					                    var file = field.fileInputEl.dom.files.item(0);
-					                    var fileReader = new FileReader('file://'+newValue);
-					                    fileReader.readAsDataURL(file);
-					                    fileReader.onload=function(e){
-					                        Ext.getCmp('imageId').setSrc(e.target.result);
-					                    };
-					                }
-					            }
-			        		},
-	        				{
-				        	xtype: 'image',
-				            id: 'imageId',
-				            src: '/images/employee/' + json.msg,
-				            width: 35,
-				            height: 35	
-	        				}*/
         	}
-	    }]
+        	}*/
+       ]
     }],
 	buttons: ['->',{
         xtype: 'button',
