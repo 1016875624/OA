@@ -17,18 +17,14 @@ Ext.define('Admin.view.department.DepartmentChangeWindow', {
 	xtype:'departmentChangeWindow',
 	autoShow:true,
 	title:'部门人员管理',
-	width: 960,
+	width: 850,
     height: 550,
-    //buttonAlign:'center',
-    //labelAlign:'right',
-    //frame:true,
-
 	items:  [{	
 	        layout:'column',
 			items: [{
 					//anchor:'40%',
-					columnWidth: .4,
-					margin: '10 0 0 10',
+					columnWidth: .43,
+					margin: '10 0 0 0',
 			    	items:[{
 							xtype:"departmentcombobox",//调用部门列表下拉框
 					    	reference:'dpartmentBox',
@@ -57,34 +53,37 @@ Ext.define('Admin.view.department.DepartmentChangeWindow', {
 		    	        }]
 					},
 					{
-					columnWidth: .2,
-					margin: '200 0 0 10',
-					layout:'column',
+					columnWidth: .14,
+					margin: '200 10 0 10',
+					region:'center',
+					layout: {
+					type: 'vbox',
+					align: 'middle ',
+					pack: 'center'
+					},
 					items:	[
-							{	
-							width:90,
-			                //frame: true,
-				        	buttons:[{
-				        			iconCls: 'fa fa-arrow-left',
-				        			tooltip:'移动部门人员',
-				        			handler:'leftPull'
-					                }]
-						    },
-						    {
-					    	width:90,
-							//frame: true,
+							{
+					    	width:94,
 				        	buttons:[{
 				        			iconCls: 'fa fa-arrow-right',
 				        			tooltip:'移动部门人员',
 				        			handler:'rightPush'
+					                }]
+						    },
+							{	
+							width:94,
+				        	buttons:[{
+				        			iconCls: 'fa fa-arrow-left',
+				        			tooltip:'移动部门人员',
+				        			handler:'leftPull'
 					                }]
 						    }
 							]
 					},
 				    {
 				    //anchor:'40% 80%',
-					columnWidth: .4,
-					margin: '10 0 0 10',
+					columnWidth: .43,
+					margin: '10 0 0 0',
 			    	items:[{
 							xtype:"departmentcombobox",//调用部门列表下拉框
 					    	reference:'oDpartmentBox',

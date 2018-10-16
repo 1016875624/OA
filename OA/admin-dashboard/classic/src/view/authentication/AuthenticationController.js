@@ -18,12 +18,15 @@
                 password: btn.up("form").getForm().findField("password").getValue(),
 				code: btn.up("form").getForm().findField("code").getValue()
             },
+            //var name=Ext.getCmp('loginUserName');
             success: function(response, options) {
             	var json = Ext.util.JSON.decode(response.responseText);
 	            if(json.success){
 	            	me.redirectTo('dashboard', true);
-	            	Ext.getCmp('loginUserId').setText(json.map.userId);
-	            	
+	            	var id = Ext.getCmp('loginUserId').setText(json.map.userId);
+	            	var name = Ext.getCmp('loginUserName').setText(json.map.userId);
+	            	console.log(id);
+	            	console.log(name);
 	            	var headButton = Ext.getCmp('head_Button');
 			        console.log(json.msg);
 			        var path = '/images/employee/' + json.msg;

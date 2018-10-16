@@ -1,7 +1,6 @@
 package com.oa.employee.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -15,11 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.support.SessionAttributeStore;
-
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.SessionUtil;
 import com.oa.employee.entity.Employee;
+import com.oa.employee.entity.EmployeeDTO;
 import com.oa.employee.service.EmployeeService;
 
 
@@ -73,13 +71,14 @@ public class LoginController {
             SessionUtil.setGroupIds(session, ArrayUtils.toString(groupIds));//"groupIds"  : "admin,hrManager"
             */
             Employee employee = employeeService.findById(userId).orElse(null); 
-            
             Map<String,String> map=new HashMap<String, String>();
             map.put("userId", userId);
+            //map.put("userName", userName);
             map.put("msg", employee.getPicture());
             //map.put("loginUserImage", "imgUrl");
             session.setAttribute("userId", userId);
             session.setAttribute("userPosition", employee.getPosition());
+            //session.setAttribute("userName", employee.getName());
             ExtAjaxResponse e= new ExtAjaxResponse(true,map);
             e.setMsg(employee.getPicture());
             return e;
@@ -87,6 +86,22 @@ public class LoginController {
         	return new ExtAjaxResponse(false,"登录失败!帐号或者密码有误!请重新登录!");
         }
     }
+    @RequestMapping("/userinfo")
+    public EmployeeDTO  getUserInfo(HttpSession session) {
+    	String userId=(String)session.getAttribute("userId");
+		if(userId==null) {
+			userId="user1";
+			//跳转到登录的页面
+		}
+		Employee employee=employeeService.findById(userId).orElse(null);
+		if (employee!=null) {
+			return EmployeeDTO.entityToDto(employee);
+		}
+		else {
+			return new EmployeeDTO();
+		}
+		
+	}
     /**
      * 退出登录
      */

@@ -46,40 +46,28 @@
                 {
                 	//用户名称
                     xtype: 'tbtext',
-                    text: '用户名:Admin',
+                    text: '用户名 : '+'XXX',
                     id:'loginUserName',
-                    cls: 'top-user-name',
-                    reference: 'nameChange',
-                    listeners:{
-    					change:'nameTextChange'
-    				}
+                    cls: 'top-user-name'
+                    //reference: 'nameChange'
                 },
                 {
                 	//用户头像
-                	/*xtype : "button", 
-                	cls: 'header-right-profile-image',
-                    width : 35,  
-                    height : 35, 
-                    reference:"headButton",
-                    id:"head_Button",
-                    iconCls : 'guestManage',  
-                    handler: 'onClickGridUploadButton'*/
-                    	
                 	xtype:'image',
                     id:'head_Button',
                     cls: 'header-right-profile-image',
                     width:35,
                     height:35,
                     alt:'current user image',
-                    src: 'resources/images/user-profile/2.png',
-                    reference:"headButton",
+                    //src: 'resources/images/user-profile/default.jpg',
+                    //reference:"headButton",
                     style:{
                         borderRadius: '50%'//显示圆形图片
                     },
                     listeners:{
                     	//监听click事件
                         el:{
-                            click:'onClickGridUploadButton' //imgClick方法写在了controller中，在这里也可以直接替换成function（）{console.log('click')}
+                            click:'onClickGridUpload' //imgClick方法写在了controller中，在这里也可以直接替换成function（）{console.log('click')}
                         }
                     }         
                 },
