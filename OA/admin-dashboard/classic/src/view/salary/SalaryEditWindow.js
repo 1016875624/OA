@@ -1,7 +1,7 @@
 Ext.define('Aria.view.salary.SalaryEditWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.salaryEditWindow',
-    height: 200,
+    //height: 500,
     minHeight: 100,
     minWidth: 300,
     width: 500,
@@ -12,6 +12,7 @@ Ext.define('Aria.view.salary.SalaryEditWindow', {
     defaultFocus: 'textfield',
     modal: true,
     layout: 'fit',
+    autoShow:true,
     items: [{
         xtype: 'form',
         layout: 'form',
@@ -28,8 +29,16 @@ Ext.define('Aria.view.salary.SalaryEditWindow', {
                 xtype: 'textfield',
                 fieldLabel: '员工工号',
                 name: 'employeeid',
-                disable: true,
-            }, {
+                disabled: true,
+                readOnly: true,
+            },{
+                xtype: 'textfield',
+                fieldLabel: '员工姓名',
+                name: 'employeeName',
+                disabled: true,
+                readOnly: true,
+            },
+            {
                 xtype: 'numberfield',
                 fieldLabel: '工资',
                 name: 'sal',

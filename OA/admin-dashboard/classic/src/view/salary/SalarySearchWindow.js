@@ -1,7 +1,7 @@
 Ext.define('Aria.view.salary.SalarySearchWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.salarySearchWindow',
-    height: 200,
+    //height: 200,
     minHeight: 100,
     minWidth: 300,
     width: 500,
@@ -11,6 +11,7 @@ Ext.define('Aria.view.salary.SalarySearchWindow', {
     constrain: true,
     defaultFocus: 'textfield',
     modal: true,
+    autoShow:true,
     layout: 'fit',
     items: [{
         xtype: 'form',
@@ -65,13 +66,13 @@ Ext.define('Aria.view.salary.SalarySearchWindow', {
                 //禁止小数
                 allowDecimals:false
             }
-            , {
+           /* , {
                 xtype: 'numberfield',
                 fieldLabel: '工龄范围',
                 name: 'sufWorkMonth',
                 //禁止小数
                 allowDecimals:false
-            }
+            }*/
             , {
                 xtype: 'numberfield',
                 fieldLabel: '工龄工资范围',

@@ -90,7 +90,7 @@ public class SalaryQueryDTO {
 							"%" + salaryQueryDTO.getEmployeeid() + "%"));
 				}
 				if (StringUtils.isNoneBlank(salaryQueryDTO.getEmployeeName())) {
-					predicate.add(criteriaBuilder.like(root.get("employee").get("id").as(String.class),
+					predicate.add(criteriaBuilder.like(root.get("employee").get("name").as(String.class),
 							"%" + salaryQueryDTO.getEmployeeName() + "%"));
 				}
 				if (null != salaryQueryDTO.getId()) {
@@ -129,7 +129,7 @@ public class SalaryQueryDTO {
 						predicate.add(criteriaBuilder.between(root.get("worktimeMoney").as(Double.class), salaryQueryDTO.preWorktimeMoney, salaryQueryDTO.sufWorktimeMoney));
 					}
 					else {
-						predicate.add(criteriaBuilder.between(root.get("worktimeMoney").as(Double.class), salaryQueryDTO.preWorktimeMoney-500, salaryQueryDTO.preWorktimeMoney+500));
+						predicate.add(criteriaBuilder.between(root.get("worktimeMoney").as(Double.class), salaryQueryDTO.preWorktimeMoney-100, salaryQueryDTO.preWorktimeMoney+100));
 					}
 				}
 
@@ -139,7 +139,7 @@ public class SalaryQueryDTO {
 						predicate.add(criteriaBuilder.between(root.get("subsidy").as(Double.class), salaryQueryDTO.preSubsidy, salaryQueryDTO.sufSubsidy));
 					}
 					else {
-						predicate.add(criteriaBuilder.between(root.get("subsidy").as(Double.class), salaryQueryDTO.preSubsidy-500, salaryQueryDTO.preSubsidy+500));
+						predicate.add(criteriaBuilder.between(root.get("subsidy").as(Double.class), salaryQueryDTO.preSubsidy-5, salaryQueryDTO.preSubsidy+5));
 					}
 				}
 				Predicate[] pre = new Predicate[predicate.size()];

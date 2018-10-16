@@ -15,5 +15,6 @@ Ext.define('Admin.view.salarypay.SalarypayViewModel', {
     stores: {
 		salarypayLists: {type: 'salarypayGridStroe'},
 		departmentList:{type:'departmentLoadStroe'},
+        workOverTimeList:{type:"workOverTimeStore"},
     }
 });

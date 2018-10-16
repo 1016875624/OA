@@ -14,6 +14,6 @@ Ext.define('Admin.view.salary.SalaryViewModel', {
 
     stores: {
 		salaryLists: {type: 'salaryGridStroe'},
-		employeeList:{type:'employeeLoadStroe'}
+		//employeeList:{type:'employeeLoadStroe'}
     }
 });

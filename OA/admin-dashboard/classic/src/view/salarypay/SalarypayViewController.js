@@ -322,7 +322,18 @@ Ext.define('Admin.view.salarypay.SalarypayViewController', {
 		//box.getStore().load();
 		console.log(newValue);
 	},
-	
+
+    openWorkOverTimeWindow:function(btn){
+		win= Ext.widget("salarypayWorkOverTimeWindow");
+        btn.up('gridpanel').up('container').add(win);
+        store=Ext.data.StoreManager.lookup('workOverTimeStore');
+        grid= this.lookupReference("workOverTimePannel");
+        console.log(grid);
+        grid.setStore(store);
+        console.log(Ext.ClassManager.getName(grid));
+		win.show();
+	},
+
 	test:function(){
 		Ext.Msg.alert("test","test");
 	},
