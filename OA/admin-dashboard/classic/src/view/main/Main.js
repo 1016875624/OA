@@ -46,13 +46,10 @@
                 {
                 	//用户名称
                     xtype: 'tbtext',
-                    text: '用户名:Admin',
+                    text: '用户名 : '+'XXX',
                     id:'loginUserName',
-                    cls: 'top-user-name',
-                    reference: 'nameChange',
-                    listeners:{
-    					change:'nameTextChange'
-    				}
+                    cls: 'top-user-name'
+                    //reference: 'nameChange'
                 },
                 {
                 	//用户头像
@@ -62,8 +59,8 @@
                     width:35,
                     height:35,
                     alt:'current user image',
-                    src: 'resources/images/user-profile/default.jpg',
-                    reference:"headButton",
+                    //src: 'resources/images/user-profile/default.jpg',
+                    //reference:"headButton",
                     style:{
                         borderRadius: '50%'//显示圆形图片
                     },
