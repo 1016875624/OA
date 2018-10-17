@@ -24,9 +24,8 @@
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'id',text: '员工编号',flex: 1},
                 {xtype: 'gridcolumn',width: 75,dataIndex: 'picture',text: '用户',
                     renderer: function(value) {
-                        //return "<img src='resources/images/user-profile/wechat.jpg" + "' alt='Profile Pic' height='20px' width='20px'>";
-                    	
                     	return "<img src='/images/employee/'" + value + "height='20px' width='20px'>";
+                    	//return "<img src='localhost:8080/static/images/employee/'" + value + "height='20px' width='20px'>";
                     }
                 },
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'name',text: '员工姓名',flex: 1},

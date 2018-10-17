@@ -12,6 +12,7 @@ import org.springframework.lang.Nullable;
 
 import com.oa.salary.entity.SalaryPay;
 import com.oa.salary.entity.SalaryPayDTO;
+import com.oa.salary.entity.WorkOverTime;
 
 
 
@@ -59,6 +60,13 @@ public interface ISalaryPayService {
 	*/
 	Integer countWorkHoursThisMonth();
 	
+	
+	/**
+	* <p>方法名称: countWorkHoursThisMonth</p>
+	* <p>描述：计算上个月的工作小时数</p>
+	* @return Integer 返回类型
+	*/
+	Integer countWorkHoursLastMonth();
 	
 	public SalaryPay save(SalaryPay entity);
 
@@ -132,5 +140,37 @@ public interface ISalaryPayService {
 	* void 返回类型
 	*/
 	void salaryPaying();
+	
+	/**
+	* <p>方法名称: workOverTimeEmployees</p>
+	* <p>描述：查询时间范围内的所有加班员工的加班时间</p>
+	* @param start 开始时间
+	* @param end 结束时间
+	* @return List<WorkOverTime> 返回类型
+	*/
+	List<WorkOverTime> workOverTimeEmployees(Date start,Date end);
+	/**
+	* <p>方法名称: workOverTimeEmployees</p>
+	* <p>描述：按部门查询时间范围内的所有加班员工的加班时间</p>
+	* @param departmentid 部门id
+	* @param start 开始时间
+	* @param end 结束时间
+	* @return List<WorkOverTime> 返回类型
+	*/
+	List<WorkOverTime> workOverTimeEmployees(String departmentid,Date start,Date end);
+	
+	/**
+	* <p>方法名称: workOverTimeEmployeesInMonth</p>
+	* <p>描述：计算上个月的员工所有加班时间</p>
+	* @return List<WorkOverTime> 返回类型
+	*/
+	List<WorkOverTime> workOverTimeEmployeesInMonth();
+	/**
+	* <p>方法名称: workOverTimeEmployeesInMonth</p>
+	* <p>描述：按部门计算上个月所有员工 的加班时间</p>
+	* @param departmentid 部门id
+	* @return List<WorkOverTime> 返回类型
+	*/
+	List<WorkOverTime> workOverTimeEmployeesInMonth(String departmentid);
 }
 

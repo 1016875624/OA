@@ -220,4 +220,24 @@ public abstract class DateUtils {
 	public static Date parseTime(String dateText) throws ParseException {
 		return FastDateFormat.getInstance("HH:mm:ss").parse(dateText);
 	}
+	
+	/**
+	* <p>方法名称: getLastMonthStart</p>
+	* <p>描述：获取上月开始时间</p>
+	* @return Date 返回类型
+	*/
+	public static Date getLastMonthStart() {
+		Date lastMonthStart=DateUtils.toDate(DateUtils.toLocalDate(DateUtils.getToMonthStart()).minusMonths(1));
+		return lastMonthStart;
+	}
+	
+	/**
+	* <p>方法名称: getLastMonthEnd</p>
+	* <p>描述：获取上月结束时间</p>
+	* @return Date 返回类型
+	*/
+	public static Date getLastMonthEnd() {
+		Date lastMonthEnd=DateUtils.toDate(DateUtils.toLocalDate(getLastMonthStart()).plusMonths(1).minusDays(1));
+		return lastMonthEnd;
+	}
 }

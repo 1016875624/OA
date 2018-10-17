@@ -77,7 +77,7 @@
 		store.load({params:{start:0, limit:20, page:1}});
 	},
 	submitSearchForm:function(btn){
-		var store =	Ext.data.StoreManager.lookup('salaryStroe');
+		var store =	Ext.data.StoreManager.lookup('salaryGridStroe');
 		var win = btn.up('window');
 		var form = win.down('form');
 		var values  = form.getValues();
@@ -119,7 +119,7 @@
                         selectIds.push(row.data.id);
                     });
                   	Ext.Ajax.request({ 
-						url : '/salary/deletes', 
+						url : 'http://localhost:8080/salary/deletes',
 						method : 'post', 
 						params : { 
 							//ids[] :selectIds

@@ -81,7 +81,7 @@ public class OfficeResourceService implements IOfficeResourceService {
 		List<OfficeResource> officeResources= page.getContent();
 		List<OfficeResourceDTO> officeResourceDTOs=new ArrayList<>();
 		for (OfficeResource officeResource : officeResources) {
-			officeResourceDTOs.add(entityToDTO(officeResource));
+			officeResourceDTOs.add(OfficeResourceDTO.entityToDTO(officeResource));
 		}
 		return new PageImpl<>(officeResourceDTOs, pageable, page.getTotalElements());
 	}

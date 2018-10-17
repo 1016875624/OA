@@ -8,9 +8,7 @@ Ext.define('Admin.view.main.UploadWindow', {
         'Ext.form.field.File',
         'Ext.form.field.HtmlEditor'
     ],
-    height: 180,
-    minHeight: 100,
-    minWidth: 300,
+    height: 500,
     width: 500,
     scrollable: true,
     title: 'Upload Window',
@@ -18,52 +16,84 @@ Ext.define('Admin.view.main.UploadWindow', {
     constrain: true,
     defaultFocus: 'textfield',
     modal:true,
-    layout: 'fit',
+    layout: {
+    	align: 'middle',
+    	pack: 'center',
+    	type: 'vbox'
+    },
     items: [{
         xtype: 'form',
-        layout: 'form',
+        id: 'upload-form',
+        layout: {
+        	align: 'middle',
+        	pack: 'center',
+        	type: 'vbox'
+        },
         padding: '10px',
         items: [
-        		{
-                id: 'File',
-                name: 'File',
-                inputType: "file",
-                fieldLabel: '上传图片',
-                xtype: 'textfield',
-                anchor: '40%',
-                allowBlank: false,
-                listeners: {
+        		/*{
+        		id: 'File',
+        		xtype: 'filefield',
+		        width: 300,
+		        labelWidth: 80,
+		        name:'file',
+		        emptyText: 'Select a photo!', 
+		        //fieldLabel: '上传文件:',
+		        labelSeparator: '',
+		        listeners: {
                     'render': 'previewImage'
-                	}
+                	},
+		        buttonConfig: {
+		            xtype: 'filebutton',
+		            glyph:'',
+		            iconCls: 'x-fa fa-upload',
+		            text: 'Browse'
+		        	}
+	            },*/
+	           /* {
+	            id: 'File',
+	            name: 'File',
+	            inputType: "file",
+	            fieldLabel: '上传头像',
+	            xtype: 'textfield',
+	            anchor: '40%',
+	            allowBlank: false,
+	            listeners: {
+	            	//监听事件
+	                'render': 'previewImage'
+	            	}
 	            },
 	            {
-                xtype: 'box', //或者xtype: 'component',
-                //width: '100%', //图片宽度
-                //height: 200, //图片高度
+                xtype: 'box', 
+                width: 300, //图片宽度
+                height: 300, //图片高度
                 fieldLabel: "预览图片",
                 id: 'browseImage',
                 autoEl: {
                     tag: 'img',    //指定为img标签
-                    src: 'resources/images/user-profile/1.jpg',
+                    src: 'resources/images/user-profile/default.jpg',
                     id: 'imageBrowse'
+                }*/
+        		{
+                xtype: 'filefield',
+                id: 'upload',
+                fieldLabel: "上传头像",
+                emptyText : '选择图片存放路径',
+                buttonText:'浏览...',
+                width: '100%',
+                name: 'photo',
+                listeners : {
+                    'render' : 'previewImage'
                 }
-            }
-        	/*{
-        	xtype: 'filefield',
-	        width: 400,
-	        labelWidth: 80,
-	        name:'file',
-	        emptyText: 'Select an png/jpg file!', 
-	        fieldLabel: '上传头像:',
-	        labelSeparator: '',
-	        buttonConfig: {
-				            xtype: 'filebutton',
-				            glyph:'',
-				            iconCls: 'x-fa fa-upload',
-				            text: 'Browse'
-        	}
-        	}*/
-       ]
+        		},{
+                xtype: 'image',
+                id: 'imageId',
+                alt:'preview image',
+                src: 'resources/images/user-profile/default.jpg',
+                width: 300, //图片宽度
+                height: 300, //图片高度
+        		}
+        		]
     }],
 	buttons: ['->',{
         xtype: 'button',

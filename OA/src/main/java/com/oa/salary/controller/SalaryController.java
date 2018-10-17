@@ -1,6 +1,5 @@
 package com.oa.salary.controller;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.oa.common.beans.BeanUtils;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.ExtjsPageRequest;
 import com.oa.salary.entity.Salary;
@@ -86,8 +86,7 @@ public class SalaryController {
 	@PostMapping
 	public ExtAjaxResponse save(@RequestBody SalaryDTO salaryDTO) {
 		try {
-			Salary salary = new Salary();
-			BeanUtils.copyProperties(salaryDTO, salary);
+			Salary salary = SalaryDTO.DtoToEntity(salaryDTO);
 			salaryService.save(salary);
 			return new ExtAjaxResponse(true, "保存成功!");
 		} catch (Exception e) {

@@ -3,7 +3,7 @@
 	storeId:'salaryGridStroe',//为了方便写事件可以找到OrderGridStore组件
 	alias: 'store.salaryGridStroe',
 	model:'Admin.model.salary.SalaryModel',
-	proxy: {
+	/*proxy: {
 		type: 'rest',
 		url: 'http://localhost:8080/salary',
 		reader:{
@@ -15,11 +15,11 @@
 			type: 'json'
 		},
 		simpleSortMode: true	//简单排序模式
-	},
+	},*/
 	autoLoad: true,
 	autoSync: true,
 	remoteSort: true,//全局(远程)排序
-	pageSize: 20,
+	pageSize: 10,
 	sorters: {
 		direction: 'DESC',property: 'id'
 	}

@@ -7,6 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -33,6 +34,7 @@ public class Salary {
 	 * @Fields employee : 员工
 	 */
 	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(unique=true)
 	private Employee employee;
 	/**
 	 * @Fields sal : 基本工资

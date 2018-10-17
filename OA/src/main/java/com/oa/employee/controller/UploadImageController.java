@@ -20,7 +20,7 @@ import com.oa.employee.service.EmployeeService;
 
 
 @Controller
-@RequestMapping("/uploadImageController")
+@RequestMapping("/uploadImage")
 public class UploadImageController {
 	@Autowired
 	private EmployeeService employeeService;
@@ -28,10 +28,13 @@ public class UploadImageController {
 	@RequestMapping("/fileupload")
 	@ResponseBody
 	public ExtAjaxResponse name(MultipartFile file,HttpSession session) {
+		//获取登录时在session中保存的用户id
 		String userId=(String)session.getAttribute("userId");
 		if(userId==null) {
 			userId="user1";
+			//跳转到登录的页面
 		}
+		//
 		Employee entity= employeeService.findById(userId).orElse(null);
 		File temp=new File("");
 		String projectPath=temp.getAbsolutePath();

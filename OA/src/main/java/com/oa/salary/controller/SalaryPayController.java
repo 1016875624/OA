@@ -2,6 +2,15 @@ package com.oa.salary.controller;
 
 
 
+import java.time.temporal.TemporalAmount;
+import java.time.temporal.TemporalUnit;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,15 +20,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.oa.common.date.utils.DateUtils;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.ExtjsPageRequest;
 import com.oa.department.entity.DepartmentQueryDTO;
 import com.oa.salary.entity.SalaryPay;
 import com.oa.salary.entity.SalaryPayDTO;
 import com.oa.salary.entity.SalaryPayQueryDTO;
+import com.oa.salary.entity.WorkOverTime;
+import com.oa.salary.entity.WorkOverTimeQueryDTO;
 import com.oa.salary.service.ISalaryPayService;
 
 
@@ -30,11 +42,69 @@ public class SalaryPayController {
 	@Autowired
 	private ISalaryPayService salaryPayService;
 	
+	@Autowired
+	private EntityManager entityManager;
+	
 	@GetMapping
 	public Page<SalaryPayDTO> getPage(SalaryPayQueryDTO salaryPayQueryDTO,ExtjsPageRequest extjsPageRequest){
 		System.out.println(salaryPayQueryDTO);
 		//return salaryPayService.findAll(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
 		return salaryPayService.findAllInDTO(salaryPayQueryDTO.getWhereClause(salaryPayQueryDTO), extjsPageRequest.getPageable());
+	}
+	
+	@RequestMapping("/workovertime")
+	public List<WorkOverTime> workOverTimes(WorkOverTimeQueryDTO workOverTimeQueryDTO) {
+		String departmentid=workOverTimeQueryDTO.getDepartmentid();
+		Date start=workOverTimeQueryDTO.getStart();
+		Date end=workOverTimeQueryDTO.getEnd();
+		
+		if (StringUtils.isNotBlank(departmentid)) {
+			if (start!=null) {
+				if (end!=null) {
+					return entityManager.createNamedQuery("getWorkOverTimesWithDepartment", WorkOverTime.class).setParameter("departmentid", departmentid)
+					.setParameter("start", start).setParameter("end", end).getResultList();
+					//return salaryPayService.workOverTimeEmployees(departmentid, start, end);
+				}
+				else {
+					end=DateUtils.toDate(DateUtils.toLocalDate(start).plusDays(1));
+					return entityManager.createNamedQuery("getWorkOverTimesWithDepartment", WorkOverTime.class).setParameter("departmentid", departmentid)
+							.setParameter("start", start).setParameter("end", end).getResultList();
+					//return salaryPayService.workOverTimeEmployees(departmentid, start, end);
+				}
+			}
+			else if (end!=null) {
+				start=DateUtils.toDate(DateUtils.toLocalDate(end).plusDays(1));
+				//return salaryPayService.workOverTimeEmployees(departmentid, end, start);
+				return entityManager.createNamedQuery("getWorkOverTimesWithDepartment", WorkOverTime.class).setParameter("departmentid", departmentid)
+						.setParameter("start", end).setParameter("end", start).getResultList();
+			}
+		}else {
+			if (start!=null) {
+				if (end!=null) {
+					return entityManager.createNamedQuery("getWorkOverTimes", WorkOverTime.class)
+							.setParameter("start", start).setParameter("end", end).getResultList();
+					//return salaryPayService.workOverTimeEmployees(start, end);
+				}
+				else {
+					end=DateUtils.toDate(DateUtils.toLocalDate(start).plusDays(1));
+					//return salaryPayService.workOverTimeEmployees(start, end);
+					
+					return entityManager.createNamedQuery("getWorkOverTimes", WorkOverTime.class)
+							.setParameter("start", start).setParameter("end", end).getResultList();
+				}
+			}
+			else if (end!=null) {
+				start=DateUtils.toDate(DateUtils.toLocalDate(end).plusDays(1));
+				//return salaryPayService.workOverTimeEmployees(end, start);
+				return entityManager.createNamedQuery("getWorkOverTimes", WorkOverTime.class)
+						.setParameter("start", end).setParameter("end", start).getResultList();
+			}
+		}
+		
+		
+		return entityManager.createNamedQuery("getWorkOverTimes")
+				.setParameter("start", DateUtils.getLastMonthStart()).setParameter("end", DateUtils.getLastMonthEnd()).getResultList();
+		
 	}
 	
 	@PostMapping

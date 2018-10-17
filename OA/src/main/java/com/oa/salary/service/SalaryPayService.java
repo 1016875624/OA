@@ -28,6 +28,7 @@ import com.oa.employee.service.IEmployeeService;
 import com.oa.salary.entity.Salary;
 import com.oa.salary.entity.SalaryPay;
 import com.oa.salary.entity.SalaryPayDTO;
+import com.oa.salary.entity.WorkOverTime;
 import com.oa.salary.repository.ISalaryRepository;
 import com.oa.salary.repository.SalaryPayRepository;
 import com.oa.worktime.service.IWorkTimeService;
@@ -337,8 +338,14 @@ public class SalaryPayService implements ISalaryPayService {
 		if (salary.getEmployee()==null) {
 			return null;
 		}
-		Date monthStart=DateUtils.getToMonthStart();
-		Date monthEnd=DateUtils.getToMonthEnd();
+		Date lastMonthStart=DateUtils.toDate(DateUtils.toLocalDate(DateUtils.getToMonthStart()).minusMonths(1));
+		Date lastMonthEnd=DateUtils.toDate(DateUtils.toLocalDate(lastMonthStart).plusMonths(1).minusDays(1));
+//		Date monthStart=DateUtils.getToMonthStart();
+//		Date monthEnd=DateUtils.getToMonthEnd();
+		//发工资应该发的是上个月的工资
+		Date monthStart=lastMonthStart;
+		Date monthEnd=lastMonthEnd;
+		
 		salaryPay.setDate(DateUtils.getToday());
 		salaryPay.setMoney(countSalary(salary.getId()));
 		salaryPay.setAttendRate(salaryPayRepository.countAttendence(salary.getEmployee().getId(), monthStart, monthEnd));
@@ -376,6 +383,39 @@ public class SalaryPayService implements ISalaryPayService {
 			page++; 
 		}
 		
+	}
+
+	@Override
+	public List<WorkOverTime> workOverTimeEmployees(Date start, Date end) {
+		
+		return salaryPayRepository.workOverTimeEmployees(start, end);
+	}
+
+	@Override
+	public List<WorkOverTime> workOverTimeEmployees(String departmentid, Date start, Date end) {
+		return salaryPayRepository.workOverTimeEmployees(departmentid, start, end);
+	}
+
+	@Override
+	public List<WorkOverTime> workOverTimeEmployeesInMonth() {
+		Date lastMonthStart=DateUtils.toDate(DateUtils.toLocalDate(DateUtils.getToMonthStart()).minusMonths(1));
+		Date lastMonthEnd=DateUtils.toDate(DateUtils.toLocalDate(lastMonthStart).plusMonths(1).minusDays(1));
+		
+		return salaryPayRepository.workOverTimeEmployees(lastMonthStart, lastMonthEnd);
+	}
+
+	@Override
+	public List<WorkOverTime> workOverTimeEmployeesInMonth(String departmentid) {
+		Date lastMonthStart=DateUtils.toDate(DateUtils.toLocalDate(DateUtils.getToMonthStart()).minusMonths(1));
+		Date lastMonthEnd=DateUtils.toDate(DateUtils.toLocalDate(lastMonthStart).plusMonths(1).minusDays(1));
+		return salaryPayRepository.workOverTimeEmployees(departmentid,lastMonthStart, lastMonthEnd);
+	}
+
+	@Override
+	public Integer countWorkHoursLastMonth() {
+		Date lastMonthStart=DateUtils.toDate(DateUtils.toLocalDate(DateUtils.getToMonthStart()).minusMonths(1));
+		Date lastMonthEnd=DateUtils.toDate(DateUtils.toLocalDate(lastMonthStart).plusMonths(1).minusDays(1));
+		return salaryPayRepository.countWorkHours(lastMonthStart, lastMonthEnd);
 	}
 	
 	

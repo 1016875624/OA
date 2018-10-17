@@ -1,7 +1,6 @@
-Ext.define('Admin.view.salary.SalaryViewModel', {
+﻿Ext.define('Admin.view.officeResource.OfficeResourceViewModel', {
     extend: 'Ext.app.ViewModel',
-    alias: 'viewmodel.salaryViewModel',
-
+    alias: 'viewmodel.officeResourceViewModel',
     requires: [
         'Ext.data.Store',
         'Ext.data.proxy.Memory',
@@ -11,9 +10,7 @@ Ext.define('Admin.view.salary.SalaryViewModel', {
         'Ext.data.field.Boolean',
         'Ext.data.reader.Json'
     ],
-
     stores: {
-		salaryLists: {type: 'salaryGridStroe'},
-		//employeeList:{type:'employeeLoadStroe'}
+        officeResourceLists: {type: 'officeResourceStore'}
     }
 });
