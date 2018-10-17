@@ -157,6 +157,8 @@
 			});
 		}*/
     },
+    
+    //注销功能
     logoutButton: function(){
 		var me = this;
         Ext.Ajax.request({
@@ -181,15 +183,6 @@
     
     // 预览图片
     previewImage: function () {
-    	/*var furl = Ext.getCmp('upload-form').form.findField('photo').getValue();  
-	    var type = furl.substring(furl.length - 3).toLowerCase();  
-	    if (furl == "" || furl == null) {  
-	        return;  
-	    }  
-	    if (type != 'jpg' && type != 'bmp' && type != 'gif' && type != 'png') {  
-	        alert('仅支持jpg、bmp、gif、png格式的图片');  
-	        return;  
-	    },*/
     	Ext.getCmp('upload').on('change',function(field, newValue, oldValue) {
             var file = field.fileInputEl.dom.files.item(0);
             var fileReader = new FileReader('file://'+newValue);
@@ -199,42 +192,11 @@
             }
         });
     },
-    /*
-    // 预览图片
-    previewImage: function () {
-        console.log('读取照片');
-        var path = '/images/employee/' + "1.jpg";
-        var me = this;
-        Ext.Ajax.request({
-            url: 'http://localhost:8080/userinfo',
-            method: 'get',
-            success: function(response, options) {
-            	var json = Ext.util.JSON.decode(response.responseText);
-	            path=json.picture;
-            }
-        });
-        Ext.getCmp('File').on('change', function (field, newValue, oldValue) {//上传图片的控件对象,刚刚选择的图片仿真路径，上次选择的图片仿真路径
-            console.log(newValue);
-            var show = Ext.getCmp('browseImage');
-            console.log(show);
-            //获取选择文件的路径信息, 将路径绑定到显示图片的box内加载
-            var obj = Ext.getCmp('File').inputEl.dom.files;
-            console.log(Ext.getCmp('File'));
-            console.log(obj);
-            var temp=Ext.clone(obj[0]);
-            console.log(temp);
-            console.log(obj[0]);
-            var imgurl = window.URL.createObjectURL(temp);
-            console.log(imgurl)
-            Ext.getCmp('browseImage').getEl().dom.src = imgurl;
-        }, this);
-        
-    },*/
     
     //头像上传功能
 	onClickUploadFormSumbitButton: function (btn) {
 		var form=btn.up("window").down("form").getForm();
-		//Ext.getCmp('upload-form').submit({
+		var win=btn.up("window");
 		form.submit({
 				//type:'ajax',
 				//method:"post",
@@ -246,34 +208,29 @@
 					console.log(action.result.msg);
 					json = action.result;
 				    if (json.success) {
-				      Ext.Msg.alert('成功', '上传成功.');
-				      var headButton = Ext.getCmp('head_Button');
+				      Ext.Msg.alert('成功', '上传成功.',function(){
+				    	  win.close();
+				      });
+				      var headIcon = Ext.getCmp('head_Icon');
 				      console.log(json.msg);
 				      var path = '/images/employee/' + json.msg;
-				      headButton.setIcon(path);
+				      headIcon.setSrc(path);
+				      //headIcon.setIcon(path);
 				      console.log(path);
 				    } else {
 				      Ext.Msg.alert('失败', '上传失败.');
 				    }
 				},
-				failure: function(resp){ 
-					console.log(resp);
-					console.log(resp.responseText);
-					msg=Ext.decode(resp.responseText);
-					if(msg.success){
-						Ext.Msg.alert('成功','上传成功.'); 
-					}
-					else{
-						Ext.Msg.alert('失败', '上传失败.'); 
-					}
+				failure: function(form,action){ 
+					Ext.Msg.alert('失败', '上传失败,请重新上传.');
 				} 
 		});
     },
     init:function(){
     	/*console.log("init");
-    	var headButton = Ext.getCmp('head_Button');
+    	var headIcon = Ext.getCmp('head_Icon');
 	    var path = 'http://localhost:8080/images/employee/1.jpg';
-	    headButton.setIcon(path);*/
+	    headIcon.setIcon(path);*/
     }
     /*getWebSocket:function(){
         websocket = new WebSocket(encodeURI('ws://localhost:8080/Chat/message'));

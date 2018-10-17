@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
@@ -148,7 +149,19 @@ public class WorkTimeController {
 	public List<WorkTimeDTO> savemore(WorkTimeDTO workTimeDTO)  
 	{	
 		try {
-			return workTimeService.savemore(workTimeDTO);
+//			return workTimeService.savemore(workTimeDTO);
+			List<WorkTimeDTO>a= workTimeService.savemore(workTimeDTO);
+			for (WorkTimeDTO object : a) {
+				Random random=new Random(System.currentTimeMillis());
+				int temp=0;
+				if(object.getIfholiday()==0) {
+					temp=random.nextInt(4)+6;
+					object.setHour(temp);
+				}
+				
+			}
+			return a;
+			
 		} catch (Exception e) {
 			return null;
 		}

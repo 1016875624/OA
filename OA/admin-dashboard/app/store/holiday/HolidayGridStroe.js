@@ -23,7 +23,7 @@
 		reader:{
 			type:'json',
 			//rootProperty:'lists',//对应当前date返回的结果集名称
-			//totalProperty: 'totalElements'//分页需要知道总记录数
+			totalProperty: 'totalElements'//分页需要知道总记录数
 		},
 		writer: {
 			type: 'json'
@@ -33,7 +33,8 @@
 	asynchronousLoad:false,
 	autoLoad:false,
 	autoSync: false,
-	remoteSort: true,//全局(远程)排序
+	autoSort:true,
+	//remoteSort: true,//全局(远程)排序
 	pageSize: 15,
 	sorters: {
 		direction: 'DESC',property: 'id'

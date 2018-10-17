@@ -1,4 +1,4 @@
-Ext.define('Admin.view.question.QuestionViewModel', {
+Ext.define('Admin.view.question.QuestionGridPanel', {
     extend: 'Ext.panel.Panel',
     xtype: 'questionGridPanel',
     requires: [
@@ -47,7 +47,7 @@ Ext.define('Admin.view.question.QuestionViewModel', {
 			            	console.log(111);
 			            	var rec = btn.getWidgetRecord();
 			            	//或者bind:'{record.realanswer}'
-			            	var str=rec.get("realanswer")
+			            	var str=rec.get("realanswer");
 			            	console.log(str);
 			            	
 			            	if(rec.get("type")=="0"){
