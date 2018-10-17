@@ -63,9 +63,26 @@
 			},{
 				text: '办公资源模块',
                 iconCls: 'x-fa fa-address-card',
-                //rowCls: 'nav-tree-badge nav-tree-badge-new',
-                viewType: 'officeResourceCenterPanel',
-                leaf: true
+                expanded: false,
+                selectable: false,
+                children:[
+					{
+						text: '办公资源',
+						iconCls: 'x-fa fa-address-card',
+						viewType: 'officeResourceCenterPanel',
+						leaf: true
+					},{
+						text: '员工资源',
+						iconCls: 'x-fa fa-address-card',
+						viewType: 'employeeResourceCenterPanel',
+						leaf: true
+					},{
+						text: '员工交易资源',
+						iconCls: 'x-fa fa-address-card',
+						viewType: 'employeeResourceTradeCenterPanel',
+						leaf: true
+					}
+				]
 			},{
                 text: 'Login',
                 iconCls: 'x-fa fa-check',
