@@ -440,7 +440,10 @@ public class WorkTimeService implements IWorkTimeService {
 				if(holidayTime.getIfholiday()==1||holidayTime.getIfholiday()==2) {//如果是周六日或者节假日
 					workTimedto.setEmployeeid(employee.getId());
 					workTimedto.setEmployeeName(employee.getName());
-					workTimedto.setDepartmentName(employee.getDepartment().getName());
+					if(employee.getDepartment()!=null) {
+						workTimedto.setDepartmentName(employee.getDepartment().getName());
+					}
+					
 					workTimedto.setDate(holidayTime.getDate());
 					workTimedto.setIfholiday(holidayTime.getIfholiday());
 					workTimedto.setHour(0);
@@ -451,7 +454,9 @@ public class WorkTimeService implements IWorkTimeService {
 					
 					workTimedto.setEmployeeid(employee.getId());
 					workTimedto.setEmployeeName(employee.getName());
-					workTimedto.setDepartmentName(employee.getDepartment().getName());
+					if(employee.getDepartment()!=null) {
+						workTimedto.setDepartmentName(employee.getDepartment().getName());
+					}
 					workTimedto.setDate(holidayTime.getDate());
 					workTimedto.setIfholiday(holidayTime.getIfholiday());
 					workTimedto.setHour(workTimeDTO.getHour());

@@ -1,11 +1,11 @@
-﻿Ext.define('Admin.store.workTime.WorkTimeGridStroe', {
+﻿Ext.define('Admin.store.employeeResource.EmployeeResourceTradeStore', {
 	extend: 'Ext.data.Store',
-	storeId:'workTimeGridStroe',
-	alias: 'store.workTimeGridStroe',
-	model:'Admin.model.workTime.WorkTimeModel',
+	storeId:'employeeResourceTradeStore',
+	alias: 'store.employeeResourceTradeStore',
+	model:'Admin.model.employeeResource.EmployeeResourceModel',
 	proxy: {
 		type: 'rest',
-		url: 'http://localhost:8080/workTime',
+		url: '/employeeResource/sellAndBuy',
 		reader:{
 			type:'json',
 			rootProperty:'content',//对应后台返回的结果集名称
@@ -22,5 +22,6 @@
 	pageSize: 15,
 	sorters: {
 		direction: 'DESC',property: 'id'
-	}
+	},
+	listeners: {}
 });
