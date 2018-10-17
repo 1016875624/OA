@@ -1,18 +1,13 @@
 Ext.define('Admin.model.testPaper.TestPaperModel', {
     extend: 'Admin.model.Base',
-    requires: [
-		'Ext.data.proxy.Rest'
-	],
     fields: [
 	    {type: 'int',name: 'id'},
-		{type: 'string',name: 'textQuestion'},
-		{type: 'string',name: 'realanswer'},
-		{type: 'string',name: 'answers'},
-	    {type: 'int', name: 'type'},
+		{type: 'string',name: 'questionList'},
+		{type: 'string',name: 'employeeid'},
+	    {type: 'int', name: 'score'},
 	    {type: 'int', name: 'status'},
-	],
-	proxy: {
-		type: 'rest',
-		url: 'http://localhost:8080/textquestion',
-	}
+	    {type: 'date',name: 'startTime',dateFormat:'Y/m/d H:i:s'},
+	    {type: 'date',name: 'endTime',dateFormat:'Y/m/d H:i:s'},
+	]
+	
 });

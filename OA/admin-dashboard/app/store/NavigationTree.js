@@ -114,7 +114,7 @@
                    {
                        text:'考试',
                        iconCls: 'x-fa fa-address-card',
-                       viewType: 'testPaper',
+                       viewType: 'testPaperCenterPanel',
                        leaf: true
                    }
                ]

@@ -91,7 +91,7 @@ public class HolidayTimeService implements IHolidayTimeService {
 			cStart.add(Calendar.DAY_OF_MONTH, 1);
 			 dateList.add(cStart.getTime());
 		}
-		dateList.add(endTime);
+		//dateList.add(endTime);
 		HolidayTime holidayTime=new HolidayTime();
 		List<HolidayTime> holidayTimes=new ArrayList<HolidayTime>();
 		for (Date date : dateList) {

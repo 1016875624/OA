@@ -377,11 +377,13 @@ public class WorkTimeService implements IWorkTimeService {
 	@Override
 	public List<WorkTimeDTO> savemore(WorkTimeDTO workTimeDTO) throws IOException {
 		Employee employee=employeeService.findById(workTimeDTO.getEmployeeid()).orElse(null);
+		//System.out.println("员工为： "+employee);
 		//查出时间范围内的节假日，周六日，工作日
-		System.out.println("11"+workTimeDTO.getEndDate());
+		//System.out.println("11"+workTimeDTO.getEndDate());
 		List<HolidayTime> holidayTimes=holidayTimeService.checkDateHoliday(workTimeDTO.getStartDate(),workTimeDTO.getEndDate());
 		//查出请假时段在填报工时时间重叠的
 		List<Leave> leaves=leaveRepository.findLeaveTime(workTimeDTO.getEmployeeid(), workTimeDTO.getStartDate(),workTimeDTO.getEndDate());
+		//System.out.println("请假时间为： "+leaves);
 		Set<Date> dates=new HashSet<>();
 		for (Leave leave : leaves) {
 			//请假开始时间在填报工时开始时间和结束时间范围内
@@ -424,12 +426,16 @@ public class WorkTimeService implements IWorkTimeService {
 			
 		}
 		List<WorkTimeDTO> workTimeDTOs=new ArrayList<>();
-		
+		//System.out.println("how many:"+holidayTimes.size());
+//		for (HolidayTime holidayTime11 : holidayTimes) {
+//			System.out.println(holidayTime11);
+//		}
 		for (HolidayTime holidayTime : holidayTimes) {
 			
 			WorkTimeDTO workTimedto=new WorkTimeDTO();
 			//判断是否存在工时
 			WorkTime workTime=workTimeRepository.checkIfWorkTime(workTimeDTO.getEmployeeid(), holidayTime.getDate());
+			//System.out.println("是否存在工时："+workTime);
 			if(workTime==null) {
 				if(holidayTime.getIfholiday()==1||holidayTime.getIfholiday()==2) {//如果是周六日或者节假日
 					workTimedto.setEmployeeid(employee.getId());
@@ -440,6 +446,7 @@ public class WorkTimeService implements IWorkTimeService {
 					workTimedto.setHour(0);
 					workTimedto.setStatus(0);
 					workTimeDTOs.add(workTimedto);
+					//System.out.println("节假日工时："+workTimeDTO);
 				}else if(holidayTime.getIfholiday()==0) {
 					
 					workTimedto.setEmployeeid(employee.getId());
@@ -450,6 +457,7 @@ public class WorkTimeService implements IWorkTimeService {
 					workTimedto.setHour(workTimeDTO.getHour());
 					workTimedto.setStatus(0);
 					workTimeDTOs.add(workTimedto);
+					//System.out.println("工作日工时："+workTimeDTO);
 				}
 			}
 			
@@ -472,6 +480,10 @@ public class WorkTimeService implements IWorkTimeService {
 			dates.remove(date);
 			date=null;
 		}
+		//System.out.println("总共有多少条： "+workTimeDTOs.size());
+		//for (WorkTimeDTO workTimeDTO2 : workTimeDTOs) {
+		//	System.out.println("how many: "+workTimeDTO2);
+		//}
 		return workTimeDTOs;
 	}
 

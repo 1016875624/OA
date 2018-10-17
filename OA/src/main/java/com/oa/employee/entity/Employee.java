@@ -62,6 +62,9 @@ public class Employee {
 	@DateTimeFormat(pattern="yyyy/MM/dd")
 	private Date entryTime;
 	
+	/**
+	* @Fields entryTime : 头像
+	*/
 	@Column(name="PICTURE_ID_")
 	private String picture;
 	

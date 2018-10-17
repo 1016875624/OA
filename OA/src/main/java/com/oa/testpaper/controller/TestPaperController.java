@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.oa.common.web.SessionUtil;
 import com.oa.employee.entity.Employee;
@@ -19,7 +20,7 @@ import com.oa.testpaper.entity.TestPaper;
 import com.oa.testpaper.entity.TestPaperDTO;
 import com.oa.testpaper.service.ITestPaperService;
 
-@Controller
+@RestController
 @RequestMapping("/testPaper")
 public class TestPaperController {
 	@Autowired
