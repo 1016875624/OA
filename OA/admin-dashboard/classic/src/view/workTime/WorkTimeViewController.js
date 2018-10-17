@@ -281,7 +281,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		    title: '工时:(根据自己实际情况填写工时)',
 		    layout: 'border',
 		    width: 800,
-		    height: 500,
+		    height: 550,
 		    modal:true,
 		    closeAction: 'hide',
 		    plain: true,
@@ -297,6 +297,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 //		        		var value = record.get('ifholiday'); 
 //		        	});
 		        	var record=store.getAt(1);
+		        	console.log(store.getData());
 		        	//var data=record.getData();
 		        	console.log(record);
 		        	console.log(record.getData());
@@ -310,6 +311,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		        		//temp.id=null;
 		        		records.push(temp); 
 		        	}); 
+		        	console.log(records);
 		        	Ext.Ajax.request({ 
 						url : 'http://localhost:8080/workTime/forApproval', 
 						method : 'post', 
