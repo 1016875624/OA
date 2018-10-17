@@ -36,7 +36,7 @@
 			,{header: '拥有者',dataIndex: 'employeeId',width: 160,sortable: true}
 			,{xtype: 'actioncolumn',cls: 'content-column', width: 180,text: '操作',tooltip: 'edit',
 				items: [
-					{xtype: 'button', iconCls: 'x-fa fa-commenting-o',
+					{xtype: 'button', iconCls: 'x-fa fa-commenting-o',tooltip: '交易',
 						getClass: function(v, meta, rec) {
 		                    if (rec.get('status')!=1) {
 		                        return 'x-hidden';
