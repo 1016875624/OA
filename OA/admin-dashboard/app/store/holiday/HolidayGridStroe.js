@@ -23,7 +23,7 @@
 		reader:{
 			type:'json',
 			//rootProperty:'lists',//对应当前date返回的结果集名称
-			//totalProperty: 'totalElements'//分页需要知道总记录数
+			totalProperty: 'totalElements'//分页需要知道总记录数
 		},
 		writer: {
 			type: 'json'

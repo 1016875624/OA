@@ -34,7 +34,7 @@ public class ScheduledTask {
 	* <p>方法名称: minuteTask</p>
 	* <p>描述：分钟任务</p> void 返回类型
 	*/
-	@Scheduled(cron="0 0/1 * * * *")
+	//@Scheduled(cron="0 0/1 * * * *")
 	public void minuteTask() {
 		System.out.println("分钟级任务   执行次数:"+count++);
 	}

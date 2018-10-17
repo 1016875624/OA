@@ -77,7 +77,7 @@
 		store.load({params:{start:0, limit:20, page:1}});
 	},
 	submitSearchForm:function(btn){
-		var store =	Ext.data.StoreManager.lookup('salaryStroe');
+		var store =	Ext.data.StoreManager.lookup('salaryGridStroe');
 		var win = btn.up('window');
 		var form = win.down('form');
 		var values  = form.getValues();

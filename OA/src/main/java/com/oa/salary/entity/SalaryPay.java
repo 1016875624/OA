@@ -6,13 +6,19 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
+import javax.persistence.EntityResult;
 import javax.persistence.FetchType;
+import javax.persistence.FieldResult;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,6 +33,48 @@ import com.oa.employee.entity.Employee;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
+
+@NamedNativeQueries({
+	@NamedNativeQuery(resultClass=WorkOverTime.class, name = "getWorkOverTimes", 
+		query = "SELECT SUM(`hour`-8) AS overHours,employee_ID_ AS employeeid,e.NAME_ AS employeeName , d.NAME_ AS departmentName,d.ID_ AS departmentid "
+				+ "FROM `worktime` wt,ACT_ID_USER e,ACT_ID_GROUP d WHERE e.department_ID_=d.ID_ AND wt.employee_ID_=e.ID_ "
+				+ "AND wt.`hour`>8 AND wt.date BETWEEN :start AND :end GROUP BY e.ID_ LIMIT 100"
+				,resultSetMapping = "worktimeResultSetMapp"
+		),
+	@NamedNativeQuery(resultClass=WorkOverTime.class, name = "getWorkOverTimesWithDepartment", 
+		query = "SELECT SUM(`hour`-8) AS overHours,employee_ID_ AS employeeid,e.NAME_ AS employeeName , d.NAME_ AS departmentName,d.ID_ AS departmentid "
+				+ "FROM `worktime` wt,ACT_ID_USER e,ACT_ID_GROUP d WHERE e.department_ID_=d.ID_ AND wt.employee_ID_=e.ID_ "
+				+ "AND wt.`hour`>8 AND d.ID_ =:departmentid AND wt.date BETWEEN :start AND :end GROUP BY e.ID_ LIMIT 100",
+				resultSetMapping = "worktimeResultSetMapp"
+		)
+	}
+		
+)
+
+@SqlResultSetMapping(
+	    name = "worktimeResultSetMapp",
+	    /*entities= {@EntityResult(entityClass=WorkOverTime.class,
+	    		fields= {
+	    				@FieldResult(name="overHours",column="overHours"),
+	    				@FieldResult(name="employeeid",column="employeeid"),
+	    				@FieldResult(name="employeeName",column="employeeName"),
+	    				@FieldResult(name="departmentid",column="departmentid"),
+	    				@FieldResult(name="departmentName",column="departmentName"),
+	    		}
+	    		)},*/
+	    
+	    classes=@ConstructorResult(targetClass=WorkOverTime.class,
+	    
+	    columns= {
+	    		@ColumnResult(name="overHours",type=Integer.class),
+	    		@ColumnResult(name="employeeid",type=String.class),
+	    		@ColumnResult(name="employeeName",type=String.class),
+	    		@ColumnResult(name="departmentid",type=String.class),
+	    		@ColumnResult(name="departmentName",type=String.class)
+	    })
+	)
+
 public class SalaryPay {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

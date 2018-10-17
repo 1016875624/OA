@@ -202,11 +202,33 @@ public class QuestionService implements IQuestionService {
 			}
 				
 		}
+		List<Question> question1=new ArrayList<Question>();
+		List<Question> question2=new ArrayList<Question>();
+		List<Question> question3=new ArrayList<Question>();
 		for (Integer questionid : lists) {
 			Question question=new Question();
 			question=questionRepository.findById(questionid).orElse(null);
-			questions.add(question);
+			if(question.getType()==0) {
+				question1.add(question);
+			}else if(question.getType()==1) {
+				question2.add(question);
+			}else if(question.getType()==2) {
+				question3.add(question);
+			}
+			
+			for (Question q1: question1) {
+				questions.add(q1);
+			}
+			for(Question q2: question2) {
+				questions.add(q2);
+			}
+			for(Question q3: question3) {
+				questions.add(q3);
+			}
 		}
+		
+		
+		
 		return questions;
 	}
 	
