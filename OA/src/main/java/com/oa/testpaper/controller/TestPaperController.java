@@ -9,9 +9,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.SessionUtil;
 import com.oa.employee.entity.Employee;
 import com.oa.question.entity.Question;
@@ -48,5 +51,20 @@ public class TestPaperController {
 			e.printStackTrace();
 		}
 		return questions;
+	}
+	@RequestMapping(value="/getScore")
+	public Double getScord(@RequestParam(name="testPaperDTO") TestPaperDTO testPaperDTO,@RequestParam(name="questions") List<Question> questions) {
+		double score=0;
+		//Question question=new Question();
+		for (Question question : questions) {
+			if(question.isRight(testPaperDTO.getAnswer1())) {
+				score+=10;
+			}else {
+				score+=0;
+			}
+		}
+		
+		return null;
+		
 	}
 }

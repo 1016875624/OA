@@ -29,7 +29,63 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
 		        	console.log(Ext.ClassManager.getName(form));
 		        	var values=form.getValues();
 		        	
+		        	var questionStore=Ext.data.StoreManager.lookup("paperQuestionGridStore");
+		        	var questionDatas=questionStore.getData();		//传回后台
+		        	
 		        	console.log(values);
+		        	console.log(Ext.ClassManager.getName(values));
+		        	
+		        	/*var lists = new Array();
+		        	console.log(Ext.ClassManager.getName(lists));
+		        	var index345="";
+		        	for(var i=0;i<values.length;i++){
+		        		console.log("11000");
+		        		console.log(values[i].length);
+		        		if(i>=0 && i<=2){
+		        			lists.push(values[i]);
+		        		}
+		        		
+		        		if(i>=3 && i<=5){
+		        			if(values[i].length>1){
+		        				
+		        			}
+		        		}
+		        		if(i>=6 && i<=9){
+		        			if(values[i].length>1){
+		        				lists.push(values[i]);
+		        			}
+		        		}
+		        	}*/
+		        	
+		        	Ext.Msg.confirm("警告", "确定要删除吗？", function (button) {
+		                if (button == "yes") {
+		                	var myMask = new Ext.LoadMask(Ext.getBody(), { 
+		                         msg: '正在统计考试分数，请稍后！'
+		                    }); 
+		                    myMask.show();
+		                  	Ext.Ajax.request({ 
+								url : 'http://localhost:8080/testPaper/getScore', 
+								method : 'post', 
+								params : { 
+									testPaperDTO :values,
+									questions:questionDatas
+								}, 
+								success: function(response, options) {
+					                var json = Ext.util.JSON.decode(response.responseText);
+						            if(json.success){
+						            	myMask.hide();
+						            	Ext.Msg.alert('操作成功', json.msg, function() {
+						            		
+						                });
+							        }else{
+							        	 myMask.hide();
+							        	 Ext.Msg.alert('操作失败', json.msg);
+							        }
+					            }
+							});
+		                }
+		            });
+		        	
 		        }	
 		}],
 		buttons: ['->',{
@@ -96,7 +152,7 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
         	    			for(var i=0;i<strs.length;i++){		//遍历选择题选项
         	    				
         	    				console.log(strs[i]);
-        	    				var checkboxitems=Ext.create("Ext.form.field.Checkbox",{boxLabel:strs[i],name:"answer"+theNumOfQuestion});
+        	    				var checkboxitems=Ext.create("Ext.form.field.Checkbox",{boxLabel:strs[i],name:"answer"+theNumOfQuestion,inputValue:strs[i]});
         	    				
         	    				items.add(checkboxitems);
         	    				
@@ -114,7 +170,7 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
         	    			var questionText=Ext.create("Ext.Component",{html:"<h3>"+"(填空题)   "+theNumOfQuestion+".      "+temp.textQuestion+"</h3>"});
         	    			var items=Ext.create("Ext.form.FieldContainer",{margin: '0 5 0 0',hideLabel: true});
         	    			for(var i=1;i<=strs.length;i++){
-        	    				var textfielditems=Ext.create("Ext.form.field.Text",{fieldLabel:"第"+i+"空"});
+        	    				var textfielditems=Ext.create("Ext.form.field.Text",{fieldLabel:"第"+i+"空",name:"answer"+theNumOfQuestion});
         	    				items.add(textfielditems);
         	    			}
         	    			form.add(questionText);

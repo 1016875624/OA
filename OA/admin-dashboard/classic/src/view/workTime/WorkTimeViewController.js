@@ -319,6 +319,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 							records:records
 						}, */
 						jsonData:records,
+						//jsonData:{records:records,"":""}
 						success: function(response, options) {
 							var json = Ext.util.JSON.decode(response.responseText);
 							if(json.success){

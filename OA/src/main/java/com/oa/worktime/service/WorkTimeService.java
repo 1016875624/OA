@@ -90,7 +90,7 @@ public class WorkTimeService implements IWorkTimeService {
 
 	@Override
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
+		workTimeRepository.deleteById(id);
 
 	}
 
@@ -108,8 +108,12 @@ public class WorkTimeService implements IWorkTimeService {
 
 	@Override
 	public void deleteAll(Integer[] ids) {
-		// TODO Auto-generated method stub
+		List<Integer> idLists = new ArrayList<Integer>(Arrays.asList(ids));
 		
+		List<WorkTime> workTimes = (List<WorkTime>) workTimeRepository.findAllById(idLists);
+		if(workTimes!=null) {
+			workTimeRepository.deleteAll(workTimes);
+		}
 	}
 
 	@Override

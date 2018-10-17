@@ -220,9 +220,10 @@ public class WorkTimeController {
 	public ExtAjaxResponse deleteQuestion(@PathVariable Integer id) {
 		try {
 			if(id!=null) {
-				WorkTime workTime=workTimeService.findById(id);
-				workTime.setStatus(1);
-				workTimeService.save(workTime);
+				//WorkTime workTime=workTimeService.findById(id);
+				//workTime.setStatus(1);
+				//workTimeService.save(workTime);
+				workTimeService.deleteById(id);
 			}
 			return new ExtAjaxResponse(true,"删除成功");
 		} catch (Exception e) {
@@ -234,11 +235,12 @@ public class WorkTimeController {
 	public ExtAjaxResponse deleteMoreRow(@RequestParam(name="ids") Integer[]ids) {
 		try {
 			if(ids!=null) {
-				List<WorkTime> workTimes=workTimeService.findAllById(ids);
-				for (WorkTime workTime : workTimes) {
-					workTime.setStatus(1);
-					workTimeService.save(workTime);
-				}
+				//List<WorkTime> workTimes=workTimeService.findAllById(ids);
+				//for (WorkTime workTime : workTimes) {
+				//	workTime.setStatus(1);
+				//	workTimeService.save(workTime);
+				//}
+				workTimeService.deleteAllById(ids);
 			}
 			return new ExtAjaxResponse(true,"删除多条成功");
 		} catch (Exception e) {
