@@ -21,12 +21,12 @@ Ext.define('Admin.view.salarypay.SalarypayWorkOverTimePanel', {
             reference:'workOverTimePannel',
             bind:"{workOverTimeList}",
             //store:"{workOverTimeList}",
-            title: '加班排行榜',
+            //title: '加班排行榜',
             scrollable: false,
             columns: [
                 {xtype: 'gridcolumn', cls: 'content-column', dataIndex: 'employeeName', text: '员工姓名', flex: 1},
                 {xtype: 'gridcolumn', cls: 'content-column', dataIndex: 'departmentName', text: '部门', flex: 1},
-                {xtype: 'gridcolumn', cls: 'content-column', dataIndex: 'departmentName', text: '加班时间', flex: 1},
+                {xtype: 'gridcolumn', cls: 'content-column', dataIndex: 'overHours', text: '加班时间', flex: 1},
             ],
             // 监听grid事件：
             listeners: {
@@ -97,8 +97,14 @@ Ext.define('Admin.view.salarypay.SalarypayWorkOverTimePanel', {
                 },*/
                 {
                     xtype: "departmentcombobox",
-                    hidden: true,
+                    width:200,
+                    //hidden: true,
                     reference: 'workOverTimeDepartmentCombobox',
+                    label:"请选择部门",
+                    fieldLabel:"请选择部门",
+                    listeners:{
+                        change:"departmentChange"
+                    }
                 },
 
                 /*'-',{
