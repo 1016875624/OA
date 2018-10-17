@@ -127,12 +127,31 @@ public interface ISalaryPayService {
 	Double countSalary(Integer id);
 	
 	/**
+	* <p>方法名称: countSalary</p>
+	* <p>描述：TODO(这里用一句话描述这个方法的作用)</p>
+	* @param id 员工id
+	* @param start 开始时间
+	* @param end 结束时间
+	* @return Double 返回类型
+	*/
+	Double countSalary(Integer id,Date start,Date end);
+	
+	/**
 	* <p>方法名称: salaryPaying</p>
 	* <p>描述：根据工资表发工资</p>
 	* @param id 工资表的id
 	* void 返回类型
 	*/
 	SalaryPay salaryPaying(Integer id);
+	/**
+	* <p>方法名称: salaryPaying</p>
+	* <p>描述：发放规定时间的工资</p>
+	* @param id 员工id
+	* @param start 开始时间
+	* @param end 结束时间
+	* @return SalaryPay 返回类型
+	*/
+	SalaryPay salaryPaying(Integer id,Date start,Date end);
 	
 	/**
 	* <p>方法名称: salaryPaying</p>
@@ -140,6 +159,15 @@ public interface ISalaryPayService {
 	* void 返回类型
 	*/
 	void salaryPaying();
+	
+	/**
+	* <p>方法名称: salaryPaying</p>
+	* <p>描述：发放所有人的工资</p>
+	* @param start 开始时间
+	* @param end 结束时间
+	* void 返回类型
+	*/
+	void salaryPaying(Date start,Date end);
 	
 	/**
 	* <p>方法名称: workOverTimeEmployees</p>

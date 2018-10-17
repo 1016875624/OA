@@ -12,17 +12,18 @@ Ext.define('Admin.view.salarypay.SalarypayWorkOverTimePanel', {
     // viewModel: {type: 'orderViewModel'},
     layout: 'fit',
 
-
+    //viewModel: {type: 'salarypayViewModel'},
     items: [
         {
             xtype: 'gridpanel',
             cls: 'workOverTime-grid',
             itemId: 'workOverTimePannel',
             reference:'workOverTimePannel',
-            bind:"{workOverTimeList}",
+            //bind:"{workOverTimeList}",
             //store:"{workOverTimeList}",
             //title: '加班排行榜',
-            scrollable: false,
+            scrollable: true,
+            //model:true,
             columns: [
                 {xtype: 'gridcolumn', cls: 'content-column', dataIndex: 'employeeName', text: '员工姓名', flex: 1},
                 {xtype: 'gridcolumn', cls: 'content-column', dataIndex: 'departmentName', text: '部门', flex: 1},
@@ -38,10 +39,11 @@ Ext.define('Admin.view.salarypay.SalarypayWorkOverTimePanel', {
             selModel: {type: 'checkboxmodel', checkOnly: true},
             dockedItems: [{
                 xtype: 'pagingtoolbar',
+                reference: 'pageBar',
                 dock: 'bottom',
                 itemId: 'paginationToolbar',
                 displayInfo: true,
-                bind: '{workOverTimeList}'
+                //bind: '{workOverTimeList}'
             }],
             tbar: [
                 /*{
@@ -105,6 +107,33 @@ Ext.define('Admin.view.salarypay.SalarypayWorkOverTimePanel', {
                     listeners:{
                         change:"departmentChange"
                     }
+                },'-',
+                {
+                    xtype:'datefield',
+                    fieldLabel:"时间范围",
+                    reference: 'workOverTimeStartDate',
+                    //reference:'searchDateFieldValue',
+                    //formatter: 'date("Y/m/d H:i:s")',
+                    formatter: 'date("Y/m/d")',
+                    //bind:"{startDate}"
+                    //hidden:true
+                },'-',
+                {
+                    xtype:'datefield',
+                    reference: 'workOverTimeEndDate',
+                    //reference:'searchDateFieldValue',
+                    //formatter: 'date("Y/m/d H:i:s")',
+                    formatter: 'date("Y/m/d")',
+                    //bind:"{endDate}"
+                    //formBind:true
+                },'->',
+                {
+                    xtype:"button",
+                    text:"查找",
+                    /*handler:function () {
+                        Ext.toast("查找中....");
+                    }*/
+                    handler:"workOverTimeSearchBtn"
                 },
 
                 /*'-',{
