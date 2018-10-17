@@ -151,18 +151,19 @@ public class WorkTimeController {
 		try {
 //			return workTimeService.savemore(workTimeDTO);
 			List<WorkTimeDTO>a= workTimeService.savemore(workTimeDTO);
+			/*Random random=new Random(System.currentTimeMillis());
 			for (WorkTimeDTO object : a) {
-				Random random=new Random(System.currentTimeMillis());
 				int temp=0;
 				if(object.getIfholiday()==0) {
 					temp=random.nextInt(4)+6;
 					object.setHour(temp);
 				}
-				
-			}
+			
+			}*/
 			return a;
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

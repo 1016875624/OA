@@ -18,6 +18,26 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
     	xtype:"form",
     	padding:'50 50 50 50',
 		items:[],
+		tbar: ['->',{
+		    	text: '提交试卷',
+		        iconCls:'fa fa-pencil',
+		        itemId: 'submit',
+		        handler:function(btn){
+		        	
+		        	var form=this.up("form");
+		        	console.log(form);
+		        	console.log(Ext.ClassManager.getName(form));
+		        	var values=form.getValues();
+		        	
+		        	console.log(values);
+		        }	
+		}],
+		buttons: ['->',{
+		        xtype: 'button',
+		        text: '提交试卷',
+		        iconCls:'fa fa-pencil',
+		        handler: 'submitTestForm'
+		},'->'],
     	listeners:{
     		afterrender:function() {
     			var form=this;
@@ -52,7 +72,7 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
         	    			for(var i=0;i<strs.length;i++){		//遍历选择题选项
         	    				
         	    				console.log(strs[i]);
-        	    				var radioitems=Ext.create("Ext.form.field.Radio",{boxLabel:strs[i],name:"answer"+theNumOfQuestion});
+        	    				var radioitems=Ext.create("Ext.form.field.Radio",{boxLabel:strs[i],name:"answer"+theNumOfQuestion,inputValue:strs[i]});
         	    				
         	    				items.add(radioitems);
         	    				
@@ -111,18 +131,14 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
     		}
     	}
     }],
-    tbar: ['->',{
-    	text: '提交试卷',
-        iconCls:'fa fa-pencil',
-        itemId: 'submit',
-        handler: 'submitTestForm'	
-    }],
-    buttons: ['->',{
-        xtype: 'button',
-        text: '提交试卷',
-        iconCls:'fa fa-pencil',
-        handler: 'submitTestForm'
-    },'->']
+   
    
             
 });
+//var submitTestForm=submitTestForm:function(btn){
+//	var form=btn.up("panel").down("form");
+//	var values=form.getValue();
+//	console.log(form);
+//	console.log(values);
+//	
+//}

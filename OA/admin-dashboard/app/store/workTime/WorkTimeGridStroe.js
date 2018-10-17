@@ -21,6 +21,6 @@
 	remoteSort: true,//全局(远程)排序
 	pageSize: 15,
 	sorters: {
-		direction: 'ASE',property: 'id'
+		direction: 'DESC',property: 'id'
 	}
 });
