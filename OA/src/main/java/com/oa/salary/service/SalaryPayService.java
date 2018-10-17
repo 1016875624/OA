@@ -251,8 +251,8 @@ public class SalaryPayService implements ISalaryPayService {
 		double money=0.0;
 		double attandence=0.0;
 		
-		Date monthStartDay=DateUtils.getToMonthStart();
-		Date monthEndDay=DateUtils.getToMonthEnd();
+		Date monthStartDay=DateUtils.getLastMonthStart();
+		Date monthEndDay=DateUtils.getLastMonthEnd();
 		
 		Integer empWorkDays=salaryPayRepository.countEmployeeWorkDays(salary.getEmployee().getId(), monthStartDay, monthEndDay);
 //		Integer empWorkHour=salaryPayRepository.countEmployeeWorkHour(salary.getEmployee().getId(), monthStartDay, monthEndDay);
@@ -416,6 +416,123 @@ public class SalaryPayService implements ISalaryPayService {
 		Date lastMonthStart=DateUtils.toDate(DateUtils.toLocalDate(DateUtils.getToMonthStart()).minusMonths(1));
 		Date lastMonthEnd=DateUtils.toDate(DateUtils.toLocalDate(lastMonthStart).plusMonths(1).minusDays(1));
 		return salaryPayRepository.countWorkHours(lastMonthStart, lastMonthEnd);
+	}
+
+	@Override
+	public SalaryPay salaryPaying(Integer id, Date start, Date end) {
+		SalaryPay salaryPay=new SalaryPay();
+		Salary salary=salaryRepository.findById(id).orElse(null);
+		
+		if (salary==null) {
+			return null;
+		}
+		if (salary.getEmployee()==null) {
+			return null;
+		}
+//		Date lastMonthStart=DateUtils.toDate(DateUtils.toLocalDate(DateUtils.getToMonthStart()).minusMonths(1));
+//		Date lastMonthEnd=DateUtils.toDate(DateUtils.toLocalDate(lastMonthStart).plusMonths(1).minusDays(1));
+//		Date monthStart=DateUtils.getToMonthStart();
+//		Date monthEnd=DateUtils.getToMonthEnd();
+		//发工资应该发的是上个月的工资
+		Date monthStart=start;
+		Date monthEnd=end;
+		
+		salaryPay.setDate(DateUtils.getToday());
+		salaryPay.setMoney(countSalary(salary.getId(),monthStart,monthEnd));
+		salaryPay.setAttendRate(salaryPayRepository.countAttendence(salary.getEmployee().getId(), monthStart, monthEnd));
+		salaryPay.setEmployee(salary.getEmployee());
+		salaryPay.setRealWorktime(salaryPayRepository.countEmployeeWorkHour(salary.getEmployee().getId(), monthStart, monthEnd));
+		if (salaryPay.getRealWorktime()==null) {
+			salaryPay.setRealWorktime(0);
+		}
+		if (salaryPay.getWorktime()==null) {
+			salaryPay.setWorktime(0);
+		}
+		salaryPay.setStatus(1);
+		salaryPay.setWorktime(salaryPayRepository.countWorkHours(monthStart, monthEnd));
+		salaryPayRepository.save(salaryPay);
+		return salaryPay;
+	}
+
+	@Override
+	public void salaryPaying(Date start, Date end) {
+		
+		int page=0;
+		int size=10;
+		
+		
+		long count=salaryRepository.count();
+		while (page*size<count) {
+			Page<Salary> page2=salaryRepository.findAll(PageRequest.of(page, size, Sort.by(Direction.ASC, "id")));
+			List<Salary>salaries=page2.getContent();
+			for (Salary salary : salaries) {
+				salaryPaying(salary.getId(),start,end);
+			}
+			//没有下一页结束
+			if (!page2.hasNext()) {
+				return;
+			}
+			page++; 
+		}
+		
+	}
+
+	@Override
+	public Double countSalary(Integer id, Date start, Date end) {
+		Salary salary=salaryRepository.findById(id).orElse(null);
+		if (salary==null) {
+			return 0.0;
+		}
+		if (salary.getEmployee()==null) {
+			return 0.0;
+		}
+		double money=0.0;
+		double attandence=0.0;
+		
+//		Date monthStartDay=DateUtils.getToMonthStart();
+//		Date monthEndDay=DateUtils.getToMonthEnd();
+		Date monthStartDay=start;
+		Date monthEndDay=end;
+		
+		Integer empWorkDays=salaryPayRepository.countEmployeeWorkDays(salary.getEmployee().getId(), monthStartDay, monthEndDay);
+//		Integer empWorkHour=salaryPayRepository.countEmployeeWorkHour(salary.getEmployee().getId(), monthStartDay, monthEndDay);
+//		Integer workHour=salaryPayRepository.countWorkHours(monthStartDay, monthEndDay);
+//		if (empWorkHour!=null&&workHour!=null) {
+//			attandence=empWorkHour/workHour;
+//		}
+		Double temp=salaryPayRepository.countAttendence(salary.getEmployee().getId(), monthStartDay,monthEndDay);
+		if (temp!=null) {
+			attandence=temp;
+		}
+		//计算工资
+		if (salary.getSal()!=null) {
+			money+=1.0*salary.getSal()*attandence;
+		}
+		//计算补贴
+		if (salary.getSubsidy()!=null) {
+			money+=1.0*salary.getSubsidy()*empWorkDays;
+		}
+		//计算工龄的工资
+		if (salary.getWorktimeMoney()!=null) {
+			if (salary.getWorkMonth()!=null) {
+				money+=1.0*salary.getWorkMonth()*salary.getWorktimeMoney();
+			}
+		}
+		//计算奖金
+		if (salary.getBonus()!=null) {
+			/*90% 全拿奖金
+
+			70% 一半奖金*/
+
+			if (attandence>=0.9) {
+				money+=1.0*salary.getBonus();
+			}
+			else if (attandence>0.7) {
+				money+=1.0*salary.getBonus()*0.5;
+			}
+		}
+		
+		return money;
 	}
 	
 	

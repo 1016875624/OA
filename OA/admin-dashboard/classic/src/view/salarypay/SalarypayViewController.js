@@ -322,16 +322,78 @@ Ext.define('Admin.view.salarypay.SalarypayViewController', {
 		//box.getStore().load();
 		console.log(newValue);
 	},
-
+    //本地排序...
     openWorkOverTimeWindow:function(btn){
 		win= Ext.widget("salarypayWorkOverTimeWindow");
         btn.up('gridpanel').up('container').add(win);
         store=Ext.data.StoreManager.lookup('workOverTimeStore');
+        var pagingStore = Ext.create('Ext.data.Store', {
+            fields: [
+                {type: 'string',name: 'employeeid'},
+                {type: 'string',name: 'employeeName'},
+                {type: 'string',name: 'departmentName'},
+                {type: 'string',name: 'departmentid'},
+                {type: 'number',name: 'overHours'},
+            ],
+            proxy: {
+                type: 'memory',
+                enablePaging: true,
+            },
+            pageSize: 10
+        });
+
+
+        store.setListeners({
+            load:function () {
+                pagingStore.getProxy().setData(store.getRange());
+                pagingStore.load();
+            }
+        });
+        store.load();
         grid= this.lookupReference("workOverTimePannel");
         console.log(grid);
-        grid.setStore(store);
+        grid.setStore(pagingStore);
         console.log(Ext.ClassManager.getName(grid));
-		win.show();
+        pagebar=this.lookupReference("pageBar");
+
+
+        pagebar.setStore(pagingStore);
+        win.show();
+	},
+    departmentChange:function(combox, newValue,oldValue,eOpts){
+		//combox.setFieldLabel(newValue);
+        store=Ext.data.StoreManager.lookup('workOverTimeStore');
+
+        /*Ext.apply(store.proxy.extraParams,
+            {
+                departmentid:"",
+                start:"",
+                end:"",
+            }
+        );*/
+        Ext.apply(store.proxy.extraParams,
+            {
+                departmentid:newValue,
+            }
+        );
+        store.load();
+    },
+	workOverTimeSearchBtn:function(){
+        Ext.toast("查找中....");
+		viewmodel=this.getViewModel();
+		startDate=this.lookupReference("workOverTimeStartDate");
+		endDate=this.lookupReference("workOverTimeEndDate");
+		combox=this.lookupReference("workOverTimeDepartmentCombobox");
+        store=Ext.data.StoreManager.lookup('workOverTimeStore');
+        Ext.apply(store.proxy.extraParams,
+            {
+                departmentid:combox.getValue(),
+                start:Ext.util.Format.date(startDate.getValue(),"Y/m/d H:i:s"),
+                end:Ext.util.Format.date(endDate.getValue(),"Y/m/d H:i:s")
+            }
+        );
+
+        store.load();
 	},
 
 	test:function(){

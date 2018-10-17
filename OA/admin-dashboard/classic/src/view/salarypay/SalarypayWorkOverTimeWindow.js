@@ -8,11 +8,12 @@ Ext.define('Admin.view.salarypay.SalarypayWorkOverTimeWindow', {
 		'Ext.form.field.ComboBox',
         'Ext.grid.column.Date'
     ],
+    viewModel: {type: 'salarypayViewModel'},
 	xtype:'salarypayWorkOverTimeWindow',
 	autoShow:true,
 	modal:true,
 	layout:'fit',
-	width:600,
+	width:900,
 	height:450,
 	title:'加班排行榜',
 	items:[{

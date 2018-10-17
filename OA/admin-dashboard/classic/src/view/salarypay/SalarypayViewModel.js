@@ -11,6 +11,11 @@ Ext.define('Admin.view.salarypay.SalarypayViewModel', {
         'Ext.data.field.Boolean',
         'Ext.data.reader.Json'
     ],
+    data:{
+        startDate:"2018/09/01",
+        endDate:"2018/09/30"
+    },
+
 
     stores: {
 		salarypayLists: {type: 'salarypayGridStroe'},

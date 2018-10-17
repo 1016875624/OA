@@ -106,6 +106,23 @@ public class OkTool {
 		return null; 
 	}
 	
+	public String json(String jsonstr) throws IOException {
+		ObjectMapper ob=new ObjectMapper();
+		Response response=null;
+		//没有加入post的数据,所以自动的用get方法
+		MediaType mt=MediaType.parse("application/json; charset=utf-8");
+		//创建以json方式提交的body
+		RequestBody body=RequestBody.create(mt, jsonstr);
+		response=client.newCall(rb.url(url).post(body).build()).execute();
+		//清除数据
+		url=null;
+		formData.clear();
+		if (response!=null) {
+			return response.body().string();
+		}
+		return null; 
+	}
+	
 	public String put() throws IOException {
 		Response response=null;
 		FormBody.Builder fb=new FormBody.Builder();

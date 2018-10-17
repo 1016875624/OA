@@ -194,23 +194,37 @@
 	/*开始抢*/	
 	startGrabResource:function(grid, rowIndex, colIndex){
 		var record = grid.getStore().getAt(rowIndex);
-		Ext.Ajax.request({
-			url : '/officeResource/startGrabResource', 
-			method : 'post', 
-			params : {
-				id :record.get("id")
-			}, 
-			success: function(response, options) {
-				var json = Ext.util.JSON.decode(response.responseText);
-				if(json.success){
-					Ext.Msg.alert('操作成功', json.msg, function() {
-					grid.getStore().reload();
+		var startTime = record.get('startTime');
+		var curDate = new Date();
+		//var nowTime=Ext.Date.format(curDate, 'Y/m/d H:i:s');
+		console.log(startTime.getTime());
+		console.log(curDate.getTime());
+		var farOfTime = startTime.getTime() - curDate.getTime();
+		console.log(farOfTime);
+		task_RealTimeMointor = {
+			run: function(){
+				clearInterval(begin);//关闭setInterval();
+				Ext.Ajax.request({
+					url:'/officeResource/startGrabResource',
+					disableCaching: true, 
+					method:'post', 
+					params:{id:record.get('id')}, 
+					success:function(response, options) {
+						var json = Ext.util.JSON.decode(response.responseText);
+						if (json.success) {
+							Ext.Msg.alert('操作成功', json.msg, function() {
+								grid.getStore().reload();
+								Ext.TaskManager.stop(task_RealTimeMointor);//停止计时器
+							});
+						} else {
+							Ext.Msg.alert('操作失败', json.msg);
+						}
+					}
 				});
-				}else{
-					Ext.Msg.alert('操作失败', json.msg);
-				}
-			}
-		});
+			},
+			interval: farOfTime //时间间隔2ms
+		};
+		begin = setInterval('Ext.TaskManager.start(task_RealTimeMointor)',farOfTime);
 	},
 	/*抢资源*/	
 	grabResource:function(grid, rowIndex, colIndex){
@@ -236,23 +250,37 @@
 	/*开始抽奖*/	
 	startLuckyDraw:function(grid, rowIndex, colIndex){
 		var record = grid.getStore().getAt(rowIndex);
-		Ext.Ajax.request({
-			url : '/officeResource/startLuckyDraw', 
-			method : 'post', 
-			params : {
-				id :record.get("id")
-			}, 
-			success: function(response, options) {
-				var json = Ext.util.JSON.decode(response.responseText);
-				if(json.success){
-					Ext.Msg.alert('操作成功', json.msg, function() {
-					grid.getStore().reload();
+		var startTime = record.get('startTime');
+		var curDate = new Date();
+		//var nowTime=Ext.Date.format(curDate, 'Y/m/d H:i:s');
+		console.log(startTime.getTime());
+		console.log(curDate.getTime());
+		var farOfTime = startTime.getTime() - curDate.getTime();
+		console.log(farOfTime);
+		task_RealTimeMointor2 = {
+			run: function(){
+				clearInterval(begin);//关闭setInterval();
+				Ext.Ajax.request({
+					url : '/officeResource/startLuckyDraw', 
+					method : 'post', 
+					params : {
+						id :record.get("id")
+					}, 
+					success: function(response, options) {
+						var json = Ext.util.JSON.decode(response.responseText);
+						if(json.success){
+							Ext.Msg.alert('操作成功', json.msg, function() {
+							grid.getStore().reload();
+						});
+						}else{
+							Ext.Msg.alert('操作失败', json.msg);
+						}
+					}
 				});
-				}else{
-					Ext.Msg.alert('操作失败', json.msg);
-				}
-			}
-		});
+			},
+			interval: farOfTime //时间间隔2ms
+		};
+		begin = setInterval('Ext.TaskManager.start(task_RealTimeMointor2)',farOfTime);
 	},
 	/*抽奖*/	
 	luckyDraw:function(grid, rowIndex, colIndex){
