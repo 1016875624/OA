@@ -102,7 +102,7 @@ public class SalaryPayController {
 		}
 		
 		
-		return entityManager.createNamedQuery("getWorkOverTimes", WorkOverTime.class)
+		return entityManager.createNamedQuery("getWorkOverTimes")
 				.setParameter("start", DateUtils.getLastMonthStart()).setParameter("end", DateUtils.getLastMonthEnd()).getResultList();
 		
 	}
