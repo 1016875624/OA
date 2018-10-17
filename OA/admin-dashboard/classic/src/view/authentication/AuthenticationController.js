@@ -23,19 +23,24 @@
             	var json = Ext.util.JSON.decode(response.responseText);
 	            if(json.success){
 	            	me.redirectTo('dashboard', true);
-	            	var id = Ext.getCmp('loginUserId').setText(json.map.userId);
-	            	var name = Ext.getCmp('loginUserName').setText(json.map.userId);
+	            	//var id = Ext.getCmp('loginUserId').setText(json.map.userId);
+	            	//var name = Ext.getCmp('loginUserName').setText(json.map.userId);
+	            	var id = Ext.getCmp('loginUserName').setText("用户名： "+json.map.userId);
 	            	console.log(id);
-	            	console.log(name);
-	            	var headButton = Ext.getCmp('head_Button');
+	            	//console.log(name);
+	            	var headIcon = Ext.getCmp('head_Icon');
 			        console.log(json.msg);
 			        var path = '/images/employee/' + json.msg;
-			        headButton.setIcon(path);
+			        headIcon.setSrc(path);
 			        console.log(path);
 		        }else{
 		        	Ext.Msg.alert('登录失败', json.msg);
 		        }
+            },
+            failure:  function(response, options){
+            	Ext.Msg.alert('登录失败', '请重新登录');
             }
+            
         });
 	},
 	

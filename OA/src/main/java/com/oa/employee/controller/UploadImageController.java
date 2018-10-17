@@ -1,7 +1,6 @@
 package com.oa.employee.controller;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -27,7 +26,7 @@ public class UploadImageController {
 	
 	@RequestMapping("/fileupload")
 	@ResponseBody
-	public ExtAjaxResponse name(MultipartFile file,HttpSession session) {
+	public ExtAjaxResponse name(MultipartFile photo,HttpSession session) {
 		//获取登录时在session中保存的用户id
 		String userId=(String)session.getAttribute("userId");
 		if(userId==null) {
@@ -42,15 +41,15 @@ public class UploadImageController {
 		String runtimePath=this.getClass().getClassLoader().getResource("").getPath();
 		runtimePath+="/static/images/employee/";
 		String storePath=projectPath+"\\src\\main\\resources\\static\\images\\employee\\";
-		System.out.println(file.getOriginalFilename());
-		entity.setPicture(file.getOriginalFilename());
+		System.out.println(photo.getOriginalFilename());
+		entity.setPicture(photo.getOriginalFilename());
 		employeeService.save(entity);
 		//file.getOriginalFilename();
 		try {
-			file.transferTo(new File(storePath+file.getOriginalFilename()));
-			Files.copy(Paths.get(storePath+file.getOriginalFilename()),
-					new FileOutputStream(runtimePath+file.getOriginalFilename()));
-			return new ExtAjaxResponse(true,file.getOriginalFilename());
+			photo.transferTo(new File(storePath+photo.getOriginalFilename()));
+			Files.copy(Paths.get(storePath+photo.getOriginalFilename()),
+					new FileOutputStream(runtimePath+photo.getOriginalFilename()));
+			return new ExtAjaxResponse(true,photo.getOriginalFilename());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ExtAjaxResponse(false,"上传失败!");

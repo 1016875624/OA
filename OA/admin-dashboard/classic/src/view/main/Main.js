@@ -46,7 +46,7 @@
                 {
                 	//用户名称
                     xtype: 'tbtext',
-                    text: '用户名 : '+'XXX',
+                    text: '用户名 :Admin',
                     id:'loginUserName',
                     cls: 'top-user-name'
                     //reference: 'nameChange'
@@ -54,12 +54,12 @@
                 {
                 	//用户头像
                 	xtype:'image',
-                    id:'head_Button',
+                    id:'head_Icon',
                     cls: 'header-right-profile-image',
                     width:35,
                     height:35,
-                    alt:'current user image',
-                    //src: 'resources/images/user-profile/default.jpg',
+                    alt:'点击上传',
+                    src:'http://localhost:8080/images/employee/tips.jpg',
                     //reference:"headButton",
                     style:{
                         borderRadius: '50%'//显示圆形图片

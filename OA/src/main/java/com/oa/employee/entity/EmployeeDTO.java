@@ -49,6 +49,9 @@ public class EmployeeDTO {
 	@DateTimeFormat(pattern="yyyy/MM/dd")
 	private Date entryTime;
 	
+	/**
+	* @Fields position : 头像
+	*/
 	private String picture;
 	
 	/**
