@@ -95,12 +95,29 @@ public class EmployeeResourceController {
 	
 	//根据当前登录用户的id来分页查询,我的资源
 	@GetMapping
-    public Page<EmployeeResourceDTO> findAllOfficeResource(EmployeeResourceQueryDTO employeeResourceQueryDTO,HttpSession session,ExtjsPageRequest pageable) 
+    public Page<EmployeeResourceDTO> findAllOfficeResourceById(EmployeeResourceQueryDTO employeeResourceQueryDTO,HttpSession session,ExtjsPageRequest pageable) 
 	{
 		Page<EmployeeResourceDTO> page;
 		String applicantId = (String) session.getAttribute("userId");
 		if(applicantId!=null) {
 			employeeResourceQueryDTO.setEmployeeId(applicantId);
+			page = employeeResourceService.findAllInDto(EmployeeResourceQueryDTO.getWhereClause(employeeResourceQueryDTO), pageable.getPageable());
+			System.out.println(EmployeeResourceQueryDTO.getWhereClause(employeeResourceQueryDTO));
+		}else {
+			page = new PageImpl<EmployeeResourceDTO>(new ArrayList<EmployeeResourceDTO>(),pageable.getPageable(),0);
+		}
+		return page;
+    }
+	
+	//根据当前登录用户的id来分页查询,我的资源
+	@GetMapping("/sellAndBuy")
+    public Page<EmployeeResourceDTO> findAllOfficeResource(EmployeeResourceQueryDTO employeeResourceQueryDTO,HttpSession session,ExtjsPageRequest pageable) 
+	{
+		Page<EmployeeResourceDTO> page;
+		String applicantId = (String) session.getAttribute("userId");
+		if(applicantId!=null) {
+			employeeResourceQueryDTO.setStatus(1);
+			employeeResourceQueryDTO.setNoNeedEmployeeId(applicantId);
 			page = employeeResourceService.findAllInDto(EmployeeResourceQueryDTO.getWhereClause(employeeResourceQueryDTO), pageable.getPageable());
 			System.out.println(EmployeeResourceQueryDTO.getWhereClause(employeeResourceQueryDTO));
 		}else {

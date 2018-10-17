@@ -47,13 +47,13 @@ public class SalaryPayController {
 	
 	@GetMapping
 	public Page<SalaryPayDTO> getPage(SalaryPayQueryDTO salaryPayQueryDTO,ExtjsPageRequest extjsPageRequest){
-		System.out.println(salaryPayQueryDTO);
 		//return salaryPayService.findAll(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
 		return salaryPayService.findAllInDTO(salaryPayQueryDTO.getWhereClause(salaryPayQueryDTO), extjsPageRequest.getPageable());
 	}
 	
 	@RequestMapping("/workovertime")
 	public List<WorkOverTime> workOverTimes(WorkOverTimeQueryDTO workOverTimeQueryDTO) {
+		System.out.println(workOverTimeQueryDTO);
 		String departmentid=workOverTimeQueryDTO.getDepartmentid();
 		Date start=workOverTimeQueryDTO.getStart();
 		Date end=workOverTimeQueryDTO.getEnd();
@@ -77,6 +77,11 @@ public class SalaryPayController {
 				//return salaryPayService.workOverTimeEmployees(departmentid, end, start);
 				return entityManager.createNamedQuery("getWorkOverTimesWithDepartment", WorkOverTime.class).setParameter("departmentid", departmentid)
 						.setParameter("start", end).setParameter("end", start).getResultList();
+			}
+			else {
+				
+				return entityManager.createNamedQuery("getWorkOverTimesWithDepartment", WorkOverTime.class).setParameter("departmentid", departmentid)
+						.setParameter("start", DateUtils.getLastMonthStart()).setParameter("end", DateUtils.getLastMonthEnd()).getResultList();
 			}
 		}else {
 			if (start!=null) {
