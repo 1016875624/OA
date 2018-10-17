@@ -3,6 +3,11 @@ package com.oa.salary.repository;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.SqlResultSetMapping;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -13,6 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import com.oa.salary.entity.SalaryPay;
 import com.oa.salary.entity.WorkOverTime;
+
 
 @Repository
 public interface SalaryPayRepository extends JpaRepository<SalaryPay, Integer>,JpaSpecificationExecutor<SalaryPay>{
