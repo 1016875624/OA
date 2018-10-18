@@ -37,27 +37,36 @@ public class EmployeeController {
 	
 
 	//添加
+	/**
+	 * 添加
+	 * 
+	 * @param employeeDTO
+	 * @return
+	 */
 	@PostMapping
-	public String save(@RequestBody EmployeeDTO employeeDTO) 
-	{	
+	public String save(@RequestBody EmployeeDTO employeeDTO) {
 		System.out.println(employeeDTO);
 		Employee employee = new Employee();
+		// 把employeeDTO中的字段拷到employee中
 		BeanUtils.copyProperties(employeeDTO, employee);
-		Employee leader=null;
-		Department department=new Department();
-		if (employeeDTO.getLeaderid()!=null) {
-			leader=employeeService.findById(employeeDTO.getLeaderid()).orElse(null);
+		// 对两个类中不同的字段进行操作
+		Employee leader = null;
+		Department department = new Department();
+		if (employeeDTO.getLeaderid() != null) {
+			leader = employeeService.findById(employeeDTO.getLeaderid()).orElse(null);
 		}
-		if (employeeDTO.getDepartmentid()!=null) {
-			department=departmentService.findById(employeeDTO.getDepartmentid());
+		if (employeeDTO.getDepartmentid() != null) {
+			department = departmentService.findById(employeeDTO.getDepartmentid());
 		}
+		// 重写set方法
 		employee.setStatus(0);
 		employee.setLeader(leader);
 		employee.setDepartment(department);
 		System.out.println(employee);
 		try {
-			//Employee entity = employeeService.findById(id).get();
+			// Employee entity = employeeService.findById(id).get();
 			employeeService.save(employee);
+			System.out.println("添加员工成功!");
 			return "添加成功";
 		} catch (Exception e) {
 			return "添加失败";
@@ -65,9 +74,17 @@ public class EmployeeController {
 	}
 		
 	//查找分页显示
+	/**
+	 * 查找分页显示
+	 * 
+	 * @param employeeQueryDTO
+	 * @param extjsPageRequest
+	 * @return
+	 */
 	@GetMapping
-	public Page<EmployeeDTO> getPage(EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
-		return employeeService.findAllInDto(EmployeeQueryDTO.getWhereClause(employeeQueryDTO), extjsPageRequest.getPageable());
+	public Page<EmployeeDTO> getPage(EmployeeQueryDTO employeeQueryDTO, ExtjsPageRequest extjsPageRequest) {
+		return employeeService.findAllInDto(EmployeeQueryDTO.getWhereClause(employeeQueryDTO),
+				extjsPageRequest.getPageable());
 	}
 	@GetMapping("/{empid}")
 	public Page<EmployeeDTO> getOne(@PathVariable("empid")String empid,EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
@@ -76,32 +93,43 @@ public class EmployeeController {
 	}
 	
 	//多选更新
-	@RequestMapping(value="/changeDepartment")
+	/**
+	 * 交换部门人员
+	 * 
+	 * @param employeeDTOs
+	 * @return
+	 */
+	@RequestMapping(value = "/changeDepartment")
 	public ExtAjaxResponse changeDepartment(@RequestBody EmployeeDTO[] employeeDTOs) {
 		try {
 			for (EmployeeDTO employeeDTO : employeeDTOs) {
-				Employee employee=employeeDTO.DtoToentity(employeeDTO);
+				Employee employee = employeeDTO.DtoToentity(employeeDTO);
 				employeeService.save(employee);
 			}
-			return new ExtAjaxResponse(true,"交换成功!");
+			return new ExtAjaxResponse(true, "交换成功!");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ExtAjaxResponse(true,"交换失败!");
+			return new ExtAjaxResponse(true, "交换失败!");
 		}
 	}
 	
 	
 	//根据id删除
-	@DeleteMapping(value="{id}")
-	public ExtAjaxResponse delete(@PathVariable("id") String id) 
-	{
+	/**
+	 * 删除一条
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@DeleteMapping(value = "{id}")
+	public ExtAjaxResponse delete(@PathVariable("id") String id) {
 		try {
-			if(id!=null) {
-					Employee employee=employeeService.findById(id).orElse(null);
-					employee.setStatus(-1);
-					employeeService.save(employee);
+			if (id != null) {
+				Employee employee = employeeService.findById(id).orElse(null);
+				employee.setStatus(-1);
+				employeeService.save(employee);
 			}
-			return new ExtAjaxResponse(true,"删除成功！");
+			return new ExtAjaxResponse(true, "删除成功！");
 		} catch (Exception e) {
 			return new ExtAjaxResponse(true,"删除失败！");
 		}
@@ -109,10 +137,9 @@ public class EmployeeController {
 	
 	//批量删除
 	@PostMapping("/deletes")
-	public ExtAjaxResponse deleteMoreRows(@RequestParam(name="ids") String[] ids) 
-	{
+	public ExtAjaxResponse deleteMoreRows(@RequestParam(name = "ids") String[] ids) {
 		try {
-			if(ids!=null) {
+			if (ids != null) {
 				employeeService.deleteAll(ids);
 			}
 			return new ExtAjaxResponse(true,"删除多条成功");

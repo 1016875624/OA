@@ -67,24 +67,7 @@ Ext.define('Admin.view.authentication.Login', {
                         }
                     }
                 },
-				{
-					xtype: 'textfield',
-                    cls: 'auth-textbox',
-                    height: 55,
-                    hideLabel: true,
-                    emptyText: 'Verification Code',
-                    inputType: 'code',
-                    name: 'code',
-                    bind: '{code}',
-                    allowBlank : false
-                    /*triggers: {
-                        glyphed: {
-                            cls: 'trigger-glyph-noop auth-password-trigger'
-                        }
-                    }*/
-                },
-				
-				{
+                {
 					items:[{
 							xtype:'box',
 							width: 225,
@@ -104,6 +87,19 @@ Ext.define('Admin.view.authentication.Login', {
 										}
 						}]
 				},
+				{
+					xtype: 'textfield',
+                    cls: 'auth-textbox',
+                    height: 55,
+                    hideLabel: true,
+                    emptyText: 'Verification Code',
+                    inputType: 'code',
+                    name: 'code',
+                    bind: '{code}',
+                    allowBlank : false
+                },
+				
+				
 				{
                     xtype: 'button',
                     reference: 'loginButton',
@@ -129,8 +125,16 @@ Ext.define('Admin.view.authentication.Login', {
                             boxLabel: 'Remember me'
                         },
                         {
-                            xtype: 'box',
+                            //xtype: 'box',
                             html: '<a href="#passwordreset" class="link-forgot-password"> Forgot Password ?</a>'
+                            //html: '<a href="#" click="resetPasswordWin"> Forgot Password ?</a>'
+                        	/*xtype: 'button',
+                            reference: '111',
+                           	//iconCls: 'x-fa ',
+                            text: 'Forgot Password ?',
+                            listeners: {
+                                click: 'reSetPasswordWin'
+                            }*/
                         }
                     ]
                 },

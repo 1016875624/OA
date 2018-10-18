@@ -294,11 +294,22 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 	
 	/*查看部门人员*/	
 	gridCheck:function(grid, rowIndex, colIndex){
-		var rec = grid.getStore().getAt(rowIndex);
-		console.log(rec);
-		var win = Ext.widget('departmentCheckWindow');
-		win.setHtml(rec.data.employeesName);
+		
+		/*var rec = grid.getStore().getAt(rowIndex);
+		var win = Ext.widget('employeeCheckWindow');
 		win.show();
+		win.down("form").getForm().loadRecord(rec);
+		console.log(Ext.ClassManager.getName(win.down("form")));*/
+		
+		var win = Ext.widget('departmentCheckWindow');//打开窗口
+		win.show();
+		
+		var cp = this.lookupReference('checkPanel');//获取对象
+		var rec = grid.getStore().getAt(rowIndex);//获取Store记录
+		var store=Ext.data.StoreManager.lookup('loadingGridStroe');//获取Store数据
+		
+		win.down("form").getForm().loadRecord(rec);
+		console.log(Ext.ClassManager.getName(win.down("form")));
 	},
 	
 	init:function(){
