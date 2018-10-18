@@ -44,6 +44,14 @@
                 },
                 '->',
                 {
+                	//职位
+                    xtype: 'tbtext',
+                    text: '（职位）',
+                    id:'userPositon',
+                    hidden:true,
+                    cls: 'top-user-name'
+                },
+                {
                 	//用户名称
                     xtype: 'tbtext',
                     text: '用户名 :Admin',
