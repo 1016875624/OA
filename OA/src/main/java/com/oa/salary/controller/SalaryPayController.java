@@ -27,6 +27,9 @@ import com.oa.common.date.utils.DateUtils;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.ExtjsPageRequest;
 import com.oa.department.entity.DepartmentQueryDTO;
+import com.oa.employee.entity.EmployeeDTO;
+import com.oa.employee.entity.EmployeeQueryDTO;
+import com.oa.employee.service.IEmployeeService;
 import com.oa.salary.entity.SalaryPay;
 import com.oa.salary.entity.SalaryPayDTO;
 import com.oa.salary.entity.SalaryPayQueryDTO;
@@ -44,7 +47,8 @@ public class SalaryPayController {
 	
 	@Autowired
 	private EntityManager entityManager;
-	
+	@Autowired
+	private IEmployeeService employeeService;
 	@GetMapping
 	public Page<SalaryPayDTO> getPage(SalaryPayQueryDTO salaryPayQueryDTO,ExtjsPageRequest extjsPageRequest){
 		//return salaryPayService.findAll(departmentQueryDTO.getWhereClause(departmentQueryDTO), extjsPageRequest.getPageable());
@@ -160,5 +164,9 @@ public class SalaryPayController {
 			return new ExtAjaxResponse(false,"删除失败");
 		}
 	}
-	
+	@GetMapping("/{id}")
+	public Page<EmployeeDTO> getOne(@PathVariable("id")String id,EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
+		
+		return employeeService.findAllInDto(EmployeeQueryDTO.getWhereClause(employeeQueryDTO), extjsPageRequest.getPageable());
+	}
 }

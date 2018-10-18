@@ -69,7 +69,11 @@ public class EmployeeController {
 	public Page<EmployeeDTO> getPage(EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
 		return employeeService.findAllInDto(EmployeeQueryDTO.getWhereClause(employeeQueryDTO), extjsPageRequest.getPageable());
 	}
-	
+	@GetMapping("/{empid}")
+	public Page<EmployeeDTO> getOne(@PathVariable("empid")String empid,EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
+		
+		return employeeService.findAllInDto(EmployeeQueryDTO.getWhereClause(employeeQueryDTO), extjsPageRequest.getPageable());
+	}
 	
 	//多选更新
 	@RequestMapping(value="/changeDepartment")
