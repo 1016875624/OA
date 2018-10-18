@@ -46,8 +46,11 @@
 	},
 	
 	resetPasswordWin: function() {
-		//Ext.Msg.alert('登录失败', '请重新登录');
 		Ext.widget('passwordreset').show();
+    },
+    
+    resetPasswordBtn: function() {
+		Ext.widget('passwordResetWindow').show();
     },
     
     onResetClick:  function() {

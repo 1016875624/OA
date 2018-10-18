@@ -126,15 +126,15 @@ Ext.define('Admin.view.authentication.Login', {
                         },
                         {
                             //xtype: 'box',
-                            html: '<a href="#passwordreset" class="link-forgot-password"> Forgot Password ?</a>'
-                            //html: '<a href="#" click="resetPasswordWin"> Forgot Password ?</a>'
-                        	/*xtype: 'button',
+                            //html: '<a href="#passwordreset" class="link-forgot-password"> Forgot Password ?</a>'
+                            //html: '<a href="" onclick="resetPasswordWin"> Forgot Password ?</a>'
+                        	xtype: 'button',
                             reference: '111',
-                           	//iconCls: 'x-fa ',
-                            text: 'Forgot Password ?',
+                            text: 'Forgot Password',
                             listeners: {
-                                click: 'reSetPasswordWin'
-                            }*/
+                                click: 'resetPasswordBtn'
+                            	//click: 'resetPasswordWin'
+                            }
                         }
                     ]
                 },
