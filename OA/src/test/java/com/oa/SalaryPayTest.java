@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.oa.common.date.utils.DateUtils;
 import com.oa.department.repository.DepartmentRepository;
 import com.oa.employee.entity.Employee;
 import com.oa.employee.service.EmployeeService;
@@ -63,5 +64,12 @@ public class SalaryPayTest {
 	@Rollback(false)
 	public void name() {
 		salaryPayService.salaryPaying();
+	}
+	
+	@Test
+	@Rollback(false)
+	public void salaryPay() {
+//		salaryPayService.salaryPaying(DateUtils.getLastMonthStart(), DateUtils.getLastMonthEnd());
+		salaryPayService.salaryPaying(DateUtils.getToMonthStart(), DateUtils.getToMonthEnd());
 	}
 }

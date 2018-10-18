@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
@@ -148,8 +149,21 @@ public class WorkTimeController {
 	public List<WorkTimeDTO> savemore(WorkTimeDTO workTimeDTO)  
 	{	
 		try {
-			return workTimeService.savemore(workTimeDTO);
+//			return workTimeService.savemore(workTimeDTO);
+			List<WorkTimeDTO>a= workTimeService.savemore(workTimeDTO);
+			/*Random random=new Random(System.currentTimeMillis());
+			for (WorkTimeDTO object : a) {
+				int temp=0;
+				if(object.getIfholiday()==0) {
+					temp=random.nextInt(4)+6;
+					object.setHour(temp);
+				}
+			
+			}*/
+			return a;
+			
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -206,9 +220,10 @@ public class WorkTimeController {
 	public ExtAjaxResponse deleteQuestion(@PathVariable Integer id) {
 		try {
 			if(id!=null) {
-				WorkTime workTime=workTimeService.findById(id);
-				workTime.setStatus(1);
-				workTimeService.save(workTime);
+				//WorkTime workTime=workTimeService.findById(id);
+				//workTime.setStatus(1);
+				//workTimeService.save(workTime);
+				workTimeService.deleteById(id);
 			}
 			return new ExtAjaxResponse(true,"删除成功");
 		} catch (Exception e) {
@@ -220,11 +235,12 @@ public class WorkTimeController {
 	public ExtAjaxResponse deleteMoreRow(@RequestParam(name="ids") Integer[]ids) {
 		try {
 			if(ids!=null) {
-				List<WorkTime> workTimes=workTimeService.findAllById(ids);
-				for (WorkTime workTime : workTimes) {
-					workTime.setStatus(1);
-					workTimeService.save(workTime);
-				}
+				//List<WorkTime> workTimes=workTimeService.findAllById(ids);
+				//for (WorkTime workTime : workTimes) {
+				//	workTime.setStatus(1);
+				//	workTimeService.save(workTime);
+				//}
+				workTimeService.deleteAllById(ids);
 			}
 			return new ExtAjaxResponse(true,"删除多条成功");
 		} catch (Exception e) {

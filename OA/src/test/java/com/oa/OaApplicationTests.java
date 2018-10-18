@@ -1,5 +1,10 @@
 package com.oa;
 
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -13,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.dom4j.IllegalAddException;
 import org.junit.Test;
@@ -20,8 +26,15 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oa.common.holiday.HolidayQuery;
+import com.oa.common.okhttp.OkTool;
 //import com.oa.common.holiday.HolidayQuery;
 //import com.oa.common.okhttp.OkTool;
 import com.oa.department.entity.Department;
@@ -33,10 +46,19 @@ import com.oa.employee.service.EmployeeService;
 import com.oa.question.entity.Question;
 import com.oa.question.repository.QuestionRepository;
 import com.oa.question.service.IQuestionService;
+import com.oa.worktime.controller.WorkTimeController;
 import com.oa.worktime.entity.HolidayTime;
+import com.oa.worktime.entity.WorkTime;
+import com.oa.worktime.entity.WorkTimeDTO;
 import com.oa.worktime.service.IHolidayTimeService;
 import com.oa.worktime.service.IWorkTimeService;
 import com.oa.worktime.service.WorkTimeService;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 @RunWith(SpringRunner.class)
@@ -335,5 +357,71 @@ public class OaApplicationTests {
 			e.printStackTrace();
 		}
 	}
+//	@Test
+//	public void testWorkTiME() throws ParseException, IOException {
+//		Random random=new Random(System.currentTimeMillis());
+//		int temp=0;
+//		String []userIds= {"1","2","3","4","5","6","7","8","9","admin","salarypay","user1","user2","user3","user4","user5","user6","user7","user8","user9"};
+//		
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+//		Date startTime=sdf.parse("2018/01");
+//		Date endTime=sdf.parse("2018/10");
+//		List<HolidayTime> holidayTimes=holidayTimeService.checkDateHoliday(startTime, endTime);
+//		
+//		for (String string : userIds) {
+//			
+//			for (HolidayTime holidayTime : holidayTimes) {
+//				if(holidayTime.getIfholiday()==0) {
+//					Employee employee=new Employee();
+//					employee.setId(string);
+//					
+//					WorkTime workTime=new WorkTime();
+//					workTime.setDate(holidayTime.getDate());
+//					workTime.setEmployee(employee);
+//					temp=random.nextInt(8)+2;
+//					workTime.setHour(temp);
+//					workTime.setIfholiday();
+//				}else if()
+//				
+//			}
+//				
+//			
+//			
+//			
+//		}
+//	}
+//	
 	
+	@Autowired
+	OkTool ot;
+	
+	@Test
+	public void testWork() throws Exception {
+		WorkTimeController workTimeController=new WorkTimeController();
+		MockMvc mockMvc=MockMvcBuilders.standaloneSetup(workTimeController).build();
+		String []userIds= {"1","2","3","4","5","6","7","8","9","admin","salarypay","user1","user2","user3","user4","user5","user6","user7","user8","user9"};
+		for (String string : userIds) {
+			//try {
+				//String wts= mockMvc.perform(post("/workTime/savemore").accept("application/json").param("employeeid", string).param("StartDate", "2018/07/01").param("EndDate", "2018/09/30").param("hour", "8")).andDo(print()).andReturn().getResponse().getContentAsString();
+//				String wts= mockMvc.perform(get("/workTime/savemore?employeeid=1&StartDate=2018/07/1&EndDate=2018/09/30&hour=2").accept("application/json").param("", "").andDo(print()).andReturn().getResponse().getContentAsString();
+				//String wts= mockMvc.perform(get("/savemore?employeeid=1&StartDate=2018/07/1&EndDate=2018/09/30&hour=2").accept("application/json")).andDo(print()).andReturn().getResponse().getContentAsString();;
+				/*ResultActions ra= mockMvc.perform(post("/workTime/savemore").param("employeeid", string).param("StartDate", "2018/09/01").param("EndDate", "2018/09/30").param("hour", "8"));
+				ra.andReturn().getAsyncResult();*/
+				String wts =ot.url("http://172.27.9.40:8080/workTime/savemore").addFormData("employeeid", string).addFormData("StartDate", "2018/07/01").addFormData("EndDate", "2018/09/30").addFormData("hour", "8").get();
+				System.out.println(wts);
+				MediaType mt=MediaType.parse("application/json; charset=utf-8");
+				//创建以json方式提交的body
+				ObjectMapper ob=new ObjectMapper();
+				RequestBody body=RequestBody.create(mt,wts);
+				Request.Builder rb =new Request.Builder();
+				OkHttpClient client=new OkHttpClient();
+				Response  response=client.newCall(rb.url("http://172.27.9.40:8080/workTime/forApproval").post(body).build()).execute();
+				System.out.println(response.body().string());
+				TimeUnit.SECONDS.sleep(5);
+			/*} catch (Exception e) {
+				e.printStackTrace();
+			}*/
+		}
+		
+	}
 }

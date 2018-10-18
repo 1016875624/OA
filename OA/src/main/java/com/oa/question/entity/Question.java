@@ -1,6 +1,10 @@
 package com.oa.question.entity;
 
+import java.text.Collator;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -94,12 +98,21 @@ public class Question {
 			return false;
 		}
 		//解决排序问题，避免因为考生填的顺序不同而判定为错误
-		Arrays.sort(aa1,(s1,s2)->{
-			return s1.compareToIgnoreCase(s2);
-		});
-		Arrays.sort(aa2,(s1,s2)->{
-			return s1.compareToIgnoreCase(a2);
-		});
+		if(isContainChinese(aa1)) {
+			sortChinese(aa1);
+			sortChinese(aa2);
+		}
+		else {
+			Arrays.sort(aa1,(s1,s2)->{
+				return s1.compareToIgnoreCase(s2);
+			});
+			Arrays.sort(aa2,(s1,s2)->{
+				return s1.compareToIgnoreCase(a2);
+			});
+		}
+		
+		
+		
 		
 		//验证答案
 		for (int i = 0; i < aa2.length; i++) {
@@ -108,5 +121,45 @@ public class Question {
 			}
 		}
 		return true;
+	}
+	
+	/**
+	 * 是否包含中文
+	 * @param str
+	 * @return
+	 */
+	public boolean isContainChinese(String str) {
+        Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
+        Matcher m = p.matcher(str);
+        if (m.find()) {
+            return true;
+        }
+        return false;
+    }
+	
+	/**
+	 * 是否包含中文字符
+	 * @param strs
+	 * @return
+	 */
+	public boolean isContainChinese(String[] strs) {
+		for (String str : strs) {
+			Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
+	        Matcher m = p.matcher(str);
+	        if (m.find()) {
+	            return true;
+	        }
+		}
+		return false;
+        
+    }
+	
+	/**
+	 * 中文排序
+	 * @param strs
+	 */
+	public void sortChinese(String [] strs) {
+		Comparator<Object> CHINA_COMPARE = Collator.getInstance(java.util.Locale.CHINA);
+		Arrays.sort(strs, CHINA_COMPARE);
 	}
 }

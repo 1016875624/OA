@@ -33,10 +33,11 @@
 	asynchronousLoad:false,
 	autoLoad:false,
 	autoSync: false,
-	remoteSort: true,//全局(远程)排序
+	autoSort:true,
+	//remoteSort: true,//全局(远程)排序
 	pageSize: 15,
 	sorters: {
-		direction: 'DESC',property: 'id'
+		direction: 'ASE',property: 'date'
 	},
 	listeners:{
 		update:function(store, record, operation, modifiedFieldNames, details, eOpts){

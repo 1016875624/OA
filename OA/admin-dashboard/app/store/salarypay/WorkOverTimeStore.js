@@ -19,7 +19,7 @@ Ext.define('Admin.store.salarypay.WorkOverTimeStore', {
 	pageSize: 10,
 	sorters: {
 		direction: 'DESC',
-		property: 'id'
+		property: 'overHours'
 	},
 
 

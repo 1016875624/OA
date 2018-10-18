@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.servlet.http.HttpSession;
 
@@ -136,8 +138,15 @@ public class OfficeResourceController {
 	public ExtAjaxResponse startGrabResource(@RequestParam(name="id") Long id) {
 		try {
 			OfficeResource officeResource = officeResourceService.findOne(id);
+//			Timer timer = new Timer();
+//			timer.schedule(new TimerTask() {
+//			     public void run() {
+//			    	 officeResource.setStatus(1);
+//			    	 officeResourceService.save(officeResource);
+//			       }
+//			     },officeResource.getStartTime());
 			officeResource.setStatus(1);
-			officeResourceService.save(officeResource);
+	    	officeResourceService.save(officeResource);
 			return new ExtAjaxResponse(true,"开始抢资源！");
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -12,7 +12,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
          var record = grid.getStore().getAt(rowIndex);
 		//获取选中数据的字段值：console.log(record.get('id')); 或者 console.log(record.data.id);
 		if (record ) {
-			if(record.data.status=='0'){
+			if(record.data.status=='2'){
 				var win = grid.up('container').add(Ext.widget('workTimeEditWindow'));
 				win.show();
 				win.down('form').getForm().loadRecord(record);
@@ -312,6 +312,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		        		records.push(temp); 
 		        	}); 
 		        	console.log(records);
+		        	
 		        	Ext.Ajax.request({ 
 						url : 'http://localhost:8080/workTime/forApproval', 
 						method : 'post', 
@@ -319,6 +320,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 							records:records
 						}, */
 						jsonData:records,
+						//jsonData:{records:records,"":""}
 						success: function(response, options) {
 							var json = Ext.util.JSON.decode(response.responseText);
 							if(json.success){
