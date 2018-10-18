@@ -36,18 +36,6 @@ public class TestPaperDTO {
 	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
 	private Date endTime;
 	
-	//单选
-	private String answer1;
-	private String answer2;
-	private String answer3;
-	//多选
-	private String[] answer4;
-	private String[] answer5;
-	private String[] answer6;
-	//填空
-	private String[] answer7;
-	private String[] answer8;
-	private String[] answer9;
-	private String[] answer10;
+	
 	
 }

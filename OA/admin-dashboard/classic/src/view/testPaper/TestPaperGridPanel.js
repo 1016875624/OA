@@ -30,13 +30,40 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
 		        	var values=form.getValues();
 		        	
 		        	var questionStore=Ext.data.StoreManager.lookup("paperQuestionGridStore");
-		        	var questionDatas=questionStore.getData();		//传回后台
-		        	
+//		        	var questionDatas=questionStore.getRange();		//传回后台
+//		        	var questionDatas=questionStore.getRange();		//传回后台
+		        	questionDatas=new Array();
+		        	questionStore.each(function(r){
+		        		questionDatas.push(r.copy().data);
+		        	});
 		        	console.log(values);
 		        	console.log(Ext.ClassManager.getName(values));
+		        	console.log(Ext.ClassManager.getName(questionDatas));
+		        	console.log(questionDatas);
 		        	
-		        	/*var lists = new Array();
-		        	console.log(Ext.ClassManager.getName(lists));
+		        	var lists = new Array();
+		        	/*var newanswer="";
+		        	for(var i=1;i<=10;i++){
+		        		if(i>=1 && i<=3){
+		        			var answeri=values.get("answer"+i);
+		        			lists.push(answeri);
+		        		}
+		        		else if(i>=4 && i<=6){
+		        			var answeri=values.get("answer"+i);
+		        			if(answeri.length==1){
+		        				lists.push(answeri);
+		        			}else if(answeri>1){
+		        				for(var i=0;i<answeri.length;i++){
+		        					newanswer=answeri[i]+"&";
+		        				}
+		        			}
+		        		}
+		        		else if(i>=7 && i<=10){
+		        			values.get("answer"+i);
+		        		}
+		        	}
+		        	
+		        	/*console.log(Ext.ClassManager.getName(lists));
 		        	var index345="";
 		        	for(var i=0;i<values.length;i++){
 		        		console.log("11000");
@@ -57,28 +84,32 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
 		        		}
 		        	}*/
 		        	
-		        	Ext.Msg.confirm("警告", "确定要删除吗？", function (button) {
+		        	Ext.Msg.confirm("警告", "确定要提交试卷吗？", function (button) {
 		                if (button == "yes") {
-		                	var myMask = new Ext.LoadMask(Ext.getBody(), { 
-		                         msg: '正在统计考试分数，请稍后！'
-		                    }); 
-		                    myMask.show();
+//		                	var myMask = new Ext.LoadMask(Ext.getBody(), { 
+//		                         msg: '正在统计考试分数，请稍后！'
+//		                    }); 
+//		                    myMask.show();
 		                  	Ext.Ajax.request({ 
 								url : 'http://localhost:8080/testPaper/getScore', 
 								method : 'post', 
-								params : { 
+								/*params : { 
 									testPaperDTO :values,
 									questions:questionDatas
-								}, 
+								}, */
+								jsonData:{
+									answers :values,
+									questions:questionDatas
+								},
 								success: function(response, options) {
 					                var json = Ext.util.JSON.decode(response.responseText);
 						            if(json.success){
-						            	myMask.hide();
-						            	Ext.Msg.alert('操作成功', json.msg, function() {
+						            	//myMask.hide();
+						            	Ext.Msg.alert('操作成功', ""+json.msg, function() {
 						            		
 						                });
 							        }else{
-							        	 myMask.hide();
+							        	 //myMask.hide();
 							        	 Ext.Msg.alert('操作失败', json.msg);
 							        }
 					            }

@@ -5,59 +5,8 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
     /*Add*/
     //toolbar, rowIndex, colIndex
 	openAddWindow:function(btn){
-		btn.up('panel').up('container').add(Ext.widget('workTimeAddWindow')).show();
+		btn.up('gridpanel').up('container').add(Ext.widget('workTimeAddWindow')).show();
 	},
-	
-	storeUpdate:function(store, record, operation, modifiedFieldNames, details, eOpts){
-		console.log("storeUpdate");
-//		if(record.getAt("hour")>10||record.getAt("hour<0")){
-//			Ext.Msg.alert("提示！","工作时间修改范围为1-10小时");
-//		}
-		console.log(record);
-		console.log(modifiedFieldNames);
-		console.log(details);
-		if(record.getData().hour>10||record.getData().hour<0){
-			
-			//record.getData().hour=details.item.modified.hour;
-			//delete record.getData().hour;
-			//console.log(record.getData().hour);
-			//record.getData().hour=details.item.modified.hour;
-			//console.log(details.item.modified.hour);
-			var array=new Array();			//声明一个数组
-			store.each(function(r){   		//遍历store
-				if(r.getData().id==record.getData().id){		//判断如果是那条被改变的数据
-					//r.getData().hour=details.item.modified.hour;//
-					//console.log(r.getData().hour);
-					//console.log(r.getData());
-					
-					var temp=r.copy().getData();  	//拷贝一个数据
-					delete temp.hour;				//因为Ext对内存保护数据，无法改动，所以要new个新的对象不在内存管理范围内，删除那条改动时间
-					temp.hour=details.item.modified.hour;		//把改动的hour赋值给temp
-					console.log(temp);
-					console.log(temp.hour);
-					array.push(temp);				//把temp数据放在集合list里面
-				}
-				else{				//如果不是那条被改变的数据
-					array.push(r.copy().getData());			//直接copy一行数据放在集合list
-				}
-			});
-			
-			store.setData(array);		//store里面重新放数据
-			
-			console.log(record.getData().hour);
-			Ext.Msg.alert("提示！","工作时间修改范围为1-10小时");
-			return false;
-		}
-		var array=new Array();		//重新new一个集合
-		store.each(function(r){			
-			array.push(r.copy().getData());		//更新每一个改动的数据
-		});
-		
-		store.setData(array);
-		//Ext.Msg.alert("提示！","工作时间修改范围为1-10   aaa小时");
-		//return false;
-	},
-	
     /*Edit*/
 	openEditWindow:function(grid, rowIndex, colIndex){
          var record = grid.getStore().getAt(rowIndex);
@@ -159,39 +108,8 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		
 		console.log(Ext.ClassManager.getName(store.getData()));
 		console.log(store.getData());
-		//本地排序
-		var pagingStore = Ext.create('Ext.data.Store', {
-			fields: [
-			    {type: 'string',name: 'employeeid'},
-				{type: 'string',name: 'employeeName'},
-				{type: 'string',name: 'departmentName'},
-				{type: 'int',name: 'hour'},
-			    {type: 'date', name: 'date', dateFormat:'Y/m/d'},
-			    {type:'int',name:'status'},
-			    {type:'int',name:'ifholiday'}
-			],
-            proxy: {
-                type: 'memory',
-                enablePaging: true,
-            },
-            pageSize: 10,
-            batchUpdateMode:"complete",
-            autoSync:true
-        });
-		store.setListeners({
-	            load:function () {
-	                pagingStore.getProxy().setData(store.getRange());
-	                pagingStore.load();
-	            }
-	    });
-		pagingStore.setListeners({
-            update:this.storeUpdate
-		});
-		//pagingStore.reload();
-		store.load();
 		//store.setData();
 		//Ext.data.StoreManager.lookup("holidayGridStroe").load();
-		
 		var gridTest = new Ext.grid.GridPanel({
 		    region: 'north',
 		    //id:"contactsGrid",
@@ -201,8 +119,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		        }
 		    },
 		    //bind: '{workTimes}',
-		    //store:store,
-		    itemId:"gridId",
+		    store:store,
 		    border: false,
 		    columns: [
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'employeeid',text: '员工编号',flex: 1},
@@ -262,19 +179,19 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
             listeners:{
             	cellclick:function(grid, td, cellIndex, record, tr, rowIndex, e, eOpts ){
             		var rows=grid.getStore().getAt(rowIndex).get("ifholiday");
-            		//console.log(rows);
+            		console.log(rows);
             		if(rows!="0"){
             			//console.log("00");
             			return false;//代表事件不生效
             		}
-            		/*console.log(td);
+            		console.log(td);
             		console.log(record);
             		console.log(cellIndex);
             		console.log(record);
             		console.log(tr);
             		console.log(rowIndex);
             		console.log(e);
-            		console.log(eOpts);*/
+            		console.log(eOpts);
             	},
             	
             	/*afterenderer:function(grid){
@@ -325,7 +242,6 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
             },
             dockedItems: [{
                 xtype: 'pagingtoolbar',
-                reference: 'pageBar',
                 dock: 'bottom',
                 displayInfo: true,
                 
@@ -334,7 +250,6 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		    height: 500,
 		    frame: true
 		});
-		pagingStore.getProxy().setData(store.getRange());
 		//store.setListeners(update:function(this, record, operation, modifiedFieldNames, details, eOpts))
 		
 //		store.setListeners({load:function(store,records){
@@ -374,8 +289,6 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		    buttons: [{
 		        text: '确定',
 		        handler: function (btn) {
-		        	var store=gridTest.getStore();
-		        	//var store=pagingStore;
 		        	var listRecord = new Array();
 //		        	var conGrid = Ext.getCmp('contactsGrid');
 //		        	var conStore=conGrid.getStore();
@@ -399,6 +312,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		        		records.push(temp); 
 		        	}); 
 		        	console.log(records);
+		        	
 		        	Ext.Ajax.request({ 
 						url : 'http://localhost:8080/workTime/forApproval', 
 						method : 'post', 
@@ -440,17 +354,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		        }
 		    }]
 		}).show();
-		//btn.up("window").up('panel').up('container').add(winChooseGoods).show();
-		//var container=btn.up("contaienr");
-		var workTimeContainerId=Ext.getCmp("workTimeContainerId");
-		workTimeContainerId.add(winChooseGoods).show();
-		//console.log(container);
-		//console.log(Ext.ClassManager.gerName(contaienr));
-		//btn.up('container').add(winChooseGoods).show();
-		gridTest.setStore(pagingStore);
-		pagebar=this.lookupReference("pageBar");
-	    pagebar.setStore(pagingStore);
-	    //btn.up("window").up("container").add(Ext.widget("gridTestWindow")).show();
+		//btn.up("window").up("container").add(Ext.widget("gridTestWindow")).show();
 		//container.add(E).show();
 	},
 	/*Edit Submit*/	
@@ -633,6 +537,5 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 	/*Check*/	
 	onCheckButton:function(grid, rowIndex, colIndex){
 		Ext.Msg.alert("Title","Click Check Button");
-	},
-	
+	}
 });
