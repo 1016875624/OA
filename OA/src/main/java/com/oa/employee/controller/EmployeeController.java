@@ -2,6 +2,7 @@ package com.oa.employee.controller;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -180,12 +181,12 @@ public class EmployeeController {
 			if (entity != null) {
 				// 把DTO的字段复制到实体中再进行保存
 				BeanUtils.copyProperties(employeeDTO, entity);
-				if (employeeDTO.getDepartmentid()!=null) {
+				if (StringUtils.isNotBlank(employeeDTO.getDepartmentid())) {
 					Department department = new Department();
 					department.setId(employeeDTO.getDepartmentid());
 					entity.setDepartment(department);
 				}
-				if (employeeDTO.getLeaderid()!=null) {
+				if (StringUtils.isNotBlank(employeeDTO.getLeaderid())) {
 					Employee leader = new Employee();
 					leader.setId(employeeDTO.getLeaderid());
 					entity.setLeader(leader);
