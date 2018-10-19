@@ -8,14 +8,14 @@ Ext.define('Admin.view.authentication.VerifyEmailWindow', {
         'Ext.button.Button'
     ],
 
-    title: 'Reset Password',
+    title: 'Email Validation',
 
     defaultFocus : 'authdialog',  // Focus the Auth Form to force field focus as well
 
     items: [
         {
             xtype: 'authdialog',
-            width: 455,
+            width: 415,
             defaultButton: 'resetPassword',
             autoComplete: true,
             bodyPadding: '20 20',
@@ -30,25 +30,39 @@ Ext.define('Admin.view.authentication.VerifyEmailWindow', {
 
             cls: 'auth-dialog-login',
             items: [
-                {
-                    xtype: 'label',
-                    cls: 'lock-screen-top-label',
-                    text: 'Enter your email address for further reset instructions'
+            	{
+                	xtype:'image',
+                    width:400,
+                    height:35,
+                    alt:'步骤②',
+                    src:'resources/images/2.png',
                 },
                 {
+					items:[
+						{	
+		                    xtype: 'textfield',
+		                    text:'user@qq.com',
+		                    id:'user_Email',
+		                    width: 225,
+							height: 60,
+		                    editable: false
+	                	},
+	                	{
+							xtype:'button',
+							height: 60,
+							width: 150, 
+							text: 'Send',
+							listeners: {
+										click: 'onChangeCode'
+										}
+		                 }
+		            ]
+				},
+				{
                     xtype: 'textfield',
-                    cls: 'auth-textbox',
                     height: 55,
-                    name: 'email',
-                    hideLabel: true,
-                    allowBlank: false,
-                    emptyText: 'user@example.com',
-                    vtype: 'email',
-                    triggers: {
-                        glyphed: {
-                            cls: 'trigger-glyph-noop auth-email-trigger'
-                        }
-                    }
+                    //name: 'code',
+                    emptyText: 'Email Verification Code'
                 },
                 {
                     xtype: 'button',
@@ -58,15 +72,15 @@ Ext.define('Admin.view.authentication.VerifyEmailWindow', {
                     formBind: true,
                     iconAlign: 'right',
                     iconCls: 'x-fa fa-angle-right',
-                    text: 'Reset Password',
+                    text: 'Next',
                     listeners: {
-                        click: 'onResetClick'
+                        click: 'onNextClick2'
                     }
                 },
                 {
                     xtype: 'component',
                     html: '<div style="text-align:right">' +
-                        '<a href="#login" class="link-forgot-password">'+
+                        '<a href="" class="link-forgot-password">'+
                             'Back to Log In</a>' +
                         '</div>'
                 }

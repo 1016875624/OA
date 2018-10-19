@@ -45,14 +45,32 @@
         });
 	},
 	
-	/*// 打开修改密码窗口
-	resetPasswordWin: function() {
-		Ext.widget('passwordreset').show();
-    },*/
-    
-    // 打开修改密码窗口
+    // ID验证窗口
     resetPasswordBtn: function() {
-		Ext.widget('verifyEmailWindow').show();
+		Ext.widget('verifyIdWindow').show();
+    },
+    
+    // Email验证窗口
+    onNextClick1: function(btn) {
+    	btn.up('window').close();
+    	Ext.widget('verifyEmailWindow').show();
+    },
+    
+    // 密码重置窗口
+    onNextClick2: function(btn) {
+    	btn.up('window').close();
+    	Ext.widget('resetPasswordWindow').show();
+    },
+    
+    // 完成设置窗口
+    onNextClick3: function(btn) {
+    	btn.up('window').close();
+    	Ext.widget('changeCompleteWindow').show();
+    },
+    
+    // 返回登录界面
+    onNextClick4: function(btn) {
+    	btn.up('window').close();
     },
     
     // 发送邮件按钮
