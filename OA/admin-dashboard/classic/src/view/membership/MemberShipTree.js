@@ -6,7 +6,7 @@ Ext.define('Admin.view.membership.MemberShipTree', {
     requires: [
        // 'Ext.d3.chart.Org',
         'Admin.store.MemberShipStore',
-        'Admin.store.MemberShipLocalStore',
+        //'Admin.store.MemberShipLocalStore',
         //'Ext.d3.hierarchy.tree.HorizontalTree'
     ],
 
