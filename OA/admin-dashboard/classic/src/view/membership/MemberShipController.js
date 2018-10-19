@@ -12,37 +12,28 @@ Ext.define('Admin.view.membership.MemberShipController', {
         tooltip.setHtml(html);
     },
     init:function () {
-        
-        var store =Ext.data.StoreManager.lookup('membershipstore');
+
+        var tree=this.lookupReference("membershipChart");
+        var store=tree.getStore();
+        Ext.Ajax.request({
+            url: 'http://localhost:8080/employee/user9'
+        }).then(function(response, opts) {
+                var obj = Ext.decode(response.responseText);
+                console.dir(obj);
+                store.setRoot(obj.root);
+            },
+            function(response, opts) {
+                console.log('server-side failure with status code ' + response.status);
+            })
+        /*var store =Ext.data.StoreManager.lookup('membershipstore');
         //var local =Ext.data.StoreManager.lookup('membershiplocalstore');
         var tree=this.lookupReference("membershipChart");
         store.load();
         console.log(store);
-        //var store =tree.store;
-        /*store.setListeners({
-            load:function () {
-                //console.log(store.getAt(0).get("picture"));
-                //tree.imagePath="http://localhost:8080/images/employee/"+store.getAt(0).get("picture");
-                datas=new Array();
-                var count=0;
-                store.each(function (r) {
-                    if (count++==0){
-                        temp=r.copy();
-                        delete temp.leaderid;
-                        //datas.push(temp);
-                    }
-                    else
-                    {
-                        datas.push(r.copy());
-                    }
-                });
-
-                store.setData(datas);
-                //local.setData(datas);
-                console.log(datas);
-                console.log(store.getData());
-            }
-        });*/
+        console.log(store.getData());
+        console.log(store.getRoot());
+        console.log(123)
+        console.log(store.getAt(0));*/
     }
 
     
