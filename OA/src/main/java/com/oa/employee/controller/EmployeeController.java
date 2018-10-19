@@ -51,16 +51,18 @@ public class EmployeeController {
 		// 对两个类中不同的字段进行操作
 		Employee leader = null;
 		Department department = new Department();
-		if (employeeDTO.getLeaderid() != null) {
+		if (StringUtils.isNotBlank(employeeDTO.getLeaderid())) {
 			leader = employeeService.findById(employeeDTO.getLeaderid()).orElse(null);
+			employee.setLeader(leader);
 		}
-		if (employeeDTO.getDepartmentid() != null) {
+		if ( StringUtils.isNotBlank(employeeDTO.getDepartmentid())) {
 			department = departmentService.findById(employeeDTO.getDepartmentid());
+			employee.setDepartment(department);
 		}
 		// 重写set方法
 		employee.setStatus(0);
-		employee.setLeader(leader);
-		employee.setDepartment(department);
+		
+		
 		System.out.println(employee);
 		try {
 			// Employee entity = employeeService.findById(id).get();
