@@ -38,8 +38,8 @@ Ext.define('Admin.view.employee.EmployeeEmailWindow', {
 			},{
 				xtype: 'combobox',
 	            reference:'searchFieldName',
+	            name:'applyType',
 	            fieldLabel: '申请类型',
-	            //hideLabel: true,
 	            store:Ext.create("Ext.data.Store", {
 				    fields: ["name", "value"],
 				    data: [
@@ -47,14 +47,11 @@ Ext.define('Admin.view.employee.EmployeeEmailWindow', {
 						{ name: '离职'   , value:'leave'},
 				    ]
 				}),
-	            displayField: 'name',
-	            valueField:'value',
-	            //value:'申请类型',
+				allowBlank:false,
 	            editable: false,
-	            queryMode: 'local',
-	            triggerAction: 'all',
-	            emptyText: 'Select a Type...',
-	            width: 135,
+	            queryMode:'local',
+	            displayField:'name',
+	            valueField:'value',
 	            listeners:{
 					change:'tbarSelectChangeType'
 				}

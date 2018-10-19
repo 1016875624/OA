@@ -1,5 +1,6 @@
 package com.oa.employee.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -21,4 +22,13 @@ public interface IEmployeeService {
 	public void deleteById(String id);
 	public void deleteAll(String[] ids);
 	public Page<Employee> findAll(Specification<Employee> spec, Pageable pageable);
+	/**
+	* <p>方法名称: findRemberShip</p>
+	* <p>描述：找出所有的关系</p>
+	* @param id 员工id
+	* @return List<EmployeeDTO> 返回类型
+	*/
+	List<EmployeeDTO> findRemberShip(String id);
+	
+	String findRemberShipToJson(String id);
 }

@@ -27,7 +27,8 @@
 	            	//var name = Ext.getCmp('loginUserName').setText(json.map.userId);
 	            	var id = Ext.getCmp('loginUserName').setText("用户名： "+json.map.userId);
 	            	console.log(id);
-	            	//console.log(name);
+	            	var position = Ext.getCmp('userPositon').setText(json.map.position);
+	            	console.log(position);
 	            	var headIcon = Ext.getCmp('head_Icon');
 			        console.log(json.msg);
 			        var path = '/images/employee/' + json.msg;
@@ -44,6 +45,18 @@
         });
 	},
 	
+	resetPasswordWin: function() {
+		Ext.widget('passwordreset').show();
+    },
+    
+    resetPasswordBtn: function() {
+		Ext.widget('passwordResetWindow').show();
+    },
+    
+    onResetClick:  function() {
+        this.redirectTo('dashboard', true);
+    },
+	
     onLoginAsButton: function() {
         this.redirectTo('login', true);
     },
@@ -56,9 +69,7 @@
         this.redirectTo('dashboard', true);
     },
 
-    onResetClick:  function() {
-        this.redirectTo('dashboard', true);
-    },
+    
 	
 	onChangeCode:  function() {
 		var o = Ext.getCmp("changeCode").getEl().dom.src="/verify/code?date="+new Date();

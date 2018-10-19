@@ -21,13 +21,17 @@ Ext.define('Admin.view.employee.EmployeeAddWindow', {
         items: [{
             xtype: 'textfield',
             fieldLabel: '员工编号',
-            name:'id'
+            allowBlank : false,
+            name:'id',
+            html: '<font color="red">*</font>'
         }, {
             xtype: 'textfield',
             fieldLabel: '员工姓名',
+            allowBlank : false,
             name:'name'
         }, {
 			fieldLabel: '员工部门',
+			allowBlank : false,
 			xtype:"departmentcombobox",
 	    	reference:'departmentBox',
 	    	name:'departmentid'
@@ -40,10 +44,13 @@ Ext.define('Admin.view.employee.EmployeeAddWindow', {
             xtype: 'textfield',
             fieldLabel: '职位',
             name:'position'
-        }, {
+        }, 
+       /* {
             xtype: 'combobox',
 	        fieldLabel: '在职状态',
+	        allowBlank : false,
 			name:'status',
+			editable:false,
             store: Ext.create('Ext.data.Store', {
                 fields: ['value', 'name'],
                 data: [
@@ -54,13 +61,16 @@ Ext.define('Admin.view.employee.EmployeeAddWindow', {
                 }),
                 displayField: 'name',
                 valueField: 'value',
-        }, {
+        }, */
+        {
             xtype: 'textfield',
             fieldLabel: '上级领导',
             name:'leaderName'
         }, {
             xtype: 'datefield',
             fieldLabel: '入职时间',
+            allowBlank : false,
+            editable:false,
             name:'entryTime',
             format: 'Y/m/d'
         }]

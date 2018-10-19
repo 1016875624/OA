@@ -9,6 +9,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.concurrent.ListenableFutureAdapter;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.oa.common.beans.BeanUtils;
 import com.oa.department.entity.Department;
 
@@ -64,10 +66,12 @@ public class EmployeeDTO {
 	*/ 
 	private Integer status;
 	
+	private Boolean expanded=true;
 	
 	/**
 	* @Fields leader : 上级
 	*/
+	@JsonIgnoreProperties(value={""})
 	private String leaderid;
 	private String leaderName;
 	

@@ -1,7 +1,11 @@
 package com.oa.employee.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.oa.employee.entity.Employee;
@@ -14,4 +18,6 @@ import com.oa.employee.entity.Employee;
 @Repository
 public interface EmployeeRepository extends PagingAndSortingRepository<Employee, String>,JpaSpecificationExecutor<Employee>{
 
+	@Query("FROM Employee e WHERE e.leader.id = :id")
+	List<Employee> findByLeader(@Param("id") String leaderid);
 }
