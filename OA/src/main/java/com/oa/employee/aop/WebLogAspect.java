@@ -16,6 +16,11 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 
+/**
+ * 日志切面类
+ * @author Administrator
+ *
+ */
 @Aspect
 @Component
 public class WebLogAspect {

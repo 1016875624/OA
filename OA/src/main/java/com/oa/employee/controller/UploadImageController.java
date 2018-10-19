@@ -49,7 +49,7 @@ public class UploadImageController {
 		String projectPath = temp.getAbsolutePath();
 		System.out.println("projectPath : " + projectPath);
 
-		//
+		// 编译临时路径
 		String runtimePath = this.getClass().getClassLoader().getResource("").getPath();
 		runtimePath += "/static/images/employee/";
 		System.out.println("runtimePath : " + runtimePath);

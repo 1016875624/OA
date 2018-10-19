@@ -45,14 +45,43 @@
         });
 	},
 	
+	/*// 打开修改密码窗口
 	resetPasswordWin: function() {
 		Ext.widget('passwordreset').show();
-    },
+    },*/
     
+    // 打开修改密码窗口
     resetPasswordBtn: function() {
-		Ext.widget('passwordResetWindow').show();
+		Ext.widget('verifyEmailWindow').show();
     },
     
+    // 发送邮件按钮
+    send_email_btn: function(btn) {
+    	Ext.Ajax.request({
+            url: 'http://localhost:8080/passwordReset',
+            method: 'post',
+            success: function(response, options) {
+            	var json = Ext.util.JSON.decode(response.responseText);
+	            if(json.success){
+	            	
+		        }else{
+		        	Ext.Msg.alert('发送失败', json.msg);
+		        }
+            },
+	    	failure: function(form,action){ 
+				Ext.Msg.alert('失败', '发送失败，请重新发送！.');
+			}
+        })
+    },
+    
+    // 点击确认按钮
+    resetPasswordSubmit: function() {
+    	//Ext.Msg.alert('message', '修改成功');
+    	var win=btn.up("window");
+    	Ext.Msg.alert('message', '修改成功，点击返回登录',function(){
+	    	  win.close();
+	    });
+    },
     onResetClick:  function() {
         this.redirectTo('dashboard', true);
     },
