@@ -4,14 +4,12 @@
  * and provides a backGround image during such operations.
  */
 Ext.define('Admin.view.authentication.LockingWindow', {
-    extend: 'Ext.window.Window',
+	extend: 'Ext.window.Window',
     xtype: 'lockingwindow',
-
     requires: [
         'Admin.view.authentication.AuthenticationController',
         'Ext.layout.container.VBox'
     ],
-
     cls: 'auth-locked-window',
     closable: false,
     resizable: false,
@@ -20,12 +18,10 @@ Ext.define('Admin.view.authentication.LockingWindow', {
     maximized: true,
     modal: true,
     scrollable: true,
-
     layout: {
         type: 'vbox',
         align: 'center',
         pack: 'center'
     },
-
     controller: 'authentication'
 });
