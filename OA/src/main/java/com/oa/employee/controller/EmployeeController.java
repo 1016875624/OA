@@ -87,11 +87,10 @@ public class EmployeeController {
 	}
 
 	@GetMapping("/{empid}")
-	public Page<EmployeeDTO> getOne(@PathVariable("empid") String empid, EmployeeQueryDTO employeeQueryDTO,
+	public String getOne(@PathVariable("empid") String empid, EmployeeQueryDTO employeeQueryDTO,
 			ExtjsPageRequest extjsPageRequest) {
 
-		return employeeService.findAllInDto(EmployeeQueryDTO.getWhereClause(employeeQueryDTO),
-				extjsPageRequest.getPageable());
+		return employeeService.findRemberShipToJson(empid);
 	}
 //	@GetMapping("/{empid}")
 //	public List<EmployeeDTO> getOne(@PathVariable("empid")String empid,EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
