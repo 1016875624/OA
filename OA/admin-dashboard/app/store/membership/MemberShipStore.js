@@ -1,16 +1,16 @@
 Ext.define('Admin.store.MemberShipStore', {
     extend: 'Ext.data.TreeStore',
     alias: 'store.membershipstore',
-
+    storeId:"membershipstore",
     config: {
         rootVisible: true
     },
-    // defaultRootProperty:"children",
+    defaultRootProperty:"leaderid",
     defaultRootId:"user1",
     parentIdProperty:"leaderid",
 
     autoLoad: 'true',
-    autoSync:'true',
+    autoSync:false,
     //remoteSort: false,
     pageSize: 100,
     // sorters: {
@@ -36,10 +36,36 @@ Ext.define('Admin.store.MemberShipStore', {
         url: 'http://localhost:8080/employee',
         reader:{
             type:'json',
-            rootProperty:'content',
-            totalProperty:'totalElements'
+            //rootProperty:'root',
+            //totalProperty:'totalElements'
         },
-    }
+    },
+    /*listeners:{
+        add : function( store, records, index, eOpts ){
+            Ext.Ajax.request({
+                url: 'http://localhost:8080/employee/user1'
+            }).then(function(response, opts) {
+                    var obj = Ext.decode(response.responseText);
+                    console.dir(obj);
+                    this.setRoot(obj);
+                },
+                function(response, opts) {
+                    console.log('server-side failure with status code ' + response.status);
+                })
+        },
+        load:function () {
+            Ext.Ajax.request({
+                url: 'http://localhost:8080/employee/user1'
+            }).then(function(response, opts) {
+                    var obj = Ext.decode(response.responseText);
+                    console.dir(obj);
+                    this.setRoot(obj);
+                },
+                function(response, opts) {
+                    console.log('server-side failure with status code ' + response.status);
+                })
+        }
+    },*/
     /*root: {
         name: 'Cliff Capote',
         title: 'CEO',

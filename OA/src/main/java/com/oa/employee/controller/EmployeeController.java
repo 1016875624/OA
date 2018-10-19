@@ -1,5 +1,7 @@
 package com.oa.employee.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -91,6 +93,10 @@ public class EmployeeController {
 		return employeeService.findAllInDto(EmployeeQueryDTO.getWhereClause(employeeQueryDTO),
 				extjsPageRequest.getPageable());
 	}
+//	@GetMapping("/{empid}")
+//	public List<EmployeeDTO> getOne(@PathVariable("empid")String empid,EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
+//		return employeeService.findRemberShip(empid);
+//	}
 
 	/**
 	 * 交换部门人员时加载
@@ -176,6 +182,7 @@ public class EmployeeController {
 				BeanUtils.copyProperties(employeeDTO, entity);
 				employeeService.save(entity);
 			}
+			employeeService.save(EmployeeDTO.DtoToentity(employeeDTO));
 			return new ExtAjaxResponse(true, "更新成功!");
 		} catch (Exception e) {
 			e.printStackTrace();

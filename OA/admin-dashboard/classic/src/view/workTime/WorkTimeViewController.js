@@ -306,7 +306,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		        	var records = []; 
 		        	store.each(function(r){ 
 		        		var temp=r.copy().getData();
-		        		temp.date=Ext.util.Format.date(temp.date,'Y/m/d')
+		        		temp.date=Ext.util.Format.date(temp.date,'Y/m/d');
 		        		delete temp.id;
 		        		//temp.id=null;
 		        		records.push(temp); 

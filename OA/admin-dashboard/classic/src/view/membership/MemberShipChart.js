@@ -45,6 +45,8 @@ Ext.define('Admin.view.membership.MemberShipChart', {
             .append('image')
             .attr('xlink:href', function (node) {
                 //return Ext.getResourcePath(imagePath + node.data.get(imageField), 'shared');
+                console.log(node);
+                console.log(node.data.get(imageField));
                 return "http://localhost:8080/images/employee/"+node.data.get(imageField);
             })
             .attr('x', '-45px')

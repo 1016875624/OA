@@ -6,6 +6,7 @@ Ext.define('Admin.view.membership.MemberShipTree', {
     requires: [
        // 'Ext.d3.chart.Org',
         'Admin.store.MemberShipStore',
+        'Admin.store.MemberShipLocalStore',
         //'Ext.d3.hierarchy.tree.HorizontalTree'
     ],
 
@@ -22,7 +23,7 @@ Ext.define('Admin.view.membership.MemberShipTree', {
 
         items: {
             xtype: 'membershipChart',
-
+            reference:"membershipChart",
             interactions: {
                 type: 'panzoom',
                 zoom: {
@@ -37,10 +38,11 @@ Ext.define('Admin.view.membership.MemberShipTree', {
 
             nodeSize: [200, 100],
 
-            imagePath: 'http://localhost:8080/images/employee/',
+            imagePath: 'http://localhost:8080/images/employee/1.png',
 
             store: {
-                type: 'membershipstore'
+                type: 'membershipstore',
+                //type: 'membershiplocalstore'
             }
         }
     }
