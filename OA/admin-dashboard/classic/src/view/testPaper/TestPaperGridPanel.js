@@ -45,6 +45,23 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
 				id:'scoreId',
 				hidden:true
 			  },{
+				  xtype: 'label',
+			      width: 100,
+			      margins: {left: 10},
+			      id: 'clock',
+			      listeners: {
+			      'render': function() {
+			    	  Ext.TaskManager.start({
+			    		    run: function() {
+			    		      Ext.getCmp("clock").setText(Ext.Date.format(new Date(), 'H:i:s A'));
+			    		    },
+			    		    interval: 1000
+			    	   });
+			    	  
+			       }
+			      
+			     }
+			  },{
 		    	text: '提交试卷',
 		        iconCls:'fa fa-pencil',
 		        id: 'tbarSubmitId',
@@ -170,6 +187,9 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
 		},'->'],
     	listeners:{
     		afterrender:function() {
+    			//时间变化
+    			
+    			/*over*/
     			var form=this;
     			console.log(form);
     			var testPaperstore=Ext.data.StoreManager.lookup("testPaperGridStroe");//试卷的store
@@ -180,9 +200,12 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
     	    		//console.log(record.getData());
     	    		//console.log(record.getData().startTime);
     	    		var starttime=record.getData().startTime;
-    	    		var endtime=record.getData().startTime;
     	    		starttime=Ext.util.Format.date(starttime,'Y/m/d H:i:s');
-    	    		Ext.getCmp("begintestime").setValue(starttime);
+    	    		Ext.getCmp("begintestime").setValue(starttime+" 一");
+    	    		
+    	    		var endtime=record.getData().endTime;
+    	    		endtime=Ext.util.Format.date(endtime,'H:i:s');
+    	    		Ext.getCmp("endtestime").setValue(endtime);
     	    	}});
     	    	//console.log(testPaperstore.getData());
     	    	//testPaperstore.load();
