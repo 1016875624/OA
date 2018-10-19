@@ -149,7 +149,14 @@
                 iconCls: 'x-fa fa-address-card',
                 viewType: 'salary',
                 leaf: true
-            }
+            },
+            {
+                text: '员工关系',
+                iconCls: 'x-fa fa-address-card',
+                viewType: 'membershipTree',
+                leaf: true
+            },
+
         ]
     }
 });
