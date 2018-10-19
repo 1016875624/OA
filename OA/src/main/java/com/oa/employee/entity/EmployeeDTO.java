@@ -66,6 +66,7 @@ public class EmployeeDTO {
 	*/ 
 	private Integer status;
 	
+	private Boolean expanded=true;
 	
 	/**
 	* @Fields leader : 上级

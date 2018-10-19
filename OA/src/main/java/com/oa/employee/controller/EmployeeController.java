@@ -99,7 +99,8 @@ public class EmployeeController {
 	public String getOne(@PathVariable("empid")String empid,EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
 		/*List<EmployeeDTO>employeeDTOs=employeeService.findRemberShip(empid);
 		JSONArray jsonArray=JSON.parseArray(JSON.toJSONString(employeeDTOs));
-		jsonArray.getJSONObject(0).remove("leaderid");*/
+		jsonArray.getJSONObject(0).remove("leaderid");
+		return jsonArray.toJSONString();*/
 		return employeeService.findRemberShipToJson(empid);
 	}
 //	@GetMapping("/{empid}")

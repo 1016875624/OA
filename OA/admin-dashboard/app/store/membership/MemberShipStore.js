@@ -5,9 +5,9 @@ Ext.define('Admin.store.MemberShipStore', {
     config: {
         rootVisible: true
     },
-    //defaultRootProperty:"leaderid",
+    defaultRootProperty:"leaderid",
     defaultRootId:"user1",
-    //parentIdProperty:"leaderid",
+    parentIdProperty:"leaderid",
 
     autoLoad: 'true',
     autoSync:false,
@@ -18,7 +18,7 @@ Ext.define('Admin.store.MemberShipStore', {
     //     property: 'overHours'
     // },
 
-    /*fields: [
+    fields: [
         {type: 'string',name: 'id'},
         {type: 'string',name: 'name'},
         {type: 'string',name: 'departmentName'},
@@ -30,16 +30,42 @@ Ext.define('Admin.store.MemberShipStore', {
         {type: 'string',name: 'leaderid'},
         {type: 'string',name: 'departmentid'},
         {type: 'date', name: 'entryTime', dateFormat:'Y/m/d H:i:s'}
-    ],*/
+    ],
     proxy: {
         type: 'rest', //类型为依赖
         url: 'http://localhost:8080/employee',
         reader:{
             type:'json',
-            rootProperty:'root',
+            //rootProperty:'root',
             //totalProperty:'totalElements'
         },
-    }
+    },
+    /*listeners:{
+        add : function( store, records, index, eOpts ){
+            Ext.Ajax.request({
+                url: 'http://localhost:8080/employee/user1'
+            }).then(function(response, opts) {
+                    var obj = Ext.decode(response.responseText);
+                    console.dir(obj);
+                    this.setRoot(obj);
+                },
+                function(response, opts) {
+                    console.log('server-side failure with status code ' + response.status);
+                })
+        },
+        load:function () {
+            Ext.Ajax.request({
+                url: 'http://localhost:8080/employee/user1'
+            }).then(function(response, opts) {
+                    var obj = Ext.decode(response.responseText);
+                    console.dir(obj);
+                    this.setRoot(obj);
+                },
+                function(response, opts) {
+                    console.log('server-side failure with status code ' + response.status);
+                })
+        }
+    },*/
     /*root: {
         name: 'Cliff Capote',
         title: 'CEO',
