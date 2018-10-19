@@ -58,15 +58,14 @@ public class LoginController {
 			SessionUtil.setUser(session, user);
 
 			/*
-			 * ///读取角色Group List<Group> groupList =
-			 * identityService.createGroupQuery().groupMember(user.getId()).list();
+			 * ///读取角色Group
 			 * 
-			 * SessionUtil.setGroupList(session, groupList);
-			 * 
-			 * String[] groupIds = new String[groupList.size()]; for (int i = 0; i <
-			 * groupIds.length; i++) { groupIds[i] = groupList.get(i).getId(); }
-			 * SessionUtil.setGroupIds(session, ArrayUtils.toString(groupIds));//"groupIds"
-			 * : "admin,hrManager"
+			 * List<Group> groupList
+			 * =identityService.createGroupQuery().groupMember(user.getId()).list();
+			 * SessionUtil.setGroupList(session, groupList); String[] groupIds = new
+			 * String[groupList.size()]; for (int i = 0; i < groupIds.length; i++) {
+			 * groupIds[i] = groupList.get(i).getId(); } SessionUtil.setGroupIds(session,
+			 * ArrayUtils.toString(groupIds));//"groupIds": "admin,hrManager"
 			 */
 
 			// 找到登录用户的信息
@@ -76,7 +75,7 @@ public class LoginController {
 			map.put("userId", userId);
 			map.put("position", employee.getPosition());
 			map.put("msg", employee.getPicture());
-			// “可以通过key找到value”
+			// 设置属性：“可以通过key找到value”
 			session.setAttribute("userId", userId);
 			session.setAttribute("userPosition", employee.getPosition());
 			ExtAjaxResponse e = new ExtAjaxResponse(true, map);

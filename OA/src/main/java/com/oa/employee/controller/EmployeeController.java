@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.oa.common.beans.BeanUtils;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.ExtjsPageRequest;
@@ -26,20 +24,17 @@ import com.oa.employee.entity.Employee;
 import com.oa.employee.entity.EmployeeDTO;
 import com.oa.employee.entity.EmployeeQueryDTO;
 import com.oa.employee.service.IEmployeeService;
-import com.oa.worktime.entity.WorkTime;
-
 
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
 	@Autowired
 	private IEmployeeService employeeService;
-	
-	@Autowired
-	private IDepartmentService departmentService; 
-	
 
-	//添加
+	@Autowired
+	private IDepartmentService departmentService;
+
+	// 添加
 	/**
 	 * 添加
 	 * 
@@ -72,11 +67,12 @@ public class EmployeeController {
 			System.out.println("添加员工成功!");
 			return "添加成功";
 		} catch (Exception e) {
+			e.printStackTrace();
 			return "添加失败";
 		}
 	}
-		
-	//查找分页显示
+
+	// 查找分页显示
 	/**
 	 * 查找分页显示
 	 * 
@@ -89,28 +85,21 @@ public class EmployeeController {
 		return employeeService.findAllInDto(EmployeeQueryDTO.getWhereClause(employeeQueryDTO),
 				extjsPageRequest.getPageable());
 	}
-//	@GetMapping("/{empid}")
-//	public Page<EmployeeDTO> getOne(@PathVariable("empid")String empid,EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
-//		
-//		return employeeService.findAllInDto(EmployeeQueryDTO.getWhereClause(employeeQueryDTO), extjsPageRequest.getPageable());
-//		
-//	}
+
 	@GetMapping("/{empid}")
-	public String getOne(@PathVariable("empid")String empid,EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
-		/*List<EmployeeDTO>employeeDTOs=employeeService.findRemberShip(empid);
-		JSONArray jsonArray=JSON.parseArray(JSON.toJSONString(employeeDTOs));
-		jsonArray.getJSONObject(0).remove("leaderid");
-		return jsonArray.toJSONString();*/
-		return employeeService.findRemberShipToJson(empid);
+	public Page<EmployeeDTO> getOne(@PathVariable("empid") String empid, EmployeeQueryDTO employeeQueryDTO,
+			ExtjsPageRequest extjsPageRequest) {
+
+		return employeeService.findAllInDto(EmployeeQueryDTO.getWhereClause(employeeQueryDTO),
+				extjsPageRequest.getPageable());
 	}
 //	@GetMapping("/{empid}")
 //	public List<EmployeeDTO> getOne(@PathVariable("empid")String empid,EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
 //		return employeeService.findRemberShip(empid);
 //	}
-	
-	//多选更新
+
 	/**
-	 * 交换部门人员
+	 * 交换部门人员时加载
 	 * 
 	 * @param employeeDTOs
 	 * @return
@@ -128,9 +117,8 @@ public class EmployeeController {
 			return new ExtAjaxResponse(true, "交换失败!");
 		}
 	}
-	
-	
-	//根据id删除
+
+	// 根据id删除
 	/**
 	 * 删除一条
 	 * 
@@ -142,42 +130,63 @@ public class EmployeeController {
 		try {
 			if (id != null) {
 				Employee employee = employeeService.findById(id).orElse(null);
+				// 将状态置为-1而不是真正的删除
 				employee.setStatus(-1);
 				employeeService.save(employee);
 			}
 			return new ExtAjaxResponse(true, "删除成功！");
 		} catch (Exception e) {
-			return new ExtAjaxResponse(true,"删除失败！");
+			e.printStackTrace();
+			return new ExtAjaxResponse(true, "删除失败！");
 		}
 	}
-	
-	//批量删除
+
+	/**
+	 * 批量删除
+	 * 
+	 * @param ids
+	 * @return
+	 */
 	@PostMapping("/deletes")
 	public ExtAjaxResponse deleteMoreRows(@RequestParam(name = "ids") String[] ids) {
 		try {
 			if (ids != null) {
-				employeeService.deleteAll(ids);
+				// 遍历数组把状态设为-1
+				for (int i = 0; i < ids.length; i++) {
+					Employee employee = employeeService.findById(ids[i]).orElse(null);
+					employee.setStatus(-1);
+					employeeService.save(employee);
+				}
+				// employeeService.deleteAll(ids);
 			}
-			return new ExtAjaxResponse(true,"删除多条成功");
+			return new ExtAjaxResponse(true, "删除多条成功");
 		} catch (Exception e) {
-			return new ExtAjaxResponse(false,"删除多条失败");
+			e.printStackTrace();
+			return new ExtAjaxResponse(false, "删除多条失败");
 		}
 	}
 
-	//修改更新
-	@PutMapping(value="{id}")
-    public @ResponseBody ExtAjaxResponse update(@PathVariable("id") String id,@RequestBody EmployeeDTO employeeDTO) {
-    	try {
-    		/*Employee entity = employeeService.findById(id).orElse(null);
-			if(entity!=null) {
-				BeanUtils.copyProperties(employeeDTO, entity);//使用自定义的BeanUtils
+	/**
+	 * 修改更新
+	 * 
+	 * @param id
+	 * @param employeeDTO
+	 * @return
+	 */
+	@PutMapping(value = "{id}")
+	public @ResponseBody ExtAjaxResponse update(@PathVariable("id") String id, @RequestBody EmployeeDTO employeeDTO) {
+		try {
+			Employee entity = employeeService.findById(id).orElse(null);
+			if (entity != null) {
+				// 把DTO的字段复制到实体中再进行保存
+				BeanUtils.copyProperties(employeeDTO, entity);
 				employeeService.save(entity);
-			}*/
+			}
 			employeeService.save(EmployeeDTO.DtoToentity(employeeDTO));
-    		return new ExtAjaxResponse(true,"更新成功!");
-	    } catch (Exception e) {
-	    	e.printStackTrace();
-	        return new ExtAjaxResponse(false,"更新失败!");
-	    }
-    }
+			return new ExtAjaxResponse(true, "更新成功!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ExtAjaxResponse(false, "更新失败!");
+		}
+	}
 }
