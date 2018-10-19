@@ -86,19 +86,19 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
 					//select: 'searchComboboxSelectChuang',
 					change:'tbarSelectChange'
 				}
-	        },'-',{
+	        },{
             	xtype:'textfield',
             	reference:'searchFieldValue',
             	name:'orderPanelSearchField',
             	emptyText: '输入员工编号',
             	hidden:true,
             	hideLabel: true
-		    }, '-',{
+		    }, {
 		    	xtype:"combobox",
 		    	name:"status",
 		    	store:Ext.create('Ext.data.Store',{
 		    		fields:["name","value"],
-		    		data:[{name:"待申请",value:"0"},{name:"待审核",value:"2"},{name:"审核通过",value:"3"},{name:"审核不通过",value:"4"}]
+		    		data:[{name:"待审核",value:"2"},{name:"审核通过",value:"3"},{name:"审核不通过",value:"4"}]
 		    	}),
 		    	displayField:"name",
 		    	valueField:"value",
@@ -107,13 +107,13 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
 		    	editable: false,
 		    	hidden:true,
 		    	queryMode:'local',
-		    },'-',{
+		    },{
 		    	xtype:"departmentcombobox",
 		    	reference:'departmentBox',
 		    	name:'departmentid',
 		    	hidden:true,
 		    },
-		    '-',{
+		    {
 				xtype: 'datefield',
 				hideLabel: true,
 				hidden:true,
@@ -123,7 +123,7 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
 				editable:false,
 				emptyText: '起始时间',
 				name: 'from_date'
-			}, '-',{
+			},{
 				xtype: 'datefield',
 				hideLabel: true,
 				hidden:true,

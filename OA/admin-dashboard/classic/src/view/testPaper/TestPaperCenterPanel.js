@@ -1,7 +1,7 @@
 ﻿Ext.define('Admin.view.testPaper.TestPaperCenterPanel', {
     extend: 'Ext.container.Container',
     xtype: 'testPaperCenterPanel',
-    //controller: 'testPaperViewController',
+    controller: 'testPaperViewController',
     viewModel: {type: 'testPaperViewModel'},
     layout: 'fit',
     items: [{xtype:'testPaperGridPanel'}]

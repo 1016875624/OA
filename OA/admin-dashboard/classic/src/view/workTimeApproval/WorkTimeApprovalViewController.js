@@ -47,19 +47,19 @@ Ext.define('Admin.view.workTimeApproval.WorkTimeApprovalViewController', {
 		var searchField = this.lookupReference('searchFieldName').getValue();
 		
 		var searchValue = this.lookupReference('searchFieldValue').getValue();
-		var searchComboValue = this.lookupReference('departmentBox').getValue();
-		var searchStatusComboValue = this.lookupReference('statusCombo').getValue();
+		//var searchComboValue = this.lookupReference('departmentBox').getValue();
+		//var searchStatusComboValue = this.lookupReference('statusCombo').getValue();
 		var searchDataFieldValue = this.lookupReference('searchDataFieldValue').getValue();
 		var searchDataFieldValue2 = this.lookupReference('searchDataFieldValue2').getValue();
 		if(searchField==='employeeid'){
 			Ext.apply(store.proxy.extraParams, {employeeid:searchValue});
 		}
-		if(searchField==='departmentName'){
+		/*if(searchField==='departmentName'){
 			Ext.apply(store.proxy.extraParams, {departmentid:searchComboValue});
 		}
 		if(searchField==='status'){
 			Ext.apply(store.proxy.extraParams, {status:searchStatusComboValue});
-		}
+		}*/
 		if(searchField==='date'){
 			Ext.apply(store.proxy.extraParams,{
 				StartDate:Ext.util.Format.date(searchDataFieldValue, 'Y/m/d'),
@@ -71,27 +71,27 @@ Ext.define('Admin.view.workTimeApproval.WorkTimeApprovalViewController', {
 	tbarSelectChange:function(box,newValue,oldValue,eOpts){
 		console.log("12356");
 		var searchValue = this.lookupReference('searchFieldValue');
-		var searchComboValue = this.lookupReference('departmentBox');
-		var searchStatusComboValue = this.lookupReference('statusCombo');
+		//var searchComboValue = this.lookupReference('departmentBox');
+		//var searchStatusComboValue = this.lookupReference('statusCombo');
 		var searchDataFieldValue = this.lookupReference('searchDataFieldValue');
 		var searchDataFieldValue2 = this.lookupReference('searchDataFieldValue2');
 		//console.log(Ext.ClassManager.getName(searchValue));
 		if(newValue=="employeeid"){
-			searchComboValue.setHidden(true);
+			//searchComboValue.setHidden(true);
 			searchValue.setHidden(false);
-			searchStatusComboValue.setHidden(true);
+			//searchStatusComboValue.setHidden(true);
 			searchDataFieldValue.setHidden(true);
 			searchDataFieldValue2.setHidden(true);
 		}
 		else if(newValue=="date"){
-			searchStatusComboValue.setHidden(true);
+		//	searchStatusComboValue.setHidden(true);
 			searchDataFieldValue.setHidden(false);
 			searchDataFieldValue2.setHidden(false);
-			searchComboValue.setHidden(true);
+		//	searchComboValue.setHidden(true);
 			searchValue.setHidden(true);
 			
 		}
-		else if(newValue=="departmentName"){
+		/*else if(newValue=="departmentName"){
 			searchStatusComboValue.setHidden(true);
 			searchComboValue.setHidden(false);
 			searchValue.setHidden(true);
@@ -103,8 +103,8 @@ Ext.define('Admin.view.workTimeApproval.WorkTimeApprovalViewController', {
 			searchValue.setHidden(true);
 			searchDataFieldValue.setHidden(true);
 			searchDataFieldValue2.setHidden(true);
-		}else{
-			searchComboValue.setHidden(true);
+		}*/else{
+			//searchComboValue.setHidden(true);
 			searchValue.setHidden(true);
 			searchDataFieldValue.setHidden(true);
 			searchDataFieldValue2.setHidden(true);
