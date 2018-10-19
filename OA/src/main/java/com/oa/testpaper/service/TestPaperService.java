@@ -1,8 +1,11 @@
 package com.oa.testpaper.service;
 
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -170,6 +173,16 @@ public class TestPaperService implements ITestPaperService{
 		TestPaper testPaper=new TestPaper();
 		testPaperDTO.setStatus(0);
 		testPaperDTO.setStartTime(new Date());
+		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		//Date now = new Date();
+		//long time = 30*60*1000;//30分钟
+		//Date afterDate = DateFormat.parse(now .getTime() + time);//30分钟后的时间
+		//Date beforeDate = new Date(now .getTime() - time);//30分钟前的时间
+		
+		Calendar nowTime = Calendar.getInstance();
+		nowTime.add(Calendar.MINUTE, 5);//30分钟后的时间
+		testPaperDTO.setEndTime(nowTime.getTime());
+		
 		testPaperDTO.setQuestionList("1.2.3.4.5.6.7.8.9.10.");
 		testPaperDTO.setEmployeeid(employeeid);
 		
