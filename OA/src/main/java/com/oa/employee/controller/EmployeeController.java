@@ -87,11 +87,10 @@ public class EmployeeController {
 	}
 
 	@GetMapping("/{empid}")
-	public Page<EmployeeDTO> getOne(@PathVariable("empid") String empid, EmployeeQueryDTO employeeQueryDTO,
+	public String getOne(@PathVariable("empid") String empid, EmployeeQueryDTO employeeQueryDTO,
 			ExtjsPageRequest extjsPageRequest) {
 
-		return employeeService.findAllInDto(EmployeeQueryDTO.getWhereClause(employeeQueryDTO),
-				extjsPageRequest.getPageable());
+		return employeeService.findRemberShipToJson(empid);
 	}
 //	@GetMapping("/{empid}")
 //	public List<EmployeeDTO> getOne(@PathVariable("empid")String empid,EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
@@ -175,12 +174,24 @@ public class EmployeeController {
 	 */
 	@PutMapping(value = "{id}")
 	public @ResponseBody ExtAjaxResponse update(@PathVariable("id") String id, @RequestBody EmployeeDTO employeeDTO) {
+		System.out.println(employeeDTO);
 		try {
 			Employee entity = employeeService.findById(id).orElse(null);
 			if (entity != null) {
 				// 把DTO的字段复制到实体中再进行保存
 				BeanUtils.copyProperties(employeeDTO, entity);
+				if (employeeDTO.getDepartmentid()!=null) {
+					Department department = new Department();
+					department.setId(employeeDTO.getDepartmentid());
+					entity.setDepartment(department);
+				}
+				if (employeeDTO.getLeaderid()!=null) {
+					Employee leader = new Employee();
+					leader.setId(employeeDTO.getLeaderid());
+					entity.setLeader(leader);
+				}
 				employeeService.save(entity);
+				return new ExtAjaxResponse(true, "更新成功!");
 			}
 			employeeService.save(EmployeeDTO.DtoToentity(employeeDTO));
 			return new ExtAjaxResponse(true, "更新成功!");

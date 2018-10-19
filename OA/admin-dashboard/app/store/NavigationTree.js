@@ -103,7 +103,7 @@
            },{
                text: '题库管理',
                iconCls: 'x-fa fa-address-card',
-               viewType: 'questionCenterPanel',
+               //viewType: 'questionCenterPanel',
                children:[
                    {
                        text: '题库',
