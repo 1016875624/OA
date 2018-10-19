@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.oa.common.beans.BeanUtils;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.SessionUtil;
 import com.oa.employee.entity.Employee;
@@ -81,6 +82,11 @@ public class TestPaperController {
 
 		// JSONObject questions=ob.getJSONObject("questions");
 		List<Question> questions = ob.getJSONArray("questions").toJavaList(Question.class);
+		
+		List<TestPaperDTO> testPaperDTOs=ob.getJSONArray("testPaper").toJavaList(TestPaperDTO.class);
+		TestPaperDTO testPaperDTO=testPaperDTOs.get(0);
+		System.out.println("testPaper: "+testPaperDTO);
+		
 		int count = 0;
 		for (String string : titles) {
 			String s = new String(string);
@@ -128,7 +134,14 @@ public class TestPaperController {
 			}
 
 		}
+		
 		Double score=1.0 * count * 10;
+		
+		TestPaper testPaper=testPaperService.findById(testPaperDTO.getId());
+		
+		testPaper.setScore(score);
+		testPaperService.save(testPaper);
+		
 		/*Map<String, String> map=new HashMap<>();
 		map.put("msg", "success");
 		map.put("score", score.toString());*/

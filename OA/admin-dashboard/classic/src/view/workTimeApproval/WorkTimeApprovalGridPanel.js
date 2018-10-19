@@ -15,7 +15,7 @@ Ext.define('Admin.view.workTimeApproval.WorkTimeApprovalGridPanel', {
     items: [{
             xtype: 'gridpanel',
             cls: 'user-grid',
-            title: 'workTimeApprovalGrid Results',
+            title: '审批工时',
             //routeId: 'user',
             bind: '{workTimeApprovalLists}',
             scrollable: false,
@@ -64,7 +64,7 @@ Ext.define('Admin.view.workTimeApproval.WorkTimeApprovalGridPanel', {
 					//select: 'searchComboboxSelectChuang',
 					change:'tbarSelectChange'
 				}
-	        },'-',{
+	        },{
             	xtype:'textfield',
             	reference:'searchFieldValue',
             	name:'orderPanelSearchField',
@@ -72,7 +72,7 @@ Ext.define('Admin.view.workTimeApproval.WorkTimeApprovalGridPanel', {
             	hidden:true,
             	hideLabel: true
 		    },
-		    '-',{
+		    {
 				xtype: 'datefield',
 				hideLabel: true,
 				hidden:true,
@@ -82,7 +82,7 @@ Ext.define('Admin.view.workTimeApproval.WorkTimeApprovalGridPanel', {
 				editable:false,
 				emptyText: '起始时间',
 				name: 'from_date'
-			}, '-',{
+			}, {
 				xtype: 'datefield',
 				hideLabel: true,
 				hidden:true,
@@ -97,16 +97,11 @@ Ext.define('Admin.view.workTimeApproval.WorkTimeApprovalGridPanel', {
 		        iconCls: 'fa fa-search',
 		        handler: 'quickSearch'
 		    }, '-',{
-		        text: 'Search More',
+		        text: '高级查询',
 		        iconCls: 'fa fa-search-plus',
 		        handler: 'openSearchWindow'	
 			}, '->',{
-		        text: 'Add',
-		        tooltip: 'Add a new row',
-		        iconCls: 'fa fa-plus',
-		        handler: 'openAddWindow'	
-		    },'-',{
-		        text: 'Removes',
+		        text: '批量驳回',
 		        tooltip: 'Remove the selected item',
 		        iconCls:'fa fa-trash',
 		        itemId: 'workTimeGridPanelRemove',

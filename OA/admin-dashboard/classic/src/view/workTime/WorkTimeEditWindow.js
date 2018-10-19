@@ -61,6 +61,7 @@ Ext.define('Admin.view.workTime.WorkTimeEditWindow', {
         	editable: false,
             xtype: 'datefield',
             fieldLabel: '日期',
+            disabled:true,
             name:'date',
             format: 'Y/m/d'
         }]

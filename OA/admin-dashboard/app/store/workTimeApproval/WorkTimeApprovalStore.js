@@ -28,7 +28,7 @@ Ext.define('Admin.store.workTimeApproval.WorkTimeApprovalStore', {
     autoLoad: 'true',
 	autoSync:'true',
 	remoteSort: true,
-	pageSize: 10,
+	pageSize: 20,
 	sorters: {
 		direction: 'DESC',
 		property: 'id'

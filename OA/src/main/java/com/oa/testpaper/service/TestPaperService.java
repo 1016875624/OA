@@ -15,6 +15,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.oa.common.beans.BeanUtils;
+import com.oa.employee.entity.Employee;
 import com.oa.question.entity.Question;
 import com.oa.question.service.IQuestionService;
 import com.oa.testpaper.entity.TestPaper;
@@ -162,9 +164,22 @@ public class TestPaperService implements ITestPaperService{
 	@Override
 	public TestPaperDTO getTest(String employeeid) {
 		TestPaperDTO testPaperDTO=new TestPaperDTO();
-		testPaperDTO.setEmployeeid(employeeid);
+		Employee employee=new Employee();
+		employee.setId(employeeid);
+		
+		TestPaper testPaper=new TestPaper();
+		testPaperDTO.setStatus(0);
 		testPaperDTO.setStartTime(new Date());
 		testPaperDTO.setQuestionList("1.2.3.4.5.6.7.8.9.10.");
+		testPaperDTO.setEmployeeid(employeeid);
+		
+		BeanUtils.copyProperties(testPaperDTO, testPaper);
+		testPaper.setEmployee(employee);
+		
+		testPaperRepository.save(testPaper);
+		testPaperDTO.setId(testPaper.getId());
+		//System.out.println(testPaper);
+		//System.out.println("how many time ");
 		return testPaperDTO;
 	}
 }
