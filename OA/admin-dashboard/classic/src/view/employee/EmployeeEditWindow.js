@@ -80,7 +80,7 @@ Ext.define('Admin.view.employee.EmployeeEditWindow', {
 			}, {
 				xtype: 'textfield',
 				fieldLabel: '上级领导',
-				name:'leaderName'
+				name:'leaderid'
 			}, {
 				xtype: 'datefield',
 				fieldLabel: '入职时间',

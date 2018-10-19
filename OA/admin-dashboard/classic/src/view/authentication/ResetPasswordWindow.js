@@ -1,6 +1,6 @@
-Ext.define('Admin.view.authentication.VerifyIdWindow', {
+Ext.define('Admin.view.authentication.ResetPasswordWindow', {
 	extend: 'Admin.view.authentication.LockingWindow',
-	xtype: 'verifyIdWindow',
+	xtype: 'resetPasswordWindow',
     requires: [
         'Admin.view.authentication.Dialog',
         'Ext.form.Label',
@@ -8,14 +8,14 @@ Ext.define('Admin.view.authentication.VerifyIdWindow', {
         'Ext.button.Button'
     ],
 
-    title: 'ID Validation',
+    title: 'Password Reset',
 
     defaultFocus : 'authdialog',  // Focus the Auth Form to force field focus as well
 
     items: [
         {
             xtype: 'authdialog',
-            width: 415,
+            width: 455,
             defaultButton: 'resetPassword',
             autoComplete: true,
             bodyPadding: '20 20',
@@ -30,59 +30,30 @@ Ext.define('Admin.view.authentication.VerifyIdWindow', {
 
             cls: 'auth-dialog-login',
             items: [
-                {
+            	{
                 	xtype:'image',
                     width:400,
                     height:35,
-                    alt:'步骤①',
-                    src:'resources/images/1.png',
+                    alt:'步骤③',
+                    src:'resources/images/3.png',
                 },
                 {
-                    xtype: 'textfield',
-                    cls: 'auth-textbox',
-                    height: 55,
-                    name: 'userId',
-                    hideLabel: true,
-                    allowBlank: false,
-                    emptyText: 'userId',
-                    //vtype: 'email',
-                    triggers: {
-                        glyphed: {
-                            cls: 'trigger-glyph-noop auth-email-trigger'
-                        }
-                    }
+                	xtype: 'textfield',
+                    fieldLabel: '新的密码',
+                    allowBlank : false,
+                    inputType: 'password',
+                    name:'name'
                 },
                 {
-					items:[{
-							xtype:'box',
-							width: 225,
-							height: 60,
-							id : 'change_Code',
-							autoEl : {
-							tag : 'img',
-							src : "/verify/code"	//这里需要根据此条数据传过来的文件名动态拿图片							 
-							}
-						},{
-							xtype:'button',
-							height: 60,
-							width: 120, 
-							text: '看不清，换一张',
-							listeners: {
-										click: 'onChangeCode'
-										}
-						}]
-				},
-				{
-                    xtype: 'textfield',
-                    //cls: 'auth-textbox',
-                    height: 55,
-                    name: 'code',
-                    //allowBlank: false,
-                    emptyText: 'Verification Code'
+                	xtype: 'textfield',
+                    fieldLabel: '再次输入',
+                    allowBlank : false,
+                    inputType: 'password',
+                    name:'name'
                 },
                 {
                     xtype: 'button',
-                    reference: 'nextToEmail',
+                    reference: 'resetPassword',
                     scale: 'large',
                     ui: 'soft-blue',
                     formBind: true,
@@ -90,7 +61,7 @@ Ext.define('Admin.view.authentication.VerifyIdWindow', {
                     iconCls: 'x-fa fa-angle-right',
                     text: 'Next',
                     listeners: {
-                        click: 'onNextClick1'
+                        click: 'onNextClick3'
                     }
                 },
                 {
