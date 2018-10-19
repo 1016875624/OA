@@ -1,16 +1,16 @@
 Ext.define('Admin.store.MemberShipStore', {
     extend: 'Ext.data.TreeStore',
     alias: 'store.membershipstore',
-
+    storeId:"membershipstore",
     config: {
         rootVisible: true
     },
-    // defaultRootProperty:"children",
+    //defaultRootProperty:"leaderid",
     defaultRootId:"user1",
-    parentIdProperty:"leaderid",
+    //parentIdProperty:"leaderid",
 
     autoLoad: 'true',
-    autoSync:'true',
+    autoSync:false,
     //remoteSort: false,
     pageSize: 100,
     // sorters: {
@@ -18,7 +18,7 @@ Ext.define('Admin.store.MemberShipStore', {
     //     property: 'overHours'
     // },
 
-    fields: [
+    /*fields: [
         {type: 'string',name: 'id'},
         {type: 'string',name: 'name'},
         {type: 'string',name: 'departmentName'},
@@ -30,14 +30,14 @@ Ext.define('Admin.store.MemberShipStore', {
         {type: 'string',name: 'leaderid'},
         {type: 'string',name: 'departmentid'},
         {type: 'date', name: 'entryTime', dateFormat:'Y/m/d H:i:s'}
-    ],
+    ],*/
     proxy: {
         type: 'rest', //类型为依赖
         url: 'http://localhost:8080/employee',
         reader:{
             type:'json',
-            rootProperty:'content',
-            totalProperty:'totalElements'
+            rootProperty:'root',
+            //totalProperty:'totalElements'
         },
     }
     /*root: {

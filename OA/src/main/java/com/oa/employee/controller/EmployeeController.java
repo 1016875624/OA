@@ -1,5 +1,7 @@
 package com.oa.employee.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.oa.common.beans.BeanUtils;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.ExtjsPageRequest;
@@ -86,11 +89,23 @@ public class EmployeeController {
 		return employeeService.findAllInDto(EmployeeQueryDTO.getWhereClause(employeeQueryDTO),
 				extjsPageRequest.getPageable());
 	}
+//	@GetMapping("/{empid}")
+//	public Page<EmployeeDTO> getOne(@PathVariable("empid")String empid,EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
+//		
+//		return employeeService.findAllInDto(EmployeeQueryDTO.getWhereClause(employeeQueryDTO), extjsPageRequest.getPageable());
+//		
+//	}
 	@GetMapping("/{empid}")
-	public Page<EmployeeDTO> getOne(@PathVariable("empid")String empid,EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
-		
-		return employeeService.findAllInDto(EmployeeQueryDTO.getWhereClause(employeeQueryDTO), extjsPageRequest.getPageable());
+	public String getOne(@PathVariable("empid")String empid,EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
+		/*List<EmployeeDTO>employeeDTOs=employeeService.findRemberShip(empid);
+		JSONArray jsonArray=JSON.parseArray(JSON.toJSONString(employeeDTOs));
+		jsonArray.getJSONObject(0).remove("leaderid");*/
+		return employeeService.findRemberShipToJson(empid);
 	}
+//	@GetMapping("/{empid}")
+//	public List<EmployeeDTO> getOne(@PathVariable("empid")String empid,EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
+//		return employeeService.findRemberShip(empid);
+//	}
 	
 	//多选更新
 	/**
@@ -152,11 +167,12 @@ public class EmployeeController {
 	@PutMapping(value="{id}")
     public @ResponseBody ExtAjaxResponse update(@PathVariable("id") String id,@RequestBody EmployeeDTO employeeDTO) {
     	try {
-    		Employee entity = employeeService.findById(id).orElse(null);
+    		/*Employee entity = employeeService.findById(id).orElse(null);
 			if(entity!=null) {
 				BeanUtils.copyProperties(employeeDTO, entity);//使用自定义的BeanUtils
 				employeeService.save(entity);
-			}
+			}*/
+			employeeService.save(EmployeeDTO.DtoToentity(employeeDTO));
     		return new ExtAjaxResponse(true,"更新成功!");
 	    } catch (Exception e) {
 	    	e.printStackTrace();

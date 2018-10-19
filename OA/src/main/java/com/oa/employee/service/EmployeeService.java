@@ -15,6 +15,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.parser.JSONToken;
 import com.oa.common.beans.BeanUtils;
 import com.oa.employee.entity.Employee;
 import com.oa.employee.entity.EmployeeDTO;
@@ -113,4 +117,88 @@ public class EmployeeService implements IEmployeeService{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public List<EmployeeDTO> findRemberShip(String id) {
+		Employee root=employeeRepository.findById(id).orElse(null);
+		if (root==null) {
+			return null;
+		}
+		
+		List<Employee> employees=new ArrayList<>();
+		List<EmployeeDTO> results=new ArrayList<>();
+		
+		employees.add(root);
+		
+		while (!employees.isEmpty()) {
+			Employee e=employees.get(0);
+			employees.addAll(employeeRepository.findByLeader(e.getId()));
+			results.add(EmployeeDTO.entityToDto(e));
+			employees.remove(e);
+		}
+		results.get(0).setLeaderid("");
+		
+		return results;
+	}
+
+	@Override
+	public String findRemberShipToJson(String id) {
+		
+		Employee root=employeeRepository.findById(id).orElse(null);
+		if (root==null) {
+			return null;
+		}
+		JSONObject result=new JSONObject();
+		JSONObject rootObject=(JSONObject) JSONObject.toJSON(EmployeeDTO.entityToDto(root));
+		result.put("root", rootObject);
+		List<Employee> employees=new ArrayList<>();
+		List<JSONObject> jsonObjects=new ArrayList<>();
+		employees.add(root);
+//		jsonObjects.add(JSON.parseObject(JSON.toJSONString(root)));
+		jsonObjects.add(rootObject);
+		while (!employees.isEmpty()) {
+			Employee e=employees.get(0);
+			JSONObject jroot=null;
+			for (JSONObject jsonObject : jsonObjects) {
+				if (jsonObject.getString("id").equals(e.getId())) {
+					jroot=jsonObject;
+					break;
+				}
+			}
+			List<Employee> childrens=employeeRepository.findByLeader(e.getId());
+			JSONArray jchil=new JSONArray();
+			for (Employee employee : childrens) {
+				JSONObject jo=JSON.parseObject(JSON.toJSONString(EmployeeDTO.entityToDto(employee)));
+				jchil.add(jo);
+				jsonObjects.add(jo);
+			}
+			employees.addAll(childrens);
+			jroot.put("children", jchil);
+			employees.remove(e);
+		}
+//		while (!results.isEmpty()) {
+//			String leaderid=results.get(0).getLeaderid();
+//			results.remove(0);
+//			int count=0;
+//			JSONArray tempchild=new JSONArray();
+//			while (results.get(count++).getLeaderid().equals(leaderid)) {
+//				tempchild.add
+//			}
+//		}
+		System.out.println(result.toJSONString());
+		return result.toJSONString();
+	}
+	
+	
+//	//深度优先搜索
+//	private void name(String id) {
+//		List<Employee> employees= employeeRepository.findByLeader(id);
+//		for (Employee employee : employees) {
+//			List<Employee> temp=employeeRepository.findByLeader(employee.getId());
+//			if (condition) {
+//				
+//			}
+//		}
+//	}
+	
 }
