@@ -122,4 +122,22 @@ public class VerifyCodeController {
 		ImageIO.write(buffImg, "jpeg", sos);
 		sos.close();
 	}
+	
+	
+	public String getCode(int codeCount) throws ServletException {
+		// 调用上面的初始化函数
+		init();
+		// 创建一个随机数生成器类
+		Random random = new Random();
+		StringBuffer randomCode = new StringBuffer();
+		int red = 0, green = 0, blue = 0;
+		// 随机产生codeCount数字的验证码。
+		for (int i = 0; i < codeCount; i++) {
+			// 得到随机产生的验证码数字。
+			String strRand = String.valueOf(codeSequence[random.nextInt(36)]);
+			// 将产生的四个随机数组合在一起。
+			randomCode.append(strRand);
+		}
+		return randomCode.toString();
+	}
 }
