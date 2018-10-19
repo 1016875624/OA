@@ -75,6 +75,8 @@ public class TestPaperController {
 //				score+=0;
 //			}
 //		}
+		Date nowTime=new Date();
+		
 		System.out.println(str);
 		JSONObject ob = JSON.parseObject(str);
 		JSONObject answers = ob.getJSONObject("answers");
@@ -138,8 +140,14 @@ public class TestPaperController {
 		Double score=1.0 * count * 10;
 		
 		TestPaper testPaper=testPaperService.findById(testPaperDTO.getId());
+		if(testPaper.getEndTime().getTime()<nowTime.getTime()) {
+			testPaper.setScore(1.0*0);
+			score=1.0*0;
+		}else {
+			testPaper.setScore(score);
+		}
 		
-		testPaper.setScore(score);
+		
 		testPaperService.save(testPaper);
 		
 		/*Map<String, String> map=new HashMap<>();

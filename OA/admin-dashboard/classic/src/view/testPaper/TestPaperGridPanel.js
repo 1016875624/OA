@@ -30,7 +30,6 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
 				xtype: 'displayfield',
 				fieldLabel:'考试时间范围:',
 				id:"begintestime",
-				
 			  },{
 				xtype: 'displayfield',
 				id:"endtestime",
@@ -57,7 +56,7 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
 			    		    },
 			    		    interval: 1000
 			    	   });
-			    	  
+//			    	   
 			       }
 			      
 			     }
@@ -187,7 +186,27 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
 		},'->'],
     	listeners:{
     		afterrender:function() {
-    			//时间变化
+    			//获取当前时间
+    			var value1=Ext.getCmp("endtestime").getValue();
+    			Ext.TaskManager.start({
+	    		    run: function() {
+	    		    	var nowtime=Ext.Date.format(new Date(), 'H:i:s');
+	    		    	
+	    		    	
+			    	    //var dt1=new Date(value1);
+			    	    //var value11=dt1.format('H:i:s');
+			    	    
+//			    	    value11=Ext.Date.format(value1, 'H:i:s');
+//			    	    console.log(value1);
+//			    	    console.log(Ext.getCmp("endtestime"));
+			    	    if(value1==nowtime){
+			    	    	console.log(231213);
+			    	    	Ext.toast("考试已到结束时间，系统自动交卷！");
+			    	    	Ext.getCmp("buttonSubmitId").click();
+			    	    }
+	    		    },
+	    		    interval: 1000
+	    	   });
     			
     			/*over*/
     			var form=this;
