@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mysql.fabric.Response;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.SessionUtil;
 import com.oa.employee.entity.Employee;
@@ -75,9 +74,11 @@ public class LoginController {
 			map.put("userId", userId);
 			map.put("position", employee.getPosition());
 			map.put("msg", employee.getPicture());
+			map.put("email", employee.getEmail());
 			// 设置属性：“可以通过key找到value”
 			session.setAttribute("userId", userId);
 			session.setAttribute("userPosition", employee.getPosition());
+			session.setAttribute("userEmail", employee.getEmail());
 			ExtAjaxResponse e = new ExtAjaxResponse(true, map);
 			e.setMsg(employee.getPicture());
 			return e;

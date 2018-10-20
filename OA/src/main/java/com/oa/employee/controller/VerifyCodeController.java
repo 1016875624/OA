@@ -124,6 +124,12 @@ public class VerifyCodeController {
 	}
 	
 	
+	/**
+	 * 获取验证码
+	 * @param codeCount
+	 * @return
+	 * @throws ServletException
+	 */
 	public String getCode(int codeCount) throws ServletException {
 		// 调用上面的初始化函数
 		init();

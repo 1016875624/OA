@@ -35,21 +35,21 @@ Ext.define('Admin.view.authentication.ResetPasswordWindow', {
                     width:400,
                     height:35,
                     alt:'步骤③',
-                    src:'resources/images/3.png',
+                    src:'http://localhost:8080/images/resetpassword/3.png',
                 },
                 {
                 	xtype: 'textfield',
                     fieldLabel: '新的密码',
                     allowBlank : false,
                     inputType: 'password',
-                    name:'name'
+                    name:'new_password'
                 },
                 {
                 	xtype: 'textfield',
                     fieldLabel: '再次输入',
                     allowBlank : false,
                     inputType: 'password',
-                    name:'name'
+                    name:'again_password'
                 },
                 {
                     xtype: 'button',

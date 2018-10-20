@@ -35,7 +35,7 @@ Ext.define('Admin.view.authentication.ChangeCompleteWindow', {
                     width:400,
                     height:35,
                     alt:'步骤④',
-                    src:'resources/images/4.png',
+                    src:'http://localhost:8080/images/resetpassword/4.png',
                 },
                 {
                 	xtype: 'label',
