@@ -10,7 +10,8 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
         'Ext.form.field.Date',
         'Ext.grid.column.Date'
     ],
-    
+    //frame: true,
+    //iconCls: 'framing-buttons-grid',
     layout: 'fit',
     items: [{
             xtype: 'gridpanel',
@@ -146,11 +147,13 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
 				xtype: 'button',
 		        text: '添加工时',
 		        iconCls: 'fa fa-plus',
+		        //iconCls: 'framing-buttons-add',
 		        handler: 'openAddWindow'	
 		    },'-',{
 		        text: 'Removes',
 		        tooltip: '删除所选的多条数据',
 		        iconCls:'fa fa-trash',
+		        //iconCls:'framing-buttons-remove',
 		        itemId: 'workTimeGridPanelRemove',
 		        disabled: true,
 		        handler: 'deleteMoreRows'	
@@ -160,6 +163,10 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
                 dock: 'bottom',
                 //itemId: 'userPaginationToolbar',
                 displayInfo: true,
+                plugins: {
+                    'ux-progressbarpager': true,
+                    'ux-slidingpager': true
+                },
                 bind: '{workTimeLists}'
             }],
             listeners: {

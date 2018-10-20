@@ -156,6 +156,10 @@ Ext.define('Admin.view.question.QuestionGridPanel', {
                 dock: 'bottom',
                 //itemId: 'userPaginationToolbar',
                 displayInfo: true,
+                plugins: {
+                    'ux-progressbarpager': true,
+                    'ux-slidingpager': true
+                },
                 bind: '{questionLists}'
             }],
             listeners: {
