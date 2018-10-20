@@ -18,6 +18,7 @@ Ext.define('Admin.view.membership.MemberShipController', {
         var membershipTree=this.lookupReference("membershipChart");
         var store=Ext.data.StoreManager.lookup('membershipstore');
         membershipTree.setStore(window.datas);
+        membershipTree.up("container").updateLayout();
         console.log(store.getRoot());
         // var membershipTree=this.lookupReference("membershipTree");
         // var tree=this.lookupReference("membershipChart");

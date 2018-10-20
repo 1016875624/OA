@@ -44,6 +44,14 @@ public class EmployeeController {
 	 */
 	@PostMapping
 	public String save(@RequestBody EmployeeDTO employeeDTO) {
+		if (StringUtils.isNotBlank(employeeDTO.getId())) {
+			if (employeeService.existsById(employeeDTO.getId())) {
+				return "添加失败";
+			}
+		}
+		else {
+			return "添加失败";
+		}
 		System.out.println(employeeDTO);
 		Employee employee = new Employee();
 		// 把employeeDTO中的字段拷到employee中
