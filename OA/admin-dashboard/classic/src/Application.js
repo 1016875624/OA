@@ -8,7 +8,7 @@ Ext.define('Admin.Application', {
     ],
 
     defaultToken : 'login',
-
+    controllers:"Admin.ApplicationController",
     // The name of the initial view to create. This class will gain a "viewport" plugin
     // if it does not extend Ext.Viewport.
     //

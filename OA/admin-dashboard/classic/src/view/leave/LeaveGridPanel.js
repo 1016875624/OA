@@ -55,8 +55,8 @@
 			// ,{header: 'processInstanceId' ,dataIndex: 'processInstanceId',width: 180,sortable: true}
 			,{xtype: 'actioncolumn',cls: 'content-column', width: 140,text: '操作',tooltip: 'edit ',
 				items: [
-					{xtype: 'button', iconCls: 'x-fa fa-pencil',handler: 'openEditWindow'},
-					{xtype: 'button',iconCls: 'x-fa fa-close',handler: 'deleteOneRow'},
+					{xtype: 'button', iconCls: 'x-fa fa-pencil',handler: 'openEditWindow', tooltip: '修改假条'},
+					{xtype: 'button',iconCls: 'x-fa fa-close',handler: 'deleteOneRow', tooltip: '删除假条'},
 					{
 		                xtype: 'button',iconCls: 'x-fa fa-star',tooltip: '发起请假',
 		                getClass: function(v, meta, rec) {

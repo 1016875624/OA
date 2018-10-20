@@ -55,6 +55,7 @@
 				fields: ["name", "value"],
 				data: [{ name: '最近修改时间', value: 'recentChangeTime' }
 						,{ name: '状态', value: 'status' }
+						,{ name: '资源名称', value: 'resourceName' }
 				]
 			}),
 			displayField: 'name',
@@ -96,6 +97,13 @@
 			reference:'searchDataFieldValue',
 			fieldLabel: 'From',
 			name: 'from_date'
+		},'-',{
+			xtype: 'textfield',
+			hideLabel: true,
+			hidden: true,
+			reference:'searchFieldValue3',
+			fieldLabel: 'resourceName',
+			name: 'resourceName'
 		},'-',{
 			text: 'Search',
 			iconCls: 'fa fa-search',

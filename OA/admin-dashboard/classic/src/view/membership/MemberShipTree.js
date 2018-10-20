@@ -1,7 +1,7 @@
 Ext.define('Admin.view.membership.MemberShipTree', {
     extend: 'Ext.panel.Panel',
     xtype: 'membershipTree',
-    controller: 'membershipcontroller',
+    //controller: 'membershipcontroller',
     reference:"membershipTree",
     requires: [
        // 'Ext.d3.chart.Org',
