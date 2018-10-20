@@ -15,6 +15,7 @@ Ext.define('Admin.view.department.DepartmentChangeWindow', {
     ],
     viewModel: {type: 'departmentViewModel'},
 	xtype:'departmentChangeWindow',
+	modal:true,
 	autoShow:true,
 	title:'部门人员管理',
 	width: 850,
