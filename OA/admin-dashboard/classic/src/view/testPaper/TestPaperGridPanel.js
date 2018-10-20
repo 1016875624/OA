@@ -226,7 +226,8 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
     			
     			/*over*/
     			var form=this;
-    			console.log(form);
+    			//console.log(Ext.ClassManager.getName(form));
+    			//console.log(form);
     			var testPaperstore=Ext.data.StoreManager.lookup("testPaperGridStroe");//试卷的store
     	    	var store=Ext.data.StoreManager.lookup("paperQuestionGridStore");//题目store
     	    	
@@ -273,7 +274,7 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
         	    			//console.log(strs);
         	    			for(var i=0;i<strs.length;i++){		//遍历选择题选项
         	    				
-        	    				console.log(strs[i]);
+        	    				//console.log(strs[i]);
         	    				var radioitems=Ext.create("Ext.form.field.Radio",{boxLabel:strs[i],name:"answer"+theNumOfQuestion,inputValue:strs[i]});
         	    				
         	    				items.add(radioitems);
