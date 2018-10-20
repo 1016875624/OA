@@ -17,51 +17,26 @@ Ext.define('Admin.view.membership.MemberShipController', {
     init:function () {
         var membershipTree=this.lookupReference("membershipChart");
         var store=Ext.data.StoreManager.lookup('membershipstore');
-        store.setRoot(window.datas);
+
+        console.log(store.getRoot());
+        Ext.Ajax.request({
+            url: 'http://localhost:8080/employee/user9',
+            async:false,
+            success: function(response, opts) {
+                var obj = Ext.decode(response.responseText);
+                store.setRoot(obj.root);
+                //window.datas=obj.root;
+            }
+        });
+
         membershipTree.setStore(store);
         membershipTree.up("container").updateLayout();
-        console.log(store.getRoot());
-        // var membershipTree=this.lookupReference("membershipTree");
-        // var tree=this.lookupReference("membershipChart");
-        // var store =Ext.data.StoreManager.lookup('membershipstore');
-        // Ext.Ajax.request({
-        //     url: 'http://localhost:8080/employee/user9'
-        // }).then(function(response, opts) {
-        //         var obj = Ext.decode(response.responseText);
-        //         console.dir(obj);
-        //         store.setRoot(obj.root);
-        //         tree.setStore(store);
-        //     },
-        //     function(response, opts) {
-        //         console.log('server-side failure with status code ' + response.status);
-        //     });
-
-        // var tree=this.lookupReference("membershipChart");
-        // var store=tree.getStore();
-        // Ext.Ajax.request({
-        //     url: 'http://localhost:8080/employee/user9'
-        // }).then(function(response, opts) {
-        //         var obj = Ext.decode(response.responseText);
-        //         console.dir(obj);
-        //         store.setRoot(obj.root);
-        //     },
-        //     function(response, opts) {
-        //         console.log('server-side failure with status code ' + response.status);
-        //     });
-        // store.setListeners({
-        //     // rootchange:function (newRoot, oldRoot, eOpts) {
-        //     //     tree.
-        //     // }
-        // });
-        /*var store =Ext.data.StoreManager.lookup('membershipstore');
-        //var local =Ext.data.StoreManager.lookup('membershiplocalstore');
-        var tree=this.lookupReference("membershipChart");
-        store.load();
-        console.log(store);
-        console.log(store.getData());
-        console.log(store.getRoot());
-        console.log(123)
-        console.log(store.getAt(0));*/
+        // var membershipTree=this.lookupReference("membershipChart");
+        // var store=Ext.data.StoreManager.lookup('membershipstore');
+        // store.setRoot(window.datas);
+        // membershipTree.setStore(store);
+        // membershipTree.up("container").updateLayout();
+        // console.log(store.getRoot());
     },
     beforeRender:function () {
         // var tree=this.lookupReference("membershipChart");
