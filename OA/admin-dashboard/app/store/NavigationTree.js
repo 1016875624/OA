@@ -153,7 +153,7 @@
             {
                 text: '员工关系',
                 iconCls: 'x-fa fa-address-card',
-                viewType: 'membershipTree',
+                viewType: 'membership',
                 leaf: true
             },
 

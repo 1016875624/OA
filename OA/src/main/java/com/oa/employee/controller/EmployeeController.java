@@ -2,6 +2,7 @@ package com.oa.employee.controller;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,6 +44,14 @@ public class EmployeeController {
 	 */
 	@PostMapping
 	public String save(@RequestBody EmployeeDTO employeeDTO) {
+		if (StringUtils.isNotBlank(employeeDTO.getId())) {
+			if (employeeService.existsById(employeeDTO.getId())) {
+				return "添加失败";
+			}
+		}
+		else {
+			return "添加失败";
+		}
 		System.out.println(employeeDTO);
 		Employee employee = new Employee();
 		// 把employeeDTO中的字段拷到employee中
@@ -50,16 +59,18 @@ public class EmployeeController {
 		// 对两个类中不同的字段进行操作
 		Employee leader = null;
 		Department department = new Department();
-		if (employeeDTO.getLeaderid() != null) {
+		if (StringUtils.isNotBlank(employeeDTO.getLeaderid())) {
 			leader = employeeService.findById(employeeDTO.getLeaderid()).orElse(null);
+			employee.setLeader(leader);
 		}
-		if (employeeDTO.getDepartmentid() != null) {
+		if ( StringUtils.isNotBlank(employeeDTO.getDepartmentid())) {
 			department = departmentService.findById(employeeDTO.getDepartmentid());
+			employee.setDepartment(department);
 		}
 		// 重写set方法
 		employee.setStatus(0);
-		employee.setLeader(leader);
-		employee.setDepartment(department);
+		
+		
 		System.out.println(employee);
 		try {
 			// Employee entity = employeeService.findById(id).get();
@@ -90,7 +101,8 @@ public class EmployeeController {
 	public String getOne(@PathVariable("empid") String empid, EmployeeQueryDTO employeeQueryDTO,
 			ExtjsPageRequest extjsPageRequest) {
 
-		return employeeService.findRemberShipToJson(empid);
+		//return employeeService.findRemberShipToJson(empid);
+		return employeeService.findRemberShipToJson("root");
 	}
 //	@GetMapping("/{empid}")
 //	public List<EmployeeDTO> getOne(@PathVariable("empid")String empid,EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
@@ -180,12 +192,12 @@ public class EmployeeController {
 			if (entity != null) {
 				// 把DTO的字段复制到实体中再进行保存
 				BeanUtils.copyProperties(employeeDTO, entity);
-				if (employeeDTO.getDepartmentid()!=null) {
+				if (StringUtils.isNotBlank(employeeDTO.getDepartmentid())) {
 					Department department = new Department();
 					department.setId(employeeDTO.getDepartmentid());
 					entity.setDepartment(department);
 				}
-				if (employeeDTO.getLeaderid()!=null) {
+				if (StringUtils.isNotBlank(employeeDTO.getLeaderid())) {
 					Employee leader = new Employee();
 					leader.setId(employeeDTO.getLeaderid());
 					entity.setLeader(leader);

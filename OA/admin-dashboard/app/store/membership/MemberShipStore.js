@@ -3,9 +3,16 @@ Ext.define('Admin.store.MemberShipStore', {
     alias: 'store.membershipstore',
     storeId:"membershipstore",
     root:{},
-    listeners:{
-        beforeload:function () {
-            console.log(111)
-        }
-    },
+    //autoLoad:true,
+    // listeners:{
+    //     beforeload:function () {
+    //         console.log(111)
+    //     },
+    //     add:function () {
+    //       console.log(123)
+    //     },
+    //     load:function () {
+    //         console.log("111")
+    //     }
+    // },
 });

@@ -19,6 +19,7 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
     //title:"加薪考试！",
     items: [{
     	xtype:"form",
+    	reference:"paperForm",
     	height:800,
     	padding:'30 50 50 50',
     	title:'OA 办 公 自 动 加 薪',
@@ -30,7 +31,6 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
 				xtype: 'displayfield',
 				fieldLabel:'考试时间范围:',
 				id:"begintestime",
-				
 			  },{
 				xtype: 'displayfield',
 				id:"endtestime",
@@ -57,7 +57,7 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
 			    		    },
 			    		    interval: 1000
 			    	   });
-			    	  
+//			    	   
 			       }
 			      
 			     }
@@ -187,11 +187,47 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
 		},'->'],
     	listeners:{
     		afterrender:function() {
-    			//时间变化
+    			var temp=this;
+    			//获取当前时间
+    			task={
+    	    		    run: function() {
+    	    		    	var value1=Ext.getCmp("endtestime").getValue();
+    	    		    	var nowtime=Ext.Date.format(new Date(), 'H:i:s');
+    	    		    	
+    	    		    	
+    			    	    //var dt1=new Date(value1);
+    			    	    //var value11=dt1.format('H:i:s');
+    			    	    
+//    			    	    value11=Ext.Date.format(value1, 'H:i:s');
+//    			    	    console.log(value1);
+//    			    	    console.log(Ext.getCmp("endtestime"));
+//    	    		    	console.log(value1);
+//    	    		    	console.log(temp.up("container").getController());
+//    	    		    	console.log(Ext.ClassManager.getName(temp.up("container").getController()));
+    			    	    if(value1<=nowtime){
+    			    	    	console.log(231213);
+    			    	    	Ext.toast("考试已到结束时间，系统自动交卷！");
+    			    	    	//Ext.getCmp("buttonSubmitId").click();
+    			    	    	//submitPaper();
+    			    	    	//task.stop();
+//    			    	    	this.up("container").getController().submitPaper();
+    			    	    	//this.getController().submitPaper();
+    			    	    	//temp.getController().submitPaper();
+    			    	    	//temp.up("container").getController().submitPaper();
+    			    	    	//this.submitPaper();
+    			    	    	//Ext.getCmp("testPaperViewController").submitPaper();
+    			    	    	Ext.getCmp("buttonSubmitId").click()
+    			    	    	Ext.TaskManager.stop(task);
+    			    	    }
+    	    		    },
+    	    		    interval: 1000
+    	    	   };
+    			Ext.TaskManager.start(task);
     			
     			/*over*/
     			var form=this;
-    			console.log(form);
+    			//console.log(Ext.ClassManager.getName(form));
+    			//console.log(form);
     			var testPaperstore=Ext.data.StoreManager.lookup("testPaperGridStroe");//试卷的store
     	    	var store=Ext.data.StoreManager.lookup("paperQuestionGridStore");//题目store
     	    	
@@ -238,7 +274,7 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
         	    			//console.log(strs);
         	    			for(var i=0;i<strs.length;i++){		//遍历选择题选项
         	    				
-        	    				console.log(strs[i]);
+        	    				//console.log(strs[i]);
         	    				var radioitems=Ext.create("Ext.form.field.Radio",{boxLabel:strs[i],name:"answer"+theNumOfQuestion,inputValue:strs[i]});
         	    				
         	    				items.add(radioitems);

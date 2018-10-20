@@ -150,6 +150,71 @@
 
 	/*Check*/	
 	onCheckButton:function(grid, rowIndex, colIndex){
-		Ext.Msg.alert("Title","Click Check Button");
+		var record = grid.getStore().getAt(rowIndex);
+        var win = grid.up('panel').up('container').add(Ext.widget('questionLookWindow'));
+        win.show();
+        var form=win.down('form').getForm();
+		//获取选中数据的字段值：console.log(record.get('id')); 或者 console.log(record.data.id);
+		if (record ) {
+			form.loadRecord(record);
+		}
+		var containerRealanswer=Ext.getCmp("containerRealanswer");
+        var realAnswer =form.findField("realanswer").getValue();
+        var answers =form.findField("answers").getValue();
+        //var realAnswerCmp =form.findField("realanswer");
+        var containerAnswers =Ext.getCmp("containerAnswers");
+        var realContainerCmp=Ext.getCmp("realContainerCmp");
+        
+        if (form.findField("type").getValue() == 1) {//多选
+            //form.findField("answers").setHidden(false);
+            var strs = realAnswer.split("&");
+            /*var items = Ext.create("Ext.form.CheckboxGroup", {
+                disabled: true,
+                margin: '0 0 20 0',
+                cls: 'x-check-group-alt',
+                columns: 1
+            });*/
+            for (var i = 0; i < strs.length; i++) {		//遍历标准答案选项
+                //console.log(strs[i]);
+                var checkboxitems = Ext.create("Ext.form.field.Display", {value: strs[i]});
+                //items.add(checkboxitems);
+                containerRealanswer.add(checkboxitems);
+            }
+            //containerRealanswer.add(items);
+            containerRealanswer.updateLayout();
+            
+            var arrs = answers.split("&");
+            for (var i = 0; i < arrs.length; i++) {		//遍历选择题选项
+                //console.log(strs[i]);
+                var displayitems = Ext.create("Ext.form.field.Display", {value: arrs[i]});
+                //items.add(checkboxitems);
+                containerAnswers.add(displayitems);
+            }
+            containerAnswers.updateLayout();
+        }
+        else if (form.findField("type").getValue() == 2) {//填空
+        	 realContainerCmp.setHidden(true);
+        	 var strs = realAnswer.split("&");
+             for (var i = 0; i < strs.length; i++) {		//遍历标准答案选项
+                 var checkboxitems = Ext.create("Ext.form.field.Display", {value: strs[i]});
+                 containerRealanswer.add(checkboxitems);
+             }
+             containerRealanswer.updateLayout();
+        }
+        else if (form.findField("type").getValue() == 0) {//单选
+        	 var arrs = answers.split("&");
+             for (var i = 0; i < arrs.length; i++) {		//遍历选择题选项
+                 //console.log(strs[i]);
+                 var displayitems = Ext.create("Ext.form.field.Display", {value: arrs[i]});
+                 //items.add(checkboxitems);
+                 containerAnswers.add(displayitems);
+             }
+             containerAnswers.updateLayout();
+             var checkboxitems = Ext.create("Ext.form.field.Display", {value:realAnswer});
+             containerRealanswer.add(checkboxitems);
+             containerRealanswer.updateLayout();
+        }
+
+
 	}
 });

@@ -181,6 +181,7 @@ public class TestPaperService implements ITestPaperService{
 		
 		Calendar nowTime = Calendar.getInstance();
 		nowTime.add(Calendar.MINUTE, 5);//30分钟后的时间
+		//nowTime.add(Calendar.SECOND, 5);
 		testPaperDTO.setEndTime(nowTime.getTime());
 		
 		testPaperDTO.setQuestionList("1.2.3.4.5.6.7.8.9.10.");
