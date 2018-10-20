@@ -54,6 +54,9 @@
 		var record = store.getById(values.id);//获取id获取store中的数据
 		record.set(values);//rest put 
 		//store.load();
+		setTimeout(function(){
+			store.load();
+		},1000);
 		win.close();
 	},
 		
