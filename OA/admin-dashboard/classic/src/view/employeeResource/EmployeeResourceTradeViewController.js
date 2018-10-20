@@ -23,9 +23,15 @@
 		var searchField = this.lookupReference('searchFieldName').getValue();
 		if(searchField==='recentChangeTime'){
 			this.lookupReference('searchFieldValue').hide();
+			this.lookupReference('searchFieldValue3').hide();
 			this.lookupReference('searchDataFieldValue').show();
 		}else if(searchField==='status'){
 			this.lookupReference('searchFieldValue').show();
+			this.lookupReference('searchFieldValue3').hide();
+			this.lookupReference('searchDataFieldValue').hide();
+		}else if(searchField==='resourceName'){
+			this.lookupReference('searchFieldValue').hide();
+			this.lookupReference('searchFieldValue3').show();
 			this.lookupReference('searchDataFieldValue').hide();
 		}
 	},
@@ -35,9 +41,10 @@
 		var searchField = this.lookupReference('searchFieldName').getValue();
 		var searchDataFieldValue = this.lookupReference('searchDataFieldValue').getValue();
 		var searchFieldValue = this.lookupReference('searchFieldValue').getValue();
+		var searchFieldValue3 = this.lookupReference('searchFieldValue3').getValue();
 		var store =	btn.up('gridpanel').getStore();
 		
-		Ext.apply(store.proxy.extraParams, {status:"",recentChangeTime:""});
+		Ext.apply(store.proxy.extraParams, {status:"",recentChangeTime:"",resourceName:""});
 		if(searchField==='recentChangeTime'){
 			Ext.apply(store.proxy.extraParams,{
 				recentChangeTime:Ext.util.Format.date(searchDataFieldValue, 'Y/m/d H:i:s'),
@@ -46,6 +53,11 @@
 		else if(searchField==='status'){
 			Ext.apply(store.proxy.extraParams,{
 				status:searchFieldValue
+			});
+		}
+		else if(searchField==='resourceName'){
+			Ext.apply(store.proxy.extraParams,{
+				resourceName:searchFieldValue3
 			});
 		}
 		store.load({params:{start:0, limit:20, page:1}});

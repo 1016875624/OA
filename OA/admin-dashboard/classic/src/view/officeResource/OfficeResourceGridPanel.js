@@ -117,6 +117,7 @@
 				data: [{ name: '抽奖时间', value: 'luckyTime' }
 						,{ name: '状态', value: 'status' }
 						,{ name: '用途', value: 'remark' }
+						,{ name: '资源名称', value: 'resourceName' }
 				]
 			}),
 			displayField: 'name',
@@ -187,6 +188,13 @@
 			reference:'searchDataFieldValue2',
 			fieldLabel: 'To',
 			name: 'to_date'
+		},'-',{
+			xtype: 'textfield',
+			hideLabel: true,
+			hidden: true,
+			reference:'searchFieldValue3',
+			fieldLabel: 'resourceName',
+			name: 'resourceName'
 		},'-',{
 			text: 'Search',
 			iconCls: 'fa fa-search',
