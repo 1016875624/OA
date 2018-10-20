@@ -2,7 +2,7 @@ Ext.define('Admin.view.membership.MemberShipTree', {
     extend: 'Ext.panel.Panel',
     xtype: 'membershipTree',
     controller: 'membershipcontroller',
-
+    reference:"membershipTree",
     requires: [
        // 'Ext.d3.chart.Org',
         //'Admin.store.MemberShipStore',
@@ -49,13 +49,12 @@ Ext.define('Admin.view.membership.MemberShipTree', {
 
             store:{
                 type: 'membershipstore',
-                //type: 'membershiplocalstore'
             }
         }
     },
-    listeners:{
-        beforerender:"beforerender",
-        //beforeshow:"beforeshow",
-    }
+    // listeners:{
+    //     beforerender:"beforerender",
+    //     //beforeshow:"beforeshow",
+    // }
 
 });
