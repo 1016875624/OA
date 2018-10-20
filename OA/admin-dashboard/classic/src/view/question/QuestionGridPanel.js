@@ -77,7 +77,7 @@ Ext.define('Admin.view.question.QuestionGridPanel', {
                     items: [
                         {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'openEditWindow',tooltip:"修改题目"},
                         {xtype: 'button',iconCls: 'x-fa fa-close'	,handler: 'deleteOneRow',tooltip:"删除题目"},
-                        {xtype: 'button',iconCls: 'x-fa fa-eye'	 	,handler: 'onCheckButton'}
+                        {xtype: 'button',iconCls: 'x-fa fa-eye'	 	,handler: 'onCheckButton',tooltip:"查看题目"}
                     ]
                 }
             ],

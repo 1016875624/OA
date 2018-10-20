@@ -150,6 +150,12 @@
 
 	/*Check*/	
 	onCheckButton:function(grid, rowIndex, colIndex){
-		Ext.Msg.alert("Title","Click Check Button");
+		var record = grid.getStore().getAt(rowIndex);
+		//获取选中数据的字段值：console.log(record.get('id')); 或者 console.log(record.data.id);
+		if (record ) {
+			var win = grid.up('panel').up('container').add(Ext.widget('questionLookWindow'));
+			win.show();
+			win.down('form').getForm().loadRecord(record);
+		}
 	}
 });
