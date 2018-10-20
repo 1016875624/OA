@@ -8,7 +8,10 @@ Ext.define('Admin.view.membership.MemberShipController', {
             name = record.get('name'),
             //title = record.get('title'),
             title = record.get('position'),
-            html = '<span style="font-weight: bold">' + name + '</span><br>' + title;
+            id=record.get("id");
+            departmentName=record.get("departmentName");
+            //html = '<span style="font-weight: bold">' + name + '</span><br>' + title;
+            html = '<span style="font-weight: bold">'+id+'<br>'+departmentName+'<br>' + name + '</span><br>' + title+'<br>';
         tooltip.setHtml(html);
     },
     init:function () {
