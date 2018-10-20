@@ -4,5 +4,8 @@ Ext.define('Admin.view.main.MainModel', {
 
     data: {
         currentView: null
+    },
+    stores:{
+        membershipstore: {type: 'membershipstore'},
     }
 });
