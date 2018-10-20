@@ -227,22 +227,22 @@
 		});
     },
     init:function(){
-        console.log(111);
-        var store =Ext.data.StoreManager.lookup('membershipstore');
-        Ext.Ajax.request({
-            url: 'http://localhost:8080/employee/user9'
-        }).then(function(response, opts) {
-                var obj = Ext.decode(response.responseText);
-                console.dir(obj);
-                store.setRoot(obj.root);
-                console.log(store.getRoot());
-                window.datas=store;
-            },
-            function(response, opts) {
-                console.log('server-side failure with status code ' + response.status);
-            });
-
-        console.log(store);
+        // console.log(111);
+        // var store =Ext.data.StoreManager.lookup('membershipstore');
+        // Ext.Ajax.request({
+        //     url: 'http://localhost:8080/employee/user9'
+        // }).then(function(response, opts) {
+        //         var obj = Ext.decode(response.responseText);
+        //         console.dir(obj);
+        //         store.setRoot(obj.root);
+        //         console.log(store.getRoot());
+        //         window.datas=store;
+        //     },
+        //     function(response, opts) {
+        //         console.log('server-side failure with status code ' + response.status);
+        //     });
+        //
+        // console.log(store);
     	/*console.log("init");
     	var headIcon = Ext.getCmp('head_Icon');
 	    var path = 'http://localhost:8080/images/employee/1.jpg';
