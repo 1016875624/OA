@@ -35,16 +35,25 @@
 		if(searchField==='luckyTime'){
 			this.lookupReference('searchFieldValue').hide();
 			this.lookupReference('searchFieldValue2').hide();
+			this.lookupReference('searchFieldValue3').hide();
 			this.lookupReference('searchDataFieldValue').show();
 			this.lookupReference('searchDataFieldValue2').show();
 		}else if(searchField==='status'){
 			this.lookupReference('searchFieldValue').show();
 			this.lookupReference('searchFieldValue2').hide();
+			this.lookupReference('searchFieldValue3').hide();
 			this.lookupReference('searchDataFieldValue').hide();
 			this.lookupReference('searchDataFieldValue2').hide();
 		}else if(searchField==='remark'){
 			this.lookupReference('searchFieldValue').hide();
 			this.lookupReference('searchFieldValue2').show();
+			this.lookupReference('searchFieldValue3').hide();
+			this.lookupReference('searchDataFieldValue').hide();
+			this.lookupReference('searchDataFieldValue2').hide();
+		}else if(searchField==='resourceName'){
+			this.lookupReference('searchFieldValue').hide();
+			this.lookupReference('searchFieldValue2').hide();
+			this.lookupReference('searchFieldValue3').show();
 			this.lookupReference('searchDataFieldValue').hide();
 			this.lookupReference('searchDataFieldValue2').hide();
 		}
@@ -102,10 +111,11 @@
 		var searchDataFieldValue2 = this.lookupReference('searchDataFieldValue2').getValue();
 		var searchFieldValue = this.lookupReference('searchFieldValue').getValue();
 		var searchFieldValue2 = this.lookupReference('searchFieldValue2').getValue();
+		var searchFieldValue3 = this.lookupReference('searchFieldValue3').getValue();
 
 		var store =	btn.up('gridpanel').getStore();
 		//var store = Ext.getCmp('userGridPanel').getStore();// Ext.getCmp(）需要在LeavePanel设置id属性
-		Ext.apply(store.proxy.extraParams, {remark:"",status:"",startTime:"",endTime:""});
+		Ext.apply(store.proxy.extraParams, {remark:"",status:"",startTime:"",endTime:"",resourceName:""});
 		if(searchField==='luckyTime'){
 			Ext.apply(store.proxy.extraParams,{
 				startTime:Ext.util.Format.date(searchDataFieldValue, 'Y/m/d H:i:s'),
@@ -120,6 +130,11 @@
 		else if(searchField==='remark'){
 			Ext.apply(store.proxy.extraParams,{
 				remark:searchFieldValue2
+			});
+		}
+		else if(searchField==='resourceName'){
+			Ext.apply(store.proxy.extraParams,{
+				resourceName:searchFieldValue3
 			});
 		}
 		store.load({params:{start:0, limit:20, page:1}});
@@ -195,7 +210,9 @@
 	startGrabResource:function(grid, rowIndex, colIndex){
 		var record = grid.getStore().getAt(rowIndex);
 		var startTime = record.get('startTime');
+		var resourceName = record.get('resourceName');
 		var curDate = new Date();
+		alert(resourceName + "将在" + startTime + "开抢");
 		//var nowTime=Ext.Date.format(curDate, 'Y/m/d H:i:s');
 		console.log(startTime.getTime());
 		console.log(curDate.getTime());
@@ -229,6 +246,7 @@
 	/*抢资源*/	
 	grabResource:function(grid, rowIndex, colIndex){
 		var record = grid.getStore().getAt(rowIndex);
+		var endTime = record.get('endTime');
 		Ext.Ajax.request({
 			url : '/officeResource/grabResource', 
 			method : 'post', 
@@ -251,7 +269,9 @@
 	startLuckyDraw:function(grid, rowIndex, colIndex){
 		var record = grid.getStore().getAt(rowIndex);
 		var startTime = record.get('startTime');
+		var resourceName = record.get('resourceName');
 		var curDate = new Date();
+		alert(resourceName + "将在" + startTime + "开始抽奖");
 		//var nowTime=Ext.Date.format(curDate, 'Y/m/d H:i:s');
 		console.log(startTime.getTime());
 		console.log(curDate.getTime());
@@ -285,6 +305,7 @@
 	/*抽奖*/	
 	luckyDraw:function(grid, rowIndex, colIndex){
 		var record = grid.getStore().getAt(rowIndex);
+		var endTime = record.get('endTime');
 		Ext.Ajax.request({
 			url : '/officeResource/luckyDraw', 
 			method : 'post', 
