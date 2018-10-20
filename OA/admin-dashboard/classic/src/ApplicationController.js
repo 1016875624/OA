@@ -8,7 +8,7 @@ Ext.define('Admin.ApplicationController', {
     doInit:function () {
         Ext.Ajax.request({
             url: 'http://localhost:8080/employee/user9',
-            async:false,
+            //async:false,
             success: function(response, opts) {
                 var obj = Ext.decode(response.responseText);
                 window.datas=obj.root;
