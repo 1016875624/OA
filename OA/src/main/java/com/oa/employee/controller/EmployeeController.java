@@ -93,7 +93,8 @@ public class EmployeeController {
 	public String getOne(@PathVariable("empid") String empid, EmployeeQueryDTO employeeQueryDTO,
 			ExtjsPageRequest extjsPageRequest) {
 
-		return employeeService.findRemberShipToJson(empid);
+		//return employeeService.findRemberShipToJson(empid);
+		return employeeService.findRemberShipToJson("root");
 	}
 //	@GetMapping("/{empid}")
 //	public List<EmployeeDTO> getOne(@PathVariable("empid")String empid,EmployeeQueryDTO employeeQueryDTO,ExtjsPageRequest extjsPageRequest){
