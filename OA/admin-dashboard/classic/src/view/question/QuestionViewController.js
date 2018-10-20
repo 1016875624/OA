@@ -151,11 +151,44 @@
 	/*Check*/	
 	onCheckButton:function(grid, rowIndex, colIndex){
 		var record = grid.getStore().getAt(rowIndex);
+        var win = grid.up('panel').up('container').add(Ext.widget('questionLookWindow'));
+        win.show();
+        var form=win.down('form').getForm();
 		//获取选中数据的字段值：console.log(record.get('id')); 或者 console.log(record.data.id);
 		if (record ) {
-			var win = grid.up('panel').up('container').add(Ext.widget('questionLookWindow'));
-			win.show();
-			win.down('form').getForm().loadRecord(record);
+			form.loadRecord(record);
 		}
+		var containerRealanswer=Ext.getCmp("containerRealanswer");
+        var realAnswer =form.findField("realanswer").getValue();
+        var realAnswerCmp =form.findField("realanswer");
+        if (form.findField("type").getValue() == 1) {//多选
+            form.findField("answers").setHidden(false);
+            var strs = realAnswer.split("&");
+            var items = Ext.create("Ext.form.CheckboxGroup", {
+                disabled: true,
+                margin: '0 0 20 0',
+                cls: 'x-check-group-alt',
+                columns: 1
+            });
+            for (var i = 0; i < strs.length; i++) {		//遍历选择题选项
+                //console.log(strs[i]);
+                var checkboxitems = Ext.create("Ext.form.field.Checkbox", {boxLabel: strs[i]});
+                items.add(checkboxitems);
+            }
+            containerRealanswer.add(items);
+            containerRealanswer.updateLayout();
+        }
+        else if (this.getForm().findField("type").getValue() == 2) {//填空
+            this.getForm().findField("answers").setHidden(true);
+
+        }
+        else if (this.getForm().findField("type").getValue() == 0) {//单选
+            this.getForm().findField("answers").setHidden(false);
+            var items = Ext.create("Ext.form.field.Display", {margin: '0 0 20 0', value: realAnswer});
+            containerRealanswer.add(items);
+            containerRealanswer.updateLayout();
+        }
+
+
 	}
 });
