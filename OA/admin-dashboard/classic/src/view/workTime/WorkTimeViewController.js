@@ -1,7 +1,47 @@
 Ext.define('Admin.view.workTime.WorkTimeViewController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.workTimeViewController',
+    requires: [
+        'Ext.exporter.text.CSV',
+        'Ext.exporter.text.TSV',
+        'Ext.exporter.text.Html',
+        'Ext.exporter.excel.Xml',
+        'Ext.exporter.excel.Xlsx'
+    ],
     /********************************************** Controller View *****************************************************/
+    //导出数据
+    exportTo: function(btn){
+        var cfg = Ext.merge({
+            title: '员工工时Excel',
+            fileName: 'GridExport' + '.' + (btn.cfg.ext || btn.cfg.type)
+        }, btn.cfg);
+        //console.log(Ext.ClassManager.getName(this));
+        //console.log(this.getView());
+        //console.log(Ext.ClassManager.getName(this.getView()));
+        //this.getView().saveDocumentAs(cfg);
+        console.log(Ext.ClassManager.getName(btn.up("workTimeGridPanel").down("gridpanel")));
+        btn.up("workTimeGridPanel").down("gridpanel").saveDocumentAs(cfg);
+        //console.log(Ext.data.StoreManager.lookup('workTimeGridStroe').getData());
+        //Ext.data.StoreManager.lookup('workTimeGridStroe').saveDocumentAs(cfg);
+    },
+    onBeforeDocumentSave: function(view){
+        this.timeStarted = Date.now();
+        view.mask('Document is prepared for export. Please wait ...');
+        Ext.log('export started');
+    },
+    
+    /*
+    onDocumentSave: function(view){
+        view.unmask();
+        Ext.log('export finished; time passed = ' + (Date.now() - this.timeStarted));
+    },
+    */
+    /*
+    onDataReady: function(){
+        Ext.log('data ready; time passed = ' + (Date.now() - this.timeStarted));
+    },
+    */
+    /*导出数据结束*/
     /*Add*/
     //toolbar, rowIndex, colIndex
 	openAddWindow:function(btn){

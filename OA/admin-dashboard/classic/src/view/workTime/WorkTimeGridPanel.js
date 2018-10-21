@@ -8,16 +8,25 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
         'Ext.form.field.ComboBox',
         'Ext.selection.CheckboxModel',
         'Ext.form.field.Date',
-        'Ext.grid.column.Date'
+        'Ext.grid.column.Date',
+        'Ext.grid.plugin.Exporter'
     ],
+   
+   
+    resizable: true,
+    loadMask: true,
     //frame: true,
     //iconCls: 'framing-buttons-grid',
     layout: 'fit',
+    
     items: [{
             xtype: 'gridpanel',
             cls: 'user-grid',
-            title: 'workTimeGrid Results',
+            title: '工时列表',
             //routeId: 'user',
+            plugins: {
+                gridexporter: true
+            },
             bind: '{workTimeLists}',
             scrollable: false,
             selModel: {type: 'checkboxmodel'},
@@ -38,21 +47,21 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
 						}else if(val=='3'){
 							return '<span style="color:red">请假</span>';
 						}
-					}
+					},
+					exportRenderer: true
 				},
 				{xtype: 'datecolumn',cls: 'content-column',width: 200,dataIndex: 'date',text: '日期',formatter: 'date("Y/m/d")'},
 				{xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'status',text: '状态',flex: 1,
 					renderer:function(val){
-						if(val=='0'){
-							return '<span style="color:blue;">待申请</span>';
-						}else if(val=='2'){
+						if(val=='2'){
 							return '<span style="color:orange;">待审批</span>';
 						}else if(val=='3'){
 							return '<span style="color:red;">审批通过</span>';
 						}else if(val=='4'){
 							return '<span style="color:red;">审批不通过</span>';
 						}
-					}
+					},
+					exportRenderer: true
 				},
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: '操作',tooltip: 'edit ',flex: 1,
                     items: [
@@ -157,6 +166,76 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
 		        itemId: 'workTimeGridPanelRemove',
 		        disabled: true,
 		        handler: 'deleteMoreRows'	
+		    },'-',{
+		    	ui: 'default-toolbar',
+	            xtype: 'button',
+	            text: '选择导出数据的类型',
+	            menu: {
+	                defaults: {
+	                    handler: 'exportTo'
+	                },
+	                items: [{
+	                    text:   'Excel xlsx',
+	                    cfg: {
+	                        type: 'excel07',
+	                        ext: 'xlsx'
+	                    }
+	                },
+//	                {
+//	                    text:   'Excel xlsx (include groups)',
+//	                    cfg: {
+//	                        type: 'excel07',
+//	                        ext: 'xlsx',
+//	                        includeGroups: true,
+//	                        includeSummary: true
+//	                    }
+//	                },
+	                {
+	                    text: 'Excel xml',
+	                    cfg: {
+	                        type: 'excel03',
+	                        ext: 'xml'
+	                    }
+	                },
+//	                {
+//	                    text: 'Excel xml (include groups)',
+//	                    cfg: {
+//	                        includeGroups: true,
+//	                        includeSummary: true
+//	                    }
+//	                },
+	                {
+	                    text:   'CSV',
+	                    cfg: {
+	                        type: 'csv'
+	                    }
+	                },{
+	                    text:   'TSV',
+	                    cfg: {
+	                        type: 'tsv',
+	                        ext: 'csv'
+	                    }
+	                },{
+	                    text:   'HTML',
+	                    cfg: {
+	                        type: 'html'
+	                    }
+	                },
+//	                {
+//	                    text:   'HTML (include groups)',
+//	                    cfg: {
+//	                        type: 'html',
+//	                        includeGroups: true,
+//	                        includeSummary: true
+//	                    }
+//	                }
+	                ]
+	            },
+	            listeners:{
+	            	//documentsave: 'onDocumentSave',
+	                beforedocumentsave: 'onBeforeDocumentSave',
+	                //dataready: 'onDataReady'
+	            },
 		    }],			
             dockedItems: [{
                 xtype: 'pagingtoolbar',
@@ -172,7 +251,8 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
             listeners: {
 				selectionchange: function(selModel, selections){
 					this.down('#workTimeGridPanelRemove').setDisabled(selections.length === 0);
-				}
+				},
+				
 			}		
         }]
 });

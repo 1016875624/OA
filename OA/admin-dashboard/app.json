@@ -17,7 +17,8 @@
         "charts",
         "d3",
         "font-awesome",
-        "ux"
+        "ux",
+        "exporter"
     ],
 
     /**
