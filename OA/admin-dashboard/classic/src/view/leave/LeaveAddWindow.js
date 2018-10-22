@@ -1,6 +1,7 @@
 ﻿Ext.define('Admin.view.leave.LeaveAddWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.leaveAddWindow',
+	autoShow: true,
     height: 350,
     minHeight: 350,
     minWidth: 300,
@@ -9,7 +10,6 @@
     title: 'Add Leave Window',
     closable: true,
     constrain: true,
-    
     defaultFocus: 'textfield',
     modal:true,
     layout: 'fit',
@@ -47,6 +47,7 @@
 			queryMode: 'local',
 			displayField: 'name',
 			valueField: 'value',
+			value: 'A',
 			allowBlank: false
 		},{
 			xtype: 'datefield',

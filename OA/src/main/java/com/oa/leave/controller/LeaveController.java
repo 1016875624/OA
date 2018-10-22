@@ -89,7 +89,9 @@ public class LeaveController {
 			Leave leave = leaveService.findOne(id);
 			leave.setStatus(1);
 			leaveService.save(leave);
-			leaveService.sendMail(leave);
+			if(leave.getEmployee().getLeader().getEmail()!=null) {
+				leaveService.sendMail(leave);
+			}
 			return new ExtAjaxResponse(true,"发出申请成功！");
 		} catch (Exception e) {
 			e.printStackTrace();
