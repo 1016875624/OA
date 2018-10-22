@@ -88,14 +88,14 @@
 					}
 				]
 			},
-			/*{
+			{
                 text: 'Login',
                 iconCls: 'x-fa fa-check',
                 viewType: 'login',
-                hidden:true,
+                visible:false,
                 //style:'display:none',
                 leaf: true
-           },*/
+           },
            {
                text: '工时',
                iconCls: 'x-fa fa-clock-o',

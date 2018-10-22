@@ -252,4 +252,10 @@
         websocket = new WebSocket(encodeURI('ws://localhost:8080/Chat/message'));
         return websocket;
     }*/
+//    ,
+//    init:function(){
+//    	var a=window.location.href;
+//    	console.log(a);
+//    	window.location.href=a+"/#login"
+//    }
 });

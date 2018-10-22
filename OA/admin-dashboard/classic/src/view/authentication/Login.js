@@ -127,14 +127,28 @@ Ext.define('Admin.view.authentication.Login', {
                         {
                             //xtype: 'box',
                             //html: '<a href="#passwordreset" class="link-forgot-password"> Forgot Password ?</a>'
-                            //html: '<a href="" onclick="resetPasswordWin"> Forgot Password ?</a>'
-                        	xtype: 'button',
+                        	/*xtype: 'button',
                             reference: '111',
                             text: 'Forgot Password',
                             listeners: {
                                 click: 'resetPasswordBtn'
                             	//click: 'resetPasswordWin'
-                            }
+                            }*/
+                        	xtype: 'tbtext',
+                        	text: 'Forgot Password ?',
+                        	margin: '10 0 0 0',
+                        	style: {
+                        		'text-decoration' : 'underline',
+                        		'cursor': 'pointer',
+                        		'color' : 'blue'
+                        		},
+	                        listeners: {
+	                            //click: 'resetPasswordBtn'
+	                        	//click: 'resetPasswordWin'
+                                el:{
+                                    click:'resetPasswordBtn' //imgClick方法写在了controller中，在这里也可以直接替换成function（）{console.log('click')}
+                                }
+	                        }
                         }
                     ]
                 }
