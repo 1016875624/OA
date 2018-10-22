@@ -6,7 +6,8 @@ Ext.define('Admin.view.salarypay.SalarypayPanel', {
         'Ext.grid.Panel',
         'Ext.toolbar.Paging',
         'Ext.form.field.ComboBox',
-        'Ext.grid.column.Date'
+        'Ext.grid.column.Date',
+        'Ext.ProgressBarWidget',
     ],
     //controller: 'searchresults',
     // viewModel: {type: 'orderViewModel'},
@@ -31,7 +32,20 @@ Ext.define('Admin.view.salarypay.SalarypayPanel', {
             {xtype: 'gridcolumn', cls: 'content-column', dataIndex: 'money', text: '实际工资'},
             {xtype: 'gridcolumn', cls: 'content-column', dataIndex: 'realWorktime', text: '实际工作时间'},
             {xtype: 'gridcolumn', cls: 'content-column', dataIndex: 'worktime', text: '工作时间'},
-            {xtype: 'gridcolumn', cls: 'content-column', dataIndex: 'attendRate', text: '出勤率'},
+            //{xtype: 'gridcolumn', cls: 'content-column', dataIndex: 'attendRate', text: '出勤率'},
+            {
+                text     : '出勤率',
+                xtype    : 'widgetcolumn',
+                width    : 120,
+                widget: {
+                    bind: '{record.attendRate}',
+                    xtype: 'progressbarwidget',
+                    textTpl: [
+                        '{percent:number("0")}% done'
+                    ]
+                }
+            },
+            
             {xtype: 'gridcolumn', cls: 'content-column', dataIndex: 'status', text: '状态'},
             //{xtype: 'datecolumn',cls: 'content-column',width: 200,dataIndex: 'orderDate',text: 'orderDate',formatter: 'date("Y/m/d H:i:s")'},
 

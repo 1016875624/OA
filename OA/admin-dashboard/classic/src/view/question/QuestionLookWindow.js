@@ -1,8 +1,8 @@
 Ext.define('Admin.view.question.QuestionLookWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.questionLookWindow',
-    height: 400,
-    minHeight: 100,
+    //height: 400,
+    minHeight: 400,
     minWidth: 300,
     width: 500,
     scrollable: true,
@@ -55,6 +55,33 @@ Ext.define('Admin.view.question.QuestionLookWindow', {
 
                         }
                     },
+                    
+                    {
+                        xtype: 'displayfield',
+                        name: 'answers',
+                        hidden: true
+                    },{
+
+                        xtype: 'container',
+                        //fieldLabel : '标准答案',
+                        id:'realContainerCmp',
+                        layout: 'hbox',
+                        hidden:false,
+                        items: [
+                            {
+                                xtype: 'displayfield',
+                                fieldLabel: '选择题选项'
+
+                            },
+                            {
+                                xtype: 'container',
+                                layout: "vbox",
+                                id: "containerAnswers",
+                                //hidden:true
+
+                            }
+                        ]
+                    },
                     {
                         xtype: 'displayfield',
                         hidden: true,
@@ -80,11 +107,6 @@ Ext.define('Admin.view.question.QuestionLookWindow', {
                             }
                         ]
                         //name : 'realanswer',
-                    },
-                    {
-                        xtype: 'displayfield',
-                        fieldLabel: '选择题选项',
-                        name: 'answers',
                     }
                 ],
             listeners: {

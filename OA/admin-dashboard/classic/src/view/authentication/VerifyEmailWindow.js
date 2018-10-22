@@ -35,33 +35,30 @@ Ext.define('Admin.view.authentication.VerifyEmailWindow', {
                     width:400,
                     height:35,
                     alt:'步骤②',
-                    src:'resources/images/2.png',
+                    src:'http://localhost:8080/images/resetpassword/2.png',
+                },
+				{	
+                    xtype: 'textfield',
+                    emptyText:'EmailBox not found',
+                    id:'user_Email',
+                    //width: 225,
+					height: 55,
+                    editable: false
+            	},
+            	{
+					xtype:'button',
+					height: 55,
+					text: 'Get The Verification Code By Email',
+					iconCls: 'x-fa fa-paper-plane',
+					//iconAlign : 'right',
+					listeners: {
+								click: 'send_email_btn'
+								}
                 },
                 {
-					items:[
-						{	
-		                    xtype: 'textfield',
-		                    text:'user@qq.com',
-		                    id:'user_Email',
-		                    width: 225,
-							height: 60,
-		                    editable: false
-	                	},
-	                	{
-							xtype:'button',
-							height: 60,
-							width: 150, 
-							text: 'Send',
-							listeners: {
-										click: 'onChangeCode'
-										}
-		                 }
-		            ]
-				},
-				{
                     xtype: 'textfield',
                     height: 55,
-                    //name: 'code',
+                    name: 'number',
                     emptyText: 'Email Verification Code'
                 },
                 {
@@ -76,14 +73,14 @@ Ext.define('Admin.view.authentication.VerifyEmailWindow', {
                     listeners: {
                         click: 'onNextClick2'
                     }
-                },
-                {
+                 },
+                 {
                     xtype: 'component',
                     html: '<div style="text-align:right">' +
                         '<a href="" class="link-forgot-password">'+
                             'Back to Log In</a>' +
                         '</div>'
-                }
+                 }
             ]
         }
     ]

@@ -35,17 +35,18 @@ Ext.define('Admin.view.authentication.VerifyIdWindow', {
                     width:400,
                     height:35,
                     alt:'步骤①',
-                    src:'resources/images/1.png',
+                    src:'http://localhost:8080/images/resetpassword/1.png',
                 },
                 {
                     xtype: 'textfield',
                     cls: 'auth-textbox',
+                    //id:"user_password_id",
+                    reference:'user_password_id',
                     height: 55,
-                    name: 'userId',
+                    name: 'user_Id',
                     hideLabel: true,
                     allowBlank: false,
-                    emptyText: 'userId',
-                    //vtype: 'email',
+                    emptyText: 'User Id',
                     triggers: {
                         glyphed: {
                             cls: 'trigger-glyph-noop auth-email-trigger'
