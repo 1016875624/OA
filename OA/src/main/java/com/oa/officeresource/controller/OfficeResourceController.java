@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.servlet.http.HttpSession;
 
@@ -138,13 +136,6 @@ public class OfficeResourceController {
 	public ExtAjaxResponse startGrabResource(@RequestParam(name="id") Long id) {
 		try {
 			OfficeResource officeResource = officeResourceService.findOne(id);
-//			Timer timer = new Timer();
-//			timer.schedule(new TimerTask() {
-//			     public void run() {
-//			    	 officeResource.setStatus(1);
-//			    	 officeResourceService.save(officeResource);
-//			       }
-//			     },officeResource.getStartTime());
 			officeResource.setStatus(1);
 	    	officeResourceService.save(officeResource);
 			return new ExtAjaxResponse(true,"开始抢资源！");
@@ -206,6 +197,20 @@ public class OfficeResourceController {
 		}
 	}
 	
+	//已经过了抢资源时间，将状态设为2
+	@PostMapping("/endGrabResource")
+	public ExtAjaxResponse endGrabResource(@RequestParam(name="id") Long id) {
+		try {
+			OfficeResource officeResource = officeResourceService.findOne(id);
+			officeResource.setStatus(2);
+	    	officeResourceService.save(officeResource);
+			return new ExtAjaxResponse(true,"抢资源已结束！");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ExtAjaxResponse(false,"抢资源已结束！");
+		}
+	}
+	
 	//开始抽奖资源,状态设置为3,表示该表为可抽取状态
 	@PostMapping("/startLuckyDraw")
 	public ExtAjaxResponse startLuckyDraw(@RequestParam(name="id") Long id) {
@@ -262,6 +267,20 @@ public class OfficeResourceController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ExtAjaxResponse(false,"抽资源失败！");
+		}
+	}
+	
+	//已经过了抽资源时间，将状态设为4
+	@PostMapping("/endLuckyDraw")
+	public ExtAjaxResponse endLuckyDraw(@RequestParam(name="id") Long id) {
+		try {
+			OfficeResource officeResource = officeResourceService.findOne(id);
+			officeResource.setStatus(4);
+			officeResourceService.save(officeResource);
+			return new ExtAjaxResponse(true,"抽资源已结束！");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ExtAjaxResponse(false,"抽资源已结束！");
 		}
 	}
 	

@@ -1,6 +1,7 @@
 ﻿Ext.define('Admin.view.leaveapprove.LeaveApproveWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.leaveApproveWindow',
+	autoShow: true,
     height: 400,
     minHeight: 350,
     minWidth: 300,

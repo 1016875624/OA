@@ -1,6 +1,7 @@
 ﻿Ext.define('Admin.view.officeResource.OfficeResourceAllocateWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.officeResourceAllocateWindow',
+	autoShow: true,
     height: 350,
     minHeight: 350,
     minWidth: 300,

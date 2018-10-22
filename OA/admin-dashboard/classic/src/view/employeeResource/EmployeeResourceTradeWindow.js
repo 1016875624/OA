@@ -1,6 +1,7 @@
 ﻿Ext.define('Admin.view.employeeResource.EmployeeResourceTradeWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.employeeResourceTradeWindow',
+	autoShow: true,
     height: 350,
     minHeight: 350,
     minWidth: 300,

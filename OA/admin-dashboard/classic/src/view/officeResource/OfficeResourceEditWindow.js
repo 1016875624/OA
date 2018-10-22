@@ -1,6 +1,7 @@
 ﻿Ext.define('Admin.view.officeResource.OfficeResourceEditWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.officeResourceEditWindow',
+	autoShow: true,
     height: 350,
     minHeight: 350,
     minWidth: 300,

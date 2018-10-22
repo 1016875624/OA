@@ -26,6 +26,8 @@ public class ExtjsPageRequest
 	public void setSort(String sort) {this.sort = sort;}
 	public void setDir(String dir) {this.dir = dir;}
 	
+	
+	
 	public Pageable getPageable() 
 	{
 		Pageable pageable = null;
@@ -40,5 +42,17 @@ public class ExtjsPageRequest
 			pageable = PageRequest.of(page-1, limit);
 		}
 		return pageable;
+	}
+	public int getPage() {
+		return page;
+	}
+	public int getLimit() {
+		return limit;
+	}
+	public String getSort() {
+		return sort;
+	}
+	public String getDir() {
+		return dir;
 	}
 }

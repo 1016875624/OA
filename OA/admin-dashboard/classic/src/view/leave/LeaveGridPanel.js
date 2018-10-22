@@ -12,7 +12,7 @@
 	layout: 'fit',
 	items: [{
 		xtype: 'gridpanel',
-		title: 'LeaveGrid Results',
+		title: '请假管理表',
 		//routeId: 'user',
 		bind: '{leaveLists}',
 		scrollable: false,
