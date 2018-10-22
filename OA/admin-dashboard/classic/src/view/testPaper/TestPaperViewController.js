@@ -15,9 +15,12 @@
     },
 
 	submitPaper:function(){
+		var task=window.task1001001;
+		Ext.TaskManager.stop(task);
 		console.log(111);
 //		var form=btn.up("form");
-		var form=this.lookupReference("paperForm");
+		var form=Ext.getCmp("paperFormsubmit");
+		//var form=this.lookupReference("paperForm");
     	console.log(form);
     	console.log(Ext.ClassManager.getName(form));
     	var values=form.getValues();

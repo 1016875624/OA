@@ -3,13 +3,16 @@
  * classic builds.
  */
 
-$base-color: dynamic(#35baf6);
+//$base-color: dynamic(#35baf6);
+$base-color: dynamic(#FF9921);
 $blank_page_color: dynamic(#35baf6);
 
-$panel-navigation-background-color: dynamic(#32404e);
-$panel-navigation-item-line-height: dynamic(64px);
-$panel-navigation-item-text-color: dynamic(#ADB3B8);
+//$panel-navigation-background-color: dynamic(#32404e);
+$panel-navigation-background-color: dynamic(#67687A);
 
+$panel-navigation-item-line-height: dynamic(64px);
+//$panel-navigation-item-text-color: dynamic(#ADB3B8);
+$panel-navigation-item-text-color: dynamic(#ffffff);
 $progress-bar-background-color: dynamic(#458fd2);
 
 //Form and Toolbar Button UI colors
