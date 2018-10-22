@@ -8,9 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.oa.department.entity.Department;
 import com.oa.department.entity.DepartmentDTO;
 import com.oa.department.entity.DepartmentSimpleDTO;

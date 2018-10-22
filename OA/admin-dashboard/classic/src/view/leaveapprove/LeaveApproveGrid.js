@@ -1,21 +1,20 @@
 ﻿Ext.define('Admin.view.leaveapprove.LeaveApproveGrid', {
     extend: 'Ext.grid.Panel',
 	xtype:'leaveApproveGrid',
-	title: '职员请假审批表',		//需要修改
-	iconCls: 'fa-arrow-circle-o-up',
-	bind: '{leaveApproveStore}',//调用组件4
+	title: '职员请假审批表',
+	bind: '{leaveApproveStore}',
 	columns: [{
 			xtype: 'actioncolumn',
 			items: [{
 				xtype: 'button',
 				iconCls: 'x-fa fa-edit',
 				tooltip: '审批任务',
-				handler: 'onClickLeaveApproveCompleteWindowButton'	//taskDefinitionKey 动态表单
+				handler: 'onClickLeaveApproveCompleteWindowButton'
 			},{
 				xtype: 'button',
 				iconCls: 'x-fa fa-close',
 				tooltip: '驳回',
-				handler: 'onClickRejectWindowButton'	//流程跟踪
+				handler: 'onClickRejectWindowButton'
 			},{
 				xtype: 'button',iconCls: 'x-fa fa-ban',
 				tooltip: '销假',
@@ -139,7 +138,7 @@
 	dockedItems: [{
 	    xtype: 'pagingtoolbar',
 	    dock: 'bottom',
-		bind: '{leaveApproveStore}',	//调用组件4
+		bind: '{leaveApproveStore}',
 	    displayInfo: true
 	}]
 });

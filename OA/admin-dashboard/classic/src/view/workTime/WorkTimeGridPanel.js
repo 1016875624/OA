@@ -9,7 +9,10 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
         'Ext.selection.CheckboxModel',
         'Ext.form.field.Date',
         'Ext.grid.column.Date',
-        'Ext.grid.plugin.Exporter'
+        'Ext.grid.plugin.Exporter',
+        "Ext.ux.ProgressBarPager",
+        "Ext.ux.SlidingPager"
+        
     ],
    
    
@@ -56,7 +59,7 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
 						if(val=='2'){
 							return '<span style="color:orange;">待审批</span>';
 						}else if(val=='3'){
-							return '<span style="color:red;">审批通过</span>';
+							return '<span style="color:green;">审批通过</span>';
 						}else if(val=='4'){
 							return '<span style="color:red;">审批不通过</span>';
 						}
@@ -81,7 +84,8 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
 				      	{ name: '员工编号', value: 'employeeid' },
 						{ name: '日期'   , value:'date'},
 						{ name: '部门'   , value:'departmentName'},
-						{ name: '状态'   , value:'status'}
+						{ name: '状态'   , value:'status'},
+						{ name:'工作/节假日/请假',value:'ifholiday'}
 				    ]
 				}),
 	            displayField: 'name',
@@ -114,6 +118,20 @@ Ext.define('Admin.view.workTime.WorkTimeGridPanel', {
 		    	valueField:"value",
 		    	reference:"statusCombo",
 		    	emptyText: '请选择状态',
+		    	editable: false,
+		    	hidden:true,
+		    	queryMode:'local',
+		    },{
+		    	xtype:"combobox",
+		    	name:"ifholiday",
+		    	store:Ext.create('Ext.data.Store',{
+		    		fields:["name","value"],
+		    		data:[{name:"工作日",value:"0"},{name:"周六日",value:"1"},{name:"节假日",value:"3"},{name:"请假",value:"3"}]
+		    	}),
+		    	displayField:"name",
+		    	valueField:"value",
+		    	reference:"ifholidayCombo",
+		    	emptyText: '请选择是否节假日',
 		    	editable: false,
 		    	hidden:true,
 		    	queryMode:'local',

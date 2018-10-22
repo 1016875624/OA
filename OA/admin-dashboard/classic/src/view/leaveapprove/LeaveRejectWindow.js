@@ -1,6 +1,7 @@
 ﻿Ext.define('Admin.view.leaveapprove.LeaveRejectWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.leaveRejectWindow',
+	autoShow: true,
     height: 400,
     minHeight: 350,
     minWidth: 300,

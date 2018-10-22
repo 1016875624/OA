@@ -179,10 +179,10 @@
 
 	/*Check*/	
 	onCheckButton:function(grid, rowIndex, colIndex){
-		var rec = grid.getStore().getAt(rowIndex);
-		var win = Ext.widget('employeeCheckWindow');
+		var rec = grid.getStore().getAt(rowIndex);	// 获取store记录
+		var win = Ext.widget('employeeCheckWindow');	// 获取窗口别名
 		win.show();
-		win.down("form").getForm().loadRecord(rec);
+		win.down("form").getForm().loadRecord(rec); //找到表单记录
 		console.log(Ext.ClassManager.getName(win.down("form")));
 	},
     
@@ -192,7 +192,8 @@
 		win.show();
 	},
 	
-	submitSave:function(btn){
+	submitSend:function(btn){
+		Ext.Msg.alert("提示", "发送邮件成功，请等待相关负责人处理！");
 	},
 	
 	//申请类型

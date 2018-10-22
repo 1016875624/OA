@@ -7,7 +7,9 @@ Ext.define('Admin.view.question.QuestionGridPanel', {
         'Ext.form.field.ComboBox',
         'Ext.selection.CheckboxModel',
         'Ext.form.field.Date',
-        'Ext.grid.column.Date'
+        'Ext.grid.column.Date',
+        "Ext.ux.ProgressBarPager",
+        "Ext.ux.SlidingPager"
     ],
     layout: 'fit',
     items: [{

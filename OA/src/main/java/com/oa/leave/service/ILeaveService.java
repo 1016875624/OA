@@ -5,11 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.Nullable;
 
-import com.oa.employee.entity.Employee;
 import com.oa.leave.entity.Leave;
 import com.oa.leave.entity.LeaveDTO;
-import com.oa.worktime.entity.WorkTime;
-import com.oa.worktime.entity.WorkTimeDTO;
 
 public interface ILeaveService {
 	//请假业务

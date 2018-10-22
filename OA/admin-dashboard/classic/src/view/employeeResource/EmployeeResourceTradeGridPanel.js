@@ -17,6 +17,13 @@
 		selModel: {type: 'checkboxmodel'},
 		columns: [
 			 {header: 'id',dataIndex:'id',width: 60,sortable: true,hidden:true}
+			,{header: '拥有者',dataIndex: 'employeeId',width: 160,sortable: true}
+			,{header: '资源名称',dataIndex: 'resourceName',width: 150,sortable: true}
+			,{header: '剩余数量',dataIndex: 'count',width: 100,sortable: true}
+			,{header: '最近改变时间',dataIndex: 'recentChangeTime',width: 185,sortable: true,renderer: Ext.util.Format.dateRenderer('Y/m/d H:i:s')}
+			,{header: '备注',dataIndex: 'remark',width: 300,sortable: true, hidden:true}
+			,{header: '交易走的资源',dataIndex: 'loseResourceName',width: 120,sortable: true, hidden:true}
+			,{header: '交易走的数量',dataIndex: 'loseCount',width: 100,sortable: true, hidden:true}
 			,{header: '状态',dataIndex: 'status',width: 100,sortable: true,
 	            renderer: function(val) {
 		            if (val =='0') {
@@ -27,13 +34,6 @@
 			        return val;
 	            }
 			}
-			,{header: '资源名称',dataIndex: 'resourceName',width: 150,sortable: true}
-			,{header: '剩余数量',dataIndex: 'count',width: 100,sortable: true}
-			,{header: '最近改变时间',dataIndex: 'recentChangeTime',width: 185,sortable: true,renderer: Ext.util.Format.dateRenderer('Y/m/d H:i:s')}
-			,{header: '备注',dataIndex: 'remark',width: 300,sortable: true, hidden:true}
-			,{header: '交易走的资源',dataIndex: 'loseResourceName',width: 120,sortable: true, hidden:true}
-			,{header: '交易走的数量',dataIndex: 'loseCount',width: 100,sortable: true, hidden:true}
-			,{header: '拥有者',dataIndex: 'employeeId',width: 160,sortable: true}
 			,{xtype: 'actioncolumn',cls: 'content-column', width: 180,text: '操作',tooltip: 'edit',
 				items: [
 					{xtype: 'button', iconCls: 'x-fa fa-commenting-o',tooltip: '交易',

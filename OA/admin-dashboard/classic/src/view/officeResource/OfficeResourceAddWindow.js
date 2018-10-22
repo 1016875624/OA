@@ -1,6 +1,7 @@
 ﻿Ext.define('Admin.view.officeResource.OfficeResourceAddWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.officeResourceAddWindow',
+	autoShow: true,
     height: 350,
     minHeight: 350,
     minWidth: 300,
@@ -54,6 +55,7 @@
 			queryMode: 'local',
 			displayField: 'name',
 			valueField: 'value',
+			value: '0',
 			allowBlank: false
 		},{
 			xtype: 'datefield',

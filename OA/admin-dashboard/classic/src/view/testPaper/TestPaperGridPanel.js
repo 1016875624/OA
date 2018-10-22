@@ -9,7 +9,8 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
         'Ext.form.field.ComboBox',
         'Ext.selection.CheckboxModel',
         'Ext.form.field.Date',
-        'Ext.grid.column.Date'
+        'Ext.grid.column.Date',
+        'Ext.window.Toast'
     ],
     layout: 'fit',
     //shadow:true,
@@ -19,7 +20,8 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
     //title:"加薪考试！",
     items: [{
     	xtype:"form",
-    	reference:"paperForm",
+    	//reference:"paperForm",
+    	id:"paperFormsubmit",
     	height:800,
     	padding:'30 50 50 50',
     	title:'OA 办 公 自 动 加 薪',
@@ -216,7 +218,7 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
     			    	    	//temp.up("container").getController().submitPaper();
     			    	    	//this.submitPaper();
     			    	    	//Ext.getCmp("testPaperViewController").submitPaper();
-    			    	    	Ext.getCmp("buttonSubmitId").click()
+    			    	    	Ext.getCmp("buttonSubmitId").click();
     			    	    	Ext.TaskManager.stop(task);
     			    	    }
     	    		    },
@@ -224,6 +226,7 @@ Ext.define('Admin.view.testPaper.TestPaperGridPanel', {
     	    	   };
     			Ext.TaskManager.start(task);
     			
+    			window.task1001001=task;
     			/*over*/
     			var form=this;
     			//console.log(Ext.ClassManager.getName(form));

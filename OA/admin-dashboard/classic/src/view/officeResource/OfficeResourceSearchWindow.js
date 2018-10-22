@@ -1,6 +1,7 @@
 ﻿Ext.define('Admin.view.officeResource.OfficeResourceSearchWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.officeResourceSearchWindow',
+	autoShow: true,
     height: 300,
     minHeight: 300,
     minWidth: 300,
