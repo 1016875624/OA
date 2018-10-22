@@ -45,6 +45,8 @@ public class QuitQueryDTO {
 	
 	private String departmentName;
 	
+	private String leaderid;
+	
 	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
 	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
 	private Date preQuitDate;
@@ -122,6 +124,10 @@ public class QuitQueryDTO {
 					predicate.add(criteriaBuilder.like(root.get("employee")
 							.get("name").as(String.class),
 							"%"+quitQueryDTO.getDepartmentName()+"%"));
+				}
+				//上级
+				if (StringUtils.isNotBlank(quitQueryDTO.leaderid)) {
+					predicate.add(criteriaBuilder.equal(root.get("employee").get("leader").get("id"), quitQueryDTO.leaderid));
 				}
 				
 				

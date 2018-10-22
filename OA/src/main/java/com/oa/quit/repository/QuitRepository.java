@@ -1,6 +1,7 @@
 package com.oa.quit.repository;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -24,4 +25,8 @@ public interface QuitRepository extends JpaRepository<Quit, Integer>,JpaSpecific
 	@Modifying
 	@Query("UPDATE Quit q SET q.status=2 WHERE q.id IN :ids")
 	void approvalNoPass(@Param("ids") Integer[]ids);
+	
+	Quit findByEmployeeId(String id);
+	
+	
 }
