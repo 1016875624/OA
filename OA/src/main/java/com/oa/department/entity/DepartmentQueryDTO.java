@@ -1,7 +1,6 @@
 package com.oa.department.entity;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -11,10 +10,7 @@ import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import lombok.Data;
-import lombok.ToString;
 
 @Data
 public class DepartmentQueryDTO {

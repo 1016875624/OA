@@ -137,8 +137,8 @@ Ext.define('Admin.view.authentication.Login', {
                             }
                         }
                     ]
-                },
-                {
+                }
+                /*{
                     xtype: 'box',
                     html: '<div class="outer-div"><div class="seperator">OR</div></div>',
                     margin: '10 0'
@@ -169,7 +169,7 @@ Ext.define('Admin.view.authentication.Login', {
                     listeners: {
                         click: 'onNewAccount'
                     }
-                }
+                }*/
             ]
         }
     ],

@@ -294,23 +294,16 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 	
 	/*查看部门人员*/	
 	gridCheck:function(grid, rowIndex, colIndex){
-	
-		var win = Ext.widget('departmentCheckWindow');//打开窗口
-		win.show();
-		
-		var cp = this.lookupReference('dpartmentBox');//获取对象
-		var rec = grid.getStore().getAt(rowIndex);//获取Store记录
 		var store=Ext.data.StoreManager.lookup('loadingGridStroe');//获取Store数据
+		var win=Ext.widget('departmentCheckWindow');
+		grid.up('container').add(win);
+		win.down("gridpanel").setStore(store);
+		win.down("pagingtoolbar").setStore(store);//绑定数据
+		var rec = grid.getStore().getAt(rowIndex);//获取Store记录
 		var departid=rec.get("id");//从记录中获取id
 		Ext.apply(store.proxy.extraParams, {departmentid:departid});//与后台DTO里面的字段交互
-		
-		var store=cp.getStore();
-		
 		store.load();//刷新
-		
-		console.log(Ext.ClassManager.getName(win.down("form")));
-		
-		defaultBox.setValue(departid);
+		win.show();//打开窗口
 	},
 	
 	init:function(){

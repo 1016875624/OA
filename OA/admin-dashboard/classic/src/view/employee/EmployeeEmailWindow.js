@@ -22,45 +22,29 @@ Ext.define('Admin.view.employee.EmployeeEmailWindow', {
 			{
 				xtype: 'textfield',
 				fieldLabel: '申请人编号',
+				allowBlank : false,
 				name:'id'
 			},{
 				xtype: 'textfield',
 				fieldLabel: '申请人姓名',
+				allowBlank : false,
 				name:'id'
 			},{
 				xtype: 'textfield',
 				fieldLabel: '申请人邮箱',
+				allowBlank : false,
 				name:'id'
 			},{
 				xtype: 'textfield',
 				fieldLabel: '接收者邮箱',
+				allowBlank : false,
 				name:'id'
 			},{
-				xtype: 'combobox',
-	            reference:'searchFieldName',
+				xtype: 'textfield',
 	            name:'applyType',
 	            fieldLabel: '申请类型',
-	            store:Ext.create("Ext.data.Store", {
-				    fields: ["name", "value"],
-				    data: [
-				      	{ name: '调离部门', value: 'change' },
-						{ name: '离职'   , value:'leave'},
-				    ]
-				}),
-				allowBlank:false,
-	            editable: false,
-	            queryMode:'local',
-	            displayField:'name',
-	            valueField:'value',
-	            listeners:{
-					change:'tbarSelectChangeType'
-				}
-			},{
-				xtype: 'textfield',
-				reference:'searchFieldValue',
-				fieldLabel: '申请离职原因',
-				name:'reason',
-				hidden:true
+	            emptyText:'调离部门',
+	            editable: false
 			},{
 				fieldLabel: '原部门',
 				xtype:"departmentcombobox",
@@ -73,14 +57,14 @@ Ext.define('Admin.view.employee.EmployeeEmailWindow', {
 		    	name:'departmentid'
 			},{
 				xtype: 'textareafield',
-				fieldLabel: '申请原因',
+				fieldLabel: '调部原因',
 				name:'reason'
 			}
 			],
    buttons: ['->',{
         xtype: 'button',
-        text: 'Save',
-        handler: 'submitSave'
+        text: 'Send',
+        handler: 'submitSend'
     },{
         xtype: 'button',
         text: 'Close',

@@ -17,12 +17,13 @@
                 viewType: 'admindashboard',
                 routeId: 'dashboard', // routeId defaults to viewType
                 leaf: true
-            },{
+            },
+            /*{
                 text: '流程定义模块',
                 iconCls: 'x-fa fa-address-card',
                 viewType: 'processDefinitionCenterPanel',
                 leaf: true
-            },
+            },*/
             {
                 text: '部门',
                 iconCls: 'x-fa fa-building-o',
@@ -36,13 +37,16 @@
                 //rowCls: 'nav-tree-badge nav-tree-badge-new',
                 viewType: 'employeeCenterPanel',
                 leaf: true
-            },{
+            },
+            /*{
                 text: '订单管理模块',
-                iconCls: 'x-fa fa-address-card',
+                iconCls: 'x-fa fa-wpforms',
+                hidden:true,
                 //rowCls: 'nav-tree-badge nav-tree-badge-new',
                 viewType: 'orderCenterPanel',
                 leaf: true
-            },{
+            },*/
+            {
 				text: '请假模块',
                 iconCls: 'x-fa fa-leanpub',
 				expanded: false,
@@ -83,56 +87,58 @@
 						leaf: true
 					}
 				]
-			},{
+			},
+			/*{
                 text: 'Login',
                 iconCls: 'x-fa fa-check',
                 viewType: 'login',
-                //hidden:true,
+                hidden:true,
                 //style:'display:none',
                 leaf: true
-           },{
+           },*/
+           {
                text: '工时',
-               iconCls: 'x-fa fa-address-card',
+               iconCls: 'x-fa fa-clock-o',
                viewType: 'workTimeCenterPanel',
                leaf: true
            },{
                text: '审批工时',
-               iconCls: 'x-fa fa-address-card',
+               iconCls: 'x-fa fa-check-square-o',
                viewType: 'workTimeApprovalCenterPanel',
                leaf: true
            },{
                text: '题库管理',
-               iconCls: 'x-fa fa-address-card',
+               iconCls: 'x-fa fa-question-circle-o',
                //viewType: 'questionCenterPanel',
                children:[
                    {
                        text: '题库',
-                       iconCls: 'x-fa fa-address-card',
+                       iconCls: 'x-fa fa-question-circle',
                        viewType: 'questionCenterPanel',
                        leaf: true
                    },
                    {
                        text:'考试',
-                       iconCls: 'x-fa fa-address-card',
+                       iconCls: 'x-fa fa-pencil-square-o',
                        viewType: 'testPaperCenterPanel',
                        leaf: true
                    }
                ]
            },{
                text: '离职',
-               iconCls: 'x-fa fa-address-card',
+               iconCls: 'x-fa fa-plane',
                //viewType: 'quit',
                //leaf: true
                 children:[
                     {
                         text: '离职管理',
-                        iconCls: 'x-fa fa-address-card',
+                        iconCls: 'x-fa fa-file',
                         viewType: 'quit',
                         leaf: true
                     },
                     {
                         text:'离职审批',
-                        iconCls: 'x-fa fa-address-card',
+                        iconCls: 'x-fa fa-check-square-o',
                         viewType: 'quitApproval',
                         leaf: true
                     }
@@ -140,19 +146,19 @@
            }
             ,{
                 text: '薪资发放',
-                iconCls: 'x-fa fa-address-card',
+                iconCls: 'x-fa fa-handshake-o',
                 viewType: 'salarypay',
                 leaf: true
             }
             ,{
                 text: '薪资',
-                iconCls: 'x-fa fa-address-card',
+                iconCls: 'x-fa fa-money',
                 viewType: 'salary',
                 leaf: true
             },
             {
                 text: '员工关系',
-                iconCls: 'x-fa fa-address-card',
+                iconCls: 'x-fa fa-code-fork',
                 viewType: 'membership',
                 leaf: true
             },
