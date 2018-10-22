@@ -50,35 +50,35 @@
 				children:[
 					{
 						text: '请假管理模块',
-						iconCls: 'x-fa fa-address-card',
+						iconCls: 'x-fa fa-calendar-times-o',
 						viewType: 'leaveCenterPanel',
 						leaf: true
 					},{
 						text: '请假审批模块',
-						iconCls: 'x-fa fa-address-card',
+						iconCls: 'x-fa fa-calendar-check-o',
 						viewType: 'leaveApproveCenterPanel',
 						leaf: true
 					}
 				]
 			},{
 				text: '办公资源模块',
-                iconCls: 'x-fa fa-address-card',
+                iconCls: 'x-fa fa-pie-chart',
                 expanded: false,
                 selectable: false,
                 children:[
 					{
 						text: '办公资源',
-						iconCls: 'x-fa fa-address-card',
+						iconCls: 'x-fa fa-list',
 						viewType: 'officeResourceCenterPanel',
 						leaf: true
 					},{
 						text: '员工资源',
-						iconCls: 'x-fa fa-address-card',
+						iconCls: 'x-fa fa-indent',
 						viewType: 'employeeResourceCenterPanel',
 						leaf: true
 					},{
-						text: '员工交易资源',
-						iconCls: 'x-fa fa-address-card',
+						text: '交易资源',
+						iconCls: 'x-fa fa-outdent',
 						viewType: 'employeeResourceTradeCenterPanel',
 						leaf: true
 					}
