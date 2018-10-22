@@ -9,11 +9,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -25,7 +27,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="quit")
+//@Table(name="quit",uniqueConstraints= {@UniqueConstraint(columnNames="employee_ID_")},indexes= {@Index(columnList="employee_ID_",unique=true)})
+//@Table(name="quit",uniqueConstraints= {@UniqueConstraint(columnNames="employee_ID_")},indexes= {@Index(columnList="employee_ID_",unique=true)})
+@Table(name="quit",uniqueConstraints= {@UniqueConstraint(columnNames="employee_ID_")})
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,7 +43,7 @@ public class Quit {
 	private Integer id;
 	
 	@OneToOne(fetch=FetchType.EAGER)
-	//@JoinColumn(unique=true)
+	@JoinColumn(unique=true)
 	private Employee employee;
 	/**
 	* @Fields date : 离职申请时间
