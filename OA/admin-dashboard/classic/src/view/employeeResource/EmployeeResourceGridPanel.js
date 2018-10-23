@@ -36,7 +36,7 @@
 			,{header: '职员ID',dataIndex: 'employeeId',width: 120,sortable: true, hidden:true}
 			,{xtype: 'actioncolumn',cls: 'content-column', width: 180,text: '操作',tooltip: 'edit',
 				items: [
-					{xtype: 'button', iconCls: 'x-fa fa-check',
+					{xtype: 'button', iconCls: 'x-fa fa-check',tooltip: '同意交易',
 						getClass: function(v, meta, rec) {
 		                    if (rec.get('status')!=0) {
 		                        return 'x-hidden';
@@ -44,7 +44,7 @@
 		                    return 'x-fa fa-check';
 		                },
 					handler: 'sureTrade'},
-					{xtype: 'button',iconCls: 'x-fa fa-close',
+					{xtype: 'button',iconCls: 'x-fa fa-close',tooltip: '拒绝交易',
 						getClass: function(v, meta, rec) {
 		                    if (rec.get('status')!=0) {
 		                        return 'x-hidden';
@@ -52,6 +52,14 @@
 		                    return 'x-fa fa-close';
 		                },
 					handler: 'cancelTrade'},
+					{xtype: 'button',iconCls: 'x-fa fa-handshake-o',tooltip: '兑换资源',
+						getClass: function(v, meta, rec) {
+		                    if (rec.get('status')!=1) {
+		                        return 'x-hidden';
+		                    }
+		                    return 'x-fa fa-handshake-o';
+		                },
+					handler: 'openExchangeWindow'}
 				]
 			}
 		],
