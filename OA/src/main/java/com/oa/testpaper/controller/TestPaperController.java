@@ -41,9 +41,16 @@ public class TestPaperController {
 	@RequestMapping(value = "/getpaper")
 	public TestPaperDTO getPaper(HttpSession session) {
 		// 获得当前用户ID
-		// String applicantId = SessionUtil.getUserName(session);
-		String employeeid = "user2";
-		TestPaperDTO testPaperDTO = testPaperService.getTest(employeeid);
+		String applicantId = SessionUtil.getUserName(session);
+		//String employeeid = "user2";
+		TestPaperDTO testPaperDTO=new TestPaperDTO();
+		if(applicantId!=null) {
+			testPaperDTO = testPaperService.getTest(applicantId);
+		}else {
+			testPaperDTO = testPaperService.getTest("admin");
+		}
+		
+		
 		return testPaperDTO;
 	}
 
