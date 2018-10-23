@@ -389,7 +389,7 @@
 				interval: farOfTime //时间间隔2ms
 			};
 			begin = setInterval('Ext.TaskManager.start(task_RealTimeMointor2)',farOfTime);
-			}
+		}
 		else{
 			alert('你没有权限进行开始抽资源！');
 		}

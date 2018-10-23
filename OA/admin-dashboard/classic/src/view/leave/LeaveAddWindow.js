@@ -48,7 +48,8 @@
 			displayField: 'name',
 			valueField: 'value',
 			value: 'A',
-			allowBlank: false
+			allowBlank: false,
+			readOnly: true
 		},{
 			xtype: 'datefield',
 			fieldLabel: '请假开始时间',
