@@ -28,6 +28,7 @@
 						,{ name: '待审批', value: '1' }
 						,{ name: '审批通过', value: '2' }
 						,{ name: '已销假', value: '3' }
+						,{ name: '被驳回', value: '4' }
 				]
 			}),
 			displayField: 'name',
