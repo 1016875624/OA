@@ -71,7 +71,7 @@
 					{
 		                xtype: 'button',iconCls: 'x-fa fa-star',tooltip: '开始抽奖',
 		                getClass: function(v, meta, rec) {
-		                    if (rec.get('status')!=0) {
+		                    if (rec.get('status')!=0||rec.get('remark')!=0) {
 		                        return 'x-hidden';
 		                    }
 		                    return 'x-fa fa-star';
@@ -80,7 +80,7 @@
 		            },{
 		                xtype: 'button',iconCls: 'x-fa fa-hand-lizard-o',tooltip: '开始抢资源',
 		                getClass: function(v, meta, rec) {
-		                    if (rec.get('status')!=0) {
+		                    if (rec.get('status')!=0||rec.get('remark')!=1) {
 		                        return 'x-hidden';
 		                    }
 		                    return 'x-fa fa-hand-lizard-o';

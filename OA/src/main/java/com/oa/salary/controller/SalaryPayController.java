@@ -180,4 +180,15 @@ public class SalaryPayController {
 		return new ExtAjaxResponse(true, "发放工资成功");
 		
 	}
+	
+	@RequestMapping("/preSalaryPay")
+	public ExtAjaxResponse prePaySalary() {
+		try {
+			salaryPayService.preSalaryPaying(DateUtils.getToMonthStart(), DateUtils.getToMonthEnd());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ExtAjaxResponse(false, "发送未知错误");
+		}
+		return new ExtAjaxResponse(true, "预计工资成功");
+	}
 }
