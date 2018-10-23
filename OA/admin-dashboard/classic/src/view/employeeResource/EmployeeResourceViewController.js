@@ -83,7 +83,7 @@
 		if(values.exchangeCount==''||values.exchangeCount==undefined||values.exchangeCount==null){
 			alert('兑换数目不能为空');
 		}
-		else if(values.count<values.exchangeCount){
+		else if(values.exchangeCount>values.count){
 			alert('兑换数目不能多于你已拥有的数目');
 		}
 		else{
@@ -147,5 +147,38 @@
 				}
 			}
 		});
+	},
+	finishExchange:function(grid, rowIndex, colIndex){
+		var record = grid.getStore().getAt(rowIndex);
+		Ext.Ajax.request({ 
+			url : '/employeeResource/finishExchange',
+			method : 'post', 
+			params : {
+				id :record.get("id")
+			}, 
+			success: function(response, options) {
+				var json = Ext.util.JSON.decode(response.responseText);
+				if(json.success){
+					Ext.Msg.alert('操作成功', json.msg, function() {
+					grid.getStore().reload();
+				});
+				}else{
+					Ext.Msg.alert('操作失败', json.msg);
+				}
+			}
+		});
+	},
+	deleteFinishExchange:function(grid, rowIndex, colIndex){
+		var store = grid.getStore();
+		var record = store.getAt(rowIndex);
+		if(record.data.status=="3"){
+			Ext.MessageBox.confirm('提示', '确定要进行删除操作吗？',function(btn, text){
+				if(btn=='yes'){
+					store.remove(record);
+				}
+			}, this);
+		}else{
+			Ext.Msg.alert('提示', "只可以删除'待兑换'状态的信息！");
+		}
 	}
 });
