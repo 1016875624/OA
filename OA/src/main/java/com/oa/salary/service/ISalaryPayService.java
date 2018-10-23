@@ -146,12 +146,38 @@ public interface ISalaryPayService {
 	/**
 	* <p>方法名称: salaryPaying</p>
 	* <p>描述：发放规定时间的工资</p>
-	* @param id 员工id
+	* @param id salary的id
 	* @param start 开始时间
 	* @param end 结束时间
 	* @return SalaryPay 返回类型
 	*/
 	SalaryPay salaryPaying(Integer id,Date start,Date end);
+	
+	/**
+	* <p>方法名称: preSalaryPaying</p>
+	* <p>描述：预计本月要发放的工资</p>
+	* @param id salary的id
+	* @param start 开始时间
+	* @param end 结束时间
+	* @return SalaryPay 返回类型
+	*/
+	SalaryPay preSalaryPaying(Integer id,Date start,Date end);
+	
+	
+	/**
+	* <p>方法名称: preSalaryPaying</p>
+	* <p>描述：预计本月发放的工资</p>
+	* @param start 开始时间
+	* @param end 结束时间
+	* void 返回类型
+	*/
+	void preSalaryPaying(Date start,Date end);
+	
+	/**
+	* <p>方法名称: preSalaryPayingThisMonth</p>
+	* <p>预计本月发放的工资</p> void 返回类型
+	*/
+	void preSalaryPayingThisMonth();
 	
 	/**
 	* <p>方法名称: salaryPaying</p>

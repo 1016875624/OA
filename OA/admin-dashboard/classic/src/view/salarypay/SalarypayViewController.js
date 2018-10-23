@@ -403,11 +403,29 @@ Ext.define('Admin.view.salarypay.SalarypayViewController', {
             //jsonData:{id:ids},
             success: function(response, opts) {
                 var obj = Ext.decode(response.responseText);
-                console.dir(obj);
+                Ext.Msg.alert("提示",obj.msg);
             },
 
             failure: function(response, opts) {
             	Ext.Msg.alert("失败提示","发放工资失败");
+            }
+        });
+	},
+    prePaySalary:function()
+	{
+        Ext.Ajax.request({
+            url: 'http://localhost:8080/salarypay/preSalaryPay',
+            //method:'post',
+            //params:{id:ids},
+            //jsonData:{id:ids},
+            success: function(response, opts) {
+                var obj = Ext.decode(response.responseText);
+                console.dir(obj);
+                Ext.Msg.alert("提示",obj.msg);
+            },
+
+            failure: function(response, opts) {
+                Ext.Msg.alert("失败提示","发放工资失败");
             }
         });
 	},

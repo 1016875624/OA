@@ -534,6 +534,64 @@ public class SalaryPayService implements ISalaryPayService {
 		
 		return money;
 	}
+
+	@Override
+	public SalaryPay preSalaryPaying(Integer id, Date start, Date end) {
+		SalaryPay salaryPay=new SalaryPay();
+		Salary salary=salaryRepository.findById(id).orElse(null);
+		
+		if (salary==null) {
+			return null;
+		}
+		if (salary.getEmployee()==null) {
+			return null;
+		}
+		Date monthStart=start;
+		Date monthEnd=end;
+		
+		salaryPay.setDate(DateUtils.getToday());
+		salaryPay.setMoney(countSalary(salary.getId(),monthStart,monthEnd));
+		salaryPay.setAttendRate(salaryPayRepository.countAttendence(salary.getEmployee().getId(), monthStart, monthEnd));
+		salaryPay.setEmployee(salary.getEmployee());
+		salaryPay.setRealWorktime(salaryPayRepository.countEmployeeWorkHour(salary.getEmployee().getId(), monthStart, monthEnd));
+		if (salaryPay.getRealWorktime()==null) {
+			salaryPay.setRealWorktime(0);
+		}
+		if (salaryPay.getWorktime()==null) {
+			salaryPay.setWorktime(0);
+		}
+		salaryPay.setStatus(0);
+		salaryPay.setWorktime(salaryPayRepository.countWorkHours(monthStart, monthEnd));
+		salaryPayRepository.save(salaryPay);
+		return salaryPay;
+	}
+
+	@Override
+	public void preSalaryPaying(Date start, Date end) {
+		int page=0;
+		int size=10;
+		
+		
+		long count=salaryRepository.count();
+		while (page*size<count) {
+			Page<Salary> page2=salaryRepository.findAll(PageRequest.of(page, size, Sort.by(Direction.ASC, "id")));
+			List<Salary>salaries=page2.getContent();
+			for (Salary salary : salaries) {
+				preSalaryPaying(salary.getId(),start,end);
+			}
+			//没有下一页结束
+			if (!page2.hasNext()) {
+				return;
+			}
+			page++; 
+		}
+		
+	}
+
+	@Override
+	public void preSalaryPayingThisMonth() {
+		preSalaryPaying(DateUtils.getToMonthStart(), DateUtils.getToMonthEnd());
+	}
 	
 	
 }
