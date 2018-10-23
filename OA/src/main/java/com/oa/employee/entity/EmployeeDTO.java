@@ -3,13 +3,8 @@ package com.oa.employee.entity;
 
 import java.util.Date;
 
-import javax.swing.text.AbstractDocument.LeafElement;
-
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.util.concurrent.ListenableFutureAdapter;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.oa.common.beans.BeanUtils;
 import com.oa.department.entity.Department;

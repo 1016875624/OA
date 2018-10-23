@@ -45,23 +45,6 @@ Ext.define('Admin.view.employee.EmployeeAddWindow', {
             fieldLabel: '职位',
             name:'position'
         }, 
-       /* {
-            xtype: 'combobox',
-	        fieldLabel: '在职状态',
-	        allowBlank : false,
-			name:'status',
-			editable:false,
-            store: Ext.create('Ext.data.Store', {
-                fields: ['value', 'name'],
-                data: [
-				{"value":"0","name":"正常"},
-                {"value":"1","name":"离职"},
-				{"value":"-1","name":"封禁"}
-                ]
-                }),
-                displayField: 'name',
-                valueField: 'value',
-        }, */
         {
             xtype: 'textfield',
             fieldLabel: '上级领导',
