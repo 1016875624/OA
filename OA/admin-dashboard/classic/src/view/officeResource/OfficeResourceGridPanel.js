@@ -50,9 +50,9 @@
 			,{header: '开始时间',dataIndex: 'startTime',width: 165,sortable: true,renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s')}
 			,{header: '结束时间',dataIndex: 'endTime',width: 165,sortable: true,renderer: Ext.util.Format.dateRenderer('Y/m/d H:i:s')}
 			
-			,{xtype: 'actioncolumn',cls: 'content-column', width: 180,text: '操作',tooltip: 'edit ',
+			,{xtype: 'actioncolumn',cls: 'content-column', width: 180,text: '操作',tooltip: 'edit',
 				items: [
-					{xtype: 'button', iconCls: 'x-fa fa-pencil',
+					{xtype: 'button', iconCls: 'x-fa fa-pencil',tooltip: '修改',
 						getClass: function(v, meta, rec) {
 		                    if (rec.get('status')==1||rec.get('status')==3) {
 		                        return 'x-hidden';
@@ -60,7 +60,7 @@
 		                    return 'x-fa fa-pencil';
 		                },
 					handler: 'openEditWindow'},
-					{xtype: 'button',iconCls: 'x-fa fa-close',
+					{xtype: 'button',iconCls: 'x-fa fa-close',tooltip: '删除',
 						getClass: function(v, meta, rec) {
 		                    if (rec.get('status')==1||rec.get('status')==3) {
 		                        return 'x-hidden';

@@ -140,16 +140,16 @@ public class TestPaperController {
 		Double score=1.0 * count * 10;
 		
 		TestPaper testPaper=testPaperService.findById(testPaperDTO.getId());
-		if(testPaper.getEndTime().getTime()<nowTime.getTime()) {
+		/*if(testPaper.getEndTime().getTime()<nowTime.getTime()) {
 			testPaper.setScore(1.0*0);
 			score=1.0*0;
 		}else {
 			testPaper.setScore(score);
-		}
-		
+		}*/
+		testPaper.setScore(score);
 		
 		testPaperService.save(testPaper);
-		
+		System.out.println(score);
 		/*Map<String, String> map=new HashMap<>();
 		map.put("msg", "success");
 		map.put("score", score.toString());*/

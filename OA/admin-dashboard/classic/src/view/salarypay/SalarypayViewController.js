@@ -395,7 +395,22 @@ Ext.define('Admin.view.salarypay.SalarypayViewController', {
 
         store.load();
 	},
+    paySalary:function(){
+        Ext.Ajax.request({
+            url: 'http://localhost:8080/salarypay/paySalary',
+            //method:'post',
+            //params:{id:ids},
+            //jsonData:{id:ids},
+            success: function(response, opts) {
+                var obj = Ext.decode(response.responseText);
+                console.dir(obj);
+            },
 
+            failure: function(response, opts) {
+            	Ext.Msg.alert("失败提示","发放工资失败");
+            }
+        });
+	},
 	test:function(){
 		Ext.Msg.alert("test","test");
 	},

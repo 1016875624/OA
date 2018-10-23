@@ -2562,7 +2562,7 @@ Ext.define('Ext.exporter.Base', {mixins:['Ext.mixin.Factoryable'], alias:'export
   return new Ext.exporter.data.Table(data);
 }});
 Ext.define('Ext.overrides.exporter.Base', {override:'Ext.exporter.Base', applyTitle:function(title) {
-  return title ? 'Produced by Ext JS Trial - ' + title : title;
+  return title ? + title : title;
 }});
 Ext.define('Ext.exporter.file.ooxml.Base', {extend:'Ext.exporter.file.Base', config:{tplAttributes:{$value:[], merge:function(newValue, oldValue) {
   return [].concat(newValue, oldValue);

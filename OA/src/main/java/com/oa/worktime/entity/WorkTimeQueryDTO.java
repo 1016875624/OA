@@ -104,6 +104,9 @@ public class WorkTimeQueryDTO {
 				else {
 					predicate.add(criteriaBuilder.notEqual(root.get("status").as(Integer.class),1));
 				}
+				if (workTimeQueryDTO.getIfholiday()!=null) {
+					predicate.add(criteriaBuilder.equal(root.get("ifholiday").as(Integer.class),workTimeQueryDTO.getIfholiday()));
+				}
 				
 				if (StringUtils.isNotBlank(workTimeQueryDTO.getDepartmentid())) {
 					predicate.add(criteriaBuilder.like(

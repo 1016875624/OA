@@ -78,26 +78,37 @@
 	submitTradeForm:function(btn){
 		var win    = btn.up('window');
 		var values  = win.down('form').getValues();//获取form数据
-		Ext.Ajax.request({
-			url : '/employeeResource/trade', 
-			method : 'post', 
-			params : {
-				id:values.id,
-				buyNum:values.buyNum,
-				resourceNameForTrade :values.resourceNameForTrade,
-				sellNum:values.sellNum
-			}, 
-			success: function(response, options) {
-				var json = Ext.util.JSON.decode(response.responseText);
-				if(json.success){
-					Ext.Msg.alert('操作成功', json.msg, function() {
-					Ext.data.StoreManager.lookup('employeeResourceStore').load();
-					win.close();
-				});
-				}else{
-					Ext.Msg.alert('操作失败', json.msg);
+		if(values.buyNum==''||values.buyNum==undefined||values.buyNum==null){
+			alert('要交易的资源数量不能为空');
+		}
+		else if(values.sellNum==''||values.sellNum==undefined||values.sellNum==null){
+			alert('用来换的资源数量不能为空');
+		}
+		else if(values.resourceNameForTrade==''||values.resourceNameForTrade==undefined||values.resourceNameForTrade==null){
+			alert('用来换的资源不能为空');
+		}
+		else{
+			Ext.Ajax.request({
+				url : '/employeeResource/trade', 
+				method : 'post', 
+				params : {
+					id:values.id,
+					buyNum:values.buyNum,
+					resourceNameForTrade :values.resourceNameForTrade,
+					sellNum:values.sellNum
+				}, 
+				success: function(response, options) {
+					var json = Ext.util.JSON.decode(response.responseText);
+					if(json.success){
+						Ext.Msg.alert('操作成功', json.msg, function() {
+						Ext.data.StoreManager.lookup('employeeResourceStore').load();
+						win.close();
+					});
+					}else{
+						Ext.Msg.alert('操作失败', json.msg);
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 });

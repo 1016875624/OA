@@ -1,6 +1,7 @@
 ﻿Ext.define('Admin.view.leave.LeaveEditWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.leaveEditWindow',
+	autoShow: true,
     height: 350,
     minHeight: 350,
     minWidth: 300,

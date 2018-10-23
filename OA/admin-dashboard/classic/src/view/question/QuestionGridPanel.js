@@ -7,7 +7,9 @@ Ext.define('Admin.view.question.QuestionGridPanel', {
         'Ext.form.field.ComboBox',
         'Ext.selection.CheckboxModel',
         'Ext.form.field.Date',
-        'Ext.grid.column.Date'
+        'Ext.grid.column.Date',
+        "Ext.ux.ProgressBarPager",
+        "Ext.ux.SlidingPager"
     ],
     layout: 'fit',
     items: [{
@@ -134,11 +136,13 @@ Ext.define('Admin.view.question.QuestionGridPanel', {
 		        text: 'Search',
 		        iconCls: 'fa fa-search',
 		        handler: 'quickSearch'
-		    }, '-',{
-		        text: 'Search More',
-		        iconCls: 'fa fa-search-plus',
-		        handler: 'openSearchWindow'	
-			}, '->',{
+		    }
+		    //, '-',{
+		     //   text: 'Search More',
+		     //   iconCls: 'fa fa-search-plus',
+		     //   handler: 'openSearchWindow'	
+			//}
+    		, '->',{
 		        text: '添加题目',
 		        tooltip: 'Add a new row',
 		        iconCls: 'fa fa-plus',

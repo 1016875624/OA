@@ -6,7 +6,10 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
         'Ext.exporter.text.TSV',
         'Ext.exporter.text.Html',
         'Ext.exporter.excel.Xml',
-        'Ext.exporter.excel.Xlsx'
+        'Ext.exporter.excel.Xlsx',
+        'Ext.window.Toast',
+        'Ext.grid.plugin.CellEditing',
+        
     ],
     /********************************************** Controller View *****************************************************/
     //导出数据
@@ -152,6 +155,10 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		//Ext.data.StoreManager.lookup("holidayGridStroe").load();
 		var gridTest = new Ext.grid.GridPanel({
 		    region: 'north',
+		    requires:[
+		    	'Ext.grid.plugin.CellEditing',
+		    	'Ext.window.Toast',
+		    ],
 		    //id:"contactsGrid",
 		    plugins: {
 		        cellediting: {
@@ -411,11 +418,12 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 	/*Quick Search*/	
 	quickSearch:function(btn){
 		var store =	btn.up('gridpanel').getStore();
-		Ext.apply(store.proxy.extraParams, {employeeid:"",employeeName:"",departmentid:"",StartDate:"",hour:"",EndDate:"",status:""});
+		Ext.apply(store.proxy.extraParams, {employeeid:"",employeeName:"",departmentid:"",StartDate:"",hour:"",EndDate:"",status:"",ifholiday:""});
 		var searchField = this.lookupReference('searchFieldName').getValue();
 		
 		var searchValue = this.lookupReference('searchFieldValue').getValue();
 		var searchComboValue = this.lookupReference('departmentBox').getValue();
+		var searchifHolidayValue = this.lookupReference('ifholidayCombo').getValue();
 		var searchStatusComboValue = this.lookupReference('statusCombo').getValue();
 		var searchDataFieldValue = this.lookupReference('searchDataFieldValue').getValue();
 		var searchDataFieldValue2 = this.lookupReference('searchDataFieldValue2').getValue();
@@ -427,6 +435,9 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		}
 		if(searchField==='status'){
 			Ext.apply(store.proxy.extraParams, {status:searchStatusComboValue});
+		}
+		if(searchField==='ifholiday'){
+			Ext.apply(store.proxy.extraParams, {ifholiday:searchifHolidayValue});
 		}
 		if(searchField==='date'){
 			Ext.apply(store.proxy.extraParams,{
@@ -441,6 +452,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 		var searchValue = this.lookupReference('searchFieldValue');
 		var searchComboValue = this.lookupReference('departmentBox');
 		var searchStatusComboValue = this.lookupReference('statusCombo');
+		var searchifholidayComboValue = this.lookupReference('ifholidayCombo');
 		var searchDataFieldValue = this.lookupReference('searchDataFieldValue');
 		var searchDataFieldValue2 = this.lookupReference('searchDataFieldValue2');
 		//console.log(Ext.ClassManager.getName(searchValue));
@@ -448,6 +460,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 			searchComboValue.setHidden(true);
 			searchValue.setHidden(false);
 			searchStatusComboValue.setHidden(true);
+			searchifholidayComboValue.setHidden(true);
 			searchDataFieldValue.setHidden(true);
 			searchDataFieldValue2.setHidden(true);
 		}
@@ -457,6 +470,7 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 			searchDataFieldValue2.setHidden(false);
 			searchComboValue.setHidden(true);
 			searchValue.setHidden(true);
+			searchifholidayComboValue.setHidden(true);
 			
 		}
 		else if(newValue=="departmentName"){
@@ -465,13 +479,24 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 			searchValue.setHidden(true);
 			searchDataFieldValue.setHidden(true);
 			searchDataFieldValue2.setHidden(true);
+			searchifholidayComboValue.setHidden(true);
 		}else if(newValue=="status"){
 			searchStatusComboValue.setHidden(false);
 			searchComboValue.setHidden(true);
 			searchValue.setHidden(true);
 			searchDataFieldValue.setHidden(true);
 			searchDataFieldValue2.setHidden(true);
+			searchifholidayComboValue.setHidden(true);
+		}else if(newValue=="ifholiday"){
+			searchStatusComboValue.setHidden(true);
+			searchComboValue.setHidden(true);
+			searchValue.setHidden(true);
+			searchDataFieldValue.setHidden(true);
+			searchDataFieldValue2.setHidden(true);
+			searchifholidayComboValue.setHidden(false);
 		}else{
+			searchStatusComboValue.setHidden(true);
+			searchifholidayComboValue.setHidden(true);
 			searchComboValue.setHidden(true);
 			searchValue.setHidden(true);
 			searchDataFieldValue.setHidden(true);
@@ -482,10 +507,11 @@ Ext.define('Admin.view.workTime.WorkTimeViewController', {
 	
 	submitSearchForm:function(btn){
 		var store =	Ext.data.StoreManager.lookup('workTimeGridStroe');
+		Ext.apply(store.proxy.extraParams, {employeeid:"",employeeName:"",departmentid:"",hour:"",date:"",status:"",ifholiday:""});
 		var win = btn.up('window');
 		var form = win.down('form');
 		var values  = form.getValues();
-		Ext.apply(store.proxy.extraParams, {employeeid:"",employeeName:"",departmentid:"",hour:"",date:""});
+		//Ext.apply(store.proxy.extraParams, {employeeid:"",employeeName:"",departmentid:"",hour:"",date:""});
 		Ext.apply(store.proxy.extraParams,{
 			employeeid:values.employeeid,
 			employeeName:values.employeeName,

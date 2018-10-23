@@ -99,13 +99,21 @@ public class WorkTimeController {
 		
 		Page<WorkTimeDTO> page;
 		//获得当前用户ID
-		//String applicantId = SessionUtil.getUserName(session);
-		String applicantId="user1";
-		//if(applicantId!=null) {
+		String applicantId = SessionUtil.getUserName(session);
+		//String applicantId="user1";
+		System.out.println(applicantId);
+		if(applicantId!=null) {
 			worktimeQueryDto.setEmployeeleader(applicantId);
 			worktimeQueryDto.setStatus(2);
+			System.out.println(worktimeQueryDto);
 			page = workTimeService.findAllInDto(WorkTimeQueryDTO.getWhereClause(worktimeQueryDto), extjsPageRequest.getPageable());
-		//}else {
+		}else {
+			worktimeQueryDto.setEmployeeleader("u9");
+			worktimeQueryDto.setStatus(2);
+			page = workTimeService.findAllInDto(WorkTimeQueryDTO.getWhereClause(worktimeQueryDto), extjsPageRequest.getPageable());
+		
+		}
+			//}else {
 			//page = new PageImpl<WorkTimeDTO>(new ArrayList<WorkTimeDTO>(),extjsPageRequest.getPageable(),0);
 		//}
 		return page;
@@ -245,6 +253,33 @@ public class WorkTimeController {
 			return new ExtAjaxResponse(true,"删除多条成功");
 		} catch (Exception e) {
 			return new ExtAjaxResponse(false,"删除多条失败");
+		}
+		
+	}
+
+	@PostMapping(value="/deletesApproval")
+	public ExtAjaxResponse deleteApprovalRow(@RequestParam(name="status")Integer status,@RequestParam(name="ids") Integer[]ids) {
+		String msg1="";
+		String msg2="";
+		 if(status==3) {
+			msg1="审批通过";
+			msg2="审批出错";
+		}else if(status==4) {
+			msg1="驳回申请";
+			msg2="驳回申请错误";
+		}
+		try {
+			if(ids!=null) {
+				List<WorkTime> workTimes=workTimeService.findAllById(ids);
+				for (WorkTime workTime : workTimes) {
+					workTime.setStatus(status);
+					workTimeService.save(workTime);
+				}
+				//workTimeService.deleteAllById(ids);
+			}
+			return new ExtAjaxResponse(true,msg1);
+		} catch (Exception e) {
+			return new ExtAjaxResponse(false,msg2);
 		}
 		
 	}

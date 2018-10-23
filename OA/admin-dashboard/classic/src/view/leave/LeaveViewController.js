@@ -2,7 +2,7 @@
 	extend: 'Ext.app.ViewController',
 	alias: 'controller.leaveViewController',
 	/*Add*/
-	openAddWindow:function(toolbar, rowIndex, colIndex){
+	openAddWindow:function(toolbar, e){
 		toolbar.up('panel').up('container').add(Ext.widget('leaveAddWindow')).show();
 	},
 	/*Edit*/
@@ -21,7 +21,7 @@
 		}
 	},
 	/*Search More*/
-	openSearchWindow:function(toolbar, rowIndex, colIndex){
+	openSearchWindow:function(toolbar, e){
 		toolbar.up('panel').up('container').add(Ext.widget('leaveSearchWindow')).show();
 	},
 	/*combobox选中后控制对应输入（文本框和日期框）框显示隐藏*/
@@ -45,10 +45,25 @@
 		var form = win.down('form');
 		var record = Ext.create('Admin.model.leave.LeaveModel');
 		var values  =form.getValues();//获取form数据
-		record.set(values);
-		record.save();
-		Ext.data.StoreManager.lookup('leaveStore').load();
-		win.close();
+		if(values.startTime==''||values.startTime==undefined||values.startTime==null||values.endTime==''||values.endTime==undefined||values.endTime==null){
+			alert('请假开始时间和结束时间不能为空');
+		}
+		else{
+			if(values.startTime>values.endTime){
+				alert('请假开始时间不能晚于结束时间');
+			}
+			else{
+				if(values.reason==''||values.reason==undefined||values.reason==null){
+					alert('请假理由不能为空');
+				}
+				else{
+					record.set(values);
+					record.save();
+					Ext.data.StoreManager.lookup('leaveStore').load();
+					win.close();
+				}
+			}
+		}
 	},
 	/*Edit Submit*/	
 	submitEditForm:function(btn){
@@ -57,7 +72,7 @@
 		var values  = win.down('form').getValues();//获取form数据
 		var record = store.getById(values.id);//获取id获取store中的数据
 		record.set(values);//rest put 
-		//store.load();
+		store.load();
 		win.close();
 	},
 	/*Quick Search*/	
