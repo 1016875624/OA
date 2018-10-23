@@ -13,11 +13,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.oa.department.entity.Department;
 import com.oa.employee.entity.Employee;
+import com.oa.employee.repository.EmployeeRepository;
 import com.oa.employee.service.IEmployeeService;
+import com.oa.salary.entity.Salary;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -26,6 +32,9 @@ public class AddEmployeeDatas {
 	private EntityManager entityManager;
 	@Autowired
 	private IEmployeeService employeeService;
+	
+	@Autowired
+	private EmployeeRepository employeeRepository;
 	
 	@Test
 	public void name() {
@@ -105,6 +114,46 @@ public class AddEmployeeDatas {
 				
 			}
 			
+		}
+	}
+	
+	@Test
+	public void changePsw() {
+		int page=0;
+		int size=10;
+		File file=new File("");
+		File storePath=new File(file.getAbsoluteFile()+"\\src\\main\\resources\\static\\images\\employee\\");
+		File[] files=storePath.listFiles();
+		Random random=new Random(System.currentTimeMillis());
+		int temp=0;
+		long count=employeeService.count();
+		while (page*size<count) {
+			Page<Employee> page2=employeeRepository.findAll(PageRequest.of(page, size, Sort.by(Direction.ASC, "id")));
+			List<Employee>employees=page2.getContent();
+			for (Employee employee : employees) {
+				employee.setPassword("123456");
+				if (employee.getPicture()==null) {
+					employee.setPicture(files[random.nextInt(files.length)].getName());
+				}
+				if (employee.getPicture().trim().equals("")) {
+					employee.setPicture(files[random.nextInt(files.length)].getName());
+				}
+				if (employee.getStatus()==null) {
+					employee.setStatus(0);
+				}
+				if (employee.getEntryTime()==null) {
+					employee.setEntryTime(new Date());
+				}
+				if (employee.getName()==null) {
+					employee.setName("黄晓东"+ ++temp);
+				}
+				employeeRepository.save(employee);
+			}
+			//没有下一页结束
+			if (!page2.hasNext()) {
+				return;
+			}
+			page++; 
 		}
 	}
 }
