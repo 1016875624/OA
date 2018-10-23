@@ -168,6 +168,7 @@
             	var json = Ext.util.JSON.decode(response.responseText);
 	            if(json.success){
 	            	me.redirectTo('http://localhost:8080/logout', true);
+	            	window.location.reload();
 	            	window.location.href="http://localhost:8080/#login";
 		        }else{
 		        	Ext.Msg.alert('登出失败', json.msg);

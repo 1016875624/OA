@@ -5,6 +5,19 @@
 	openSearchWindow:function(toolbar, rowIndex, colIndex){
 		toolbar.up('panel').up('container').add(Ext.widget('employeeResourceSearchWindow')).show();
 	},
+	/*Exchange More*/
+	openExchangeWindow:function(grid, rowIndex, colIndex){
+		var record = grid.getStore().getAt(rowIndex);
+		if (record) {
+			if(record.data.status=="1"){
+				var win = grid.up('container').add(Ext.widget('employeeResourceExchangeWindow'));
+				win.show();
+				win.down('form').getForm().loadRecord(record);
+			}else{
+				Ext.Msg.alert('提示', "只可以兑换'已拥有'状态的信息！");
+			}
+		}
+	},
 	/*combobox选中后控制对应输入（文本框和日期框）框显示隐藏*/
 	searchComboboxSelectChuang:function(combo,record,index){
 		//alert(record.data.name);
@@ -63,6 +76,38 @@
 		store.load({params:{start:0, limit:20, page:1}});
 		win.close();
 	},
+	/*Exchange Submit*/	
+	submitExchangeForm:function(btn){
+		var win    = btn.up('window');
+		var values  = win.down('form').getValues();//获取form数据
+		if(values.exchangeCount==''||values.exchangeCount==undefined||values.exchangeCount==null){
+			alert('兑换数目不能为空');
+		}
+		else if(values.exchangeCount>values.count){
+			alert('兑换数目不能多于你已拥有的数目');
+		}
+		else{
+			Ext.Ajax.request({
+				url : '/employeeResource/exchangeResource', 
+				method : 'post',
+				params : {
+					id :values.id,
+					exchangeCount :values.exchangeCount
+				}, 
+				success: function(response, options) {
+					var json = Ext.util.JSON.decode(response.responseText);
+					if(json.success){
+						Ext.Msg.alert('操作成功', json.msg, function() {
+						Ext.data.StoreManager.lookup('employeeResourceStore').load();
+						win.close();
+					});
+					}else{
+						Ext.Msg.alert('操作失败', json.msg);
+					}
+				}
+			});
+		}
+	},
 	sureTrade:function(grid, rowIndex, colIndex){
 		var record = grid.getStore().getAt(rowIndex);
 		Ext.Ajax.request({ 
@@ -102,5 +147,38 @@
 				}
 			}
 		});
+	},
+	finishExchange:function(grid, rowIndex, colIndex){
+		var record = grid.getStore().getAt(rowIndex);
+		Ext.Ajax.request({ 
+			url : '/employeeResource/finishExchange',
+			method : 'post', 
+			params : {
+				id :record.get("id")
+			}, 
+			success: function(response, options) {
+				var json = Ext.util.JSON.decode(response.responseText);
+				if(json.success){
+					Ext.Msg.alert('操作成功', json.msg, function() {
+					grid.getStore().reload();
+				});
+				}else{
+					Ext.Msg.alert('操作失败', json.msg);
+				}
+			}
+		});
+	},
+	deleteFinishExchange:function(grid, rowIndex, colIndex){
+		var store = grid.getStore();
+		var record = store.getAt(rowIndex);
+		if(record.data.status=="3"){
+			Ext.MessageBox.confirm('提示', '确定要进行删除操作吗？',function(btn, text){
+				if(btn=='yes'){
+					store.remove(record);
+				}
+			}, this);
+		}else{
+			Ext.Msg.alert('提示', "只可以删除'待兑换'状态的信息！");
+		}
 	}
 });

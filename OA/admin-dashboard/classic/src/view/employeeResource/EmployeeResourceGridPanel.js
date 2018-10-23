@@ -23,6 +23,10 @@
 			            return '<span style="color:blue;">交易中</span>';
 			        }else if (val =='1') {
 			            return '<span style="color:green;">已拥有</span>';
+			        }else if (val =='2') {
+			            return '<span style="color:red;">兑奖中</span>';
+			        }else if (val =='3') {
+			            return '<span style="color:yellow;">已兑奖</span>';
 			        }
 			        return val;
 	            }
@@ -36,7 +40,7 @@
 			,{header: '职员ID',dataIndex: 'employeeId',width: 120,sortable: true, hidden:true}
 			,{xtype: 'actioncolumn',cls: 'content-column', width: 180,text: '操作',tooltip: 'edit',
 				items: [
-					{xtype: 'button', iconCls: 'x-fa fa-check',
+					{xtype: 'button', iconCls: 'x-fa fa-check',tooltip: '同意交易',
 						getClass: function(v, meta, rec) {
 		                    if (rec.get('status')!=0) {
 		                        return 'x-hidden';
@@ -44,7 +48,7 @@
 		                    return 'x-fa fa-check';
 		                },
 					handler: 'sureTrade'},
-					{xtype: 'button',iconCls: 'x-fa fa-close',
+					{xtype: 'button',iconCls: 'x-fa fa-close',tooltip: '拒绝交易',
 						getClass: function(v, meta, rec) {
 		                    if (rec.get('status')!=0) {
 		                        return 'x-hidden';
@@ -52,6 +56,30 @@
 		                    return 'x-fa fa-close';
 		                },
 					handler: 'cancelTrade'},
+					{xtype: 'button',iconCls: 'x-fa fa-handshake-o',tooltip: '兑换资源',
+						getClass: function(v, meta, rec) {
+		                    if (rec.get('status')!=1) {
+		                        return 'x-hidden';
+		                    }
+		                    return 'x-fa fa-handshake-o';
+		                },
+					handler: 'openExchangeWindow'},
+					{xtype: 'button',iconCls: 'x-fa fa-check-square-o',tooltip: '确认兑换',
+						getClass: function(v, meta, rec) {
+		                    if (rec.get('status')!=2) {
+		                        return 'x-hidden';
+		                    }
+		                    return 'x-fa fa-check-square-o';
+		                },
+					handler: 'finishExchange'},
+					{xtype: 'button',iconCls: 'x-fa fa-trash',tooltip: '删除兑换完成的资源',
+						getClass: function(v, meta, rec) {
+		                    if (rec.get('status')!=3) {
+		                        return 'x-hidden';
+		                    }
+		                    return 'x-fa fa-trash';
+		                },
+					handler: 'deleteFinishExchange'}
 				]
 			}
 		],
@@ -86,6 +114,8 @@
 				data: [{ name: '所有', value: '' }
 						,{ name: '交易中', value: '0' }
 						,{ name: '已拥有', value: '1' }
+						,{ name: '兑奖中', value: '2' }
+						,{ name: '已兑奖', value: '3' }
 				]
 			}),
 			displayField: 'name',

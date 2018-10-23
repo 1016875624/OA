@@ -22,6 +22,12 @@ Ext.define('Admin.view.workTimeApproval.WorkTimeApprovalViewController', {
 		toolbar.up('panel').up('container').add(Ext.widget('workTimeApprovalSearchWindow')).show();
 		
 	},
+//	init:function(){
+//		var store =	Ext.data.StoreManager.lookup('workTimeApprovalStore');
+//		Ext.apply(store.proxy.extraParams, {employeeid:"",employeeName:"",departmentid:"",StartDate:"",hour:"",EndDate:"",status:"",ifholiday:""});
+//		store.load();
+//		
+//	}
 	/*combobox选中后控制对应输入（文本框和日期框）框显示隐藏*/
 	searchComboboxSelectChuang:function(combo,record,index){
 		//alert(record.data.name);
