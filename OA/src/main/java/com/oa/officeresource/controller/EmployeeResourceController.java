@@ -109,7 +109,7 @@ public class EmployeeResourceController {
 		return page;
     }
 	
-	//根据当前登录用户的id来分页查询,我的资源
+	//根据资源状态来查询资源
 	@GetMapping("/sellAndBuy")
     public Page<EmployeeResourceDTO> findAllOfficeResource(EmployeeResourceQueryDTO employeeResourceQueryDTO,HttpSession session,ExtjsPageRequest pageable) 
 	{
@@ -198,6 +198,12 @@ public class EmployeeResourceController {
 			String time= sdf.format( new Date());
 			Date date=sdf.parse(time);
 			int tempCount = 0;
+			if(employeeResource.getCount()>employeeResourceInTradeCut.getCount()) {
+				return new ExtAjaxResponse(false,"交易失败，对方没有那么多资源!");
+			}
+			if(employeeResource.getLoseCount()>employeeResourceInCut.getCount()) {
+				return new ExtAjaxResponse(false,"交易失败，你没有那么多资源!");
+			}
     		if(employeeResourceInSure==null) {
     			EmployeeResource newEmployeeResource = new EmployeeResource();
     			newEmployeeResource.setRecentChangeTime(date);
@@ -248,7 +254,7 @@ public class EmployeeResourceController {
 	    }
     }
 	
-	//删除多个
+	//取消交易
 	@PostMapping("/cancelTrade")
 	public ExtAjaxResponse cancelTrade(@RequestParam(name="id") Long id) 
 	{
@@ -276,9 +282,17 @@ public class EmployeeResourceController {
 					SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 					String time= sdf.format( new Date());
 					Date date=sdf.parse(time);
+					EmployeeResource newEmployeeResource = new EmployeeResource();
 					employeeResource.setCount(tempCount);
 					employeeResource.setRecentChangeTime(date);
 					employeeResourceService.save(employeeResource);
+					
+					newEmployeeResource.setResourceName(employeeResource.getResourceName());
+					newEmployeeResource.setStatus(2);
+					newEmployeeResource.setEmployee(employeeResource.getEmployee());
+					newEmployeeResource.setCount(exchangeCount);
+					newEmployeeResource.setRecentChangeTime(date);
+					employeeResourceService.save(newEmployeeResource);
 				}
 				return new ExtAjaxResponse(true,"兑换资源成功！");
 			}else {
@@ -287,6 +301,23 @@ public class EmployeeResourceController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ExtAjaxResponse(false,"兑换资源失败！");
+		}
+	}
+	
+	//兑奖完成，将状态值设为3，表示已兑奖状态
+	@PostMapping("/finishExchange")
+	public ExtAjaxResponse finishExchange(@RequestParam(name="id") Long id) 
+	{
+		try {
+			EmployeeResource entity = employeeResourceService.findOne(id);
+			if(entity!=null) {
+				entity.setStatus(3);
+				employeeResourceService.save(entity);
+			}
+			return new ExtAjaxResponse(true,"兑奖完成！");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ExtAjaxResponse(false,"兑奖失败！");
 		}
 	}
 }
