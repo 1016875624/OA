@@ -90,6 +90,7 @@ public class LeaveController {
 			leave.setStatus(1);
 			leaveService.save(leave);
 			if(leave.getEmployee().getLeader().getEmail()!=null) {
+				System.out.println(555);
 				leaveService.sendMail(leave);
 			}
 			return new ExtAjaxResponse(true,"发出申请成功！");
@@ -130,13 +131,13 @@ public class LeaveController {
 		}
 	}
 	
-	//驳回,将状态变回0,表示该表为待申请状态
+	//驳回,将状态变回4,表示该表为待申请状态
 	@PostMapping("/reject")
 	public ExtAjaxResponse reject(@RequestParam(name="id") Long id, @RequestParam(name="reason") String reason) {
 		try {
     		Leave entity = leaveService.findOne(id);
 			if(entity!=null) {
-				entity.setStatus(0);
+				entity.setStatus(4);
 				entity.setReason(reason);
 				leaveService.save(entity);
 			}
