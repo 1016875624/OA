@@ -13,7 +13,7 @@ Ext.define('Admin.model.employee.EmployeeModel', {
 		{type: 'string',name: 'picture'},
 		{type: 'string',name: 'leaderName'},
 		{type: 'string',name: 'departmentid'},
-	    {type: 'date', name: 'entryTime', dateFormat:'Y/m/d H:i:s'}
+	    {type: 'date', name: 'entryTime', dateFormat:'Y/m/d'}
 	],
 	proxy: {
 		type: 'rest', //类型为依赖

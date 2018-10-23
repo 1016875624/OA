@@ -263,4 +263,30 @@ public class EmployeeResourceController {
 			return new ExtAjaxResponse(false,"取消交易失败！");
 		}
 	}
+	
+	//兑换资源
+	@PostMapping("/exchangeResource")
+	public ExtAjaxResponse exchangeResource(@RequestParam(name="id") Long id, @RequestParam(name="exchangeCount") int exchangeCount) 
+	{
+		try {
+			EmployeeResource employeeResource = employeeResourceService.findOne(id);
+			int tempCount = employeeResource.getCount() - exchangeCount;
+			if(tempCount>0) {
+				if(employeeResource!=null) {
+					SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+					String time= sdf.format( new Date());
+					Date date=sdf.parse(time);
+					employeeResource.setCount(tempCount);
+					employeeResource.setRecentChangeTime(date);
+					employeeResourceService.save(employeeResource);
+				}
+				return new ExtAjaxResponse(true,"兑换资源成功！");
+			}else {
+				return new ExtAjaxResponse(true,"您没有那么多资源！");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ExtAjaxResponse(false,"兑换资源失败！");
+		}
+	}
 }

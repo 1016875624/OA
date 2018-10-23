@@ -5,6 +5,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.oa.common.date.utils.DateUtils;
 import com.oa.salary.service.ISalaryPayService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +26,23 @@ public class ScheduledTask {
 	* void 返回类型
 	*/
 	//每个月的15日八点进行发工资
-	//@Scheduled(cron="0 0 8 15 * *")
+	@Scheduled(cron="0 0 8 15 * *")
 	public void salaryPay() {
 		log.info("现在开始发放工资");
 		salaryPayService.salaryPaying();
 	}
+	
+	/**
+	* <p>方法名称: preSalaryPay</p>
+	* <p>描述：预计发放工资</p> void 返回类型
+	*/
+	//每月月初进行预计发放工资
+	@Scheduled(cron="0 0 8 1 * *")
+	public void preSalaryPay() {
+		log.info("现在预计发放工资");
+		salaryPayService.preSalaryPaying(DateUtils.getLastMonthStart(), DateUtils.getLastMonthEnd());
+	}
+	
 	/**
 	* <p>方法名称: minuteTask</p>
 	* <p>描述：分钟任务</p> void 返回类型

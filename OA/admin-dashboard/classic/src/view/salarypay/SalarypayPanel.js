@@ -46,7 +46,16 @@ Ext.define('Admin.view.salarypay.SalarypayPanel', {
                 }
             },
             
-            {xtype: 'gridcolumn', cls: 'content-column', dataIndex: 'status', text: '状态'},
+            {xtype: 'gridcolumn', cls: 'content-column', dataIndex: 'status', text: '状态',
+                renderer:function (val) {
+                    if (val==0){
+                        return "预计发放工资";
+                    }
+                    else if (val==1){
+                        return "实际发放工资";
+                    }
+                }
+            },
             //{xtype: 'datecolumn',cls: 'content-column',width: 200,dataIndex: 'orderDate',text: 'orderDate',formatter: 'date("Y/m/d H:i:s")'},
 
             {
@@ -250,7 +259,12 @@ Ext.define('Admin.view.salarypay.SalarypayPanel', {
                 handler: 'openWorkOverTimeWindow'
             },
             , '-', {
-                text: '发放本月工资',
+                text: '预计本月工资',
+                iconCls: 'fa fa-search-plus',
+                handler: 'prePaySalary'
+            },
+            , '-', {
+                text: '发放上月工资',
                 iconCls: 'fa fa-search-plus',
                 handler: 'paySalary'
             },
