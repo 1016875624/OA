@@ -136,11 +136,13 @@ Ext.define('Admin.view.question.QuestionGridPanel', {
 		        text: 'Search',
 		        iconCls: 'fa fa-search',
 		        handler: 'quickSearch'
-		    }, '-',{
-		        text: 'Search More',
-		        iconCls: 'fa fa-search-plus',
-		        handler: 'openSearchWindow'	
-			}, '->',{
+		    }
+		    //, '-',{
+		     //   text: 'Search More',
+		     //   iconCls: 'fa fa-search-plus',
+		     //   handler: 'openSearchWindow'	
+			//}
+    		, '->',{
 		        text: '添加题目',
 		        tooltip: 'Add a new row',
 		        iconCls: 'fa fa-plus',
