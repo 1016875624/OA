@@ -1,5 +1,7 @@
 package com.oa.employee.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -67,7 +69,7 @@ public class EmployeeController {
 		}
 		// 重写set方法
 		employee.setStatus(0);
-		
+		employee.setPassword("123456");
 		
 		System.out.println(employee);
 		try {
@@ -209,5 +211,22 @@ public class EmployeeController {
 			e.printStackTrace();
 			return new ExtAjaxResponse(false, "更新失败!");
 		}
+	}
+	@RequestMapping("/getLoginInfo")
+	public EmployeeDTO getLoginInfo(HttpSession session) {
+		String id=(String) session.getAttribute("userId");
+		try {
+			if (StringUtils.isNotBlank(id)) {
+				return EmployeeDTO.entityToDto(employeeService.findById(id).get());
+			}
+			else {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}		
+		
+		
 	}
 }
