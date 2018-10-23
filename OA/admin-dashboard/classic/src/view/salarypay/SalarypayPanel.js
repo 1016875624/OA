@@ -248,7 +248,13 @@ Ext.define('Admin.view.salarypay.SalarypayPanel', {
                 text: '加班排行榜',
                 iconCls: 'fa fa-search-plus',
                 handler: 'openWorkOverTimeWindow'
-            }, '->',
+            },
+            , '-', {
+                text: '发放本月工资',
+                iconCls: 'fa fa-search-plus',
+                handler: 'paySalary'
+            },
+            '->',
             {
                 xtype: 'button',
                 text: 'Add',

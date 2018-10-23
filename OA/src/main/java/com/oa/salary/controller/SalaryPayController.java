@@ -169,4 +169,15 @@ public class SalaryPayController {
 		
 		return employeeService.findAllInDto(EmployeeQueryDTO.getWhereClause(employeeQueryDTO), extjsPageRequest.getPageable());
 	}
+	@RequestMapping("/paySalary")
+	public ExtAjaxResponse paySalary() {
+		try {
+			salaryPayService.salaryPaying(DateUtils.getLastMonthStart(), DateUtils.getLastMonthEnd());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ExtAjaxResponse(false, "发生了未知错误");
+		}
+		return new ExtAjaxResponse(true, "发放工资成功");
+		
+	}
 }

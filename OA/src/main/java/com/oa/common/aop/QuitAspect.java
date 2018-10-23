@@ -69,6 +69,9 @@ public class QuitAspect {
 				userid="user4";
 				employee=employeeService.findById(userid).get();
 			}
+			if (userid.equals("root")) {
+				return jp.proceed();
+			}
 			Quit my=quitRepository.findByEmployeeId(employee.getId());
 			if (my!=null) {
 //				extjsPageRequest.setPage(extjsPageRequest.getPage()-1);
