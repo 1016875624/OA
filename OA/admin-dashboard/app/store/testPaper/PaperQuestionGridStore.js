@@ -25,6 +25,7 @@
 		writer: {
 			type: 'json'
 		},
+		timeout:99999999,
 		simpleSortMode: true	//简单排序模式
 	},
 	asynchronousLoad:false,
