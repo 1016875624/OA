@@ -83,7 +83,7 @@
 		if(values.exchangeCount==''||values.exchangeCount==undefined||values.exchangeCount==null){
 			alert('兑换数目不能为空');
 		}
-		else if(values.exchangeCount>values.count){
+		else if(values.exchangeCount-values.count>0){
 			alert('兑换数目不能多于你已拥有的数目');
 		}
 		else{

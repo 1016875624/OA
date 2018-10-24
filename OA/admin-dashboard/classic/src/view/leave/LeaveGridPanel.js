@@ -29,6 +29,8 @@
 			        	return '<span style="color:green;">审批通过</span>';
 			        }else if (val =='3'){
 			        	return '<span style="color:red;">已销假</span>';
+			        }else if (val =='4'){
+			        	return '<span style="color:red;">被驳回</span>';
 			        }
 			        return val;
 	            }
@@ -106,6 +108,7 @@
 						,{ name: '待审批', value: '1' }
 						,{ name: '审批通过', value: '2' }
 						,{ name: '已销假', value: '3' }
+						,{ name: '被驳回', value: '4' }
 				]
 			}),
 			displayField: 'name',

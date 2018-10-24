@@ -70,6 +70,7 @@
                     src:'http://localhost:8080/images/employee/tips.jpg',
                     //reference:"headButton",
                     style:{
+                    	cursor: 'pointer',
                         borderRadius: '50%'//显示圆形图片
                     },
                     listeners:{

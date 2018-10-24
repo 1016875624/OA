@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.oa.common.holiday.HolidayQuery;
+import com.oa.common.tool.mail.MailData;
 import com.oa.common.tool.mail.MailMsgSingle;
 //import com.oa.common.holiday.HolidayQuery;
 //import com.oa.common.okhttp.OkTool;
@@ -32,16 +33,18 @@ public class mailToolsTests {
 	@Autowired
 	MailMsgSingle msg;
 	@Autowired
-	MailMsgSingle msg1;
+	MailData mailData;
 	@Test
 	public void name() throws MessagingException, IOException, InterruptedException {
-		msg.setContetnText("123546").setSubject("你好").setToMail("1016875624@qq.com").sendMsg();
-		msg.setContetnText("").setSubject("").addAttachFile("").setToMail("").setToName("").sendMsg();
+		mailData.setName(new String(mailData.getName().getBytes(), "utf-8"));
+		System.out.println(mailData);
+		//msg.setContetnText("你好，好久不见了，最近过的好吗，我有好多的东西要给你啊啊啊啊！").setSubject("你好").setToMail("1016875624@qq.com").sendMsg();
+		//msg.setContetnText("").setSubject("").addAttachFile("").setToMail("").setToName("").sendMsg();
 		
-		TimeUnit.SECONDS.sleep(2);
+		//TimeUnit.SECONDS.sleep(10000);
 		//msg.setContetnText("this is a test msg ,please don't repely to me").setSubject("hello").setToMail("1016875624@qq.com").sendMsg();
 //		msg.setContetnText("this is a test msg ,please don't repely to me").setSubject("hello").setToMail("1016875624@qq.com").addAttachFile("F:\\Mail.war").sendMsg();
 		//msg.setContetnText("").setSubject("").addAttachFile("").addAttachFile("").setToMail("").setToName("").sendMsg();
-		TimeUnit.SECONDS.sleep(1000);
+		//TimeUnit.SECONDS.sleep(1000);
 	}
 }

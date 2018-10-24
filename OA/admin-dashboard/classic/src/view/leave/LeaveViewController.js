@@ -11,12 +11,12 @@
 		//获取选中数据的字段值：console.log(record.get('id')); 或者 console.log(record.data.id);
 		
 		if (record ) {
-			if(record.data.status=="0"){
+			if(record.data.status=="0"||record.data.status=="4"){
 				var win = grid.up('container').add(Ext.widget('leaveEditWindow'));
 				win.show();
 				win.down('form').getForm().loadRecord(record);
 			}else{
-				Ext.Msg.alert('提示', "只可以修改'待申请'状态的信息！");
+				Ext.Msg.alert('提示', "只可以修改'待申请'或'被驳回'状态的信息！");
 			}
 		}
 	},
@@ -116,14 +116,14 @@
 	deleteOneRow:function(grid, rowIndex, colIndex){
 		var store = grid.getStore();
 		var record = store.getAt(rowIndex);
-		if(record.data.status=="0"||record.data.status=="3"){
+		if(record.data.status=="0"||record.data.status=="3"||record.data.status=="4"){
 			Ext.MessageBox.confirm('提示', '确定要进行删除操作吗？',function(btn, text){
 				if(btn=='yes'){
 					store.remove(record);
 				}
 			}, this);
 		}else{
-			Ext.Msg.alert('提示', "只可以删除'待申请'或'已销假'状态的信息！");
+			Ext.Msg.alert('提示', "只可以删除'待申请'或'已销假'或'被驳回'状态的信息！");
 		}
 	},
 	/*Delete More Rows*/	
@@ -136,7 +136,7 @@
 					var rows = selModel.getSelection();
 					var selectIds = []; //要删除的id
 					Ext.each(rows, function (row) {
-						if(row.data.status=="0"||row.data.status=="3"){
+						if(row.data.status=="0"||row.data.status=="3"||record.data.status=="4"){
 							selectIds.push(row.data.id);
 						}
 					});

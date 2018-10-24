@@ -60,7 +60,7 @@ public class QuitAspect {
 		
 		HttpSession session=request.getSession();
 		try {
-			String userid=(String)session.getAttribute("userid");
+			String userid=(String)session.getAttribute("userId");
 			Employee employee=null;
 			if (StringUtils.isNotBlank(userid)) {
 				employee=employeeService.findById(userid).get();

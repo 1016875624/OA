@@ -21,6 +21,7 @@ import com.oa.common.date.utils.DateUtils;
 import com.oa.common.web.ExtAjaxResponse;
 import com.oa.common.web.ExtjsPageRequest;
 import com.oa.employee.entity.Employee;
+import com.oa.employee.service.IEmployeeService;
 import com.oa.quit.entity.Quit;
 import com.oa.quit.entity.QuitDTO;
 import com.oa.quit.entity.QuitQueryDTO;
@@ -32,6 +33,9 @@ import com.oa.quit.service.IQuitService;
 public class QuitController {
 	@Autowired 
 	private IQuitService quitService;
+	
+	@Autowired
+	private IEmployeeService employeeService;
 	
 	@GetMapping
 	public Page<QuitDTO> getPage(QuitQueryDTO quitQueryDTO,ExtjsPageRequest extjsPageRequest){
@@ -49,15 +53,20 @@ public class QuitController {
 		Employee emp=null;
 		try {
 			if (quitDTO.getEmployeeid()!=null&&!"".equals(quitDTO.getEmployeeid().trim())) {
-				emp=new Employee();
-				emp.setId(quitDTO.getEmployeeid());
+				emp=employeeService.findById(quitDTO.getEmployeeid()).get();
 			}
 			BeanUtils.copyProperties(quitDTO, quit);
 			if (quitDTO.getStatus()==null) {
 				quit.setStatus(0);
 			}
+			
 			quit.setEmployee(emp);
-			quitService.save(quit);
+			quit=quitService.save(quit);
+			if (emp.getLeader()!=null) {
+				if (StringUtils.isNotBlank(emp.getLeader().getEmail())) {
+					quitService.sendQuitMail(emp.getLeader().getEmail(), emp.getLeader().getName(), emp.getName(), quit.getId().toString());
+				}
+			}
 			return new ExtAjaxResponse(true,"添加成功");
 		} catch (Exception e) {
 			return new ExtAjaxResponse(false,"添加失败");
@@ -110,11 +119,15 @@ public class QuitController {
 		}
 		
 		try {
-			Employee employee=new Employee();
-			employee.setId(userid);
+			Employee employee=employeeService.findById(userid).get();
 			quit.setEmployee(employee);
 			quit.setStatus(0);
-			quitService.save(quit);
+			quit= quitService.save(quit);
+			if (employee.getLeader()!=null) {
+				if (StringUtils.isNotBlank(employee.getLeader().getEmail())) {
+					quitService.sendQuitMail(employee.getLeader().getEmail(), employee.getLeader().getName(), employee.getName(), quit.getId().toString());
+				}
+			}
 			return new ExtAjaxResponse(true,"申请成功");
 		} catch (Exception e) {
 			return new ExtAjaxResponse(false,"申请失败");
