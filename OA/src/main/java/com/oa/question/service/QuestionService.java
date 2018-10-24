@@ -216,18 +216,18 @@ public class QuestionService implements IQuestionService {
 				question3.add(question);
 			}
 			
-			for (Question q1: question1) {
-				questions.add(q1);
-			}
-			for(Question q2: question2) {
-				questions.add(q2);
-			}
-			for(Question q3: question3) {
-				questions.add(q3);
-			}
+			
 		}
-		
-		
+		for (Question q1: question1) {
+			questions.add(q1);
+		}
+		for(Question q2: question2) {
+			questions.add(q2);
+		}
+		for(Question q3: question3) {
+			questions.add(q3);
+		}
+		System.out.println(questions.size());
 		
 		return questions;
 	}

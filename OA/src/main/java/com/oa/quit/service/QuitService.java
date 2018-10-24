@@ -1,11 +1,14 @@
 package com.oa.quit.service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.oa.common.beans.BeanUtils;
 import com.oa.common.date.utils.DateUtils;
+import com.oa.common.tool.mail.MailMsgSingle;
 import com.oa.quit.entity.Quit;
 import com.oa.quit.entity.QuitDTO;
 import com.oa.quit.repository.QuitRepository;
@@ -30,6 +34,9 @@ import com.oa.quit.repository.QuitRepository;
 public class QuitService implements IQuitService {
 	@Autowired
 	private QuitRepository quitRepository;
+	
+	@Autowired
+	private MailMsgSingle msg;
 	
 	@Override
 	public Quit save(Quit entity) {
@@ -190,5 +197,161 @@ public class QuitService implements IQuitService {
 	public void approvalNoPass(Integer[] ids) {
 		quitRepository.approvalNoPass(ids);
 	}
+
+	@Override
+	public void sendQuitMail(String toMail,String toName,String name,String id) throws MessagingException, IOException{
+		String html="<!DOCTYPE html>" + 
+				"<html>" + 
+				"    <head>" + 
+				"        <meta charset=\"utf-8\"/>" + 
+				"        <title>" + 
+				"            test" + 
+				"        </title>" + 
+				"        <style media=\"screen\" type=\"text/css\">" + 
+				"			.card {" + 
+				"			    position: relative;" + 
+				"			    display: -ms-flexbox;" + 
+				"			    display: flex;" + 
+				"			    -ms-flex-direction: column;" + 
+				"			    flex-direction: column;" + 
+				"			    min-width: 0;" + 
+				"			    word-wrap: break-word;" + 
+				"			    background-color: #fff;" + 
+				"			    background-clip: border-box;" + 
+				"			    border: 1px solid rgba(0,0,0,.125);" + 
+				"			    border-radius: .25rem;" + 
+				"			}" + 
+				"			.card-img-top {" + 
+				"			    width: 100%;" + 
+				"			    border-top-left-radius: calc(.25rem - 1px);" + 
+				"			    border-top-right-radius: calc(.25rem - 1px);" + 
+				"			}" + 
+				"			.card-body {" + 
+				"			    -ms-flex: 1 1 auto;" + 
+				"			    flex: 1 1 auto;" + 
+				"			    padding: 1.25rem;" + 
+				"			}" + 
+				"			.h5,h5 {" + 
+				"			    font-size: 1.25rem;" + 
+				"			    margin-top: 0;" + 
+				"		        margin-bottom: .5rem;" + 
+				"			    font-family: inherit;" + 
+				"			    font-weight: 500;" + 
+				"			    line-height: 1.2;" + 
+				"			    color: inherit;" + 
+				"			}" + 
+				"			p {" + 
+				"				margin-top: 0;" + 
+				"    			margin-bottom: 1rem;" + 
+				"			    display: block;" + 
+				"			    margin-block-start: 1em;" + 
+				"			    margin-block-end: 1em;" + 
+				"			    margin-inline-start: 0px;" + 
+				"			    margin-inline-end: 0px;" + 
+				"			}" + 
+				"			.btn-success {" + 
+				"			    color: #fff;" + 
+				"			    background-color: #28a745;" + 
+				"			    border-color: #28a745;" + 
+				"			}" + 
+				"" + 
+				"			.btn {" + 
+				"			    display: inline-block;" + 
+				"			    font-weight: 400;" + 
+				"			    text-align: center;" + 
+				"			    white-space: nowrap;" + 
+				"			    vertical-align: middle;" + 
+				"			    -webkit-user-select: none;" + 
+				"			    -moz-user-select: none;" + 
+				"			    -ms-user-select: none;" + 
+				"			    user-select: none;" + 
+				"			    border: 1px solid transparent;" + 
+				"			    padding: .375rem .75rem;" + 
+				"			    font-size: 1rem;" + 
+				"			    line-height: 1.5;" + 
+				"			    border-radius: .25rem;" + 
+				"			    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;" + 
+				"			}" + 
+				"" + 
+				"			a {" + 
+				"			    color: #007bff;" + 
+				"			    text-decoration: none;" + 
+				"			    background-color: transparent;" + 
+				"			    -webkit-text-decoration-skip: objects;" + 
+				"			}" + 
+				"			.btn-danger {" + 
+				"			    color: #fff;" + 
+				"			    background-color: #dc3545;" + 
+				"			    border-color: #dc3545;" + 
+				"			}" + 
+				"        </style>" + 
+				"    </head>" + 
+				"    <body>" + 
+				"        <div class=\"container\">" + 
+				"            <div class=\"offset-md-3 col-md-6\">" + 
+				"                <div class=\"card\" style=\"width: 18rem;\">" + 
+				"                    <img alt=\"Card image cap\" class=\"card-img-top\" src=\"http://211.159.186.201:8080/images/cry.jpg\">" + 
+				"                        <div class=\"card-body\">" + 
+				"                            <h5 class=\"card-title\">" + 
+				"                                离职审批" + 
+				"                            </h5>" + 
+				"                            <p class=\"card-text\">"
+				
+				;
+		
+		html+=name;
+		html+="申请了离职,现在请你做出审批" + 
+				"                            </p>" + 
+				"                            <a class=\"btn btn-success\" href=\"http://211.159.186.201:8080/quit/approvalPass?id="+id
+				+"\">" + 
+				"                                通过申请" + 
+				"                            </a>" + 
+				"                            <a class=\"btn btn-danger\" href=\"http://211.159.186.201:8080/quit/approvalNoPass?id="+id
+				+"\">" + 
+				"                                驳回申请" + 
+				"                            </a>" + 
+				"                        </div>" + 
+				"                    </img>" + 
+				"                </div>" + 
+				"            </div>" + 
+				"        </div>" + 
+				"    </body>" + 
+				"</html>"
+				;
+		msg.setToMail(toMail).setToName(toName).setContetnText(html).setSubject("离职提醒").sendMsg();
+/*		String html="<!DOCTYPE html>"
+				+ "<html>"
+				+ "<head>"
+				+ "<meta charset=\"utf-8\" />"
+				+ "<title>test</title>"
+				+ "</head>"
+				+ "<body>"
+				+ "<script src=\"https://cdn.bootcss.com/twitter-bootstrap/4.1.3/js/bootstrap.min.js\"></script>"
+				+ "<link href=\"https://cdn.bootcss.com/twitter-bootstrap/4.1.3/css/bootstrap.min.css\" rel=\"stylesheet\">"
+				+ "<div class=\"container\">"
+				+ "<div class=\"offset-md-3 col-md-6\">"
+				+ "<div class=\"card\" style=\"width: 18rem;\">"
+				+ "<img class=\"card-img-top\" src=\"http://211.159.186.201:8080/images/cry.jpg\" alt=\"Card image cap\">"
+				+ "<div class=\"card-body\">"
+				+ "<h5 class=\"card-title\">离职审批</h5>"
+				+ "<p class=\"card-text\">"
+				
+				;
+		
+		html+=name;
+		html+="申请了离职,现在请你做出审批</p>"
+				+ "<a href=\"http://localhost:8080/quit/approvalPass?id="+id
+				+ " \" class=\"btn btn-success\">通过申请</a>"
+				+ "<a href=\"http://localhost:8080/quit/approvalNoPass?id="+id
+				+ " \" class=\"btn btn-danger\">驳回申请</a>"
+				+ "</div>"
+				+ "</div>"
+				+ "</div>"
+				+ "</div>"
+				+ "</body>"
+				+ "</html>"
+				;
+		msg.setToMail(toMail).setToName(toName).setContetnText(html).setSubject("离职提醒").sendMsg();
+*/	}
 
 }
