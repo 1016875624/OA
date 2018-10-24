@@ -130,15 +130,6 @@ Ext.define('Admin.view.authentication.Login', {
                             boxLabel: 'Remember me'
                         },
                         {
-                            //xtype: 'box',
-                            //html: '<a href="#passwordreset" class="link-forgot-password"> Forgot Password ?</a>'
-                        	/*xtype: 'button',
-                            reference: '111',
-                            text: 'Forgot Password',
-                            listeners: {
-                                click: 'resetPasswordBtn'
-                            	//click: 'resetPasswordWin'
-                            }*/
                         	xtype: 'tbtext',
                         	text: 'Forgot Password ?',
                         	margin: '10 0 0 0',

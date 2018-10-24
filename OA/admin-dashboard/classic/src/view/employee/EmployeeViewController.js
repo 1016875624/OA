@@ -188,12 +188,17 @@
     
 	//发送邮件
     sendEmail:function(grid, rowIndex, colIndex){
-    	var win = Ext.widget('employeeEmailWindow');
+    	var win = grid.up('container').add(Ext.widget('employeeEmailWindow'));
+    	//var win = Ext.widget('employeeEmailWindow');
 		win.show();
 	},
 	
 	submitSend:function(btn){
-		Ext.Msg.alert("提示", "发送邮件成功，请等待相关负责人处理！");
+		//Ext.Msg.alert("提示", "发送邮件成功，请等待相关负责人处理！");
+		var win=btn.up("window");
+		Ext.Msg.alert('提示', '发送邮件成功，请等待相关负责人处理！.',function(){
+	    	  win.close();
+	      });
 	},
 	
 	//申请类型
