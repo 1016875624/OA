@@ -1,8 +1,11 @@
 package com.oa.quit.service;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import javax.mail.MessagingException;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -64,5 +67,7 @@ public interface IQuitService {
 	
 	void approvalPass(Integer[]ids);
 	void approvalNoPass(Integer[]ids);
+	
+	void sendQuitMail(String toMail,String toName,String name,String id) throws MessagingException, IOException;
 }
 
