@@ -49,9 +49,9 @@ public class MailMsgSingle {
 	
 	
 	public MimeMessage getMimeMessage() throws UnsupportedEncodingException, MessagingException {
-		if (message!=null) {
+		/*if (message!=null) {
 			return message;
-		}
+		}*/
 		message=new MimeMessage(mailData.getSession());
 		//message.setFrom(new InternetAddress("", "", ""));;
 		return message;
@@ -117,7 +117,19 @@ public class MailMsgSingle {
 		}
 		msg.setContent(multipart);
 		mailData.sendMsg(msg);
+		clearAllDatas();
  	}
+	
+	public void clearAllDatas() {
+		message =null;
+		toMail = null;
+		toName = null;
+		subject = null;
+		contetnText = null;
+		attachFile=null;
+		attachFiles=new ArrayList<>();
+		multipart=new MimeMultipart();
+	}
 	
 	public MailMsgSingle addAttachFile(String path) {
 		attachFiles.add(path);

@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -175,9 +176,10 @@ public class QuestionService implements IQuestionService {
 		List<Integer> doublesId=questionRepository.findAllId(1);
 		List<Integer> fillsId=questionRepository.findAllId(2);
 		List<Question> questions=new ArrayList<Question>();
+		Random random=new Random(System.currentTimeMillis());
 		while(lists.size()<10) {
 			if(singleNum<3) {
-				int number=SecureRandom.getInstanceStrong().nextInt(singlesId.size());
+				int number=random.nextInt(singlesId.size());
 				if(!lists.contains(singlesId.get(number))) {
 					lists.add(singlesId.get(number));
 					singleNum++;
@@ -185,7 +187,7 @@ public class QuestionService implements IQuestionService {
 				
 			}
 			if(doubleNum<3) {
-				int number=SecureRandom.getInstanceStrong().nextInt(doublesId.size());
+				int number=random.nextInt(doublesId.size());
 				if(!lists.contains(doublesId.get(number))) {
 					lists.add(doublesId.get(number));
 					doubleNum++;
@@ -193,7 +195,7 @@ public class QuestionService implements IQuestionService {
 				
 			}
 			if(fillsNum<4) {
-				int number=SecureRandom.getInstanceStrong().nextInt(fillsId.size());
+				int number=random.nextInt(fillsId.size());
 				if(!lists.contains(fillsId.get(number))) {
 					lists.add(fillsId.get(number));
 					fillsNum++;

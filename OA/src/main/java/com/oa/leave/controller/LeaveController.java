@@ -123,7 +123,8 @@ public class LeaveController {
 			Leave leave = leaveService.findOne(lId);
 			leave.setStatus(2);
 			leaveService.save(leave);
-			resp.sendRedirect("http://localhost:8080/closeWindows.html");
+			//resp.sendRedirect("http://localhost:8080/closeWindows.html");
+			resp.sendRedirect("http://211.159.186.201:8080/closeWindows.html");
 			return new ExtAjaxResponse(true,"审核成功！");
 		} catch (Exception e) {
 			e.printStackTrace();

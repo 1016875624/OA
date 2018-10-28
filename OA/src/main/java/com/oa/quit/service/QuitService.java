@@ -18,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.NativeWebRequest;
 
 import com.oa.common.beans.BeanUtils;
 import com.oa.common.date.utils.DateUtils;
@@ -200,6 +201,7 @@ public class QuitService implements IQuitService {
 
 	@Override
 	public void sendQuitMail(String toMail,String toName,String name,String id) throws MessagingException, IOException{
+		StringBuffer sb=new StringBuffer();
 		String html="<!DOCTYPE html>" + 
 				"<html>" + 
 				"    <head>" + 
@@ -290,7 +292,7 @@ public class QuitService implements IQuitService {
 				"        <div class=\"container\">" + 
 				"            <div class=\"offset-md-3 col-md-6\">" + 
 				"                <div class=\"card\" style=\"width: 18rem;\">" + 
-				"                    <img alt=\"Card image cap\" class=\"card-img-top\" src=\"http://211.159.186.201:8080/images/cry.jpg\">" + 
+				"                    <img alt=\"Card image cap\" class=\"card-img-top\" src=\"http://211.159.186.201:8080/myimagesstore/cry.jpg\">" + 
 				"                        <div class=\"card-body\">" + 
 				"                            <h5 class=\"card-title\">" + 
 				"                                离职审批" + 
@@ -298,15 +300,16 @@ public class QuitService implements IQuitService {
 				"                            <p class=\"card-text\">"
 				
 				;
-		
-		html+=name;
-		html+="申请了离职,现在请你做出审批" + 
+		sb.append(html);
+		sb.append(name);
+		//html+=name;
+		String html2="申请了离职,现在请你做出审批" + 
 				"                            </p>" + 
-				"                            <a class=\"btn btn-success\" href=\"http://211.159.186.201:8080/quit/approvalPass?id="+id
+				"                            <a class=\"btn btn-success\" href=\"http://211.159.186.201:8080/quit/approvalPass?status=1&id="+id
 				+"\">" + 
 				"                                通过申请" + 
 				"                            </a>" + 
-				"                            <a class=\"btn btn-danger\" href=\"http://211.159.186.201:8080/quit/approvalNoPass?id="+id
+				"                            <a class=\"btn btn-danger\" href=\"http://211.159.186.201:8080/quit/approvalNoPass?status=2&id="+id
 				+"\">" + 
 				"                                驳回申请" + 
 				"                            </a>" + 
@@ -318,7 +321,8 @@ public class QuitService implements IQuitService {
 				"    </body>" + 
 				"</html>"
 				;
-		msg.setToMail(toMail).setToName(toName).setContetnText(html).setSubject("离职提醒").sendMsg();
+		sb.append(html2);
+		msg.setToMail(toMail).setToName(toName).setContetnText(sb.toString()).setSubject("离职提醒").sendMsg();
 /*		String html="<!DOCTYPE html>"
 				+ "<html>"
 				+ "<head>"
